@@ -1,0 +1,236 @@
+// @font-face {
+// 	font-family: 'icomoon';
+// 	src:url('../fonts/icomoon/icomoon.eot');
+// 	src:url('../fonts/icomoon/icomoon.eot?#iefix') format('embedded-opentype'),
+// 		url('../fonts/icomoon/icomoon.woff') format('woff'),
+// 		url('../fonts/icomoon/icomoon.ttf') format('truetype'),
+// 		url('../fonts/icomoon/icomoon.svg#icomoon') format('svg');
+// 	font-weight: normal;
+// 	font-style: normal;
+// }
+
+$sans-serif:        'Bebas-Neue', 'bebas-neue', 'Helvetica', sans-serif;
+$serif:             'franklin-gothic-urw', serif;
+
+//set text variables to content variables
+$body-text:         $serif;
+$title-text:        $sans-serif;
+$button-font:       $sans-serif;
+
+.serif{
+	font-family: $serif;
+}
+.sans-serif{
+	font-family: $sans-serif;
+}
+
+
+// /******************************************************************
+// START THE BASE...  TYPE STYLES
+// ******************************************************************/
+
+// text alignment
+.text-left   { text-align: left; }
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+body {
+	font-family: $body-text;
+	line-height: 1.5;
+	color: $body-text-color;
+	font-weight: 300;
+	min-width: 319px;
+	font-size: 16px;
+}
+
+
+// ***************************
+// H1, H2, H3, H4, H5 STYLES
+// ***************************
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
+	font-family: $sans-serif;
+	text-rendering: optimizelegibility;
+	color: $title-text-color;
+	font-family: $title-text;
+	font-weight: 300;
+	line-height: 1.2;
+}
+.title-no-style{
+	font-weight: normal;
+}
+h1, .h1{
+	font-size: em(24);
+
+	@media #{$s}{
+		font-size: em(36);
+	}
+	@media #{$m}{
+		font-size: em(48);
+	}
+	@media #{$b}{
+		font-size: em(56);
+	}
+}
+h2, .h2{
+	font-size: em(20);
+
+	@media #{$s}{
+		font-size: em(32);
+	}
+	@media #{$m}{
+		font-size: em(42);
+	}
+}
+
+h3, .h3 {
+    font-size:em(18);
+    @media #{$s}{
+    	font-size: em(24);
+    }
+    @media #{$b}{
+    	font-size: em(36);
+    }
+}
+h4, .h4 {
+    font-size:em(18);
+    @media #{$s}{
+    	font-size: em(21);
+    }
+    @media #{$m}{
+    	font-size: em(24);
+    }
+}
+.smallest-title{
+	font-size: em(16);
+
+	@media #{$s}{
+		font-size: em(16);
+	}
+	@media #{$m}{
+		font-size: em(18);
+	}
+	@media #{$b}{
+		font-size: em(18);
+	}
+}
+.small-title{
+	font-size: em(16);
+
+	@media #{$s}{
+		font-size: em(16);
+	}
+	@media #{$m}{
+		font-size: em(18);
+	}
+	@media #{$b}{
+		font-size: em(20);
+	}
+}
+
+.smaller-title{
+	font-size: em(18);
+
+	@media #{$s}{
+		font-size: em(21);
+	}
+	@media #{$m}{
+		font-size: em(24);
+	}
+	@media #{$b}{
+		font-size: em(30);
+	}
+}
+.smaller-medium-title{
+	font-size: em(30);
+
+	@media #{$s}{
+		font-size: em(36);
+	}
+	@media #{$m}{
+		font-size: em(42);
+	}
+	@media #{$b}{
+		font-size: em(56);
+	}
+}
+.medium-title{
+	font-size: em(30);
+
+	@media #{$s}{
+		font-size: em(36);
+	}
+	@media #{$m}{
+		font-size: em(48);
+	}
+	@media #{$b}{
+		font-size: em(80);
+	}
+}
+.big-title{
+	font-size: em(30);
+
+	@media #{$s}{
+		font-size: em(48);
+	}
+	@media #{$m}{
+		font-size: em(56);
+	}
+	@media #{$b}{
+		font-size: em(96);
+	}
+}
+.bigger-title{
+	font-size: em(32);
+
+	@media #{$s}{
+		font-size: em(48);
+	}
+	@media #{$m}{
+		font-size: em(60);
+	}
+	@media #{$b}{
+		font-size: em(100);
+	}
+	@media #{$l}{
+		font-size: em(120);
+	}
+}
+
+a {
+	transition: ease all 300ms;
+	opacity: 1;
+	text-decoration: none;
+}
+
+p {
+	hyphens: none;
+}
+
+.bigger{
+	font-size: 1.2em;
+}
+
+.bold{
+	font-weight: bold;
+}
+.italic{
+	font-style: italic;
+}
+
+.smaller-text, .smaller{
+	font-size: 0.75em;
+}
+
+.text-shadow{
+	text-shadow: 0 0 1em rgba(0, 0, 0, 1); //http://www.melanieceraso.com/psd-to-css3/
+}
+
+.white{
+	color: #fff;
+	&:hover{
+		color: #fff;
+	}
+}
+
+
+

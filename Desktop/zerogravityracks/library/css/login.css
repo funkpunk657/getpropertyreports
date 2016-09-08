@@ -1,0 +1,33 @@
+/* the form box */
+
+.login h1 a {
+  /*start change*/
+  background: url('../images/logo.svg');
+  background-color: #fff;
+  background-size: 85%;
+  /*end change*/
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  text-indent: -9999px;
+  padding: 1em 0;
+  display: block; 
+}
+input#wp-submit {
+  text-shadow: none;
+  color: #1d0e23;
+  border: 2px solid #1d0e23;
+  background-color: #fff;
+  box-shadow: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  padding: 0.25em 0.5em;
+  line-height: 1.2;
+  height: auto;
+  transition: all ease 300ms;
+}
+input#wp-submit:hover{
+  background-color: #1d0e23;
+  color: #fff;
+}

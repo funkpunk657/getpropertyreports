@@ -1,0 +1,75 @@
+//responsive @media #{$m}{} (in an element)
+$xs: "only screen and (min-width : 481px)";
+$s:  "only screen and (min-width : 638px)";
+$m:  "only screen and (min-width : 868px)";
+$b:  "only screen and (min-width : 1047px)";
+$l:  "only screen and (min-width : 1201px)";
+$xl: "only screen and (min-width : 1400px)";
+
+
+$xs2: "only screen and (max-width : 480px)";
+$s2:  "only screen and (max-width : 637px)";
+$m2:  "only screen and (max-width : 867px)";
+$b2:  "only screen and (max-width : 1046px)";
+$l2:  "only screen and (max-width : 1200px)";
+
+
+// ********************
+// RESPONSIVE SHOWING/HIDING STYLES
+// ********************
+.from-xs-up, .from-s-up, .from-m-up, .from-b-up, .from-l-up{
+	display: none !important;
+}
+
+
+.from-xs-down, .from-s-down, .from-m-down, .from-b-down, .from-l-down{
+	display: block;
+}
+@media #{$xs}{
+	.from-xs-up{
+		display: block !important;
+	}
+
+	.from-xs-down{
+		display: none;
+	}
+}
+@media #{$s}{
+	.from-s-up{
+		display: block !important;
+	}
+
+	.from-s-down{
+		display: none;
+	}
+}
+@media #{$m}{
+	.from-m-up{
+		display: block !important;
+	}
+
+	.from-m-down{
+		display: none;
+	}
+}
+@media #{$b}{
+	.from-b-up{
+		display: block !important;
+	}
+
+	.from-b-down{
+		display: none;
+	}
+}
+@media #{$l}{
+	.from-l-up{
+		display: block !important;
+	}
+
+	.from-l-down{
+		display: none;
+	}
+}
+
+
+

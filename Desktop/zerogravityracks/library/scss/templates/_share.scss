@@ -1,0 +1,62 @@
+// share form
+
+// share success
+.count, .share {
+	display: inline-block;
+	color: #fff;
+	padding: 0 0.5em;
+}
+.count{
+	float: right;
+	
+}
+.share{
+	float: left;
+	font-weight: bold;
+	
+}
+.sharrre-buttons{
+	text-align: center;
+	@media #{$m}{
+		text-align: left;
+	}
+}
+
+.facebook, .twitter {
+	display: inline-block;
+	margin: 0.5em 0.5em 0.5em 0;
+	font-size: 1.2em;
+	background-color: #fff;
+	color: black;
+	padding: 0.5em 1.5em 0.5em 2.7em;
+	position: relative;
+	z-index: 1;
+	@extend .tran;
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+.facebook{
+	color: #fff;
+	background-color: #3b5998;
+	font-weight: bold;
+	background-repeat: no-repeat;
+	background-image: url('#{$r}facebook-white-logo.png');
+	background-position: 17% 50%;
+}
+.twitter{
+	background-color: #00abf0;
+	color: #fff;
+	font-weight: bold;
+	background-image: url('#{$r}twitter-white-logo.png');
+	background-repeat: no-repeat;
+	background-position: 15% 50%;
+}
+.nav {
+	float: right;
+}
+.nav li {
+	float: left;
+	padding: 0.5em;
+}

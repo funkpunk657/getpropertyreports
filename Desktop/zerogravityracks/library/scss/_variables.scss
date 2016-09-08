@@ -1,0 +1,41 @@
+/*********************
+COLORS
+*********************/
+
+//greys
+$dark-grey:         #333333;
+$grey:              #555555;
+$mid-grey:          #B3B3B3;
+$light-grey:        #f2f2f2;
+$black-text:        #1a1a1a;
+$white:             #fff;
+
+
+//brand colors
+$blue:              #4285f4;
+$red:               #9b1038;
+$green:             #93c01f;
+$black:             #071326;
+
+//alerts (for the input fields)
+$alert-yellow:      #ebe16f;
+$alert-red:         #fbe3e4;
+$alert-green:       #e6efc2;
+$alert-blue:        #d5edf8;
+
+
+//setting the color variables to content specific variables
+
+$body-text-color:   $black;
+
+$title-text-color:  $blue;
+
+$link-color:        $dark-grey;
+$link-hover:        $grey;
+
+
+
+
+
+//image uri
+$r : "../images/"; //#{$r}/logo-sprite.png

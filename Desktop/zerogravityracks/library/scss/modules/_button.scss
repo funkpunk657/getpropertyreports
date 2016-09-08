@@ -1,0 +1,50 @@
+.button{
+    font-family: $button-font;
+    // padding: 0.3em 1.9em;
+    // padding-top: .3em;
+    text-align: center;
+    background-color: $green;
+    color: $black;
+    border: 2px solid $green;
+    line-height: 1.2;
+    font-size: 1.2em;
+    font-weight: 300;
+    text-transform: uppercase;
+    display: inline-block;
+    -webkit-appearance: none;
+    @extend .tran;
+
+    &:hover{
+        color: $green;
+        background-color: $black;
+        border: 2px solid $black;
+    }
+    &.button-smaller{
+        font-size: 0.8em;
+    }
+    &.button-bigger {
+        @media #{$s}{
+            font-size: 1.5em;
+        }
+    }
+}
+
+.ghost-button{
+    background-color: transparent;
+    &.white{
+        color: #fff;
+        border-color: #fff;
+        &:hover{
+            background-color: #fff;
+            color: $blue;
+        }
+    }
+    &.black{
+        color: $black;
+        border-color: $black;
+        &:hover{
+            background-color: $black;
+            color: #fff;
+        }
+    }
+}

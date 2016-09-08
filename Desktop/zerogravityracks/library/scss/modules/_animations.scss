@@ -1,0 +1,47 @@
+
+////////////animations////////////
+////////////animations////////////
+////////////animations////////////
+
+.bounce{
+  animation-name: bounce;
+  -webkit-animation-name: bounce; 
+
+  animation-duration: 3s; 
+  -webkit-animation-duration: 3s;
+
+  animation-timing-function: ease;  
+  -webkit-animation-timing-function: ease;  
+  
+  transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%;   
+
+  -webkit-animation-iteration-count: infinite; /* Chrome, Safari, Opera */
+  -ms-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(-10%);
+  }
+  50% {
+    transform: translateY(0%);
+  }
+  100%{
+    transform: translateY(-10%);
+  } 
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: translateY(-10%);
+  }
+  50% {
+    -webkit-transform: translateY(0%);
+  }
+  100%{
+    -webkit-transform: translateY(-10%);
+  } 
+}

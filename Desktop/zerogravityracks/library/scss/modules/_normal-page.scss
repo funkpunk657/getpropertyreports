@@ -1,0 +1,43 @@
+
+/*********************
+NORMAL PAGE
+*********************/
+.normal-page{
+  padding: 1em;
+  ul, ol{
+    padding-left: 1em;
+    list-style-type: disc;
+  }
+  ol{
+    list-style-type: decimal;
+  }
+  ul{
+    ul{
+      list-style-type: square;
+      ul{
+        list-style-type: circle;
+      }
+    }
+  }
+  li{
+    margin-bottom: 1em;
+  }
+  td, th{
+    border: 1px solid $grey;
+    padding: 0.5em;
+  }
+  blockquote{
+    font-style: italic;
+    font-size: 1.2em;
+  }
+  a{
+    color: $blue;
+    text-decoration: underline;
+    &:hover{
+      color: darken($blue, 15%);
+    }
+  }
+}
+.acf-map img {    
+max-width:inherit !important; 
+}
