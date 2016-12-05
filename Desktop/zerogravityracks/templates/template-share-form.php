@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 Template Name: Share Form
 */
@@ -12,7 +12,6 @@ Template Name: Share Form
 
 <?php $img = get_field('image') ?>
 <div id="page-bg" class="bgi form-content-wrap" style="background-image: url('<?php // echo $img['url']; ?>');">
-
 	<div class="cf mw-1040">
 		<div class="sixcol last side-image matcher from-m-up">
 			<img src="<?php echo $img['url']; ?>">
@@ -23,7 +22,7 @@ Template Name: Share Form
 			<?php $shorcode = get_field('form_shortcode') ?>
 			<div class=""><?php echo do_shortcode($shorcode); ?></div>
 		</div>
-		
+
 	</div>
 </div>
 
@@ -37,7 +36,7 @@ jQuery(document).ready(function($) {
 		$('.form-content-wrap').css('min-height', height2 + 'px');
 	}
 	heighter();
-	
+
 	$( window ).resize(function() {
 	    heighter();
 	});

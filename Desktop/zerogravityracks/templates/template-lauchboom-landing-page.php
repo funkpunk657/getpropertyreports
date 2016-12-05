@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 Template Name: Launchboom Landing Page
 */
@@ -9,7 +9,7 @@ Template Name: Launchboom Landing Page
 
 	get_template_part('inc/dynamic-content');
 
-	get_header(); 
+	get_header();
 ?>
 
 <div class="top-section-wrap">
@@ -21,7 +21,7 @@ Template Name: Launchboom Landing Page
 				<?php $video = get_field('background_video'); ?>
 				<?php if (!empty($video)): ?>
 					<?php if(!isset($_GET["image"])): ?>
-					<video id="video-hero" class="video-hero" muted="muted" preload="auto" autoplay loop> 
+					<video id="video-hero" class="video-hero" muted="muted" preload="auto" autoplay loop>
 			            <source src="<?php tf('background_video'); ?>" type="video/mp4">
 			        </video>
 			        <?php endif; ?>
@@ -37,10 +37,10 @@ Template Name: Launchboom Landing Page
 						<div class="top-hidden-image"><?php acf_image('background'); ?></div>
 					</div>
 				</div>
-			
+
 				<div class="top-cta-left-wrap">
 				</div>
-			
+
 	    		<div class="top-cta-right-wrap">
 					<div class="top-cta-right-inner default-animate not-animated">
 						<h3 class="top-cta-header smaller-medium-title white"><?php tf('top_cta_header'); ?></h3>
@@ -59,7 +59,7 @@ Template Name: Launchboom Landing Page
 </div>
 
 <div id="main-content">
-	
+
 		<?php if( have_rows('flexible_content') ):
 
 		    while ( have_rows('flexible_content') ) : the_row();
@@ -71,12 +71,12 @@ Template Name: Launchboom Landing Page
 					<div class="cf sub-section-content-inner">
 						<h2 class="sub-section-header big-title default-animate not-animated"><?php tsf('sub_section_header'); ?></h2>
 						<?php while(have_rows('sub_section_repeater')): the_row(); ?>
-						
+
 							<div class="sub-section-inner">
 								<div class="sub-section-arrow-image default-animate not-animated"><?php acf_sub_image('sub_section_arrow_image'); ?></div>
 								<div class="sub-section-text white h4 default-animate not-animated"><?php tsf('sub_section_text'); ?></div>
 							</div>
-						
+
 						<?php endwhile; ?>
 					</div>
 				</div>
@@ -99,7 +99,7 @@ Template Name: Launchboom Landing Page
 									<?php while(have_rows('half_image_one_repeater')): the_row(); ?>
 										<div class="half-image-one-logo default-animate not-animated"><?php acf_sub_image('half_image_one_logo'); ?></div>
 										<div class="half-image-one-text small-title default-animate not-animated"><?php tsf('half_image_one_text'); ?></div>
-									
+
 									<?php endwhile; ?>
 								</div>
 							</div>
@@ -138,7 +138,7 @@ Template Name: Launchboom Landing Page
 							</div>
 						</div>
 					</div>
-				  </div>	
+				  </div>
 				</div>
 
 		    <?php elseif( get_row_layout() == 'down_arrow_section' ): ?>
@@ -165,7 +165,7 @@ Template Name: Launchboom Landing Page
 						<?php $i = 1; ?>
 
 						<?php while(have_rows('info_repeater')): the_row(); ?>
-						
+
 							<div class="cf info-content-inner">
 								<div class="info-left-wrap info-left-wrap-<?php echo $i; ?>">
 									<div class="info-image"><?php acf_sub_image('info_image'); ?></div>
@@ -185,13 +185,13 @@ Template Name: Launchboom Landing Page
 				</div>
 
 			<?php elseif( get_row_layout() == 'circle_video_section' ): ?>
-			
+
 			<div class="circle-video-wrap">
 				<div class="cf circle-video-content-inner">
 					<h4 class="circle-video-header medium-title default-animate not-animated"><?php tsf('circle_video_header'); ?></h4>
 					<div class="circle-inner-wrap">
 						<div class="video-outer-wrap">
-							<video id="video-wrap-circle" class="video-wrap-circle" muted="mute" preload="auto" loop autoplay> 
+							<video id="video-wrap-circle" class="video-wrap-circle" muted="mute" preload="auto" loop autoplay>
 					            <source src="<?php tf('background_video'); ?>" type="video/mp4">
 					        </video>
 						</div>
@@ -223,7 +223,7 @@ Template Name: Launchboom Landing Page
 
 						<div class="cf products-outer-wrap">
 							<?php while(have_rows('products_repeater')): the_row(); ?>
-							
+
 								<div class="products-inner-wrap">
 									<div class="products-image default-animate not-animated"><?php acf_sub_image('products_image'); ?></div>
 									<div class="products-arrow default-animate not-animated"><?php acf_sub_image('products_arrow'); ?></div>
@@ -236,7 +236,7 @@ Template Name: Launchboom Landing Page
 				</div>
 
 			<?php elseif( get_row_layout() == 'cta_section' ): ?>
-			
+
 				    <div class="cta-section-wrap">
 
 						<?php backgroundsub('cta_background_image', '.cta-section-content-inner'); ?>
@@ -258,7 +258,7 @@ Template Name: Launchboom Landing Page
 				    			</div>
 				    		</div>
 				    	</div>
-				    </div>	
+				    </div>
 
 	    <?php else : ?>
 
