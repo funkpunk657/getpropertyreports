@@ -1,0 +1,58 @@
+{% comment %}
+  Product Filters: Setup product attributes for filtering
+{% endcomment %}
+{% for option in product.options_with_values %}
+  {% if option.name == "Flavor" %}
+    {% assign option_name = "Flavor" %}
+
+    {% if option.values.size > 1 %}
+      {% capture flavor %}{% for value in option.values %}{{ value }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+      {% assign flavor_count = option.values.size %}
+    {% else %}
+      {% assign flavor = value %}
+    {% endif %}
+
+  {% else %}
+
+    {% for tag in product.tags %}
+      {% if tag contains "flavor=" %}
+        {% assign flavor = tag | split: "=" | last %} 
+      {% endif %}
+    {% endfor %}
+
+  {% endif %}
+
+  {% for tag in product.tags %}
+    {% if tag contains "product_type=" %}    {% assign product_type    = tag | split: "=" | last %} {% endif %}
+    {% if tag contains "delivery_method=" %} {% assign delivery_method = tag | split: "=" | last %} {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% if flavor_count > 1 %}
+  {% assign flavor = flavor | strip_newlines | strip | downcase | replace: ",", " " %}
+{% endif %}
+
+<div id="item_{{ product.handle }}_{{ variant.title | downcase | replace: ' ', '-' }}" class="product__grid-item"
+     data-product-type="{{ product_type }}"
+     data-delivery-method="{{ delivery_method }}"
+     data-flavor="{{ flavor }}">
+  <div id="{{ product.handle }}" class="product">
+    <a href="#product__{{ product.handle }}_{{ variant.title | downcase | replace: ' ', '-' }}" class="trigger"></a>
+    <img src="{{ product.featured_image | img_url: '256x256' }}"/>
+    <h6>{{ product.title }}</h6>
+    <h6><b>{{ product.price_max | money_with_currency }}</b></h6>
+  </div>
+</div>
+
+{% comment %}
+  IMPORTANT: The Product buy box selector is used by the custom.js to select the correct variant and 
+           purchase type. It must be the wrapping class for the product form to work correctly.
+{% endcomment %}
+<div id="product__{{ product.handle }}_{{ variant.title | downcase | replace: ' ', '-' }}" class="product__form-wrapper modal-{{count}}" itemscope itemtype="http://schema.org/Product">
+  <div class="product-description" 
+       data-product-type="{{ product_type }}"
+       data-delivery-method="{{ delivery_method }}"
+       data-flavor="{{ flavor }}">
+    {% include 'product-form' %}
+  </div>
+</div>

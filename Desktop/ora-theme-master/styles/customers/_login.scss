@@ -1,0 +1,120 @@
+#login {
+	height: 100vh; 
+	margin-top: -$size__site-navbar;
+
+	.errors {
+		width: 250px;
+		margin: 0 auto;
+		display: block;
+
+		ul {
+			list-style: none;
+			padding-left: 0;
+		}
+	}
+
+	.success {
+		display: block;
+		width: 250px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	.reset-success {
+		display: none;
+
+	}
+
+	.social-login {
+		width: 300px;
+		display: block;
+		margin: 0 auto;
+		text-align: center;
+		display: none;
+
+		iframe {
+			margin-left: 30px;
+		}
+	}
+
+	#recover {
+		display: none;
+
+		form {
+			text-align: center;
+		}
+
+		p {
+			text-align: center;
+			display: block;
+			margin: 0 auto;
+			width: 250px;
+		}
+
+		.recover-message {
+			margin-top: 15px;
+		}
+
+		#cancel-forgot-pwd {
+			font-size: 16px;
+			cursor: pointer;
+		}
+
+	}
+
+	.form {
+		height: 100%;
+
+		> div,
+		form {
+			height: 100%;
+		}
+
+		.login-box {
+			@include vertical-align;
+
+		}
+	}
+	.forgot-password {
+		text-align: center;
+		padding-top: 15px;
+	}
+	h1 {
+		padding-bottom: 0;
+		text-align: center;
+		font-family: $baskerville;
+		font-style: italic;
+		font-size: 48px;
+		text-transform: lowercase;
+	}
+	input {
+		display: block;
+		margin: 7.5px auto 7.5px;
+	}
+	.actions {
+		padding-top: 15px;
+		text-align: center;
+
+		input {
+			margin: 15px auto;
+		}
+	}
+	hr {
+		width: $input__width;
+	}
+}
+
+@media (max-width: 320px) {
+	#login {
+
+		#login-form {
+			.social-login {
+				width: 100%;
+				margin-left: 0;
+
+				iframe {
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+}

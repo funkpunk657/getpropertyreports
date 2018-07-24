@@ -1,0 +1,647 @@
+#home {
+	position: relative; 
+	height: auto;
+  width: 100%;
+	top: 0;
+	@include display-flex;
+	flex-flow: row wrap;
+
+	> div,
+	> footer {
+		width: 100%;
+	}
+
+	.card {
+		border-radius: 0;
+		border: none;
+	}
+
+	
+
+	/* Slider */
+	#slider-wrapper {
+		height: 100vh;
+		position: relative;
+		/* Slider: Welcome box */
+		#welcome {
+			width: 330px;
+			margin-top: 15px;
+			background-color: $color__background;
+			border-radius: 8px;
+			@include box-shadow-dark;
+			@include vertical-align(absolute);
+			z-index: 2;
+			left: 60px;
+
+			.welcome__photo {
+				width: 100%;
+				border-top-left-radius: 8px;
+				border-top-right-radius: 8px;
+				border-bottom: 1px solid $color__input-border;
+			}
+			.welcome__content {
+				padding: 7.5px 22.5px 0;
+
+				h3 {
+				  margin-top: 15px;
+    			margin-bottom: 15px;
+  			}
+			}
+			.welcome__actions {
+				padding: 0px 22.5px 22.5px;
+
+				button {
+					width: 100%;
+					font-size: 14px;
+				}
+			}
+		}
+	}
+	#slider {
+		background-size: cover;
+		position: relative;
+
+		.slide {
+			height: 100vh;
+			background-size: cover;
+			background-position: 66% 66%;
+			@include display-flex;
+			justify-content: flex-start;
+			align-items: center;
+			position: relative;
+			pointer-events: none;
+
+			.slide__content {
+				height: 100%;
+				text-align: center;
+				position: relative;
+				padding: 60px 45px 60px;
+				max-width: 510px;
+				@include display-flex;
+				flex-flow: column nowrap;
+				justify-content: center;
+				background-color: rgba(0,0,0,0.2);
+
+				.arrows {
+					@include display-flex;
+					justify-content: space-around;
+					margin: 60px;
+
+					.arrow {
+						font-family: $linear-icons;
+						font-style: normal;
+						font-size: 24px;
+						color: white;
+						pointer-events: all;
+						outline: none;
+						
+						&.left {
+							content: "\e93b";
+						}
+						&.right {
+							content: "\e93c";
+						}
+					}
+				}
+
+				.slide__feature-text {
+					font-size: 16px;
+					color: white;
+					text-transform: uppercase;
+					letter-spacing: 1px;
+					font-weight: 700;
+					margin: $size__site-navbar 0 0;
+				}
+				.slide__title {
+					color: white;
+					font-size: 42px;
+				}
+				.slide__description {
+					margin: 22.5px 0 30px;
+					color: white;
+					font-size: 18px;
+					font-weight: 500;
+				}
+				.slide__link {
+					button {
+						width: 240px;
+						font-size: 14px;
+						pointer-events: all;
+					}
+				}
+			}
+		}
+	}
+	/* Home: Intro */
+	#intro {
+		.intro__content {
+			max-width: 720px;
+			margin: 15vh auto;
+			text-align: center;
+
+			.intro-image {
+				width: 270px;
+				height: 270px;
+				margin: 0 auto 30px;
+				border-radius: 100%;
+				background-size: cover;
+				background-position: center;
+			}
+
+			> p {
+				font-size: 16px;
+				width: 450px;
+				margin: 30px auto 0;
+			}
+			ul {
+				list-style: none;
+				padding-left: 0;
+			}
+			.intro__actions {
+				button {
+					width: 270px;
+					font-size: 14px;
+					margin-bottom: 15px;
+				}
+			}
+
+		}
+	}
+	/* Home: Our Products */
+	#products {
+		position: relative;
+		width: 100%;
+		background-color: $color__background-alternate;
+		padding: 45px 0;
+		text-align: center;
+
+		.header {
+			text-align: center;
+			max-width: 720px;
+			margin: 15vh auto;
+
+			h2 {
+				font-size: 48px;
+				margin-bottom: 30px;
+			}
+			p {
+				font-size: 16px;
+				padding: 0 30px;
+			}
+			.promise {
+				font-weight: 500;
+				font-size: 14px;
+		    text-transform: uppercase;
+		    margin-top: 30px;
+		    display: inline-block;
+		    padding-bottom: 10px;
+			}
+		}
+
+		.products {
+			@include display-flex;
+			flex-flow: row wrap;
+			justify-content: center;
+			max-width: 1200px;
+			margin: 0 auto;
+
+			.product {
+				width: 390px;
+				margin: 30px;
+
+				.product__image {
+					width: 100%;
+					height: 390px;
+					background-size: cover;
+					background-position: center;
+				}
+				.product__content {
+					padding: 22.5px;
+					text-align: center;
+					background-color: $color__background;
+
+					.product__title {
+						font-size: 20px;
+						font-weight: 500;
+						margin-top: 0;
+					}
+					.product__description {
+						p {
+							margin: 15px 0 22.5px;
+						}
+					}
+					.product__price {
+						p {
+							font-weight: bold;
+							font-size: 18px;
+							margin-bottom: 0;
+						}
+						.subscription-price {
+							font-size: 13px;
+							font-weight: normal;
+						}
+					}
+					.product__link {
+						button {
+							width: 100%;
+						}
+					}
+
+				}
+			}
+		}
+	}
+	/* Home: Reviews */
+	#reviews {
+		@include display-flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: flex-start;
+		width: 100%;
+		margin: 0 60px;
+		padding-bottom: 15vh;
+
+		.header {
+			width: 100%;
+			flex: none;
+			text-align: center;
+
+			h2 {
+				margin: 60px 0 0;
+			}
+		}
+
+		.product__grid-item {
+			flex: 1 0 10%;
+			text-align: center;
+			padding: 30px;
+			margin: 30px;
+			position: relative;
+			max-width: 300px;
+			height: 330px;
+
+			img {
+				width: 180px;
+			}
+
+			.trigger {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
+
+			.product {
+				@include vertical-align(absolute);
+				left: 1%;
+				right: 1%;
+				margin: 0 auto;
+			}
+
+			/* Flavor Circles */
+			.flavor {
+				@include vertical-align(absolute);
+				right: 32px;
+				border-radius: 50%;
+				width: 18px;
+				height: 18px;
+
+				&:checked {
+					outline: none;
+					color: $color__accent-1;
+					border: 2px solid $color__accent-1;
+
+					&:before {
+						content: "";
+					}
+				}
+			}
+
+			/* Product: Aggregated Reviews */
+			.product__reviews-aggregate {
+				position: relative;
+
+				.product__reviews-popup {
+					top: initial;
+					bottom: 75px;
+					left: -60px;
+					width: 360px;
+			    height: 300px;
+					z-index: 2000;
+
+					h6 {
+						font-weight: 500;
+						text-align: left;
+						font-size: 16px;
+						margin-left: 10px;
+					}
+
+					.promoted-products-box,
+					.yotpo-label,
+					.yotpo-bottomline,
+					.yotpo-nav {
+						display: none !important;
+					}
+
+					.reviews {
+						height: 100%;
+						overflow: scroll;
+					}
+				}
+
+				/* Product: Reviews Aggregated */
+				.yotpo {
+					display: inline-block;
+
+					.yotpo-stars {
+						display: block;
+					}
+					.text-m {
+						display: block;
+						text-align: center;
+						padding-top: 15px;
+						margin-top: 15px;
+					}
+				}
+			}
+		}
+
+		/* Link to reviews Page */
+		.reviews__actions {
+			flex: none;
+			width: 100%;
+			text-align: center;
+		}
+		#mystery-product {
+			p {
+				font-size: 16px;
+			}
+			a {
+				display: inline-block;
+				margin-top: 30px;
+				font-weight: 500;
+				font-size: 14px;
+				text-transform: uppercase;
+				padding-bottom: 10px;
+			}
+		}
+	}
+	/* Home: Press */
+	#slider-press-logos {
+		background-color: $color__background-alternate;
+		position: relative;
+		padding: 15px;
+		width: 100%;
+
+		h3 {
+			font-size: 48px;
+			text-align: center;
+			margin-bottom: 45px;
+		}
+
+		.slick-track {
+			align-items: center;
+		}
+
+		.press-link-wrapper {
+			flex: 0;
+			padding: 15px 15px;
+			text-align: center;
+
+			a {
+				display: block;
+				width: 100%;
+
+				img {
+					margin: 30px;
+					width: 120px;
+				}
+			}
+		}
+	}
+	/* Home: Blog */
+	#blog {
+		background-image: none;
+		background-color: $color__background-alternate;
+
+		.header {
+			text-align: center;
+
+			h2 {
+				margin: 60px 0 45px;
+			}
+		}
+		.blog__actions {
+			text-align: center;
+			margin-bottom: 90px;
+
+			.blog__link button {
+				margin-bottom: 15px;
+			}
+		}
+	}
+}
+
+@media (max-width: 991px) {
+	#home {
+	}
+}
+
+@media (width: 768px) {
+	#home {
+		/* Home: Slider */
+		#slider-wrapper {
+			#welcome {
+				display: none;
+			}
+		}
+		#slider {
+			.slide {
+				background-position: 50% center;
+			}
+		}
+		/* Home: Products */
+		#products {
+			.products {
+				.product {
+					width: 315px;
+				}
+			}
+		}
+		/* Home: Reviews */
+		#reviews {
+			margin: 0 30px;
+
+			.product__grid-item {
+				.flavor {
+					display: none;
+				}
+			}
+		}
+		/* Home: Blogs */
+		#blog {
+			/* Blog: Articles */
+			.articles {
+				article {
+					background-color: $color__background;
+					@include display-flex;
+					align-items: center;
+
+					.article-link {
+						margin: 0;
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+/* ==== RESPONSIVENESS ==== */
+@media (max-width: 768px) {
+	#home {
+		margin-top: 0;
+
+		/* Home: Slider */
+		#slider-wrapper {
+			#welcome {
+				position: relative;
+				width: 100%;
+				margin: 0;
+				left: 0;
+				top: 0;
+				transform: none;
+				border-radius: 0;
+				height: 100%;
+				box-shadow: none;
+				border-bottom: 1px solid $color__input-border;
+
+				.welcome__photo {
+					border-radius: 0;
+				}
+				.welcome__actions {
+					button {
+						font-size: 12px;
+					}
+				}
+			}
+			#slider {
+				.slide {
+					.slide__content {
+						padding: 30px;
+						height: auto;
+						max-width: 100%;
+						width: 100%;
+						background-color: rgba(0,0,0,0.4);
+
+						.slide__feature-text {
+							margin: 30px 0 0;
+						}
+						.slide__description {
+							font-size: 16px;
+							font-weight: 500;
+							margin: 15px auto;
+							max-width: 390px;
+						}
+						.arrows {
+							margin: 30px auto;
+
+							.arrow {
+								margin: 0 30px;
+							}
+						}
+					}
+				}
+			}
+		}
+		/* Home: Slider Press Logos */
+		#slider-press-logos {
+			.press-link-wrapper {
+				flex: none;
+				padding: 10px;
+				a {
+					img {
+						margin: 5px;
+						width: 90px;
+					}
+					#nexty, #shark-tank {
+						height: 25px !important;
+						margin-top: 3px !important;
+					}
+					#popsugar {
+						height: 10px !important;
+				    margin-top: 7.5px !important;
+					}
+				}
+			}
+		}
+		/* Home: Intro */
+		#intro {
+			.intro__content {
+				h2 {
+					font-size: 36px;
+				}
+				> p {
+					width: 100%;
+					font-size: 16px;
+					padding: 0 30px 15px;
+				}
+				.dietary-icons {
+					margin: 15px 27.5px;
+
+					.dietary {
+						width: 40px;
+					}
+				}
+				.intro__actions {
+					button {
+						font-size: 12px;
+					}
+				}
+			}
+		}
+		/* Home: Products */
+		#products {
+			h2 {
+				margin: 30px 0;
+			}
+			> a {
+				margin: 15px 0;
+				display: block;
+			}
+			.products {
+				.product {
+					margin: 22.5px;
+				}
+			}
+		}
+		/* Home: Reviews */
+		#reviews {
+			margin: 0;
+
+			.header {
+				h2 {
+					font-size: 30px;
+				}
+			}
+
+			.product__grid-item {
+				flex: 1 0 100%;
+				margin: 15px;
+
+				.product__reviews-aggregate {
+					.product__reviews-popup {
+						width: 90%;
+						left: 0;
+					}
+				}
+			}
+		}
+		/* Home: Blog */
+		#blog {
+			.wrapper {
+				padding-bottom: 0;
+			}
+		}
+	}
+}
+

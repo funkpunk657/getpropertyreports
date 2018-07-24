@@ -1,0 +1,209 @@
+{% comment %}
+  A word on drop-down menus: Shopify has no concept of them.
+  Drop-down menus in Shopify themes are a hack that relies on a naming convention.
+  To create a drop-down menu, the merchant must create a link list that has the same name as the link he wants the drop-down for.
+  For example, if he wants a drop-down under a 'Shop by brand' link (say, he has such link in his Main Menu), he needs to create a linklist called 'Shop by brand', and populate it with links. Once he has done that, there'll be a drop-down under 'Shop by brand'.
+  Shopify has a visual how-to guide here: http://docs.shopify.com/manual/your-website/navigation/create-drop-down-menu.
+  The naming convention hack won't work well if a shop's navigation uses non-English characters. There's a much more verbose coding solution that handles non-English characters here: http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/translations/can-i-have-drop-down-menus-that-use-non-english-characters.
+  A word on sub-categories: Shopify manages sub-categories using product tags: http://docs.shopify.com/manual/configuration/store-customization/page-specific/collections/subcategories
+{% endcomment %}
+
+<!-- Navigation: Mobile -->
+<div class="nav-mobile-button">
+  <button on="tap:navigation.toggle"><amp-img src="{{ 'icon-mobile-nav.png' | asset_url }}" layout="fixed" width="25" height="25"></amp-img></button>
+</div>
+<amp-sidebar id="navigation" class="nav-mobile" layout="nodisplay" side="left" class="nav">
+  <ul>
+    <li class="logo">
+      <!-- Include Site logo/Site title in menu -->
+      {% if settings.use_logo %}
+      <a id="logo" href="/">
+        <amp-img src="{{ 'logo.png' | asset_url }}" layout="responsive" width="60" height="60"></amp-img>
+      </a>
+      {% else %}
+      <a id="site-title" href="/">
+        {{ shop.name }}
+      </a>
+      {% endif %}
+    </li>
+    <!-- Loop through the link-list to get all pages that are included -->
+    {% for link in linklists.main-menu.links %}
+    {% assign has_sub_menu = false %}
+    {% assign has_sub_categories = false %}
+    {% assign parent_link_active = false %}
+    {% assign child_list_handle = link.title | handle %}
+    {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+      {% assign has_sub_menu = true %}
+      {% for l in linklists[child_list_handle].links %}
+        {% if handle != blank and handle == l.object.handle %}
+          {% assign parent_link_active = true %}
+        {% elsif page_title == l.title %}
+          {% assign parent_link_active = true %}
+        {% endif %}
+      {% endfor %}
+    {% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 %}
+      {% assign has_sub_categories = true %}
+    {% endif %}
+    <li id="link-{{ link.title | handle }}" class="{% if link.active or parent_link_active %} active{% endif %}{% if has_sub_menu or has_sub_categories %} dropdown{% endif %}{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}">
+        {% if has_sub_menu or has_sub_categories %}
+          <amp-accordion disable-session-states>
+            <section>
+              <h6 class="accordion__title">{{ link.title }} <i class="fa fa-angle-down"></i></h6>
+              <ul class="sub-nav dropdown-menu {% if linklists[child_list_handle].links.size == 1 %} large{% else %} small{% endif %}">
+              {% if has_sub_menu %}
+                {% for l in linklists[child_list_handle].links %}
+                  {% assign l_child_list_handle = l.title | handle %}
+                  <li class="has-subnav dropdown-item{% if l.active %} active{% endif %}">
+                    <a class="subcategory__title" href="{{ l.url }}">{{ l.title }}</a>
+                    {% if linklists[l_child_list_handle] and linklists[l_child_list_handle].links.size > 0 %}
+                      <ul>
+                      {% for k in linklists[l_child_list_handle].links %}
+                        <li class="subnav-item"><a href="{{ k.url }}">{{ k.title }}</a></li>
+                      {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              {% elsif has_sub_categories %}
+                {% for tag in link.object.all_tags %}
+                <li class="{% if current_tags contains tag %} active{% endif %}">
+                  <a href="{{ link.url }}/{{ tag | handle }}">{{ tag }}</a>
+                </li>
+                {% endfor %}
+              {% endif %}
+              </ul>
+            </section>
+          </amp-accordion>
+        {% else %}
+          <a href="{{ link.url }}">{{ link.title }}</a> 
+        {% endif %}
+    </li>
+    {% endfor %}
+    <!-- SUBSCRIPTIONS LINK (MOBILE) -->
+    <li id="subscriptions-link-mobile" class="link">
+      <a href="/pages/subscriptions">Save 20% with a <b>Subscription</b>!</a>
+    </li>
+    <!-- END SUBSCRIPTIONS LINK (MOBILE) -->
+  </ul>
+</amp-sidebar>
+
+<!-- AMP: Set State of Navigation Bar -->
+<amp-state id="navStates">
+  <script type="application/json">
+    {
+      "currentState": "hidden",
+      "visible": {
+        "style": "nav-desktop visible {% if clear_header %}clear_header{% endif %}"
+      },
+      "hidden": {
+        "style": "nav-desktop {% if clear_header %}clear_header{% endif %}"
+      }
+    }
+  </script>
+</amp-state>
+
+<!-- AMP: Create Animation -->
+<amp-animation id="fadein" layout="nodisplay">
+  <script type="application/json">
+    {
+    "duration": "3s",
+    "fill": "both",
+    "iterations": "1",
+    "animations": [
+      {
+        "selector": "#nav__desktop",
+        "keyframes": [
+          { "opacity": "1" }
+        ]
+      }
+    ]
+  }
+  </script>
+</amp-animation>
+
+<amp-position-observer
+  intersection-ratios="0.91"
+  viewport-margins="30px 10vh"
+  on="scroll:fadein.seekTo(percent=event.percent)"
+  layout="nodisplay">
+</amp-position-observer>
+
+<!-- Navigation: Desktop -->
+<ul id="nav__desktop" class="nav-desktop {% if clear_header %}clear_header{% endif %}" [class]="navStates[navStates.currentState].style">
+  <li class="logo">
+    <!-- Include Site logo/Site title in menu -->
+    {% if settings.use_logo %}
+    <a id="logo" href="/">
+      <amp-img src="{{ 'logo.png' | asset_url }}" layout="responsive" width="60" height="60"></amp-img>
+    </a>
+    {% else %}
+    <a id="site-title" href="/">
+      {{ shop.name }}
+    </a>
+    {% endif %}
+  </li>
+  {% for link in linklists.main-menu.links %}
+    {% assign has_sub_menu = false %}
+    {% assign has_sub_categories = false %}
+    {% assign parent_link_active = false %}
+    {% assign child_list_handle = link.title | handle %}
+    {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+      {% assign has_sub_menu = true %}
+      {% for l in linklists[child_list_handle].links %}
+        {% if handle != blank and handle == l.object.handle %}
+          {% assign parent_link_active = true %}
+        {% elsif page_title == l.title %}
+          {% assign parent_link_active = true %}
+        {% endif %}
+      {% endfor %}
+    {% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 %}
+      {% assign has_sub_categories = true %}
+    {% endif %}
+  <li id="link-{{ link.title | handle }}" 
+      class="{% if link.active or parent_link_active %} active{% endif %}{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}">
+      {% if has_sub_menu or has_sub_categories %}
+        <button class="accordion__title" on="tap:AMP.setState({navStates: {currentState: (navStates.currentState == 'hidden' ? 'visible' : 'hidden') }})">{{ link.title }} <i class="fa fa-angle-down"></i></button>
+        <section class="accordion__dropdown">
+          <div>
+            <ul class="sub-nav dropdown-menu {% if linklists[child_list_handle].links.size == 1 %} large{% else %} small{% endif %}">
+            {% if has_sub_menu %}
+              {% for l in linklists[child_list_handle].links %}
+                {% assign l_child_list_handle = l.title | handle %}
+                <li class="has-subnav dropdown-item{% if l.active %} active{% endif %}">
+                  <a class="subcategory__title" href="{{ l.url }}">{{ l.title }}</a>
+                  {% if linklists[l_child_list_handle] and linklists[l_child_list_handle].links.size > 0 %}
+                    <ul>
+                    {% for k in linklists[l_child_list_handle].links %}
+                      <li class="subnav-item"><a href="{{ k.url }}">{{ k.title }}</a></li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            {% elsif has_sub_categories %}
+              {% for tag in link.object.all_tags %}
+              <li class="{% if current_tags contains tag %} active{% endif %}">
+                <a href="{{ link.url }}/{{ tag | handle }}">{{ tag }}</a>
+              </li>
+              {% endfor %}
+            {% endif %}
+            <!-- Links: Subscriptions -->
+            <li id="subscriptions-link" class="link has-subnav">
+              <a href="#">Subscriptions</a>
+              <p>You could save 20% on Ora Organic products with a <a href="/pages/subscriptions">monthly subscription</a>! No obligation, no minimum term, cancel any time.</p>
+              <p class="learn-more"><a href="/pages/subscriptions"><i class="linear arrow__right"></i>Learn More</a></p>
+            </li>
+            </ul>
+          </div>
+      {% else %}
+        <a href="{{ link.url }}">{{ link.title }}</a> 
+      {% endif %}
+  </li>
+  {% endfor %}
+  <!-- SUBSCRIPTIONS LINK (MOBILE) -->
+  <li id="subscriptions-link-mobile" class="link">
+    <a href="/pages/subscriptions">Subscriptions</a>
+  </li>
+  <!-- END SUBSCRIPTIONS LINK (MOBILE) -->
+</ul>
+

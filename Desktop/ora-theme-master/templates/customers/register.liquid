@@ -1,0 +1,125 @@
+{% layout settings.customer_layout %}
+<!-- START SIGN UP FORM -->
+<div id="register">
+  <div id="sign-up-form" class="login-wrapper">
+    {% form 'create_customer' %}
+    <div class="errors">
+      {% if form.errors %}
+        {% assign form_errors = form.errors | default_errors %}
+        {{ form.errors | default_errors }}
+      {% endif %}
+    </div>
+    <input type="hidden" name="return_to" value="/account/register#new-signup" />
+    <div id="create-account" class="login-box">
+      <h1 class="accounts-title">Sign up.</h1>
+
+      <!-- General Customer Information -->
+      <div class="field__group">
+        <label for="first_name">First Name*</label>
+        <input id="first_name" type="text" value="" name="customer[first_name]" class="long login-input invalid" size="30"/>
+      </div>
+      <div class="field__group">
+        <label for="last_name">Last Name*</label>
+        <input id="last_name" type="text" value="" name="customer[last_name]" class="long login-input invalid" size="30" />
+      </div>
+      <div class="field__group">
+        <label for="email">Email Address*</label>
+        <input id="email" type="email" value="" name="customer[email]" class="long login-input invalid" size="30"/>
+      </div>
+      <div class="field__group">
+        <label for="password">Password*</label>
+        <input id="password" type="password" value="" name="customer[password]" class="long login-input invalid" size="30"/>
+      </div>
+
+      <!-- Add Customer Metafields -->
+      <div class="field__group">
+        <label for="birthday">Birthday</label>
+        <input id="birthday" type="date" value="" name="customer[dob]" class="long login-input" placeholder="Birthday"/>
+      </div>
+      <div class="field__group">
+        <label for="referrer">Referrer*</label>
+        <select type="select" class="long login-input field__input invalid" id="referrer" name="referrer">
+          <option disabled selected>How did you hear about Ora?</option>
+          <option value="Google">Google</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Pinterest">Pinterest</option>
+          <option value="Vitamin Shoppe">Vitamin Shoppe</option>
+          <option value="Podcast">Podcast</option>
+          <option value="Friend / Family">Friend / Family</option>
+          <option value="Health Practitioner">Health Practitioner</option>
+          <option value="Print (magazines etc.)">Print (magazines etc.)</option>
+          <option value="Shark Tank">Shark Tank</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <!-- Customer Form Actions -->
+      <div class="actions">
+        <input id="sign-up-btn" type="submit" class="flat aqua inactive" value="SIGN UP" />
+        <!-- Customer: Already has Account -->
+        <p class="customer_has_account">Already have an account?<a class="form_switcher" href="/account/login"><br><b> Click here</b> to login.</a></p>
+      </div>
+
+      <div class="social-login">
+        <p>Or sign up socially!</p>
+        <script src='//open-signin.okasconcepts.com/customer/script?shop=oraorganic.myshopify.com'></script>
+      </div>
+	  </div>
+    {% endform %}
+    <div id="thanks-msg">
+      <h4>You're in!</h4>
+      <p>Thanks for joining the club.</p>
+      <p>A welcome message is on its way to your e-mail inbox.</p>
+      <a href="../pages/products"><button class="flat aqua">Good things await...</button></a>
+    </div>
+  </div>
+</div>
+<!-- END SIGN UP FORM -->
+{% if form_errors %}
+{% else %}
+<script>
+  $(document).ready(function() {
+    var errors = "{{form_errors}}";
+    
+    if (window.location.href.indexOf("#new-signup") > -1 && errors == "") {
+      $("#sign-up-form form").slideToggle(0);
+      $("#thanks-msg").slideToggle(0);
+    }
+
+    // Validate all fields
+    $('.field__group input, .field__group select').on('change', function() {
+      if ($(this).val() !== null) {
+        $('input[type="submit"]').removeClass('inactive');
+      }
+    })
+
+    /* Create pretty select menu for the referrer input */
+    $('#referrer').selectmenu({});
+
+    $('#create-account').submit(function() {
+      /* Set up for to send data to Zapier and update customer metafields */
+
+      var birthday = $('#birthday').val(),
+          referrer = $('#referrer').val(),
+          email    = $('#email').val();
+
+      var data = {
+        email: email,
+        birthday: birthday,
+        referrer: referrer
+      }
+
+      console.log(data);
+
+      if (referrer !== null){
+        zapierWebhook("https://hooks.zapier.com/hooks/catch/914765/al2n81/", "POST", data, function() {
+          console.log("submission success");
+        })
+      }
+
+      
+    });
+  });
+</script>
+{% endif %}

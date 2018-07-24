@@ -1,0 +1,171 @@
+footer {
+	background-color: $color__background-alternate;
+	border-top: 1px solid $color__input-border;
+	position: relative;
+	@include display-flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	padding: 60px;
+
+	> div {
+		padding: 0 45px;
+		flex: 1;
+	}
+
+
+	h6 {
+		color: $color__text-headings-alt;
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 12px;
+		margin-top: 0;
+	}
+
+	#sitemap {
+		flex: 1;
+		@include display-flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+
+		a {
+			flex: 1 0 50%;
+			margin: 7.5px 0;
+			text-transform: capitalize;
+			color: $color__text-copy;
+		}
+	}
+
+	#disclaimer {
+		flex: 1;
+		border-right: 1px solid $color__input-border;
+		border-left: 1px solid $color__input-border;
+
+	}
+
+	#mailing-list {
+		flex: 1;
+
+		> div {
+			display: block;
+		}
+
+		.mailing-list__form {
+			margin-bottom: 30px;
+
+			.input-group {
+				width: 100%;
+
+				input {
+					width: 100%;
+				}
+				input#contact_submit {
+					margin: 0;
+					font-size: 12px;
+					width: 90px;
+					margin-left: -75px;
+				}
+			}
+		}
+	}
+
+
+}
+
+
+
+@media (max-width: 768px) {
+	footer {
+		height: 45vh;
+
+		#sitemap {
+			a {
+				font-size: 14px;
+			}
+		}
+		#mailing-list {
+			.mailing-list__form {
+				.input-group {
+					input {
+						font-size: 14px;
+					}
+					input.email {
+						border-top-right-radius: 0;
+						border-bottom-right-radius: 0;
+					}
+					input#contact_submit {
+						font-size: 12px;
+				    width: 60px;
+				    margin-left: -1px;
+				    border-top-left-radius: 0;
+				    border-bottom-left-radius: 0;
+					}
+				}
+			}
+			.mailing-list__social {
+				img {
+			    height: 50px;
+			    padding: 15px;
+				}
+			}
+		}
+		h6, p {
+			font-size: 14px;
+		}
+
+		> div {
+			padding: 30px;
+		}
+	}
+}
+
+@media (width: 768px) {
+	footer {
+		height: 300px;
+		padding: 15px 30px;
+	}
+}
+
+@media (max-width: 468px) {
+	footer {
+		height: auto;
+		padding: 15px;
+
+		> div {
+			padding: 15px;
+		}
+
+		#sitemap,
+		#disclaimer,
+		#mailing-list {
+			padding: 15px;
+			flex: none;
+			width: 100%;
+		}
+
+		#disclaimer {
+			border: none;
+			border-top: 1px solid $color__input-border;
+			border-bottom: 1px solid $color__input-border;
+			margin-top: 15px;
+			margin-bottom: 15px;
+			padding: 30px 15px 15px;
+		}
+
+		#mailing-list {
+			.mailing-list__form {
+				.input-group {
+					input#contact_submit {
+						font-size: 12px;
+						line-height: 3.3em;
+						padding: 0;
+					}
+				}
+			}
+			.mailing-list__social {
+				img {
+					padding: 12.5px;
+				}
+			}
+		}
+	}
+}

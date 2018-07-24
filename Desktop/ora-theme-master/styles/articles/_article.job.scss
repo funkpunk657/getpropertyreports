@@ -1,0 +1,105 @@
+#article {
+	.job_listing {
+		.careers__header {
+			margin: 0 0 30px;
+			padding: 165px 0 60px;
+			background-color: $color__background-alternate;
+
+			.wrapper {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 15px;
+			}
+			.careers_title {
+				font-weight: 700;
+				font-size: 16px;
+				color: $color__text-headings-alt;
+				text-transform: uppercase;
+			}
+			/* Job Details */
+			.job_title {
+				font-size: 42px;
+				font-family: $font__body;
+				font-style: normal;
+				font-weight: 500;
+			}
+			.job_time_salary {
+				span {
+					font-weight: 500;
+				}
+			}
+			.job_location {
+				font-style: italic;
+			}
+		}
+
+		/* Job: Description */
+		.job_description {
+			h2 {
+				margin-top: 30px;
+				margin-bottom: 15px;
+
+				span {
+					font-size: inherit;
+				}
+			}
+		}
+
+		/* Separator */
+		.separator {
+			width: 240px;
+			color: $color__input-border;
+			margin: 0 auto;
+		}
+
+		/* Job: Apply */
+		.job_listing-apply {
+			max-width: 720px;
+			padding: 0 15px;
+			margin: 37.5px auto 60px;
+			text-align: center;
+
+			h2 {
+				font-family: $font__body;
+				font-size: 30px;
+				font-style: normal;
+			}
+
+			p {
+				padding: 15px 0;
+			}
+
+			button {
+				width: 300px;
+				font-size: 16px;
+				font-weight: 700;
+			}
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	#article {
+		.job_listing {
+			.careers__header {
+				padding: 105px 0 45px;
+
+				.wrapper {
+					padding: 0 22.5px;
+
+					.careers_title {
+						font-size: 14px;
+					}
+					.job_title {
+						font-size: 28px;
+					}
+				}
+			}
+
+			/* List styling */
+			ul {
+				padding-left: 22.5px;
+			}
+		}
+	}
+}

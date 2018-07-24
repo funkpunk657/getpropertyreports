@@ -1,0 +1,110 @@
+{% if template == "index" %}
+  <div id="slider-wrapper">
+    <!-- Home: Welcome -->
+    <div id="welcome">
+      <img class="welcome__photo" src="{{ 'team-photo.jpg' | asset_img_url: '500x500' }}"/>
+      <div class="welcome__content">
+        <h3>Hi, we're Ora Organic</h3>
+        <p>We make award-winning, great tasting supplements from real plant-based food.</p>
+        <p>{{ section.settings.welcome_text }}</p>
+      </div>
+      <div class="welcome__actions">
+        <a href="/pages/products"><button class="flat aqua">SHOP NOW</button></a>
+        <a href="#intro"><button class="flat aqua outline">LEARN MORE</button></a>
+      </div>
+    </div>
+    <!-- Home: Hero Slider -->
+    <div id="slider" class="hero" style="background-image: url({{ 'slider-default.jpg' | asset_url }})">
+      {% assign collection = settings.frontpage_collection %}
+      {% for product in collections[collection].products %}
+        {% assign homepage_link       = product.url %}
+        {% assign product_shortname   = product.metafields["homepage"].shortname %}
+        {% assign product_description = product.metafields["homepage"].featured_description %}
+        {% for image in product.images %}{% if image.alt contains 'featured_frontpage' %}
+          {% assign collection_image = image %}
+        {% endif %}{% endfor %}
+      {% endfor %}
+    </div>
+    <script>
+      $(document).ready(function() {
+          var slider = $("#slider");
+          $(slider).slick({
+            centerMode: false,
+            centerPadding: '20px',
+            autoplay: true,
+            autoplaySpeed: 5000,
+            slidesToShow: 1,
+            speed: 500,
+            touchToSlide: true,
+            swipeToSlide: true,
+            infinite: true,
+            fade: true,
+            prevArrow: $('.arrow.left'),
+            nextArrow: $('.arrow.right'),
+          })
+          setTimeout(function() {
+            slider.animate({opacity: 1}, 500);
+          }, 2000)
+        })
+    </script>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+        var slider = $("#slider");
+        $(slider).slick({
+          centerMode: false,
+          centerPadding: '20px',
+          autoplay: true,
+          autoplaySpeed: 5000,
+          slidesToShow: 1,
+          speed: 500,
+          touchToSlide: true,
+          swipeToSlide: true,
+          infinite: true,
+          fade: true,
+          prevArrow: $('.arrow.left'),
+          nextArrow: $('.arrow.right'),
+        })
+        setTimeout(function() {
+          slider.animate({opacity: 1}, 500);
+        }, 2000)
+      })
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Call to action",
+  "settings": [
+    {
+      "id": "text-box",
+      "type": "text",
+      "label": "Heading",
+      "default": "Title"
+    },
+    {
+      "id": "link",
+      "type": "url",
+      "label": "Button link"
+    },
+    {
+      "id": "linktext",
+      "type": "text",
+      "label": "Button text",
+      "default": "Click here"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Call to Action",
+      "category": "CTA button"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

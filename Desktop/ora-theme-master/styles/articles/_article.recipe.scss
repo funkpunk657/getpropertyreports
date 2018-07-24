@@ -1,0 +1,352 @@
+#article.recipe {
+	.hero {
+		margin-top: -$size__site-navbar;
+		background-position: center;
+		background-size: cover;
+		@include display-flex;
+		flex-flow: column nowrap;
+		align-content: center;
+		justify-content: center;
+		border-bottom: 1px solid $color__input-border;
+		height: 66vh;
+	}
+	.content {
+		max-width: 720px;
+		margin: 0 auto;
+		border-bottom: 1px solid $color__input-border;
+		padding-bottom: 30px;
+		@include display-flex;
+		flex-flow: row wrap;
+		justify-content: center;
+
+		.article__title-wrapper {
+			width: 100%;
+			.article__title {
+				font-size: 60px;
+				font-weight: 100;
+				margin-top: 90px;
+			}
+			.article__time {
+				font-size: 24px;
+				letter-spacing: 4px;
+				margin: 22.5px 0;
+			}
+			.article__author {
+				text-transform: uppercase;
+				color: $color__text-headings-alt;
+				font-weight: 100;
+				font-size: 18px;
+				letter-spacing: 1px;
+
+				span {
+					color: $color__text-headings-alt;
+					font-weight: 300;
+				}
+			}
+		}
+
+		.article__description {
+			margin: 30px 0;
+
+			p {
+				font-size: 18px;
+			}
+		}
+
+		.article__ingredients,
+		.article__directions {
+			h5 {
+				font-size: 18px;
+				font-weight: 500;
+			}
+			li {
+				font-size: 18px;
+				margin: 7.5px 0;
+			}
+		}
+
+		.article__ingredients {
+			width: 40%;
+			ul {
+				padding: 0;
+				list-style: none;
+			}
+		}
+		.article__directions {
+			width: 60%;
+			
+			h5 {
+				padding: 0 30px;
+			}
+			ol {
+				padding: 0 30px 0 50px;
+			}
+
+		}
+		#reviews {
+			width: 100%;
+		}
+
+	}
+	/* Slider */
+	.article__recipe_images {
+		display: block;
+		max-width: 720px;
+		margin: 0 auto;
+		padding-top: 30px;
+		position: relative;
+
+		.icon-left:before {
+			content: "\e93b";
+			font-family: $linear-icons;
+			color: $color__accent-1;
+			font-size: 48px;
+			@include vertical-align;
+			position: absolute;
+			left: -10%;
+			cursor: pointer;
+			margin-top: 45px;
+		}
+		.icon-right:before {
+			content: "\e93c";
+			font-family: $linear-icons;
+			color: $color__accent-1;
+			font-size: 48px;
+			@include vertical-align;
+			position: absolute;
+			right: -10%;
+			cursor: pointer;
+			margin-top: 45px;
+		}
+
+	}
+	.article__images {
+		margin-bottom: 90px;
+
+		img {
+			width: 100%;
+			border-radius: 8px;
+		}
+		.slick-slide {
+			max-width: 720px;
+			margin: 30px 0;
+		}
+		.article__recipe_images {
+			h3 {
+				padding-left: 30px;
+				padding-top: 7.5px;
+			}
+		}
+		.recommendation_wrapper {
+			pointer-events: none;
+
+			/* Product Recommendations */
+			&.product {
+				padding: 0 90px;
+
+				.recommendation_title,
+				.recommendation_excerpt {
+					padding-bottom: 15px;
+				}
+
+			}
+
+			a {
+				pointer-events: all;
+			}
+			.recommendation {
+				position: relative;
+				border-radius: 8px;
+				border: 1px solid $color__input-border;
+				display: block;
+				margin: 0 auto;
+
+				img {
+					border-radius: 8px 8px 0 0;
+					border-bottom: 1px solid $color__input-border;
+				}
+
+				.recommendation-product_image {
+					img {
+						width: 100%;
+						height: auto;
+					}
+				}
+
+				.recommendation_info {
+					margin: 0;
+					z-index: 2;
+					width: 100%;
+					left: 0;
+					padding: 30px 30px 37.5px;
+					border-radius: 0 0 8px 8px;
+					background-color: $color__background;
+
+					.recommendation_title {
+						font-size: 22px;
+						margin: 0;
+					}
+					.recommendation_excerpt p {
+						padding: 15px 0;
+						font-size: 16px;
+					}
+					.recommendation_button span {
+						color: inherit;
+						font-size: 16px;
+					}
+
+				}
+
+			}
+		}
+		
+		.slick-dots {
+			position: absolute;
+			bottom: 30px;
+			left: 1%;
+			right: 1%;
+			margin: 0 auto;
+			text-align: center;
+			padding: 0;
+			list-style: none;
+
+			li {
+				display: inline-block;
+				margin: 0 10px;
+
+				button {
+					background-color: transparent;
+					border-radius: 50%;
+					border: 2px solid white;
+					padding: 5px;
+					color: transparent;
+					width: 15px;
+					height: 15px;
+				}
+				&.slick-active button {
+					background-color: white;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	#article.recipe {
+		.content {
+			padding: 0 45px 90px;
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	#article.recipe {
+		.content {
+			padding: 0 30px 60px;
+
+			.article__title-wrapper {
+				.article__title {
+					margin-top: 30px;
+					font-size: 36px;
+				}
+				.article__time {
+					margin: 22.5px 0 7.5px;
+				}
+				.article__time,
+				.article__author {
+					font-size: 14px;
+				}
+			}
+			.article__ingredients,
+			.article__directions {
+				width: 100%;
+
+				li {
+					font-size: 16px;
+				}
+			}
+			.article__directions {
+				h5 {
+					padding: 0;
+				}
+				ol {
+					padding: 0 0 0 20px;
+				}
+			}
+			.article__description {
+				margin: 15px 0 0;
+				p {
+					font-size: 16px;
+				}
+			}
+
+		}
+		.article__images {
+			padding: 15px 7.5px;
+			width: 100%;
+
+			> div {
+				margin: 22.5px 0;
+			}
+
+			.recommendation_wrapper {
+
+				/* Product Recommendations */
+				&.product {
+					padding: 0;
+
+					.recommendation_title a {
+						font-size: 18px;
+					}
+					.recommendation_excerpt {
+						font-size: 14px;
+					}
+					.recommendation_button {
+						a {
+							font-size: 16px;
+						}
+					}
+
+				}
+
+				.recommendation {
+					margin: 22.5px 0;
+
+					.recommendation_info {
+						.recommendation_title {
+							font-size: 16px;
+						}
+						.recommendation_excerpt {
+							p {
+								font-size: 14px;
+							}
+						}
+						.recommendation_button {
+							span {
+								font-size: 14px;
+							}
+						}
+					}
+				}
+			}
+		}
+		.article__recipe_images {
+			width: 100%;
+			padding: 30px 15px 15px;
+			max-width: initial;
+			background-color: $color__background-alternate;
+
+			h3 {
+		    padding: 0 15px 15px;
+		    margin: 0;
+		    text-align: center;
+			}
+
+			.icon-left,
+			.icon-right {
+				display: none;
+			}
+
+		}
+	}
+}

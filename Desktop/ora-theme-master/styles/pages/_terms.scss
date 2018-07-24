@@ -1,0 +1,36 @@
+#terms {
+	padding-right: 30px;
+	padding-left: 0;
+
+	.wrapper {
+		padding: 0 5%;
+
+		.faq-question {
+			h3 {
+				margin-left: 15px;
+			}
+		}
+		.faq-answer {
+			p {
+				padding: 0 15px 30px;
+			}
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	#terms {
+		.wrapper {
+			padding: 0;
+			
+			.faq-question {
+				h3 {
+					text-align: center;
+				}
+			}
+			&:nth-last-of-type(1) {
+				padding: 15px;
+			}
+		}
+	}
+}

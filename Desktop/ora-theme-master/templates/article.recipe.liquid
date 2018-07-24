@@ -1,0 +1,245 @@
+
+<!-- Split article excerpt into header image and text -->
+{% assign e = article.excerpt | split: "<br>" %}
+{% assign article_excerpt = e[1] %}
+
+<!-- Get Ingredients and Directions from Article
+      1. Ingredients List = <ul class="ingredients"></ul>
+      2. Directions List = <ol class="directions"></ol>
+      -->
+{% if article.content contains 'class="description"' %}
+  {% assign d = article.content | split: '<p class="description">' %}
+  {% assign description = d[1] | split: '</p>' | first %}
+{% endif %}
+{% if article.content contains 'class="ingredients"' %}
+  {% assign d = article.content | split: '<ul class="ingredients">' %}
+  {% assign ingredients_list = d[1] | split: '</ul>' | first %}
+{% endif %}
+{% if article.content contains 'class="directions"' %}
+  {% assign d = article.content | split: '<ol class="directions">' %}
+  {% assign directions_list = d[1] | split: '</ol>' | first %}
+{% endif %}
+
+<!-- RECIPE CONTAINER -->
+<div id="article" class="recipe" itemscope itemtype="http://schema.org/Recipe">
+  <!-- GOOGLE RICH CARD RECIPE TAGS -->
+  {% if article.tags contains "category=recipes" %}
+    {% for tag in article.tags %}
+      {% if tag contains "author=" %}
+        <!-- Author -->
+        {% assign author = tag | split: "=" %}
+      {% endif %}
+      {% if tag contains "author_link=" %}
+        <!-- Author -->
+        {% assign author_link = tag | split: "=" | last %}
+      {% endif %}
+      {% if tag contains "prepTime" %}
+        <!-- Preparation Time -->
+        {% assign prepTime = tag | split: "=" %}
+        <meta itemprop="prepTime" content="{{ prepTime[1] }}">
+      {% endif %}
+      {% if tag contains "cookTime" %}
+        <!-- Cooking Time -->
+        {% assign cookTime = tag | split: "=" %}
+        <meta itemprop="cookTime" content="{{ cookTime[1] }}">
+      {% endif %}
+      {% if tag contains "totalTime" %}
+        <!-- Total Time -->
+        {% assign totalTime = tag | split: "=" %}
+        <meta itemprop="totalTime" content="{{ totalTime[1] }}">
+      {% endif %}
+      {% if tag contains "recipeYield" %}
+        <!-- Recipe Yield -->
+        {% assign recipeYield = tag | split: "=" %}
+        <meta itemprop="recipeYield" content="{{ recipeYield[1] }}" />
+      {% endif %}
+      {% if tag contains "ingredient" %}
+        <!-- Ingredients -->
+        {% assign ingredient = tag | split: "=" %}
+        <meta itemprop="recipeIngredient" content="{{ ingredient[1] }}" />
+      {% endif %}
+      {% if tag contains "recommended_product" %}
+        {% assign recommended_products = true %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  <!-- START ARTICLE -->
+  <div class="hero lightNav" style="background-image: url({{ article.image | img_url: 'master' }})">
+    <meta itemprop="image" content="https:{{ article.image | img_url: 'medium' }}" />
+  </div>
+  <div id="content" class="content">
+    <div class="article__title-wrapper">
+      <h1 class="article__title" itemprop="name">{{ article.title }}</h1>
+      <h5 class="article__time">
+        {% if prepTime[1] contains "M" %}
+          {% assign prep_minutes = "MIN" %}
+          {% assign prep_numberMinutes = prepTime[1] | split: "M" | first | slice: -2, 2 %}
+          <!-- Remove leading zero from single digit numbers -->
+          {% assign leading_zero = prep_numberMinutes | slice: -2 %}
+          {% if leading_zero == "0" %}{% assign prep_numberMinutes = prep_numberMinutes | slice: 1 %}{% endif %}
+        {% endif %}
+        {% if prepTime[1] contains "H" %}
+          {% assign prep_hours = "HR" %}
+          {% assign prep_numberHours = prepTime[1] | split: "H" | first | slice: -2, 2 %}
+          <!-- Remove leading zero from single digit numbers -->
+          {% assign leading_zero = prep_numberHours | slice: -2 %}
+          {% if leading_zero == "0" %}{% assign prep_numberHours = prep_numberHours | slice: 1 %}{% endif %}
+        {% endif %}
+        <span class="article__prepTime">PREP {{ prep_numberHours[0] }} {{ prep_hours }} {{ prep_numberMinutes }} {{ prep_minutes }}</span>
+        <span class="separator">|</span>
+        {% if cookTime[1] contains "M" %}
+          {% assign cook_minutes = "MIN" %}
+          {% assign cook_numberMinutes = cookTime[1] | split: "M" | first | slice: -2, 2 %}
+          <!-- Remove leading zero from single digit numbers -->
+          {% assign leading_zero = cook_numberMinutes | slice: -2 %}
+          {% if leading_zero == "0" %}{% assign cook_numberMinutes = cook_numberMinutes | slice: 1 %}{% endif %}
+        {% endif %}
+        {% if cookTime[1] contains "H" %}
+          {% assign cook_hours = "HR" %}
+          {% assign cook_numberHours = cookTime[1] | split: "H" | first | slice: -2, 2 %}
+          <!-- Remove leading zero from single digit numbers -->
+          {% assign leading_zero = cook_numberHours | slice: -2 %}
+          {% if leading_zero == "0" %}{% assign cook_numberHours = cook_numberHours | slice: 1 %}{% endif %}
+        {% endif %}
+        <span class="article__cookTime">COOK {{ cook_numberHours }} {{ cook_hours }} {{ cook_numberMinutes }} {{ cook_minutes }}</span>
+      </h5>
+      <h5 class="article__author">Recipe By <a href="{{ author_link }}" target="_blank"><span itemprop="author" style="color: inherit;">{{ author[1] }}</span></a></h5>
+    </div>
+    <!-- Article Description -->
+    <div class="article__description" itemprop="description">
+      <p>{{ description }}</p>
+    </div>
+    <div class="article__ingredients">
+      <h5>Ingredients</h5>
+      <ul>
+        {{ ingredients_list }}
+      </ul>
+    </div>
+    <div class="article__directions">
+      <h5>Directions</h5>
+      <ol>
+        {{ directions_list }}
+      </ol>
+    </div>
+    <!-- Reviews -->
+  </div>
+  <!-- Images -->
+  <div class="article__recipe_images">
+    <h3>Results! And other great recommendations...</h3>
+    <div class="icon-left"></div>
+    <div class="icon-right"></div>
+    <div id="recipe__image_slider" class="article__images lightNav">
+
+    <!-- Article Images -->
+    {% if article.content contains 'class="images"' %}
+      {% assign d      = article.content | split: '<p class="images">' %}
+      {% assign images = d[1] | split: '</p>' | first | replace: '>', '></div>' | replace: '<img', '<div><img' %}
+      {{ images }}
+    {% elsif article.content contains 'img' %}
+      {% assign d         = article.content | split: '<img src="' %}
+      {% assign image_src = d[1] | split: '"' | first | append: "," %}
+      <img src="{{ image_src }}" />
+    {% endif %}
+
+    <!-- Article: Product Recommendations -->
+    {% if recommended_products %}
+      {% include 'recommendations_products' %}
+    {% endif %}
+    
+    {% for tag in article.tags %}
+
+      <!-- Recommended Recipes (by handle) -->
+      {% if tag contains "recommended_article_handle" %}
+        {% assign recommended_article_handle = tag | split: "=" | last | prepend: '/' | prepend: blog.handle %}
+        {% assign recommended_article = articles[recommended_article_handle] %}
+        <div class="recommendation_wrapper">
+          <div class="recommendation">
+            <!-- Recommendation: Image -->
+            <a href="{{ recommended_article.url }}"><img src="{{ recommended_article.image | img_url: 'master' }}"/></a> 
+            <!-- Recommendation: Info -->
+            <div class="recommendation_info">
+              <h6 class="recommendation_title">{{ recommended_article.title }}</h6>
+              {% if recommended_article.excerpt contains "excerpt-img" %}
+              {% assign articleContent = recommended_article.excerpt | split: '<br>' %}
+              {% assign articleContent = articleContent[1] %}
+              <div class="recommendation_excerpt">{{ articleContent }}</div>
+              <div class="recommendation_button"><a href="{{ recommended_article.url }}"><i class="linear arrow__right"></i><span class="dsk">Learn More</span></a></div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      
+    {% endfor %}
+
+    </div>
+  </div>
+</div>
+<!-- Template specific styling -->
+<style>
+  #main {
+    margin-top: 0;
+  }
+</style>
+<!-- == Article: Recipe Image Slider == -->
+<script>
+  $(document).ready(function() {
+    // $('.trigger').click(function() {
+      var slider = $("#recipe__image_slider");
+      $(slider).slick({
+        centerMode: true,
+        centerPadding: '30px',
+        slidesToShow: 1,
+        speed: 500,
+        touchToSlide: true,
+        swipeToSlide: true,
+        adaptiveHeight: true,
+        dots: false,
+        variableWidth: true,
+        prevArrow: $('.icon-left'),
+        nextArrow: $('.icon-right'),
+        responsive: [
+          {
+            breakpoint: 1200,
+            settings: {
+              slidesToShow: 1,
+            }
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              slidesToShow: 1,
+            }
+          },
+          {
+            breakpoint: 468,
+            settings: "unslick"
+          }
+        ]
+      })
+      setTimeout(function() {
+        slider.animate({opacity: 1}, 500);
+      }, 2000)
+    })
+  // })
+</script>
+<script>
+  $(document).ready(function() {
+    $('header').addClass('top')
+
+    $(window).scroll(function() {
+      if ($(window).scrollTop() < $('#content').offset().top-75 ) 
+      {
+        $('header').addClass('top').removeClass('scrolled');
+      } else {
+        $('header').removeClass('top').addClass('scrolled');
+      }
+    })
+    /* Add Template Type to URL */
+    if (window.location.href.indexOf('articleType') == -1) {
+      window.location.href += "?articleType={{ template | replace: 'article.', '' }}";  
+    }
+    
+  })
+</script>

@@ -1,0 +1,132 @@
+.callout {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.callout-text {
+  visibility: hidden;
+  opacity: 0;
+  width: 160px;
+  background-color: #fff;
+  color: #1e1e1e;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 7.5px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
+	border-radius: 8px;
+	font-size: 12px;
+	font-style: italic;
+	transition: all 0.3s ease-in-out;
+
+	&.left {
+		/* Default Position for the tooltip */
+	    position: absolute;
+	    top: 0;
+	    left: initial;
+	    right: 0;
+	    z-index: 1;
+
+	    &:before {
+	    	content: "◀";
+	    	position: absolute;
+	    	top: 50%;
+	    	margin-top: -6px;
+	    	font-size: 10px;
+	    	left: -7px;
+	    	color: #fff;
+	    	text-shadow: -2px 2px 1px rgba(0,0,0,0.20);
+	    	font-style: normal;
+	    }
+	}
+	&.right {
+		/* Default Position for the tooltip */
+	    position: absolute;
+	    top: 50%;
+	    left: 0;
+	    z-index: 1;
+
+	    &:before {
+	    	content: "▶";
+	    	position: absolute;
+	    	top: 50%;
+	    	margin-top: -6px;
+	    	font-size: 10px;
+	    	right: -7px;
+	    	color: #fff;
+	    	text-shadow: 2px 2px 1px rgba(0,0,0,0.20);
+	    	font-style: normal;
+	    }
+	}
+	&.bottom {
+		/* Default Position for the tooltip */
+	    position: absolute;
+	    left: 1%;
+	    right: 1%;
+	    top: 0;
+	    margin: auto;
+	    z-index: 1;
+
+	    &:before {
+	    	content: "▼";
+	    	position: absolute;
+	    	bottom: -11px;
+	    	font-size: 10px;
+	    	right: 1%;
+	    	left: 1%;
+	    	margin: auto;
+	    	color: #fff;
+	    	text-shadow: 2px 2px 1px rgba(0,0,0,0.20);
+	    	font-style: normal;
+	    }
+	}
+	&.top {
+		/* Default Position for the tooltip */
+	    position: absolute;
+	    left: initial;
+	    right: 0;
+	    top: 180%;
+	    margin: auto;
+	    z-index: 1;
+	    font-style: normal;
+	    font-size: 16px;
+	    font-family: $baskerville;
+	    text-transform: none;
+
+	    &:before {
+	    	content: "▲";
+	    	position: absolute;
+	    	top: -17px;
+	    	font-size: 14px;
+	    	right: 17.5%;
+	    	left: initial;
+	    	margin: auto;
+	    	color: #fff;
+	    	text-shadow: -1px -1px 1px rgba(0,0,0,0.2);
+	    	
+	    }
+	}
+}
+/* Custom Position each tooltip */
+#callout-1 .callout-text {
+	top: 25%;
+	left: 80%;
+}
+#callout-2 .callout-text {
+	top: 27.5%;
+	left: initial;
+	right: 48%;
+}
+#callout-3 .callout-text {
+	left: 60%;
+}
+#callout-4 .callout-text {
+	top: 22.5%;
+	left: initial;
+	right: 58%;
+}
+
+.callout:hover .callout-text {
+    visibility: visible;
+    opacity: 1;
+}

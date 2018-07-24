@@ -1,0 +1,682 @@
+<!-- BOLD APPS - Product Discount -->
+{% include 'bold-product' with product, hide_action: 'break' %}{% if bold_hidden_product %}{% break %}{%endif %}
+
+<!-- CHECK IF ITEM IS FOR SALE, IF NOT, REDIRECT TO SHOP PAGE -->
+{% assign for_sale = false %}
+{% for collection in product.collections %}
+  {% if collection.title contains "Shop" %}
+    {% assign for_sale = true %}
+  {% endif %}
+{% endfor %}
+
+<!-- Amazon Products -->
+{% for tag in product.tags %}
+  {% if tag contains "link_to_amazon" %}
+    {% assign amazon_link = tag | split: "=" | last %}
+  {% endif %}
+{% endfor %}
+
+{% assign add_to_cart = 'Add to Bag' %}
+{% assign sold_out = 'Sold Out' %}
+{% assign unavailable = 'Unavailable' %}
+
+<!-- SETUP PRODUCT PAGE IMAGES -->
+<!-- Featured Image -->
+{% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+{% for image in product.images %}
+  {% if image.src contains "hero" %}
+    {% assign hero_image = image %}
+  {% endif %}
+  {% if image.src contains "supplement-facts" or image.alt contains "supplement-facts" %}
+    {% assign supplement_facts = image %}
+  {% endif %}
+  {% if image.src contains 'mobile-background' %}
+    {% assign mobile_background = image %}
+  {% endif %}
+  {% if image.src contains 'desktop-background' %}
+    {% assign desktop_background = image %}
+  {% endif %}
+  {% if image.src contains "additional-info" %}
+    {% assign additional_info = image %}
+  {% endif %}
+  {% if image.src contains "buyable-pin" %}
+    {% assign buyable_pin = image %}
+  {% endif %}
+{% endfor %}
+
+<!-- Get Product Type, Flavors, Delivery Method -->
+{% for option in product.options_with_values %}
+  {% if option.name == "Flavor" %}
+    {% assign option_name = "Flavor" %}
+
+    {% if option.values.size > 1 %}
+      {% capture flavor %}{% for value in option.values %}{{ value }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+      {% assign flavor_count = option.values.size %}
+    {% else %}
+      {% assign flavor = value %}
+    {% endif %}
+
+  {% else %}
+
+    {% for tag in product.tags %}
+      {% if tag contains "flavor=" %}
+        {% assign flavor = tag | split: "=" | last %} 
+      {% endif %}
+    {% endfor %}
+
+  {% endif %}
+
+  {% for tag in product.tags %}
+    {% if tag contains "product_type=" %}    {% assign product_type    = tag | split: "=" | last %} {% endif %}
+    {% if tag contains "delivery_method=" %} {% assign delivery_method = tag | split: "=" | last %} {% endif %}
+  {% endfor %}
+{% endfor %}
+
+<!-- Check if product is setup for pre-orders -->
+{% if product.tags contains 'pre-order' %}
+  {% assign pre_order = true %}
+{% endif %}
+
+<!-- Hide preview bar on staging -->
+<style>
+/*  #preview-bar-iframe {
+    display: none !important;
+  }*/
+</style>
+
+  <!-- Product: Buyable Pin -->
+  {% if buyable_pin %}
+    <img src="{{ buyable_pin | img_url: 'master' }}" style="opacity: 0; position: absolute; z-index: -100;" alt="{{ product.title }} - Organic, Vegan, Gluten-free, Dairy-free, Soy-free, Non-GMO, Eco-friendly"/>
+  {% endif %}
+
+  <div id="product" itemscope itemtype="http://schema.org/Product">
+    
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+    <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+    
+    <!-- Product: Form -->
+    <form id="product-form-{{product.id}}" class="quickAdd product__form shapp_qb_prod" data-productid="{{product.id}}" action="/cart/add" method="post" enctype="multipart/form-data">
+      <!-- PRODUCT PHOTOS -->
+      <div class="shopping-cart-overlay"></div>
+      <div class="product__photos">
+        {% if product.images.size == 0 %}
+        {% else %}
+          <div class="product__photos-wrapper">
+            <div class="product__photos-grid">
+
+              {% include 'product-photos' %}
+
+            </div>
+
+            <!-- Photo Zoom Trigger (Bootstrap Modal) -->
+            <a data-toggle="modal" data-target=".photo-zoom-{{product.handle}}" class="hidden photo-zoom-trigger"></a>
+
+          </div>
+          
+        {% endif %}
+
+        <!-- Product: Serving Size Changer -->
+        <div class="product__size-changer">
+          {% assign variant_sizes = sizes | split: "," %}
+          {% if variant_sizes.size > 1 %}
+            {% for variant in product.variants %}
+              {% assign variant_flavor = variant.option1 | downcase | replace: " ", "-" %}
+              {% assign variant_size   = variant.option2 %}
+              <p data-flavor="{{ variant_flavor }}"
+                 data-size="{{ variant_size }}" 
+                 data-variant-id=" {{ variant.id }}"
+                 class="{% if current_flavor == variant_flavor %}active{% endif %} {% if current_size == variant_size %}selected {% endif %}size_{{variant_size}} {{ variant_flavor }}">
+                {{ variant_size }} Serving{% unless variant_size == "1" %}s{% endunless %}
+              </p>
+            {% endfor %}
+            <script>
+              /* Change the serving size buttons as well as the product variant selector */
+              $('.product__size-changer p').click(function() {
+
+                var new_size = $(this).attr('data-size'),
+                    new_flavor = $(this).attr('data-flavor');
+
+                /* Change the selected serving button */
+                $(this).parent().children().removeClass('selected');
+                $(this).parent().find('p.size_'+new_size).addClass('selected');
+
+                /* Change the size selector */ // I know this is some really really bad javascript
+                changeSize($('.product__size-selector .option.size_'+new_size+'.'+new_flavor), true);
+
+              })
+            </script>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <!-- Product Details -->
+      <div class="product-details">
+        <!-- Product Details: Header -->
+        <div class="product-details-header">
+          <!-- Product Header: Title -->
+          <h1 class="product__title">{{ product.title }}</h1>
+          <!-- Product Header: Aggregate Reviews -->
+          <div class="product__reviews-aggregate">
+            <div class="yotpo bottomLine"
+                data-appkey="SmtoQBJliJwFrBjSYjmEtOz31o6nMoLZfgcp3J4j"
+                data-domain="{{shop.permanent_domain | escape }}"
+                data-product-id="{{ product.id }}"
+                data-product-models="{{ product.id }}"
+                data-name="{{ product.title | escape }}"
+                data-url="{{ shop.url }}{{ product.url }}">
+            </div>
+          </div>
+          <!-- Product Header: Supplement Facts -->
+          <a class="facts-trigger link"><i class="linear facts-icon"></i>View Label / Supplement Facts</a>
+          <!-- Product Header: Key Features -->
+          <p class="product__header-features">{{ product.metafields["c_f"]["Product Features"] }}</p>
+        </div>
+        <!-- Product: Mobile Summary -->
+        <div class="product__mobile-summary mob">
+          {% assign product_mobile_summary = product.metafields["homepage"].featured_description %}
+          {{ product_mobile_summary }}
+        </div>
+        <!-- Product Buy Bar -->
+        <div id="product__buy-bar" class="wrapper">
+          <!-- Product Buy Box: Price -->
+          <div class="product__price">
+            <h4 class="price">
+              <span class="hidden product-price">{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
+              <span class="product__standard-price">{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
+            {% if product.metafields.subscriptions.subscription_id %}
+              {% assign discount = 100 | minus: product.metafields.subscriptions.discount_percentage %}
+              {% assign subscription_price = product.selected_or_first_available_variant.price | times: discount | divided_by: 100 %}
+            {% endif %}
+            {% if subscription_price %}
+            <span class="product__subscription-price {% if current_size == '1' %}shrink{% endif %}">{{ subscription_price | money_without_currency }}</span>
+            <span class="product__subscription-price-text">{% if current_size == "1" %}Free Shipping over $10{% else %} for subscribers{% endif %}</span>
+            {% endif %}
+            </h4>
+            <p class="subscription_message">(Subscriptions for U.S. customers only)</p>
+          </div>
+          <!-- Check if product is available for pre-order or is sold out -->
+          {% assign pre_order = false %}
+          {% if product.tags contains 'pre-order' %}
+            {% assign pre_order = true %}
+            {% for tag in product.tags %}
+              {% if tag contains 'pre-order-date=' %} {% assign pre_order_date = tag | split: "=" | last %} {% endif %}
+            {% endfor %}
+          {% else %}
+            {% assign pre_order = false %}
+          {% endif %}
+          {% unless product.available %}{% if pre_order %}{% assign is_sold_out = false %}{% else %}{% assign is_sold_out = true %}{% endif %}{% endunless %}
+
+          <!-- Product: Dynamic Product Buy Box -->
+          {% include 'product-buy-bar', current_flavor: current_flavor %}
+
+          <!-- Product: Include the Product Callback function to allow the customer to select a variant -->
+          {% include 'product-select' %}
+
+          <!-- Product: Include the Discount Landing popup -->
+          {% include 'popup__discount-landing' %}
+
+        </div>
+        <!-- == Product: Dietary Icons (Mobile) == -->
+        <div class="product__dietary-icons-wrapper mob">
+          <div class="padding">
+          </div>
+          {% include 'dietary-icons' %}
+        </div>
+        <!-- Product Details: Content Fader -->
+        <div class="content__wrapper fader">
+          <!-- ====================================== -->
+          <!-- ==== FORM: 4. PRODUCT DESCRIPTION ==== -->
+          <!-- ====================================== -->
+          <!-- The Product description uses classes in the product text written 
+               in the Shopify Product front end. These classes are set by switching the
+               view to "View HTML" and applied to the relevant sections. See below:
+
+                1. Product Features    = <ul class="features" > 
+                2. Product Subtitle    = <h2 class="product-subtitle">
+                3. Product Description = <p class="product-description">
+                4. Product FAQs        = <div class="faq">
+
+              Use the above text and Shopify string filters to get the correct info. 
+          -->
+          <!-- PRODUCT DETAILS NAVIGATION -->
+          <div class="product-details-nav header-nav">
+            <a class="active link" href="#" data-target=".product__overview">Overview</a>
+            <a class="link"        href="#" data-target=".product__features">What does it do?</a>
+            <a class="link"        href="#" data-target=".product__directions">Directions</a>
+          </div>
+
+          <!-- Product Details: Variant Details (if more than 1 variant) -->
+          {% for variant in product.variants %}
+            <!-- Product Variants: Setup the metafield descriptions -->
+            {% assign count           = forloop.index %}
+            {% assign flavor          = variant.option1 | downcase | replace: " ", "-" %}
+            {% assign size            = variant.option2 %}
+            {% assign overview        = variant.metafields["c_f"]["What is it?"] %}
+            {% assign what_does_it_do = variant.metafields["c_f"]["What Does it Do?"] %}
+            {% assign directions      = variant.metafields["c_f"]["Directions"] %}
+            <!-- Product details: Main Description -->
+            <ul id="product-overview" class="product__overview variant {{ flavor }}_{{ size }} content {% if flavor == current_flavor and size == current_size %}active{% endif %} ">
+              <li class="title mobile-title show">Overview</li>
+              {% if overview contains "<li" %}{{ overview }}{% else %}<li>{{ overview }}</li>{% endif %}
+            </ul>
+            <!-- Product details: Key Features -->
+            <ul id="product-features" class="product__features content variant {{ flavor }}_{{ size }}">
+              <li class="title mobile-title">What does it do?</li>
+              {% if what_does_it_do contains "<li" %}{{ what_does_it_do }}{% else %}<li>{{ what_does_it_do }}</li>{% endif %}
+            </ul>
+            <!-- Product details: Directions -->
+            <ul id="product-directions" class="product__directions content variant {{ flavor }}_{{ size }}">
+              <li class="title mobile-title">Directions</li>
+              {% if directions contains "<li" %}{{ directions }}{% else %}<li>{{ directions }}</li>{% endif %}
+            </ul>
+          {% endfor %}
+          <!-- Product Details: Ingredients -->
+          <ul id="ingredients" class="product__ingredients content">
+            <li class="title mobile-title">Ingredients</li>
+            <!-- Product Ingredients: Ingredients -->
+            <li class="product__ingredients-ingredients">
+              {% for ingredient in product.metafields["ingredients"] %}
+
+                {% assign ingredient_flavor = ingredient | first | replace: "-", " " %}
+
+                <p class="product__ingredient {{ ingredient | first }}">
+                  {% if ingredient_flavor == "unflavored" %}
+                    <span><strong>Unflavored: </strong></span>
+                  {% else %}
+                    <span><strong>{{ ingredient_flavor }} Flavor: </strong></span>
+                  {% endif %}
+                  <span>{{ ingredient | last }}</span></p>
+              {% endfor %}
+            </li>
+            {% for enzyme in product.metafields["enzymes"] %}
+              <!-- Product Ingredients: Digestive Enzymes -->
+              <li class="product__ingredients-digestive-enzymes">
+                <span><strong>Digestive Enzymes: </strong></span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      {% if product.variants.size == 1 %}
+        <!-- Supplement Facts: Modal Popup (Single Variant) -->
+        {% if supplement_facts %}
+          <div class="supplement-facts">
+            <div class="modal fade fact-contents-{{product.handle}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <img src="{{ supplement_facts | img_url: 'master' }}" class="{{ product.selected_or_first_available_variant.option1 }}"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      <!-- Photo Zoom: Modal Popup -->
+      <div class="photo-zoom">
+        <div class="modal fade photo-zoom-{{product.handle}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <img class="photo-zoom__placeholder" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- Product Recommendations (Findify) -->
+    <div id="product__recommendations">
+      <h4>Most often bought with</h4>
+      <div class="findify-element" id="product-findify-rec-4"></div>
+    </div>
+
+    <script>
+      // Set Recommendation price to max price only
+      $(document).ready(function() {
+        setTimeout(function() {
+          $('.findify-widget--product__price').each(function() {
+            var price = $(this).html().split(' - ')[1];
+            $(this).html(price);
+          })
+        },500)
+      })
+    </script>
+
+    <!-- == DESCRIPTION: PRODUCT DIETARY == -->
+    <div class="product__dietary-icons-wrapper dsk">
+      <div class="padding">
+      </div>
+      {% include 'dietary-icons' %}
+    </div>
+
+    <!-- Product: Ingredients & FAQs -->
+    <div id="product__ingredients_faqs">
+        
+        <!-- Product Details: Ingredients -->
+        <div class="product__ingredients content">
+          <h2>Ingredients</h2>
+          <p>Click an ingredient below to find out why we've included it.</p>
+          <!-- Secret Discount -->
+          {% include 'secret_discount' %}
+          <style>
+            .secret__discount-wrapper {
+              position: absolute;
+              top: 15px;
+              right: 30px;
+            }
+          </style>
+
+          <!-- Product Ingredients: Content -->
+          <div class="product__ingredients-wrapper">
+            {% include 'ingredients-list' %}
+          </div>
+          
+        </div>
+        {% if product.description contains "faq" or product.description contains "FAQ" %}
+        <!-- Product Details: FAQs -->
+        <div class="product__faqs content">
+          <h2>Frequently Asked Questions</h2>
+          <p>Browse through some of our most frequently asked questions below.</p>
+          <p>Got a question for us? <a href="#product__testimonials">Ask it here</a></p>
+
+          <!-- Product FAQs: Content -->
+          <div class="product__faqs-wrapper">
+            {% include 'faq-search' %}
+          </div>
+          
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product: Testimonials -->
+    {% if settings.show_product_reviews == true %}
+      <!-- Script for hiding if there are no reviews yet -->
+      <script>
+        $(document).ready(function() {
+          var checkReviewCount = setInterval(function() {
+            // console.log("checking review count");
+            if ($('.product__reviews-aggregate .yotpo .text-m').html() == undefined) {
+              // console.log("still waiting for Yotpo");
+            } else if ($('.product__reviews-aggregate .yotpo .text-m').html() == 'Write a review') {
+              $('#product__testimonials, .product__reviews-aggregate').hide();
+              clearInterval(checkReviewCount);
+            } else {
+              clearInterval(checkReviewCount);
+            }
+          },200);
+        });
+      </script>
+
+      <div id="product__testimonials">
+        <h2 class="product__testimonials-title">Product Reviews</h2>
+        <!-- YOTPO Reviews Widget -->
+        <div id="product__reviews">
+          <div class="reviews">
+            <div class="yotpo yotpo-main-widget"
+                data-product-id="{{ product.id }}"
+                data-name="{{ product.title | escape }}"
+                data-url="{{ shop.url }}{{ product.url }}"
+                data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}">
+            </div>
+          </div>
+        </div>
+        <!-- GET YOURS button -->
+        <a class="button" href="#product"><button class="flat aqua outline large">Get Yours</button></a>
+      </div>
+
+    {% endif %}
+
+    <!-- Product: Related Posts -->
+    <div id="product__related-posts">
+      <h2 class="product__related-posts-title">Recipes &amp; Insights</h2>
+        <div class="articles">
+          <div class="icon-left"></div>
+          <div id="slider" class="article-slider" style="opacity: 0;">
+          {% for tag in product.tags %}
+
+            {% if tag contains 'search_term' %}
+              {% assign search_term = tag | split: "=" %}
+            {% endif %}
+
+            {% if tag contains 'recommended_article' %}
+              <!-- We have a recommended article, so let's put it into the slider first -->
+              {% assign recommended_article_handle = tag | split: "=" | last | prepend: '/' | prepend: 'news' %}
+              {% assign recommended_article = articles[recommended_article_handle] %}
+              <!-- Get the article excerpt image and content-->
+              {% if recommended_article.excerpt contains "excerpt-img" %}
+                {% assign src = recommended_article.excerpt | split: '"excerpt-img" src="' %}
+                {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' %}
+                {% assign articleContent = recommended_article.excerpt | split: '<br>' | last %}
+              {% endif %}
+
+              <!-- Recommended Article -->
+              <a href="{{ recommended_article.url }}" onclick="window.location.href = '{{ recommended_article.url }}'" class="article-preview recommended_article">
+                <div class="article">
+                  <div class="image lazy" data-original="{{ src }}" style="background-image: url('{{ src }}')"></div>
+                  <h5>{{ recommended_article.title }}</h5>
+                  <div class="excerpt">{{ articleContent }}</div>
+                  <button class="flat aqua outline" onclick="window.location.href = '{{ recommended_article.url }}'">View Article</button>
+                </div>
+              </a>
+
+            {% endif %}
+
+          {% endfor %}
+
+          {% if search_term %}
+            <!-- If we have a search term, then loop through all articles with that search term and add to recommended -->
+            {% for article in blogs["news"].articles %}
+                {% if article.content contains search_term[1] %}
+                  {% if article.excerpt contains "excerpt-img" %}
+                    {% assign src = article.excerpt | split: '"excerpt-img" src="' %}
+                    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' %}
+                  {% endif %}
+                  <div class="article-preview">
+                    <div class="article">
+                      <div class="image lazy" data-original="{{ src }}" style="background-image: url('{{ src }}')"></div>
+                      <h5>{{ article.title }}</h5>
+                      <!-- START ARTICLE CONTENT -->
+                      {% if article.excerpt contains "excerpt-img" %}
+                      {% assign articleContent = article.excerpt | split: '<br>' %}
+                      {% assign articleContent = articleContent[1] %}
+                      <div class="excerpt">{{ articleContent }}</div>
+                      {% endif %}
+                      <button class="flat aqua outline" onclick="window.location.href = '{{ article.url }}'">View Article</button>
+                    </div>
+                  </div>
+                {% endif %}
+            {% endfor %}
+          {% endif %}
+          </div>
+          <div class="icon-right"></div>
+        </div>
+      <!-- == INIT ARTICLE PREVIEW SLIDER == -->
+      <script>
+        $(document).ready(function() {
+          // $('.trigger').click(function() {
+            var slider = $("#slider");
+            $(slider).slick({
+              centerMode: true,
+              centerPadding: '90px',
+              slidesToShow: 3,
+              speed: 500,
+              touchToSlide: true,
+              swipeToSlide: true,
+              infinite: true,
+              prevArrow: $('.icon-left'),
+              nextArrow: $('.icon-right'),
+              responsive: [
+                {
+                  breakpoint: 1200,
+                  settings: {
+                    slidesToShow: 2,
+                    centerPadding: "45px"
+                  }
+                },
+                {
+                  breakpoint: 767,
+                  settings: {
+                    slidesToShow: 1,
+                    centerPadding: "30px"
+                  }
+                }
+              ]
+            })
+            setTimeout(function() {
+              slider.animate({opacity: 1}, 500);
+            }, 2000)
+          })
+        // })
+      </script>
+    </div>
+
+  </div>
+<!-- TEMPLATE SPECIFIC STYLING -->
+<style>
+  #main {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  @media (min-width: 768px) {
+    .site-logo .social {
+      display: none;
+    }
+    footer {
+      padding: 60px 60px 180px;
+    }
+  }
+  @media (max-width: 768px) {
+    .ui-menu .ui-menu-item {
+      width: 100% !important;
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 767px) {
+    footer {
+      padding-bottom: 105px;
+    }
+    header.top,
+    header {
+      background-color: {{ settings.background_color_alternate }};
+      border-bottom: none;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    header.top,
+    header {
+      background-color: {{ settings.background_color_alternate }};
+      border-bottom: none;
+    }
+    header .site-logo a img {
+      width: 30px;
+    }
+  }
+</style>
+
+{% comment %}
+  Adding support for product options. See here for details:  
+  http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
+{% endcomment %}
+
+<!-- LAZY LOAD IMAGES -->
+<script>
+  $(".lazy").lazyload({
+    effect : "fadeIn"
+  });
+</script>
+
+<!-- Manual Scripts for Product Pages -->
+<script>
+  $(document).ready(function() {
+
+    $('header').addClass('top dark');
+
+    $(window).scroll(function() {
+      if ($(this).scrollTop() < 90) {
+        $('header').addClass('top dark');
+      } else {
+        $('header').removeClass('top dark');
+      }
+    })
+
+    $(window).scrollTop(0);
+
+    // Object Variables
+    var main            = $('#main');
+    var product         = $('#product');
+    var ingredients     = $('#product__ingredients');
+    var testimonials    = $('#product__testimonials');
+    var additional_info = $('#product__related-posts');
+    var article_slider  = $('.article-slider');
+
+    // Position Variables
+    if (additional_info[0] != undefined) { var additional_info_top = additional_info.offset().top; }
+    if (product[0] != undefined)         { var product_top         = product.offset().top; }
+    if (ingredients[0] != undefined)     { var ingredients_top     = ingredients.offset().top; }
+    
+    /* ============================= 
+       ==== A/B Test - PDCT-101 ====
+       ============================= 
+       Change the header to remove the 'top' class when it 
+       reaches the top of the screen */
+
+    if ($(document).scrollTop() < 90) {
+      {% if settings.show_product_header_image and hero_image %}
+        $('header').addClass('top');
+      {% else %}
+        $('header').removeClass('top');
+      {% endif %}
+    } else if ($(window).scrollTop() >= additional_info-60) {
+      setTimeout(function() { article_slider.animate({opacity: 1}, 500); }, 2000);
+    }
+
+   
+
+    $('.slick-slide').click(function() { return false; });
+    
+    //==== SMOOTH SCROLL ====//
+    $('a[href*="#"]:not([href="#"])').click(function() {
+      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+          $('html, body, #main').animate({
+            scrollTop: target.offset().top
+          }, 1000);
+          return false;
+        }
+      }
+    });
+  })
+</script>
+
+<!-- Product Form: Load Product specific scripts -->
+<script>{% include 'product.js' %}</script>
+<!-- Initialize Flavors -->
+<!-- Get all product flavors -->
+{% capture flavors %}{% for variant in product.variants %}'{{ variant.option1 | downcase | replace: " ", "-" }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+<!-- Get all product sizes -->
+{% capture sizes %}{% for variant in product.variants %}'{{ variant.option2 }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+<script> 
+  $(document).ready(function() { 
+    initVariants("{{ current_flavor }}", [{{ flavors }}], "{{ current_size }}" ); 
+
+    /* Set all products to Subscription */
+    // $('.product__subscription .option').removeClass('active');
+    // $('.product__subscription .option[data-value="autodeliver"]').addClass('active');
+
+    // setTimeout(function() {
+    //   /* Set selector to Subscription */
+    //   $('.subscription-details input[value="autodeliver"]').click();
+    // }, 2000)
+
+  }); 
+</script>
+<!-- Change Flavors -->
+<script> changeFlavors(); </script>
+
+
+

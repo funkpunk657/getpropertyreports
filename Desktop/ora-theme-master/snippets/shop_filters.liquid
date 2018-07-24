@@ -1,0 +1,27 @@
+<!-- Filters: Product Types -->
+{% capture product_types_list %}
+{% for product in collections["shop"].products %}
+  {% for tag in product.tags %}
+    {% if tag contains "product_type=" %} 
+      {% assign product_type = tag | split: "=" | last %} {{ product_type }},
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+{% endcapture %}
+{% assign product_types = product_types_list | split: ", " | strip %}
+
+<!-- Filters: Delivery Methods -->
+
+
+<!-- Filters: Flavors -->
+{% capture flavors_list %}
+{% for product in collections["shop"].products %}
+  {% for tag in product.tags %}
+    {% if tag contains "flavor=" %} 
+      {% assign flavor = tag | split: "=" | last %} {{ flavor }},
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+{% endcapture %}
+{% assign flavors = flavors_list | split: "," | strip %}
+

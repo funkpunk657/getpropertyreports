@@ -1,0 +1,148 @@
+<div id="blog">
+  <!--  START HEADER  -->
+  <div class="wrapper">
+    <div class="header">
+      <!-- START SEARCH -->
+      <a href="{{ blog.url }}"><h1>The Daily Thymes</h1></a>
+      <p>a health and wellness blog by <span class="text-accent-1">Ora Organic</span></p>
+      <div class="search">
+        <form action="#" method="get" class="search-form" role="search">
+          <div class="search-wrapper"><input name="q" type="search" id="search-field" placeholder="Search articles..." value="{{ search.terms | escape }}" /></div>
+          <input class="hidden" name="view" value="articles"/>
+          <input class="hidden" name="blog" value="{{ blog.handle }}"/>
+          <input type="submit" id="search-submit" value=""/>
+        </form>
+      </div>
+      <!-- END SEARCH -->
+    </div>
+    <!-- START CATEGORIES -->
+    <div class="categories">
+      <ul>
+        {% for tag in blog.all_tags %}
+          {% if tag contains 'category=' %}
+              {% assign category = tag | split: '=' %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}"><li id="{{ category[1] }}">{{ category[1] }}</li></a>
+              <a><li class="separator">//</li></a>
+          {% endif %}
+        {% endfor %}
+        <a href="/pages/products"><li>Shop</li></a>
+      </ul>
+    </div>
+    <!--  END CATEGORIES  -->
+    <div class="articles">
+      <!--  START CONTENT  -->
+      {% for article in blog.articles %}
+        {% include 'article-grid-item' %}
+      {% endfor %}
+      <div class="paging">
+        {% include 'paging' %}
+      </div>
+      <!--  END CONTENT  -->
+    </div>
+    <!-- START VIBE -->
+    <div id="vibe" class="categories">
+      <h4>What's Your Vibe?</h4>
+      <ul>
+        {% for tag in blog.all_tags %}
+          {% if tag contains 'category=' %}
+              {% assign category = tag | split: '=' %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}"><li>{{ category[1] }}</li></a>
+              <a><li class="separator">//</li></a>
+          {% endif %}
+        {% endfor %}
+        <a href="/pages/products"><li>Shop</li></a>
+      </ul>
+    </div>
+    <!-- END VIBE -->
+  </div>
+  <!-- START HERO ARTICLE -->
+  <div id="hero-article">
+    <div class="wrapper">
+      <h2>Start from the beginning</h2>
+      <p>We're on a mission for better nutrition and a more sustainable society. Read more about the team behind Ora Organic and why we do what we do.</p>
+      {% for article in blog.articles %}{% if article.handle contains 'the-trouble-with-supplements' %}{% assign hero_article = article %}{% endif %}{% endfor %}
+      <a href="{{ hero_article.url }}" class="button"><button class="flat aqua">Our 'A-ha' Moment</button></a>
+    </p>
+  </div>
+  <!-- END HERO ARTICLE -->
+</div>
+<!-- Special Styles for Blog -->
+<style>
+  #main {
+    margin-top: 0;
+  }
+</style>
+<script>
+  //==== SEARCH FUNCTIONALITY ====//
+  $(document).ready(function () {
+
+    //==== INFINITE SCROLL ====//
+    // $('.articles').jscroll({
+    //   // nextSelector: '#paging .next',
+    //   contentSelector: '.articles .row'
+    // });
+    // Handle URL Parameter search terms (from product pages)
+    if (window.location.href.indexOf('search_term') > -1) {
+      var search_term = window.location.href.split('search_term=')[1];
+      // console.log("search_term =" + search_term);
+      $('#search-field').val(search_term);
+      setTimeout(function() {
+        $('#search-submit').click();
+      }, 500);
+    }
+    if (window.location.href.indexOf('category') > -1) {
+      $('.article').slideDown();
+      var category = window.location.href.split('category-')[1];
+      $('#'+category).addClass('active');
+    }
+    // Handle search submit clicked, sort articles and hide those that don't match
+    // the terms input.
+    var articles = $('.article');
+    $('#search-submit').click(function(e) {
+
+      e.preventDefault();
+      var search_term = $('#search-field').val().toLowerCase();
+      // console.log("search term = "+search_term);
+
+      articles.each(function() {
+        if ($(this).find('article').html().toLowerCase().indexOf(search_term) > -1) {
+          $(this).removeClass('small large').addClass('medium').slideDown();
+        } else {
+          $(this).slideUp();
+        }
+      })
+      setTimeout(function() {
+        $('.article').each(function(index) {
+          if ($(this).css("display") == "block") {
+            // console.log(index)
+            if (index % 2) {
+              $(this).removeClass("col-sm-5");
+              $(this).removeClass("col-sm-7");
+              $(this).addClass("col-sm-6");
+            } else {
+              $(this).removeClass("col-sm-5");
+              $(this).removeClass("col-sm-7");
+              $(this).addClass("col-sm-6");
+            }
+          }
+        })
+      },1000);
+    })
+  })
+</script>
+<script>
+  $(document).ready(function() {
+    var header = $('header');
+    if ($(document).scrollTop() == 0) {
+      header.removeClass("scrolled").addClass("top dark");
+    }
+    $(window).scroll(function() {
+      if ($(document).scrollTop() == 0) {
+        header.removeClass("scrolled").addClass("top dark");
+      } else {
+        header.removeClass("top dark").addClass("scrolled");
+      }
+    })
+  })
+</script>
+

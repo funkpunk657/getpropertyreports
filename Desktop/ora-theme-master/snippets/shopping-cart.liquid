@@ -1,0 +1,162 @@
+{% if cart.item_count > 0 %}
+<div class="cart-header">
+  <h2>Your Bag</h2>
+</div>
+<div class="cart-container">
+  <form action="/cart" method="post">
+    <div id="item-container">
+    <!-- Get Discount (if applicable) -->
+    {% if cart.item_count > 1 or item.title contains 'Subscription' %}
+      {% assign discount_percentage = settings.deal_sidebar_discount_percentage_2 | replace: "%", "" %}
+    {% else %}
+      {% assign discount_percentage = settings.deal_sidebar_discount_percentage_1 | replace: "%", "" %}
+    {% endif %}
+    {% assign discount_multiplier = 100 | minus: discount_percentage %}
+    {% for item in cart.items %}
+      <div class="{% if forloop.first %}first{% endif %} cart-row {% if item.product.tags contains 'pre-order' and item.product.selected_or_first_available_variant.inventory_quantity < 1 %}pre-order{% endif %}">
+        <div class="item-photo col-xs-3">
+          <img src="{{ item | img_url: 'compact' }}" alt="{{ item.title | escape }}"/>
+        </div>
+        <div class="item-details col-xs-9">
+          <div class="description">
+            <a href="{{ item.url | within: collections.all }}"> 
+              {{ item.title }}
+            </a>
+          </div>
+          <!-- Don't let the customer add more free products -->
+          {% unless item.product.tags contains 'DISCOUNT_HIDDEN_PRODUCT' %}
+          <div class="quantity-wrapper">
+            <div class="buttons">
+              {% include 'icon-plus' %}
+              {% include 'icon-minus' %}
+            </div>
+            <input type="text" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
+          </div>
+          {% else %}
+          <input type="text" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="0" />
+          {% endunless %}
+          <div class="line-price">
+            <p class="item-price" style="display: none">{{ item.price | money_with_currency }}</p>
+            {% assign on_sale = false %}
+            <!-- Check if normal product is on sale -->
+            {% if item.product.tags contains 'on_sale=true' %}{% assign on_sale = true %}{% endif %}
+            <!-- Check if subscription product is on sale  -->
+            {% if item.product.tags contains 'Subscription' %}
+              {% assign original_handle = item.product.metafields["subscriptions"].original_handle %}
+              {% if all_products[original_handle].tags contains 'on_sale=true' %}{% assign on_sale = true %}{% endif %}
+            {% endif %}
+            <!-- Check if sidebar is active and sale is on -->
+            {% if settings.show_deal_sidebar and on_sale == true %}
+              <p class="line old_price">{{ item.line_price | money_with_currency }}</p>
+              <p class="line active">{{ item.line_price | times: discount_multiplier | divided_by: 100 | money_with_currency }}</p>
+            {% else %}
+              <p class="line active">{{ item.line_price | money_with_currency }}</p>
+            {% endif %}
+          </div>
+          <div class="remove">
+            <div class="cart-remove">
+              <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="removeLine" rel="{{ item.variant.id }}"></a>
+            </div>
+          </div> 
+        </div>
+      </div>
+    {% endfor %}
+    {% if cart.item_count == 1 %}
+      <div class="upsell">
+        <p><b>Free shipping</b> for orders over $50!</p>
+        <p><a href="/pages/products" class="link__shop">Why not add one of <b>these?</b></a>
+        {% for product in collections["upsell"].products | limit: 3 %}
+          {% unless product.handle == item.handle %}
+          <div class="upsell__product">
+            <a href="{{ product.url }}">
+              <img class="upsell__product-image" src="{{ product.featured_image | img_url: 'medium' }}"/>
+              <h6>{{ product.title }}</h6>
+            </a>
+          </div>
+          {% endunless %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    </div>
+    <!-- CART SUMMARY -->
+    {% if cart.item_count > 0 %}
+    <div class="summary">
+      <!-- Cart Summary: Sidebar Deal Summary -->
+      <!-- {% if settings.show_deal_sidebar %}
+        <div class="sidebar-deal-summary">
+          {% if cart.item_count == 1 %}
+            <p><b>{{ settings.deal_sidebar_code_viewable }}</b> - You're saving <span id="sidebar-deal-saved"><b>${{ settings.deal_sidebar_discount_percentage_1 | times: cart.total_price | divided_by: 100 | money_without_currency }}</b></span>!</p>
+          {% else %}
+            <p><b>{{ settings.deal_sidebar_code_viewable }}</b> - You're saving <span id="sidebar-deal-saved"><b>${{ settings.deal_sidebar_discount_percentage_2 | times: cart.total_price | divided_by: 100 | money_without_currency }}</b></span>!</p>
+          {% endif %}
+        </div>
+      {% endif %} -->
+      <!-- Cart Summary: Guarantee -->
+      <div class="guarantee">
+        <p><b>Our Promise to You:</b> If you're not 100% satisfied with your Ora products, <u>we'll refund your order</u>. Your happiness is our priority.</p> 
+      </div>
+      <!-- Cart Summary: Subtotal -->
+      <div class="subtotal">
+        <h4>Subtotal: </h4>
+        <!-- If Deal Bar is active, then we need to show what the discounted amount is -->
+        {% if settings.show_deal_sidebar %}
+          <p>{{ cart.total_price | times: discount_multiplier | divided_by: 100 | money_with_currency }}</p>
+        {% else %}
+          <p>{{ cart.total_price | money_with_currency }}</p>
+        {% endif %}
+      </div>
+      <!-- Cart Summary: Shipping -->
+      <div class="shipping">
+        <h4>Shipping:</h4>
+        {% if cart.total_price < 1000 %} 
+          {% assign shipping = 495 | money %}
+        {% else %}
+          {% assign shipping = 0 %}
+        {% endif %}
+        <p>{% if shipping == 0 or settings.free_shipping_deal %}Free (US Only){% else %}{{ shipping }}{% endif %}</p>
+      </div>
+      <!-- Cart Summary: Total -->
+      <!-- <div class="total">
+        <h4>Total:</h4>
+        <p>{{ cart.total_price | minus: cart_savings | plus: shipping | money }}</p>
+      </div> -->
+      
+      <!-- Secret Discount -->
+      {% include 'secret_discount' %}
+      <style>
+        .secret__discount-wrapper {
+          position: absolute;
+          top: -75px;
+          right: -15px;
+        }
+      </style>
+
+
+      <!-- Cart: Actions -->
+      <div class="actions">
+        <input style="display: none" type="submit" id="update" name="update" class="flat pink" value="{{ 'cart.general.update' | t }}" />
+        <!-- @TODO - Fix updating cart when checkout button is clicked -->
+        <input type="submit" id="checkout" name="checkout" class="flat aqua" value="CHECKOUT" {% if cart_has_subscription_item == 'true' %} onclick="event.preventDefault(); updateCartQtyChange();" {% endif %} />
+      </div>
+      <!-- END ACTIONS -->
+    </div>
+    {% endif %}
+  </form>
+</div>
+{% else %}
+  <div class="cart-header">
+    <h2>Your Bag</h2>
+  </div>
+  <div class="empty">
+    <h4>There's nothing here yet!<br>But you can <span class="text-accent-2">change that...</span></h4>
+    <a href="/pages/products"><button style="width: 80%; margin-top: 30px;" class="flat aqua">SHOP</button></a>
+  </div>
+{% endif %}
+{% include 'subscription-cart-footer' %}
+{% if settings.show_deal_sidebar %}
+  <style>
+  /* Add some padding to the bottom of the cart */
+    .shopping-cart #item-container { bottom: 215px; }
+    @media (max-width: 768px) { .shopping-cart #item-container { bottom: 200px; } }
+  </style>
+{% endif %}

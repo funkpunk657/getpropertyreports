@@ -1,0 +1,153 @@
+<div class="ingredient-slider slider">
+	{% if product.tags contains 'probiotic-apple' %}
+	<div id="apple" class="prebiotic">
+		<img src="{{ 'probiotic-apple.png' | asset_url }}" alt="Organic Apple" rel="share"/>
+		<div class="description">
+			<h4>Organic Apple<br><i>Malus pumila</i></h4>
+			<p>Apples are not only naturally fresh and delicious, but also rich in phytochemical antioxidants, including quercetin and phloridzin, and have been found in laboratory conditions to slow the spread of cancer cells and even <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC442131/" target="_blank">lower cholesterol!</a></p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+    {% if product.tags contains 'probiotic-jerusalem-artichoke' %}
+	<div id="jerusalem-artichoke" class="prebiotic">
+		<img src="{{ 'probiotic-jerusalem-artichoke.png' | asset_url }}" alt="Organic Jerusalem Artichoke"/>
+		<div class="description">
+			<h4>Jerusalem Artichoke<br><i>Helianthus tuberosus</i></h4>
+			<p>Neither an artichoke, nor from Jerusalem, the Jerusalem Artichoke is a sunflower root that's high in fiber and a natural prebiotic - <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3705355/">stimulating</a> and feeding the Bifidobacteria in the gut.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-raspberry' %}
+	<div id="raspberry" class="prebiotic">
+		<img src="{{ 'probiotic-raspberry.png' | asset_url }}" alt="Organic Raspberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Raspberry<br><i>Rubus idaeus L.</i></h4>
+			<p>Apart from their delicious tangy flavor, raspberries are known for their Vitamin C, micronutrients and dietary fiber. Though few studies have been done in humans, in laboratory conditions red raspberry extract <a href="https://www.ncbi.nlm.nih.gov/pubmed/26773014" target="_blank">can reduce risk</a> of metabolic and cardiovascular disease.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-tapioca' %}
+	<div id="tapioca" class="prebiotic">
+		<img src="{{ 'probiotic-tapioca.png' | asset_url }}" alt="Tapioca" rel="share"/>
+		<div class="description">
+			<h4>Tapioca<br><i>Manihot esculenta</i></h4>
+			<p>Tapioca is a starch extracted from the Cassava root, native to South America. It is used in a wide array of South American and Asian cooking, but it is also a good prebiotic, being naturally high in dietary fiber.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-lactobacillus-acidophilus' %}
+	<div id="lactobacillus-acidophilus" class="probiotic">
+		<img src="{{ 'probiotic-lactobacillus-acidophilus.jpg' | asset_url }}" alt="Lactobacillus Acidophilus"/>
+		<div class="description">
+			<h4>Lactobacillus Acidophilus<br><i>L. Acidophilus</i></h4>
+			<p>Lactobacillus Acidophilus is one of the most commonly used probiotic bacteria, due to its studied effects on reducing lung infection and treating of <a href="https://www.nlm.nih.gov/medlineplus/druginfo/natural/790.html">vaginal infections</a>, such as Candida.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-lactobacillus-reuteri' %}
+	<div id="lactobacillus-reuteri" class="probiotic">
+		<img src="{{ 'probiotic-lactobacillus-reuteri.jpg' | asset_url }}" alt="Lactobacillus Reuteri"/>
+		<div class="description">
+			<h4>Lactobacillus Reuteri<br><i>L. Reuteri</i></h4>
+			<p>Though less well-known than its acidophilus counterpart, L. Reuteri has been <a href="https://www.nlm.nih.gov/medlineplus/druginfo/natural/790.html">studied to be effective</a> in reducing colic in babies and potentially reducing eczema in 1-13 year olds.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-bifidobacterium-bifidum' %}
+	<div id="bifidobacterium-bifidum" class="probiotic">
+		<img src="{{ 'probiotic-bifidobacterium-bifidum.jpg' | asset_url }}" alt="Bifidobacterium Bifidum"/>
+		<div class="description">
+			<h4>Bifidobacterium Bifidum<br><i>B. Bifidum</i></h4>
+			<p>B. Bifidum is one of the key bacteria to colonize an infants intestine shortly after birth, and play an <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4140077/">important role</a> in the development of a healthy immmune system.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-bifidobacterium-breve' %}
+	<div id="bifidobacterium-breve" class="probiotic">
+		<img src="{{ 'probiotic-bifidobacterium-breve.jpg' | asset_url }}" alt="Bifidobacterium Breve"/>
+		<div class="description">
+			<h4>Bifidobacterium Breve<br><i>B. Breve</i></h4>
+			<p>B. Breve is the dominant species of bacteria to develop in the intestine of new, breast-fed infants, and are considered important to the <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4140077/">establishment balanced intestinal microbiota in newborns.</a></p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-bifidobacterium-lactis' %}
+	<div id="bifidobacterium-lactis" class="probiotic">
+		<img src="{{ 'probiotic-bifidobacterium-lactis.jpg' | asset_url }}" alt="Bifidobacterium Lactis"/>
+		<div class="description">
+			<h4>Bifidobacterium Lactis<br><i>B. Lactis</i></h4>
+			<p>B. Lactis is a probiotic strain known to be better performing in <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4153077/">elderly adults</a> due to the increased phagocytic (fighting off harmful foreign bacteria or dying cells) activity it can promote.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'probiotic-bifidobacterium-longum' %}
+	<div id="bifidobacterium-longum" class="probiotic">
+		<img src="{{ 'probiotic-bifidobacterium-longum.jpg' | asset_url }}" alt="Bifidobacterium Longum"/>
+		<div class="description">
+			<h4>Bifidobacterium Longum<br><i>B. Longum</i></h4>
+			<p>B. Longum has been called the <a href='http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4350908/'>'Champion Colonizer of the infant gut'</a> due to its ability to digest and consume Oligosaccharides in infants; essential to the development of the infant's intestinal microbiota.</p>
+			<p><a class="show-facts"><b>Click here</b> to see the label</a></p>
+		</div>
+	</div>
+	{% endif %}
+</div>
+<!-- == INIT PRODUCT INGREDIENT SLIDER (SLICKJS) == -->
+<script>
+  $(document).ready(function() {
+    $('.ingredient-slider').slick({
+      centerMode: true,
+      centerPadding: '180px',
+      slidesToShow: 3,
+      speed: 500,
+      touchToSlide: true,
+      swipeToSlide: true,
+      touchThreshold: 20,
+      prevArrow: '<button type="button" class="slick-prev"><img src="{{ "icon-left.svg" | asset_url }}"/></button>',
+      nextArrow: '<button type="button" class="slick-next"><img src="{{ "icon-right.svg" | asset_url }}"/></button>',
+      responsive: [
+      	{
+      		breakpoint: 1024,
+      		settings: {
+      			centerPadding: '120px'
+      		}
+      	},
+      	{
+      		breakpoint: 991,
+      		settings: {
+      			centerPadding: '90px'
+      		}
+      	},
+      	{
+      		breakpoint: 769,
+      		settings: {
+      			slidesToShow: 3,
+      			centerPadding: '0px'
+      		}
+      	},
+      	{
+      		breakpoint: 468,
+      		settings: {
+      			slidesToShow: 1,
+      			centerPadding: '20px'
+      		}
+      	}
+      ]
+    })
+
+
+    // Show supplement facts on click
+    $('.show-facts').click(function(e) {
+    	document.getElementsByClassName("facts-trigger")[0].click();
+    	return false;
+    })
+  })
+</script>

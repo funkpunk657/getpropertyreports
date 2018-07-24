@@ -1,0 +1,391 @@
+.product__buy-button {
+	position: absolute;
+	// background-color: rgba(0, 0, 0, 0.5);
+	// z-index: 1100;
+	display: inline-block;
+	bottom: 40%;
+	left: 1%;
+	right: 1%;
+	margin: 0 auto;
+	width: auto;
+	height: 100%;
+
+	/* Product Buy Box *
+	* A popup buy box that appears when the buy button is clicked */
+	.product__buy-box {
+		position: absolute;
+		@include box-shadow-wide;
+		bottom: 80%;
+		left: -30px;
+		background-color: $color__background;
+		padding: 30px 30px;
+		border-radius: 8px;
+		z-index: 2;
+		min-width: 330px;
+		display: none;
+
+		> .triangle {
+			color: $color__background;
+			font-size: 20px;
+			text-shadow: -2px 2px 2px rgba(0, 0, 0, 0.33);
+			font-style: normal;
+			display: block;
+			bottom: -18px;
+			position: absolute;
+			left: 1%;
+			right: 1%;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		/* Buy Box: Product Title */
+		.product__variant-title {
+			h6 {
+				font-size: 18px;
+				text-align: center;
+				margin: 0 0 22.5px;
+				font-weight: bold;
+
+				.flavor {
+					display: none;
+				}
+			}
+		}
+
+		/* Buy Box: Quantity Wrapper */
+		.product__quantity-wrapper {
+			@include display-flex;
+			align-items: center;
+			justify-content: center;
+			padding-bottom: 22.5px;
+
+			label {
+				margin: 0;
+				padding-left: 7.5px;
+			}
+			label,
+			.quantity-buttons {
+				flex: 2;
+			}
+			input.quantity {
+				max-width: 75px;
+				border-radius: 8px;
+				text-align: center;
+				flex: 1;
+				padding-left: 7.5px;
+			}
+			.quantity__buttons {
+				flex: 2;
+				text-align: center;
+				padding-left: 15px;
+				margin-top: -10px;
+
+				a {
+					display: inline-block;
+					padding-right: 3.75px;
+					margin: 0;
+				}
+			}
+		}
+
+		/* Product: Variants */
+		.product__variants {
+		  .selector-wrapper {
+		  	display: none;
+		  }	
+
+		  /* Product: Variants Selector */
+		  .product__variants-selector {
+		  	@include display-flex;
+		  	justify-content: center;
+		  	border-top: 1px solid $color__input-border;
+		  	flex-flow: row wrap;
+		  	align-items: center;
+
+		  	h6 {
+		  		flex: none;
+		  		margin: 0 15px 0 7.5px;
+		  	}
+
+		  	.product__variant-option {
+		  		max-width: 50%;
+		  		margin: 22.5px 7.5px;
+		  		text-align: center;
+		  		cursor: pointer;
+		  		@include opacity-transition;
+		  		flex: 1;
+
+		  		&:hover {
+		  			opacity: 0.7;
+		  		}
+
+		  		.product__variant-option-image {
+		  			border: 1px solid $color__input-border;
+			  		border-radius: 8px;
+		  			width: 100%;
+		  			margin: 0 auto;
+		  			padding: 7.5px;
+		  		}
+		  		.product__variant-option-name {
+		  			text-align: center;
+		  			font-size: 10px;
+		  			text-transform: uppercase;
+		  			letter-spacing: 1px;
+		  			font-weight: 500;
+		  			margin-top: 5px;
+		  			margin-bottom: -5px;
+		  		}
+
+		  		&.active {
+		  			.product__variant-option-image {
+		  				border-color: $color__accent-1;
+		  			}
+		  		}
+		  	}
+		  }
+		}
+
+		/* Buy Box: Subscription Details */
+		.product__subscription-details {
+			padding-top: 22.5px;
+			border-top: 1px solid $color__input-border;
+
+			.message {
+				margin: 0;
+				text-align: center;
+			}
+			.offer_newline {
+				display: none;
+			}
+			section {
+				@include display-flex;
+				justify-content: center;
+				align-items: center;
+
+				> div {
+					flex: 1;
+					text-align: center;
+
+					span {
+						font-weight: 500;
+						color: $color__text-copy !important;
+					}
+					strong {
+						display: none;
+					}
+				}
+			}
+			.popup_trigger {
+				font-size: 12px;
+			}
+			.subscription_popup {
+				top: 12.5%;
+				left: 97%;
+
+				&.left {
+					top: 27%;
+					left: initial;
+					right: 97%;
+
+					.triangle {
+						left: initial;
+						right: -15px;
+						transform: rotate(180deg);
+				    margin-top: -15px;
+					}
+				}
+			}
+		}
+
+		/* Buy Box: Product Price */
+		.product__price {
+			border-top: 1px solid $color__input-border;
+			@include display-flex;
+			justify-content: center;
+			align-items: center;
+
+			h5 {
+				display: block;
+				flex: 1;
+				max-width: 60%;
+				text-align: left;
+				font-size: 16px;
+				margin: 15px 0;
+			}
+			.price {
+				flex: 1;
+				max-width: 40%;
+				text-align: right;
+				font-weight: 500;
+			}
+		}
+
+		.pre-order-date {
+			text-align: center;
+			margin: 15px 0 0;
+			color: $color__accent-1;
+		}
+
+		/* Buy Box: Actions - Add to Cart */
+		.product__actions {
+			input {
+				width: 100%;
+				margin: 0;
+				font-size: 14px;
+				display: none;
+
+				&.active {
+					display: block;
+				}
+
+				&.sold-out {
+					pointer-events: none;
+					background-color: $color__input-border;
+					cursor: default;
+				}
+
+				&.pre-order {
+					background-color: $color__accent-2;
+
+					&:hover {
+						background-color: $color__accent-2-hover;
+					}
+				}
+			}
+			.free-shipping {
+				font-size: 12px;
+				margin-top: 15px;
+				margin-bottom: -7.5px;
+				text-align: center;
+			}
+		}
+		/* Buy Box: Clickbank Button */
+		.clickbank_button {
+			background-color: $color__accent-1;
+			width: 100%;
+			display: block;
+			color: white;
+			padding: 15px;
+			text-align: center;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			font-weight: 500;
+			@include all-transition;
+			margin-top: 15px;
+
+			&:hover {
+				background-color: $color__accent-1-hover;
+			}
+		}
+	}
+
+	#close-button {
+		&:before {
+			position: fixed;
+			top: 30px;
+			right: 40px;
+			color: white;
+			line-height: 1em;
+			z-index: 1090;
+			font-size: 48px;
+			font-family: $linear-icons;
+			content: "\e935";
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	.product__buy-button {
+		left: initial;
+		right: initial;
+		height: auto;
+
+		.button {
+			font-size: 12px;
+			padding: 10px;
+		}
+
+		.product__buy-box {
+			bottom: -1000%;
+			display: block;
+			left: 0;
+			border-radius: 0;
+			padding: 0;
+			min-width: initial;
+			width: 100%;
+			box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.5);
+
+			> .triangle {
+				display: none;
+			}
+
+			/* Buy Box: Variant Title */
+			.product__variant-title {
+				h6 {
+					font-size: 16px;
+					margin: 15px;
+				}
+			}
+
+			/* Buy Box: Quantity */
+			.product__quantity-wrapper {
+				padding: 15px 30px 15px;
+
+				label {
+					padding: 0;
+					text-align: left;
+				}
+			}
+			/* Buy Box: Variants */
+			.product__variants {
+				.selector-wrapper {
+					padding: 0 30px 15px;
+				}
+				.product__variants-selector {
+					padding: 0 10px;
+
+					.product__variant-option {
+						.product__variant-option-image {
+							padding: 7.5px 45px;
+						}
+
+						&:hover {
+							opacity: 1;
+						}
+					}
+				}
+			}
+			/* Buy Box: Subscription Details */
+			.product__subscription-details {
+				text-align: center;
+			}
+			/* Buy Box: Price */
+			.product__price {
+				padding: 0 15px;
+
+				h5 {
+					margin: 12.5px 0 10px;
+				}
+			}
+			/* Buy Box: Actions */
+			.product__actions {
+				padding: 0 7.5px 7.5px;
+
+				input {
+					font-size: 12px;
+				}
+				.free-shipping {
+					display: none;
+				}
+			}
+
+		}
+	}
+	/* Product Page only */
+	#product .buy-box-trigger {
+		.product__buy-box {
+			// border-radius: 8px;
+		}
+	}
+}
+

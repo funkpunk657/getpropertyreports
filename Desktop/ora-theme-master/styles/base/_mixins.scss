@@ -1,0 +1,82 @@
+// Vertically align text
+@mixin vertical-align($position: relative) {
+	position: $position;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+// Opacity transition effect
+@mixin opacity-transition {
+	transition: opacity .3s ease-in-out;
+	-moz-transition: opacity .3s ease-in-out;
+	-webkit-transition: opacity .3s ease-in-out;
+	-o-transition: opacity .3s ease-in-out;
+}
+// Color transition effect
+@mixin color-transition {
+	transition: color .3s ease-in-out;
+	-moz-transition: color .3s ease-in-out;
+	-webkit-transition: color .3s ease-in-out;
+	-o-transition: color .3s ease-in-out;
+}
+// Width transition effect
+@mixin width-transition {
+	transition: width .3s ease-in-out;
+	-moz-transition: width .3s ease-in-out;
+	-webkit-transition: width .3s ease-in-out;
+	-o-transition: width .3s ease-in-out;
+}
+// Background transition effect
+@mixin background-transition {
+	transition: background .3s ease-in-out;
+	-moz-transition: background .3s ease-in-out;
+	-webkit-transition: background .3s ease-in-out;
+	-o-transition: background .3s ease-in-out;
+}
+// Transition all effect
+@mixin all-transition {
+	transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-webkit-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+}
+
+// Transition Custom 
+@mixin transition($property: all, $speed: .3s) {
+	-webkit-transition: $property $speed ease-in-out;
+	-moz-transition: $property $speed ease-in-out;
+	-ms-transition: $property $speed ease-in-out;
+	-o-transition: $property $speed ease-in-out;
+	transition: $property $speed ease-in-out;
+}
+
+// Box-shadow - generic
+@mixin box-shadow      { box-shadow: 0px 1px 2px 0px rgba(135,135,135,0.50); }
+@mixin box-shadow-dark { box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.50); }
+@mixin box-shadow-wide { box-shadow: 0px 1px 30px 2px rgba(0,0,0,0.15); }
+@mixin box-shadow-med  { box-shadow: rgba(0, 0, 0, 0.172549) 0px 6px 12px; }
+
+/* Text Shadows */
+@mixin text-shadow { text-shadow: 0px 1px 2px 0px rgba(135,135,135,0.50); }
+
+// Display Flex (all devices)
+@mixin display-flex {
+	display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+/* ============= */
+/* Card Styles */
+/* ============= */
+
+/* Flat Rounded */
+@mixin card-flat-rounded {
+	background-color: $color__background;
+  border: 1px solid $color__input-border;
+  border-radius: 8px;
+}

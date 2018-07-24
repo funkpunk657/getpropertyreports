@@ -1,0 +1,513 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->  
+<head>
+
+  <!-- Redirect for Wholesale Website -->
+  {% if shop.url contains 'wholesale.ora.organic' %}
+    {% assign order_form_url = shop.url | append: collections["order-form"].url %}
+    
+      <script type="text/javascript">
+        {% unless template == 'collection.wholesale' or template == 'page.contact' or template contains 'customers' %} 
+          // Handle visit to challenge page
+          if (window.location.href.indexOf('challenge') > -1) {
+          } else {
+            window.location = "{{ order_form_url }}";
+          }
+        {% endunless %}
+      </script>
+  {% endif %}
+  <!-- STYLESHEETS -->
+  {{ content_for_header }}
+
+  {% include 'bold-common' %}
+
+  <!-- Bootstrap -->
+  {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
+  <!-- Core Theme Styles -->
+  {{ 'jquery-ui.min.css' | asset_url | stylesheet_tag }}
+  {{ 'style.scss.css' | asset_url | stylesheet_tag }}
+  <meta charset="utf-8" />
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' /><![endif]-->
+  <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" type="image/png" />
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-W3XJP9M');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- SOCIAL CHANNELS: OG and Twitter cards -->
+  {% include 'facebook-open-graph' %}
+  {% include 'twitter-cards' %}
+
+  <!-- Google / Search Engine Tags -->
+  <meta itemprop="name" content="Ora Organic - Award Winning Plant-based Supplements.">
+  <meta itemprop="description" content="We make ridiculously nutritious plant-based products that actually make people and the planet healthier. Probiotics, Protein, Omega-3, Greens and more. ">
+  <meta itemprop="image" content="https://cdn.shopify.com/s/files/1/0767/1029/t/31/assets/about-hero-image.jpg?16574541671712771059">
+
+  <!-- Hide Mobile Navigation - Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  
+  <!-- BING WEBMASTER AUTHORIZATION -->
+  <meta name="msvalidate.01" content="4703635A6A6DADC111DE7F79CF533814" />
+  <!-- LINKEDIN META TAG -->
+  <meta property='og:image' content="{{ 'linkedin-ora.jpg' | asset_url }}"/>
+  <!-- PINTEREST TRACKING -->
+  <meta name="p:domain_verify" content="41e2b8292d923766a9681e8adbfcb224"/>
+  {% include 'pinterest-pixel' %}
+
+  <!-- GOOGLE SEARCH CONSOLE VERIFICATION -->
+  <meta name="google-site-verification" content="e4pVU7_7gFGewkKjLdLwrAPsxe_sJ-as_VQPWP5kgSM" />
+  <meta name="google-site-verification" content="dvKEJobMZvYXeAGBGHiIghy1nBgVXdK-gjF1Ni2DIbc" />
+  <!-- META KEYWORDS -->
+  <meta name="keywords" content="vegan supplements, organic supplement, plant-based, vegan omega-3, organic vegan protein, organic vegan probiotic, organic vegan probiotics, organic protein powder, vegan protein powder, superfood, organic multivitamin, organic multivitamins, organic vitamins, vegetarian, wholefood, whole food, nutrition, nutritional supplements, for women, for men, prebiotics, algae oil" />
+  <title>
+   {% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} {{ meta_tags | split: "=" | last | capitalize }} | {% endif %}
+   {% if current_page != 1 %} Ora &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+   {% if page_title contains shop.name %} {{ page_title }} &ndash; Organic Plant-based Supplements {% else %} {{ page_title }}{% endif %}
+  </title>
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }} {% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} {{ meta_tags | split: '=' | last | capitalize }} | {% endif %}" />
+  {% endif %}
+  <link rel="canonical" href="{{ canonical_url }}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- Minimize page flickering for Google Optimize -->
+  <style>.async-hide { opacity: 0 !important} </style>
+  <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+  h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+  (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+  })(window,document.documentElement,'async-hide','dataLayer',4000,
+  {'GTM-NZJ7FB3':true});</script>
+
+  {% if template contains 'customers' %}  
+    {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+  
+  <!-- Additional Shopify helpers that will likely be added to the global shopify_common.js fsome day soon. -->
+  <script>{% include 'jquery.js' %}</script>
+  <script>{% include 'jquery.theme.js' %}</script>
+  <script>{% include 'jquery.hoverIntent.min.js' %}</script>
+  <script>{% include 'anime.min.js' %}</script>
+  <script>{% include 'animations.js' %}</script>
+  <script>{% include 'custom.js' %}</script>
+  <script>{% include 'jquery.touchSwipe.min.js' %}</script>
+  <script>{% include 'jquery.lazyload.min.js' %}</script>
+  <script>{% include 'shopify_common.js' %}</script>
+  <script>{% include 'jquery-ui.min.js' %}</script>
+  <script>{% include 'jquery.elevateZoom.js' %}</script>
+  <script>{% include 'jquery.parallax.min.js' %}</script>
+  <script>{% include 'jquery.jscroll.min.js' %}</script>
+  <script>{% include 'jquery.moment.js' %}</script>
+  <script>{% include 'jquery.moment-timezone.js' %}</script>
+  <script>{% include 'bootstrap.min.js' %}</script>
+
+  <!-- <script src="" async></script>
+  <script src="" async></script>
+  <script src="" async></script> -->
+  <script>jQuery('html').removeClass('no-js').addClass('js');</script>
+
+  <!-- Basket.min.js - Load Scripts (from LocalStorage) -->
+  <script>{% include 'rsvp.min.js' %}</script>
+  <script>{% include 'basket.min.js' %}</script>
+  <script>
+    basket.require(
+      { url: "{{ 'shopify_common.js' | shopify_asset_url }}" },
+      { url: "{{ 'option_selection.js' | shopify_asset_url }}" },
+      { url: "{{ 'instafeed.min.js' | asset_url }}" },
+      { url: "{{ 'fuse.min.js' | asset_url }}" }
+    )
+  </script>
+  
+  <!-- HIDE PRIVY POPUPS ON CERTAIN PAGES -->
+  {% if template contains 'account' or template contains 'wholesale' %}
+    <style>
+      #privy-container {
+        display: none !important;
+      }
+    </style>
+  {% endif %}
+  <!-- SLICKJS: Carousel slider for the front page -->
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.css"/>
+  <!-- OVERRIDE CSS STYLES -->
+  {{ 'override.scss.css' | asset_url | stylesheet_tag }}
+
+  <!-- ManyChat -->
+  {% comment %}{% unless template == 'page.subscriptions' or template == 'page.products' %}
+  <script src="//widget.manychat.com/1404989309816854.js" async="async">
+  </script>
+  {% endunless %}{% endcomment %}
+
+  <!-- Slick Js (Carousel) -->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.min.js"></script>
+
+  <!-- Google: Adsense -->
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+  <!-- <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-3061585131054436",
+      enable_page_level_ads: true
+    });
+  </script> -->
+
+<!-- Algolia head -->
+  <script type="text/template" id="template_algolia_money_format">{% include 'algolia_money_format' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete">{% include 'algolia_autocomplete.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete.css">{% include 'algolia_autocomplete.css.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete_collection">{% include 'algolia_autocomplete_collection.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete_collections_empty">{% include 'algolia_autocomplete_collections_empty.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete_article">{% include 'algolia_autocomplete_article.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete_articles_empty">{% include 'algolia_autocomplete_articles_empty.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete_product">{% include 'algolia_autocomplete_product.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete_products_empty">{% include 'algolia_autocomplete_products_empty.hogan' %}</script>
+  <script type="text/template" id="template_algolia_autocomplete_footer">{% include 'algolia_autocomplete_footer.hogan' %}</script>
+  <script type="text/template" id="template_algolia_instant_search">{% include 'algolia_instant_search.hogan' %}</script>
+  <script type="text/template" id="template_algolia_instant_search.css">{% include 'algolia_instant_search.css.hogan' %}</script>
+  <script type="text/template" id="template_algolia_instant_search_stats">{% include 'algolia_instant_search_stats.hogan' %}</script>
+  <script type="text/template" id="template_algolia_instant_search_facet_item">{% include 'algolia_instant_search_facet_item.hogan' %}</script>
+  <script type="text/template" id="template_algolia_instant_search_current_refined_values_item">{% include 'algolia_instant_search_current_refined_values_item.hogan' %}</script>
+  <script type="text/template" id="template_algolia_instant_search_product">{% include 'algolia_instant_search_product.hogan' %}</script>
+  <script type="text/template" id="template_algolia_instant_search_no_result">{% include 'algolia_instant_search_no_result.hogan' %}</script>
+  {{ '//cdn.jsdelivr.net/fontawesome/4.4.0/css/font-awesome.min.css' | stylesheet_tag }}
+  {{ '//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css' | stylesheet_tag }}
+  {{ '//cdn.polyfill.io/v2/polyfill.min.js' | script_tag }}
+  {{ '//cdn.jsdelivr.net/lodash/3.7.0/lodash.min.js' | script_tag }}
+  {{ '//cdn.jsdelivr.net/jquery/2/jquery.min.js' | script_tag }}
+  {{ '//cdn.jsdelivr.net/hogan.js/3/hogan.min.js' | script_tag }}
+  {{ '//cdn.jsdelivr.net/autocomplete.js/0.24.2/autocomplete.jquery.min.js' | script_tag }}
+  {{ '//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js' | script_tag }}
+  {{ '//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js' | script_tag }}
+  {{ 'algolia_config.js' | asset_url | script_tag }}
+  {{ 'algolia_translations.js' | asset_url | script_tag }}
+  {{ 'algolia_init.js' | asset_url | script_tag }}
+  {{ 'algolia_helpers.js' | asset_url | script_tag }}
+  {{ 'algolia_autocomplete.js' | asset_url | script_tag }}
+  {{ 'algolia_facets.js' | asset_url | script_tag }}
+  {{ 'algolia_sort_orders.js' | asset_url | script_tag }}
+  {{ 'algolia_instant_search.js' | asset_url | script_tag }}
+<!-- /Algolia head -->
+
+{% unless template == "blog" %}
+<!--Findify script--><script async defer src="//findify-assets-2bveeb6u8ag.netdna-ssl.com/search/prod/oraorganic.myshopify.com.min.js"></script><!-- End Findify script-->
+{% endunless %}
+
+</head>
+
+
+
+
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3XJP9M"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Facebook Pixel Events -->
+  {% include 'facebook-pixel-events' %}
+  
+  <!-- CART ONLY: Skip the cart on mobile devices and show loading gif -->
+  {% comment %}{% if template == 'cart' %}
+    <div id="page_loader" style="display: none; position: fixed; z-index: 9999; width: 100%; height: 100%; background-color: white; left: 0; top: 0;">
+      <img src="{{ 'page-loader.gif' | asset_url }}" style="width: 66%; position: fixed; top: 50%; transform: translateY(-50%); left: 1%; right: 1%; margin: 0 auto; z-index: 99999;" />
+    </div>
+    <script>
+      // Send to checkout if on mobile
+      (function() {
+        // Check if we came from checkout - if so, don't show loader and redirect.
+        if (document.referrer.indexOf('checkout') > -1) { } else {
+          // If the user is on mobile and came from the shopping cart checkout, then show loader send them straight to checkout
+          if ($(window).width() <= 768) {
+            $('#page_loader').show();
+            $(document).ready(function() {
+              var checkout_button = document.getElementById('checkout');
+              // Wait 500 miliseconds to keep it smooth
+              setTimeout(function() { checkout_button.click(); }, 500);
+            })
+          }
+        }
+      })();
+    </script>
+  {% endif %}{% endcomment %}
+  <!-- FACEBOOK SDK -->
+  <!-- PAGE LOADER -->
+  <!-- {% include 'loader' %} -->
+  <!-- ============================ -->
+  <!-- ==== POP-DOWN BARS ==== -->
+  <!-- ============================ -->
+  {% if settings.show_deal_bar == true %}
+    {% unless template contains 'wholesale' or template contains 'account' %}
+      <div class="deal-bar-wrapper">{% include 'bar-deals' %}</div>
+    {% endunless %}
+  {% else %}
+    <div class="deal-bar-wrapper" style="display: none;">{% include 'bar-deals' %}</div>
+  {% endif %}
+  <!-- Only include the signup bar on the homepage -->
+  {% if template == 'index' %}
+  {% endif %}
+
+  <!-- ============================ -->
+  <!-- ==== LANDING PAGE MODALS==== -->
+  <!-- These landing page modals use url parameters to populate
+       the data contained within them. -->
+  <div class="landing-modal">
+    
+  </div>
+
+  <!-- ==== CHAT.IO: Live Chat ==== -->
+  <style>
+    @media (max-width: 768px) {
+      #fc_frame {
+        display: none !important;
+      }
+      .privy-pusher.privy-mobile-pusher {
+        display: none;
+      }
+    }
+  </style>
+
+  <!-- SIDEBARS: DEALS -->
+  {% if settings.show_deal_sidebar %}
+    {% include 'sidebar-deals' %}
+  {% endif %}
+
+  <!-- ============================= -->
+  <!-- ==== SITE: HEADER & BODY ==== -->
+  <!-- ============================= --> 
+  <div class="site">
+  
+    <header>
+            
+      {% comment %}
+        Note on checkout link: it is a good idea to avoid linking to /checkout directly because shops that use 
+        Paypal Express Checkout and/or Google Checkout have special checkout buttons on the /cart page. Also,
+        special instructions for the seller are entered on the /cart page. Finally, the universal tracking code 
+        of Google Analytics may not work if linking directly to the /checkout page.
+      {% endcomment %}
+      <!-- =================== -->
+      <!-- ==== SITE LOGO ==== -->
+      <!-- =================== --> 
+      <div class="site-logo">
+        <!-- Include Site logo/Site title in menu -->
+        {% if settings.use_logo %}
+        <a id="logo" href="/">
+          {{ 'logo.png' | asset_url | img_tag: shop.name }}
+          {% if use_site_title %} 
+            <span id="logo-title">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+        {% else %}
+        <a id="site-title" href="/">
+          {{ shop.name }}
+        </a>
+        {% endif %}
+      </div>
+            
+      <!-- ========================= -->
+      <!-- ==== MAIN NAVIGATION ==== -->
+      <!-- ========================= -->  
+      <div class="navigation">
+        {% include 'site-nav' %}
+      </div>
+
+      <!-- Product: Cart Bar -->
+      <!-- This bar is used to show product info when added to cart -->
+      {% include 'product-cart-bar' %}
+
+      <!-- ====================== -->
+      <!-- ==== ACCOUNT INFO ==== -->
+      <!-- ====================== -->      
+      <div class="account-info">
+        {% if shop.customer_accounts_enabled %}
+        <div class="customer-links">
+          <!--START CUSTOMER LOGIN-->
+          <ul class="login-cart nav-up">
+            {% if customer %}
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account <i class="fa fa-angle-down"></i></a>
+                <ul class="sub-nav dropdown-menu small">
+                  <li class="dropdown-item" style="width: 100%;"><a href="/account">Manage Account</a></li>
+                  <li class="dropdown-item" style="width: 100%;"><a href="/account/logout">Sign out</a></li>
+                </ul>
+              </li>
+            {% else %}
+            <li>
+              <a class="login" href="/account/login">Sign In</a>
+            </li>
+            {% endif %}
+            <li class="callout">
+              <a class="toggle-cart" href="#">
+                <img src="{{ 'shopping_cart.png' | asset_url }}"/>
+                <span class="count">{{ cart.item_count }}</span>
+              </a>
+            </li>
+          </ul>
+          <!--END CUSTOMER LOGIN-->
+        </div>
+        {% endif %}
+      </div>
+
+      {% if template contains 'products' %}
+        <!-- Product: Back to Shop -->
+        <div class="product__back-to-shop mob" style="display: none;">
+          <a class="back-to-shop" href="#"><i class="linear arrow__left"></i>Back to Shop</a>
+        </div>
+      {% endif %}
+      
+    </header>
+
+    <div id="main" role="main">
+      <!-- Content -->
+      {{ content_for_layout }}
+
+      <!-- Shopping Cart -->
+      <div class="shopping-cart">
+        {% include 'shopping-cart' %}
+        {% include 'icon-close' %}
+      </div>
+      <div class="shopping-cart-overlay">
+      </div>
+      <!-- Mobile Checkout: Button -->
+      <div class="mobile-checkout {% if cart.item_count == 0 or template == 'cart' or template == 'article' %} hidden {% endif %}">
+        <form action="/cart" method="post">
+          <button type="submit" name="checkout" class="flat aqua">CHECK OUT</button>
+        </form>
+      </div>
+      <script>
+        $(document).ready(function() {
+
+          function checkCartQuantity() {
+            var template = "{{ template }}";  
+            if ($('.count').html() > 0 && template !== "cart" && template != "article") {
+              $('.mobile-checkout').removeClass("hidden");
+            } else {
+              $('.mobile-checkout').addClass("hidden");
+            }
+          }
+          checkCartQuantity();
+
+          $('.add-to-cart, .removeLine').click(function() {
+            setTimeout(checkCartQuantity, 300);
+          });
+        })
+      </script>
+    </div>
+
+    {% unless template == 'page.products' %}
+    <footer>
+      
+      {% include 'footer' %}
+      
+    </footer>
+    {% endunless %}
+
+    {% comment %}Shopify does not support Internet Explorer 6 nor 7. It does encourage themes to support IE8 until the end of 2014.{% endcomment %}
+    <!--[if lt IE 8]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+    
+  </div>
+  
+    <!-- ====== LOAD ALL B2C SCRIPTS =======-->
+    {% include 'subscription-theme-footer' %}
+    <!-- ANALYTICS -->
+    <!-- MAILCHIMP GOAL TRACKING -->
+    <script type="text/javascript"> var $mcGoal = {'settings':{'uuid':'9f9076f4aec3c184b4a396d18','dc':'us10'}};(function() {var sp = document.createElement('script'); sp.type = 'text/javascript'; sp.async = true; sp.defer = true;sp.src = ('https:' == document.location.protocol ? 'https://s3.amazonaws.com/downloads.mailchimp.com' : 'http://downloads.mailchimp.com') + '/js/goal.min.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sp, s);})(); </script>
+    <!-- SLICK JS -->
+    <script>{% include 'shop.js' %}</script>
+    <!-- CART ATTRIBUTES -->
+    <script>
+    jQuery(function(){jQuery("body").on("click",'[name="checkout"], [name="goto_pp"], [name="goto_gc"]',function(){var e=!0,r="Please fill this out and you will be able to check out.";return jQuery('[name^="attributes"], [name="note"]').filter('.required, [required]').each(function(){jQuery(this).removeClass("error"),e&&""==jQuery(this).val()&&(e=!1,r=jQuery(this).attr("data-error")||r,jQuery(this).addClass("error"))}),e?void jQuery(this).submit():(alert(r),!1)})}),jQuery(window).unload(function(){var e=jQuery('form[action="/cart"]');if(e.size()){var r={type:"POST",url:"/cart/update.js",data:e.serialize(),dataType:"json",async:!1};jQuery.ajax(r)}});
+    </script>
+    <!-- Google Conversion Tracking -->
+    {% include 'tracking_google' %}
+    <!-- End Google Conversion Tracking -->
+
+    <div class="modal"><!-- Place at bottom of page --></div>
+
+  {% unless shop.url contains 'wholesale.ora.organic' %}
+
+    <!-- Facebook Messenger -->
+    <!-- <div class="fb-customerchat"
+     page_id="1404989309816854"
+     minimized="false">
+    </div> -->
+
+    {% unless template == 'index' or template contains 'blog' %}
+    <script>
+      $(document).ready(function() {
+        setTimeout(function() {
+          $.getScript("https://staticw2.yotpo.com/SmtoQBJliJwFrBjSYjmEtOz31o6nMoLZfgcp3J4j/widget.js");
+        },100);
+      });
+    </script>
+    <!-- Outbrain: Pixel -->
+    <script data-obct type="text/javascript">
+      /** DO NOT MODIFY THIS CODE**/
+      !function(_window, _document) {
+        var OB_ADV_ID='00616ea8ab63fdcaed1b881230d41bb35d';
+        if (_window.obApi) {var toArray = function(object) {return Object.prototype.toString.call(object) === '[object Array]' ? object : [object];};_window.obApi.marketerId = toArray(_window.obApi.marketerId).concat(toArray(OB_ADV_ID));return;}
+        var api = _window.obApi = function() {api.dispatch ? api.dispatch.apply(api, arguments) : api.queue.push(arguments);};api.version = '1.1';api.loaded = true;api.marketerId = OB_ADV_ID;api.queue = [];var tag = _document.createElement('script');tag.async = true;tag.src = '//amplify.outbrain.com/cp/obtp.js';tag.type = 'text/javascript';var script = _document.getElementsByTagName('script')[0];script.parentNode.insertBefore(tag, script);}(window, document);
+    obApi('track', 'PAGE_VIEW');
+    </script>
+    {% endunless %}
+
+    {% include 'landing__birthday' %}
+
+    <!--  HOTJAR   -->
+    <!-- Hotjar Tracking Code for www.ora.organic -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:601426,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+
+  {% endunless %}
+
+  {% unless shop.url contains 'wholesale.ora.organic' %}
+
+    <!-- ==== SMILE.IO: Popup Trigger ==== -->
+    {% if settings.show_referral_popup %}
+      {% unless template == 'page.products' %}
+        <a id="smile_popup_trigger" href="#" data-st-intent="st:core:home">{{ settings.referral_popup_text }}</a>
+      {% endunless %}
+      
+        {% include "sweettooth-initializer" | strip_newlines %}
+        {% include "sweettooth-tab-widget" | strip_newlines %}
+
+    {% endif %}
+  {% endunless %}
+
+  <!-- Intercom Messenger -->
+  {% include 'intercom' %}
+
+  <!-- Algolia Instant Search -->
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3/dist/instantsearch.min.js"></script>
+  
+  {% if template == 'product' or template == 'page.products' %}
+    <!--  If product page, then load hi-res images   -->
+    <script>
+      $(document).ready(function() {
+        setTimeout(function() { loadImages(); },750);
+      })
+    </script>
+  {% endif %}
+
+  {% unless template == "blog" %}
+    {% include 'findify-tagging' %}
+  {% endunless %}
+  {% include 'pinterest-events' %}
+</body>
+</html>

@@ -1,0 +1,8 @@
+development:
+  password: 5ce45d12bd038a58dbdb334c230012f0
+  theme_id: "137795783"
+  store: oraorganic.myshopify.com
+wholesale:
+  password: ec6a136ea00e3ae56b242640a54f6e4a
+  theme_id: "178340172"
+  store: ora-wholesale.myshopify.com

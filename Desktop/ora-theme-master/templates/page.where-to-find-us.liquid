@@ -1,0 +1,178 @@
+{% comment %}
+Re-use the 'rte' class wherever you output content that was added by a merchant using
+the Rich Text Editor ( 'rte' stands for rich text editor ).
+Style all HTML elements in that content the same way across the board.
+Use the 'rte' class in your CSS to help maintain that consistency.
+Example: the h2 element should have the same size and color in:
+- product descriptions
+- collection descriptions
+- 'page' pages' content
+- blog post
+{% endcomment %}
+
+<div id="where-to-find-us" class="rte">
+	<div class="header">
+		<h1>{{ page.title }}</h1>
+		<h5>We're expanding! Check out some of our top locations below:</h5>
+		<p>Interested in becoming a retailer? <br class="mobile"><a href="mailto:wholesale@ora.organic">Click here to send us a message</a> or e-mail us at <b>wholesale@ora.organic</b></p>
+	</div>
+	<div id="top-retailers">
+    <a href="javascript:google.maps.event.trigger(gmarkers['The Vitamin Shoppe - Carlsbad/Oceanside'],'click');" class="retailer-link">
+    	<img src="https://upload.wikimedia.org/wikipedia/en/4/42/Vitamin_Shoppe_logo_2013.png"/>
+    </a>
+    <a href="javascript:google.maps.event.trigger(gmarkers['Fresh Thyme Indianapolis 208'],'click');" class="retailer-link">
+    	<img src="https://www.freshthyme.com/wp-content/themes/gp_core/fresh_thyme/assets/logo.png" />
+    </a>
+    <a href="javascript:google.maps.event.trigger(gmarkers['Chamberlin\'s Oveido'],'click');" class="retailer-link">
+    	<img src="https://buddhabing.files.wordpress.com/2010/01/chamberlins-natural-foods.gif" />
+    </a>
+    <a href="javascript:google.maps.event.trigger(gmarkers['Lassen\'s Los Angeles 2080 Hillhurst Ave'],'click');" class="retailer-link">
+    	<img src="https://cdn.shopify.com/s/files/1/1135/0128/files/LASSENS_LOGO_FULL_042214.jpg?1921142906313215874" />
+    </a>
+		<a href="javascript:google.maps.event.trigger(gmarkers['Akin\'s Tulsa - Newport'],'click');" class="retailer-link">
+			<img src="https://cdn.shopify.com/s/files/1/0971/6576/files/akins_logo_space.png?13410055497826745845" />
+		</a>
+	</div>
+	<div id="map" class="map">
+	  <!-- <iframe src="https://www.google.ca/maps/d/embed?mid=17wqIvcQznMezWvO9QfSwh_1AXcw" width="100%" height="540"></iframe> -->
+  </div>
+</div>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCj_0Qhf4qC2KnHu2sMPOrRWxhX-ggaOgg" type="text/javascript"></script>
+<script async defer>
+var locations;
+
+$(document).ready(function() {
+
+  var script_url = "https://script.google.com/macros/s/AKfycby2_XKGS4Cwrne8gjLtgL80jV2sH6YhDnxMUwOUCEqKz7XKOtxU/exec";
+
+	$.getJSON(script_url+"?callback=?",
+    {},
+    function (data) { 
+    	console.log("execute callback");
+
+      locations = data.data; 
+
+      initMap();
+
+    }
+   );
+
+	
+})
+
+// the smooth zoom function
+function smoothZoom (map, max, cnt) {
+    if (cnt >= max) {
+        return;
+    }
+    else {
+        z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+            google.maps.event.removeListener(z);
+            smoothZoom(map, max, cnt + 1);
+        });
+        setTimeout(function(){map.setZoom(cnt)}, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
+    }
+} 
+
+var map;
+
+function initMap() {
+
+	// console.log(locations);
+
+	gmarkers = [];
+
+	var map = new google.maps.Map(document.getElementById('map'), {
+	    zoom: 4,
+	    minZoom: 4,
+	    center: new google.maps.LatLng(39.1160799,-98.2180446),
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+
+	var infowindow = new google.maps.InfoWindow();
+
+
+	function createMarker(latlng, html) {
+	    var marker = new google.maps.Marker({
+	        position: latlng,
+	        map: map,
+	        fillColor: "blue"
+	    });
+
+	    google.maps.event.addListener(marker, 'click', function() {
+	        infowindow.setContent(html);
+	        infowindow.open(map, marker);
+	    });
+	    return marker;
+	}
+
+	var markers = [];
+
+
+	for (var i = 0; i < locations.length; i++) {
+
+		  var l = locations[i],
+		      l_address = l["Address1"]+', '+l["City"]+' '+l["State"]+' '+l["Zip"];
+
+
+		  if (l["Logo"]) { 
+
+		  	image = '<p style="margin-bottom: 0;"><img src="'+l["Logo"]+'" style="max-width: 90px; margin-right: 15px;"/></p>' 
+
+		  } else { 
+
+		  	image = "" 
+
+		  };
+
+		  if (l["Status"] == "active") {
+
+		    gmarkers[l["Name"]] = createMarker(
+
+		    	new google.maps.LatLng(l["gLat"], l["gLng"]), 
+		      '<div style="text-align: left;">'+
+		      	'<div style="display: flex; align-items: center;">'+
+			        image +
+				      '<div style="display: inline-block; margin-right: 15px;">'+
+				      	'<h5 style="margin-bottom: 0;">'+l["Name"]+'</h5>'+
+				      	'<p style="margin-bottom: 15px;"><a style="font-size: 12px;">'+l["Website"]+'</a></p>'+
+				      '</div>'+
+			      '</div>'+
+			      '<p>'+l_address+'</p>'+
+			    '</div>'
+
+		    );
+
+		    markers.push(gmarkers[l["Name"]]);
+
+		  }
+
+	}
+
+	// console.log(markers);
+
+	// Add a marker clusterer to manage the markers.
+  var markerCluster = new MarkerClusterer(map, markers,
+      {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+  // Ask for location
+  navigator.geolocation.getCurrentPosition(successCallback);
+
+  function successCallback(e) {
+
+  	var la = e.coords.latitude;
+  	var lo = e.coords.longitude;
+
+  	var position = {lat:la, lng:lo };
+
+  	// console.log(e.coords);
+  	map.setCenter(position)
+  	smoothZoom(map, 9, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
+  }
+
+}
+</script>
+
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+

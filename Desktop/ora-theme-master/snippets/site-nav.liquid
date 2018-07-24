@@ -1,0 +1,244 @@
+{% comment %}
+  A word on drop-down menus: Shopify has no concept of them.
+  Drop-down menus in Shopify themes are a hack that relies on a naming convention.
+  To create a drop-down menu, the merchant must create a link list that has the same name as the link he wants the drop-down for.
+  For example, if he wants a drop-down under a 'Shop by brand' link (say, he has such link in his Main Menu), he needs to create a linklist called 'Shop by brand', and populate it with links. Once he has done that, there'll be a drop-down under 'Shop by brand'.
+  Shopify has a visual how-to guide here: http://docs.shopify.com/manual/your-website/navigation/create-drop-down-menu.
+  The naming convention hack won't work well if a shop's navigation uses non-English characters. There's a much more verbose coding solution that handles non-English characters here: http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/translations/can-i-have-drop-down-menus-that-use-non-english-characters.
+  A word on sub-categories: Shopify manages sub-categories using product tags: http://docs.shopify.com/manual/configuration/store-customization/page-specific/collections/subcategories
+{% endcomment %}
+
+<nav role="navigation">
+  <div class="mob">
+    <svg viewBox="19 18 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="Group-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(21.000000, 20.000000)" stroke-linecap="square">
+            <path d="M0,2.5 L20,2.5" id="Line" stroke="#52D6AA" stroke-width="3"></path>
+            <path d="M0,10 L20,10" id="Line-Copy" stroke="#52D6AA" stroke-width="3"></path>
+            <path d="M0,17.5 L20,17.5" id="Line-Copy" stroke="#52D6AA" stroke-width="3"></path>
+        </g>
+    </svg>
+  </div>
+  <div class="nav">
+    <ul>
+      <li class="logo">
+        <!-- Include Site logo/Site title in menu -->
+        {% if settings.use_logo %}
+        <a id="logo" href="/">
+          {{ 'logo.png' | asset_url | img_tag: shop.name }}
+
+        </a>
+        {% else %}
+        <a id="site-title" href="/">
+          {{ shop.name }}
+        </a>
+        {% endif %}
+      </li>
+      <!-- Loop through the link-list to get all pages that are included -->
+      {% for link in linklists.main-menu.links %}
+      {% assign has_sub_menu = false %}
+      {% assign has_sub_categories = false %}
+      {% assign parent_link_active = false %}
+      {% assign child_list_handle = link.title | handle %}
+      {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+        {% assign has_sub_menu = true %}
+        {% for l in linklists[child_list_handle].links %}
+          {% if handle != blank and handle == l.object.handle %}
+            {% assign parent_link_active = true %}
+          {% elsif page_title == l.title %}
+            {% assign parent_link_active = true %}
+          {% endif %}
+        {% endfor %}
+      {% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 %}
+        {% assign has_sub_categories = true %}
+      {% endif %}
+      <li id="link-{{ link.title | handle }}" class="{% if link.active or parent_link_active %} active{% endif %}{% if has_sub_menu or has_sub_categories %} dropdown{% endif %}{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}">
+        {% if has_sub_menu or has_sub_categories %}
+          <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ link.title }} <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="sub-nav dropdown-menu {% if linklists[child_list_handle].links.size == 1 %} large{% else %} small{% endif %}">
+          {% if has_sub_menu %}
+            {% for l in linklists[child_list_handle].links %}
+              {% assign l_child_list_handle = l.title | handle %}
+              <li class="has-subnav dropdown-item{% if l.active %} active{% endif %}">
+                <a href="{{ l.url }}">{{ l.title }}</a>
+                {% if linklists[l_child_list_handle] and linklists[l_child_list_handle].links.size > 0 %}
+                  <ul>
+                  {% for k in linklists[l_child_list_handle].links %}
+                    <li class="subnav-item"><a href="{{ k.url }}">{{ k.title }}</a></li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          {% elsif has_sub_categories %}
+            {% for tag in link.object.all_tags %}
+            <li class="{% if current_tags contains tag %} active{% endif %}">
+              <a href="{{ link.url }}/{{ tag | handle }}">{{ tag }}</a>
+            </li>
+            {% endfor %}
+          {% endif %}
+            <!-- Links: Coming Soon -->
+            {% if settings.coming_soon_1 != "" %}
+            <li id="coming-soon" class="link has-subnav">
+              <a href="#">Coming soon</a>
+              <ul class="subnav">
+                <li id="coming-soon-1-popup" class="subnav-item"><a onclick="notify('coming-soon-1'); return false;">{{ settings.coming_soon_1 }}</a></li>
+                {% if settings.coming_soon_2 %}
+                <li id="coming-soon-1-popup" class="subnav-item"><a onclick="notify('coming-soon-2'); return false;">{{ settings.coming_soon_2 }}</a></li>
+                {% endif %}
+                {% if settings.coming_soon_3 %}
+                <li id="coming-soon-1-popup" class="subnav-item"><a onclick="notify('coming-soon-3'); return false;">{{ settings.coming_soon_3 }}</a></li>
+                {% endif %}
+              </ul>
+            </li>
+            {% endif %}
+            <!-- Links: Subscriptions -->
+            <li id="subscriptions-link" class="link has-subnav">
+              <a href="#">Subscriptions</a>
+              <p>You could save 20% on Ora Organic products with a <a href="/pages/subscriptions">monthly subscription</a>! No obligation, no minimum term, cancel any time.</p>
+              <p class="learn-more"><a href="/pages/subscriptions"><i class="linear arrow__right"></i>Learn More</a></p>
+            </li>
+          </ul>
+        {% else %}
+          <a href="{{ link.url }}">{{ link.title }}</a> 
+        {% endif %}
+      </li>
+      {% endfor %}
+      <!-- SUBSCRIPTIONS LINK (MOBILE) -->
+      <li id="subscriptions-link-mobile" class="link">
+        <a href="/pages/subscriptions">Save 20% with a <b>Subscription</b>!</a>
+      </li>
+      <!-- END SUBSCRIPTIONS LINK (MOBILE) -->
+      <!-- CUSTOMER SIGN IN / YOUR ACCOUNT -->
+      {% if customer %}
+      <li class="mob dropdown ">
+        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account <i class="fa fa-angle-down"></i></a>
+        <ul class="sub-nav dropdown-menu small">
+          <li class="dropdown-item" style="width: 100%;"><a href="/account">Manage Account</a></li>
+          <li class="dropdown-item" style="width: 100%;"><a href="/account/logout">Sign out</a></li>
+        </ul>
+      </li>
+      {% else %}
+        <li class="mob"><a href="/account/login">Sign In</a></li>
+      {% endif %}
+      <!-- END CUSTOMER SIGN IN / YOUR ACCOUNT -->
+
+      <!-- COMPETITION LINK -->
+      {% if settings.show_competition %}
+        <li id="popup-link"><a onclick="notify('competition'); return false;">Win Stuff!</a></li>
+      {% endif %}
+      <!-- END COMPETITION LINK -->
+
+      <!-- Nav: Shipping Warning -->
+      {% if settings.show_nav_popup %}
+        <li id="shipping_warning_link" class="popup_container {% if settings.nav_popup_mobile %}mobile{% endif %} {{ settings.nav_popup_theme }}">
+          <a class="popup_trigger" data-popup="shipping_warning">{{ settings.nav_popup_link_text }}</a>
+          <div id="shipping_warning" class="popup {{ settings.nav_popup_theme }}" >
+            <i class="triangle">◀</i>
+            <h6 class="shipping_warning-heading">{{ settings.nav_popup_heading }}</h6>
+            <div class="shipping_warning-text">{{ settings.nav_popup_text }}</div>
+            <div class="shipping_warning-footer">
+              <a id="close_warning">Close this message</a>
+            </div>
+          </div>
+        </li>
+        <!-- Script to open/close the popup -->
+        <script>
+          $(document).ready(function() {
+            if (getCookie("shippingWarning") !== "") {
+
+              setCookie("shippingWarning", true, 1);
+
+              if ($(window).width() < 768) {
+                $('.shopping-cart-overlay').fadeIn().css('z-index', 100);
+              }
+
+              $('#shipping_warning').fadeIn();
+
+            }
+
+            function hidePopup(e) {
+              $('#shipping_warning').fadeOut();
+              $('.shopping-cart-overlay').fadeOut().css('z-index', -1);
+            }
+
+            $('#close_warning').on('click', function(e) {
+              e.preventDefault();
+              hidePopup(e);
+            })
+
+            $('#shipping_warning_link .popup_trigger').on('mouseover', function() {
+              $('#shipping_warning').fadeIn();
+
+              if ($(window).width() < 768) {
+                $('.shopping-cart-overlay').fadeIn().css('z-index', 100);
+              }
+            })
+
+            var trigger = $('#shipping_warning_link');
+            $(document).on('mouseup touchend', function(e) {  
+              if (!trigger.is(e.target) // if the target of the hover isn't the trigger
+                    && trigger.has(e.target).length === 0) // ... nor a descendant of the container
+              {
+                hidePopup(e);
+              }
+            });
+
+            
+          })
+        </script>
+
+      {% endif %}
+      <!-- Nav: End Shipping Warning -->
+
+      <!-- <li class="show-on-small{% if template == 'search' %} active{% endif %}">
+        <a href="/search">
+          <i class="fa fa-search"></i>
+        </a>
+      </li> -->
+      <!-- Links: Referral Program -->
+      <!-- {% if settings.show_referral_popup %}
+        <li id="smile_popup_trigger_link" class="link">
+          <a id="smile_popup_trigger_nav" href="#" data-st-intent="st:core:home">{{ settings.referral_popup_text }}</a>
+        </li>
+      {% endif %} -->
+      <li class="checkout">
+        <!-- Open the Shopping Cart (current action) -->
+        {% if cart.item_count > 0 %}
+        <a href="#" class="checkout-mobile toggle-cart">
+          <button class="flat aqua">CHECK OUT</button>
+        </a>
+        {% else %}
+        <a href="#" class="checkout-mobile toggle-cart inactive">
+          <button class="flat aqua inactive">NOTHIN' HERE YET!</button>
+        </a>
+        {% endif %}
+      </li>
+      <li class="close">
+        {% include 'icon-close' %}
+      </li>
+    </ul>
+  </div>
+</nav>
+<script>
+  //==== SMOOTH SCROLL ====//
+  $('a[href*="#"]:not([href="#"])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html, body, #home').animate({
+          scrollTop: target.offset().top
+        }, 1000);
+        return false;
+      }
+    }
+  });
+  /* Handle Dropdown click */
+  $(document).ready(function() {
+    $('.dropdown-toggle').click(function() {
+      $('header').removeClass('top');
+    })  
+  })
+</script>

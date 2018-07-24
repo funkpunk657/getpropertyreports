@@ -1,0 +1,24 @@
+/* =========================================================== */
+/* ==== SUBSCRIPTION PRODUCT Styling for ReCharge snippet ==== */
+/* =========================================================== */
+
+/* == Purchase Section == */
+.purchase-section {
+  position: relative;
+}
+
+/* == Purchase Container == */
+.purchase-container {
+  padding: 0px !important;
+  margin: 0px;
+}
+
+.purchase-container span,
+.purchase-container a {
+  font-family: "Sorts Mill Goudy", serif;
+}
+
+.purchase-container a {
+  color: #337ab7 !important;
+  text-decoration: none !important;
+}

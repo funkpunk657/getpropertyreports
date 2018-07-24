@@ -1,0 +1,41 @@
+#contact {
+  #hero {
+    h5 {
+      font-size: 16px;
+      padding: 30px 10%;
+    }
+  }
+  #contact-details {
+    padding: 90px 17%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0 auto;
+    background-color: $color__background;
+    width: 100%;
+    margin: 0 auto;
+
+    .wrapper {
+      display: table-cell;
+      flex: 1 50%;
+      text-align: left;
+      padding: 30px;
+    }
+  }
+}
+@media (max-width: 991px) {
+  #contact {
+    #contact-details {
+      padding: 90px 10%;
+    }
+  }
+}
+@media (max-width: 468px) {
+  #contact {
+    #contact-details {
+      padding: 90px 0;
+      width: 100%;
+    }
+  }
+}

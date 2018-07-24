@@ -1,0 +1,59 @@
+<!-- Product: Cart Bar -->
+<div id="product-cart-bar" class="{% if template == 'page.products' %}shop{% endif %}">
+  <div class="overlay">
+  </div>
+  <div class="item_wrapper">
+    <!-- Item -->
+    <div class="item">
+      <h4 class="item_added-message">Nice one!</h4>
+      <!-- Item Details -->
+      <div class="item_details">
+
+        <!-- Item Product Details -->
+        <div class="item_product">
+
+          <!-- Product Image -->
+          <img class="item_product-photo" src="{{ product.featured_image | img_url: '128x128' }}"/>
+
+          <!-- Product text -->
+          <div class="item_product-variant">
+            <h6>
+              <span class="item_product-title">{{ product.title }}</span>
+              <span class="item_order-type"> - Monthly Subscription</span>
+            </h6>
+            <p>
+              <span class="item_product-flavor">{{ product.selected_or_first_available_variant.option1 }}</span>
+              <span class="separator">/</span>
+              <span class="item_product-size">{{ product.selected_or_first_available_variant.option2 }}</span> Servings
+            </p>
+            <p class="item_product-line">
+              <span class="item_product-price">{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
+              <span class="separator">/</span>
+              <span>Quantity: </span><span class="item_added-quantity">1</span>
+            </p>
+          </div>
+
+        </div>
+        
+        <!-- Item Added -->
+        <h5 class="item_added">
+          <span class="item_added-text">Has been added to your bag.</span>
+        </h5>
+      </div>
+      <!-- Checkout -->
+      <p class="checkout">
+        <a href="/checkout" class="button">
+          <button class="flat aqua">Check out</button>
+        </a>
+        <a href="#" id="continue_shopping" class="button">
+          <button class="flat aqua outline">continue shopping</button>
+        </a>
+      </p>
+    </div>
+    <!-- Recommendations -->
+    <div class="recommendations">
+      <h6>Other customers also tried:</h6>
+      <div class="findify-element" id="product-findify-rec-4"></div>
+    </div>
+  </div>
+</div>

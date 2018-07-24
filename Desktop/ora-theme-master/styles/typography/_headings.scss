@@ -1,0 +1,65 @@
+/* Styles */
+h1, h2, h3 { 
+  font-family: $baskerville;
+  font-style: italic;
+  color: $color__text-copy;
+  line-height: 1.24em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h4, h5, h6 {
+  font-family: $font__body;
+  color: $color__text-copy;
+  font-weight: normal;
+  line-height: 1.62em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Sizes */
+h1 {
+	font-size: 60px;
+}
+h2 {
+	font-size: 45px;
+}
+h3 {
+	font-size: 30px;
+}
+h4 {
+  font-size: 24px;
+}
+h5 {
+	font-size: 20px;
+}
+h6 {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  h1, h2, h3 {
+    font-family: $baskerville-mobile;
+  }
+  h1 {
+    font-size: 40px;
+  }
+  h2 {
+    font-size: 36px;
+  }
+  h4 {
+    font-size: 18px;
+    line-height: 1.6em;
+  }
+  h5 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 468px) {
+  h2 {
+    font-size: 30px;
+  }
+}

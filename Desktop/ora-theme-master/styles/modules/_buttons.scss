@@ -1,0 +1,224 @@
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"]  {
+	outline: none;
+	text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+	/*== FLAT BUTTON ==*/
+	&.flat {
+		display: block;
+		font-family: 'Avenir', sans-serif;
+		font-size: 14px;
+		font-weight: 700 !important;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		padding: 10px 15px;
+		text-shadow: none;
+		box-shadow: none;
+		border: none;
+		border-radius: 0.5em;
+		height: 3.5em;
+		margin: 15px auto 0;
+		background-color: transparent;
+		@include all-transition;
+	}
+	/*== BUTTON COLORS ==*/
+	&.pink {
+		background-color: $color__accent-2;
+		color: #fff;
+		&:hover {
+			background-color: $color__accent-2-hover;
+		}
+		&.outline {
+			background-color: transparent;
+			border: 1px solid $color__accent-2;
+			color: $color__accent-2;
+			&:hover {
+				background-color: $color__accent-2;
+				color: white;
+			}
+		}
+	}
+	&.orange {
+		background-color: $color__accent-3;
+		color: #fff;
+		&:hover {
+			background-color: $color__accent-3-hover;
+		}
+		&.outline {
+			background-color: transparent;
+			border: 1px solid $color__accent-3;
+			color: $color__accent-3;
+			&:hover {
+				background-color: $color__accent-3;
+				color: white;
+			}
+		}
+	}
+	&.aqua {
+		background-color: $color__accent-1;
+		color: #fff;
+		&:hover {
+			background-color: $color__accent-1-hover;
+		}
+		&.outline {
+			background-color: transparent;
+			border: 1px solid $color__accent-1;
+			color: $color__accent-1;
+			&:hover {
+				background-color: $color__accent-1;
+				color: white;
+			}
+		}
+	}
+	&.black {
+		background-color: $color__accent-4;
+		color: #fff;
+		&:hover {
+			background-color: $color__accent-4-hover;
+		}
+		&.outline {
+			background-color: transparent;
+			border: 1px solid $color__accent-4;
+			color: $color__accent-4;
+			&:hover {
+				background-color: $color__accent-4;
+				color: white;
+			}
+		}
+	}
+	&.white {
+		background-color: white;
+		color: $color__text-copy;
+		&:hover {
+			background-color: $color__text-copy;
+		}
+		&.outline {
+			background-color: transparent;
+			border: 1px solid white;
+			color: white;
+			&:hover {
+				background-color: rgba(255,255,255,0.33);
+				color: white;
+			}
+		}
+	}
+	&.inactive {
+		color: #fff;
+		background-color: $color__inactive;
+		cursor: default;
+		pointer-events: none;
+		&:hover {
+			background-color: $color__inactive;
+		}
+		&.outline {
+			background-color: transparent;
+			border: 1px solid $color__inactive;
+			color: $color__inactive;
+			&:hover {
+				background-color: $color__inactive;
+				color: white;
+			}
+		}
+	}
+	/*== BUTTON SIZES ==*/
+	&.large {
+		width: 300px;
+	}
+	&.medium {
+		width: 250px;
+	}
+	&.small {
+		width: 200px;
+	}
+
+	/* Button: Responsiveness */
+	@media (max-width: 468px) {
+		&.flat {
+			font-size: 12px;
+		}
+	}
+}
+a.trigger,
+a.facts-trigger {
+	cursor: pointer;
+	color: $color__text-link;
+	@include all-transition;
+
+	&:hover {
+		text-decoration: none;
+		color: $color__text-link-hover;
+	}
+}
+a.button {
+	&:hover {
+			text-decoration: none;
+	}
+}
+
+/* Linear Icons */
+i.linear:before {
+	font-family: $linear-icons;
+	font-style: normal;
+	color: $color__text-link;
+	font-size: 16px;
+	vertical-align: sub;
+}
+
+/* Linear Icons: Product Quantity */
+.quantity__buttons {
+	display: inline-block;
+	width: auto;
+	display: table-cell;
+	padding-left: 7.5px;
+
+	a {
+		font-family: $linear-icons;
+		font-size: 30px;
+		color: $color__accent-1;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 5px;
+	}
+}
+
+i.linear.plus {
+	&:before {
+		content: "\e95b";
+		color: $color__accent-1;
+		font-size: 28px;
+	}
+}
+i.linear.minus {
+	&:before {
+		content: "\e95c";
+		color: $color__accent-1;
+		font-size: 28px;
+	}
+	&.min:before {
+		color: $color__input-border;
+	}
+}
+
+/* Linear Icons: Arrows */
+i.arrow__right:before {
+	content: "\e944";
+	margin-right: 7.5px;
+}
+i.arrow__left:before {
+	content: "\e943";
+	margin-right: 7.5px;
+}
+
+/* Linear Icons: Search */
+i.linear.search:before { content: "\e922"; }
+
+/* Linear Icons: Chevrons */
+i.linear.chevron-down:before  { content: "\e93a"; color: $color__text-copy; }
+i.linear.chevron-up:before    { content: "\e939"; color: $color__text-copy; }
+i.linear.chevron-left:before  { content: "\e93b"; color: $color__text-copy; }
+i.linear.chevron-right:before { content: "\e93c"; color: $color__text-copy; }
+

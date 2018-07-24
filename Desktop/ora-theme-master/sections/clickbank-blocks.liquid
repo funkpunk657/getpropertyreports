@@ -1,0 +1,683 @@
+{% if template contains "clickbank" %}
+	<div id="clickbank-blocks">
+		
+		{% for block in section.blocks %}
+		  {% assign block_type = block.type %}
+
+		  {% if block_type == "product" %}
+		  	{% assign block_product = block.settings %}
+				{% assign product_handle = block_product.product %}
+				{% assign product = all_products[product_handle] %}
+		  {% endif %}
+
+			{% if block_type == "ingredients" %}{% assign block_ingredients = block.settings %}
+			{% endif %}
+			{% if block_type == "reviews" %}{% assign block_reviews = block.settings %}{% endif %}
+			{% if block_type == "purchase" %}{% assign block_purchase = block.settings %}{% endif %}
+			{% if block_type == "guarantee" %}{% assign block_guarantee = block.settings %}{% endif %}
+			{% if block_type == "about" %}{% assign block_about = block.settings %}{% endif %}
+		{% endfor %}
+
+		{% comment %}Get current variant{% endcomment %}
+		{% assign current_flavor = product.selected_or_first_available_variant.option1 | downcase | replace: " ", "-" %}
+		{% assign current_size = product.selected_or_first_available_variant.option2 %}
+
+		{% comment %}Product: Details{% endcomment %}
+		<div id="product__details" class="block">
+			<div class="block__content-wrapper">
+
+				<div class="product__photos">
+					{% for variant in product.variants %}
+
+						{% comment %}Don't include single servings{% endcomment %}
+						{% if variant.option2 != "1" %} 
+
+						  {% assign flavor = variant.option1 | downcase | replace: " ","-" %}
+							<img src="{{ variant.image | img_url: '512x512' }}" class="flavor {{ flavor }} {% if flavor == current_flavor %}active{% endif %} show-zoom"/>
+
+							{% comment %}Get Supplement Facts{% endcomment %}
+							{% for image in product.images %}
+								{% if image.src contains 'supplement-facts' or image.alt contains 'supplement-facts' %}
+								  {% if image.alt contains flavor %}
+									<img src="{{ image | img_url: '512x512' }}" class="show-facts {{ flavor }} show-zoom"/>
+								  {% endif %}
+								{% endif %}
+							{% endfor %}
+
+						{% endif %}
+					{% endfor %}
+					<!-- Photo Zoom Trigger (Bootstrap Modal) -->
+	        <a data-toggle="modal" data-target=".photo-zoom-{{product.handle}}" class="hidden photo-zoom-trigger"></a>
+				</div>
+
+				<div class="product__content">
+
+					<!-- Product: Title -->
+					<h1 class="product__title">{% if block_product.title != "" %}{{ block_product.title }}{% else %}{{ product.title }}{% endif %}</h1>
+
+					<!-- Product: Aggregate Reviews -->
+	        <div class="product__reviews-aggregate">
+	          <div class="yotpo bottomLine"
+	              data-appkey="SmtoQBJliJwFrBjSYjmEtOz31o6nMoLZfgcp3J4j"
+	              data-domain="{{shop.permanent_domain | escape }}"
+	              data-product-id="{{ product.id }}"
+	              data-product-models="{{ product.id }}"
+	              data-name="{{ product.title | escape }}"
+	              data-url="{{ shop.url }}{{ product.url }}">
+	          </div>
+	          <!-- Product: Supplement Facts -->
+	          <a class="facts-trigger link"><i class="linear facts-icon"></i>View Label / Supplement Facts</a>
+	        </div>
+
+	        <!-- Product: Feature Text -->
+	        <p class="product__feature-text">
+	        	<span class="product__feature">{{ block_product.feature-text-1 }}</span>
+	        	{% if block_product.feature-text-2 != "" %}<span class="separator">|</span>{% endif %}
+	        	<span class="product__feature">{{ block_product.feature-text-2 }}</span>
+	        	{% if block_product.feature-text-3 != "" %}<span class="separator">|</span>{% endif %}
+	        	<span class="product__feature">{{ block_product.feature-text-3 }}</span>
+	        </p>
+
+	        <!-- Product: Description -->
+					<div class="product__description">{{ block_product.description }}</div>
+
+					<!-- Product: Link to Clickbank Purchase -->
+					<a href="#product__purchase" class="clickbank__buy-now button"><button class="flat aqua">Buy Now</button></a>
+
+				</div>
+
+			</div>
+
+			<!-- Photo Zoom: Modal Popup -->
+	    <div class="photo-zoom">
+	      <div class="modal fade photo-zoom-{{product.handle}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+	        <div class="modal-dialog">
+	          <div class="modal-content">
+	            <img class="photo-zoom__placeholder" />
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+
+		</div>
+
+		{% comment %}Product: Dietary{% endcomment %}
+	  <div id="product__dietary" class="product__dietary-icons-wrapper block">
+	    {% include 'dietary-icons' %}
+	  </div>
+
+		{% comment %}Product: Ingredients{% endcomment %}
+		<div id="product__ingredients" class="block">
+			<h2 class="block__title">{{ block_ingredients.title }}</h2>
+			<div class="block__description">{{ block_ingredients.description }}</div>
+
+			<!-- Product Ingredients: Content -->
+	    <div class="product__ingredients-wrapper">
+	      {% include 'ingredients-list' %}
+	    </div>
+		</div>
+
+		<div id="guarantee__short" class="block">
+			<div class="wrapper">
+				<p>Ora Organic <a href="#guarantee"><b>guarantees</b></a> that you’ll love our products, or we’ll refund your entire purchase in full, no questions asked.</p>
+		    <!-- Product: Link to Clickbank Purchase -->
+				<a href="#product__purchase" class="clickbank__buy-now button"><button class="flat aqua">Buy Now</button></a>
+			</div>
+		</div>
+
+
+		{% comment %}Product: Reviews{% endcomment %}
+		<div id="product__reviews" class="block">
+			<h2 class="block__title">{{ block_reviews.title }}</h2>
+			<!-- YOTPO Reviews Widget -->
+	    <div class="reviews">
+	      <div class="yotpo yotpo-main-widget"
+	          data-product-id="{{ product.id }}"
+	          data-name="{{ product.title | escape }}"
+	          data-url="{{ shop.url }}{{ product.url }}"
+	          data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}">
+	      </div>
+	    </div>
+		</div>
+
+		{% comment %}Product: Purchase{% endcomment %}
+		<div id="product__purchase" class="block">
+			<h2 class="block__title">{{ block_purchase.title }}</h2>
+			<div class="block__description">
+				<p>Choose one of the options below to get started. Don't forget, you'll save an <b>extra 20%</b> off retail prices with a Monthly Subscription!</p>
+			</div>
+
+			<!-- Purchase Options -->
+			<div class="purchase__options">
+
+				<!-- One Time Purchase -->
+				<div class="option onetime">
+					<div class="option__photo">
+						{% for variant in product.variants %}
+							{% comment %}Don't include single servings{% endcomment %}
+							{% if variant.option2 != "1" %} 
+
+							  {% assign flavor = variant.option1 | downcase | replace: " ","-" %}
+								<img src="{{ variant.image | img_url: '512x512' }}" class="flavor {{ flavor }} {% if flavor == current_flavor %}active{% endif %} show-zoom"/>
+							{% endif %}
+						{% endfor %}
+					</div>
+
+					<h5 class="option__type">One Time Purchase</h5>
+					<p class="option__selected">-- SELECTED --</p>
+
+					<ul class="option__flavors">
+						{% for variant in product.variants %}
+						  {% if variant.option2 != "1" %} 
+							  {% assign flavor = variant.option1 | downcase | replace: " ","-" %}
+								<li class="option__flavor {{ flavor }} {% if flavor == current_flavor %}active{% endif %}"
+								    data-sku="{{ variant.sku }}"
+								    data-flavor="{{ flavor }}">{{ variant.option1 }}</li>
+							{% endif %}
+						{% endfor %}			
+					</ul>	
+					<div class="option__quantity">
+						<p class="quantity__label">Quantity:</p>
+						<p class="option__quantity-option">1</p>
+						<p class="option__quantity-option active">2</p>
+						<p class="option__quantity-option">3</p>
+					</div>	
+					<div class="option__prices">
+						{% for variant in product.variants %}
+							{% if variant.option2 != "1" %} 
+								{% assign flavor = variant.option1 | downcase | replace: " ","-" %}
+								<p id="onetime__unit-price" class="option__unit-price {{ flavor }} hidden">{{ variant.price }}</p>
+								<p class="option__price option__price option__original-price {{ flavor }} {% if flavor == current_flavor %}active{% endif %}">
+									<span class="price__label">Original Price</span>
+									<span id="subscription-price-original" class="price">{{ variant.price | money_without_currency }}</span>
+								</p>
+								<p class="option__price option__new-price {{ flavor }} {% if flavor == current_flavor %}active{% endif %}">
+									<span class="price__label">One Time Price</span>
+									<span id="subscription-price-new" class="price">{{ variant.price | money_without_currency }}</span>
+								</p>
+							{% endif %}
+						{% endfor %}
+						<div class="savings">
+							<i class="triangle">◀</i>
+							<p class="savings__text"><b>Nice!</b> You're saving <span class="currency">$</span><span id="savings__subscription" class="savings__amount">9.99</span></p>
+						</div>
+					</div>
+
+					<div class="option__buy">
+						<a class="clickbank_button button" 
+						   href="http://{{ product.selected_or_first_available_variant.sku }}.oraorganic.pay.clickbank.net?quantity=1" 
+						   target="cb">
+						 <button class="flat aqua inactive">Buy Now</button>
+						</a>
+					</div>
+
+				</div>
+
+				<!-- Subscription Purchase -->
+				<div class="option subscription active">
+					<div class="option__photo">
+						{% for variant in product.variants %}
+							{% comment %}Don't include single servings{% endcomment %}
+							{% if variant.option2 != "1" %} 
+							  {% assign flavor = variant.option1 | downcase | replace: " ","-" %}
+								<img src="{{ variant.image | img_url: '512x512' }}" 
+								     class="flavor {{ flavor }} {% if flavor == current_flavor %}active{% endif %} show-zoom"/>
+							{% endif %}
+						{% endfor %}
+					</div>
+
+					<h5 class="option__type">Monthly Subscription</h5>
+					<p class="option__selected">-- SELECTED --</p>
+					<p class="subscription__info"><i class="triangle">◀</i>How does it work?</p>
+
+					<ul class="option__flavors">
+						{% for variant in product.variants %}
+						  {% if variant.option2 != "1" %} 
+							  {% assign flavor = variant.option1 | downcase | replace: " ","-" %}
+								<li class="option__flavor {{ flavor }} {% if flavor == current_flavor %}active{% endif %}"
+								    data-sku="{{ variant.sku }}-sub"
+								    data-flavor="{{ flavor }}">{{ variant.option1 }}</li>
+							{% endif %}
+						{% endfor %}		
+					</ul>	
+					<div class="option__quantity">
+						<p class="quantity__label">Quantity:</p>
+						<p class="option__quantity-option">1</p>
+						<p class="option__quantity-option active">2</p>
+						<p class="option__quantity-option">3</p>
+					</div>	
+					<div class="option__prices">
+						{% for variant in product.variants %}
+							{% if variant.option2 != "1" %} 
+
+								{% assign flavor = variant.option1 | downcase | replace: " ","-" %}
+								{% assign discount = 100 | minus: product.metafields.subscriptions.discount_percentage %}
+	              {% assign subscription_price = variant.price | times: discount | divided_by: 100 %}
+
+								<p id="subscription__unit-price" class="option__unit-price {{ flavor }} hidden">{{ subscription_price }}</p>
+								<p class="option__price option__price option__original-price {{ flavor }} {% if flavor == current_flavor %}active{% endif %}">
+									<span class="price__label">Original Price</span>
+									<span id="subscription-price-original" class="price">{{ subscription_price | money_without_currency }}</span>
+								</p>
+								<p class="option__price option__new-price {{ flavor }} {% if flavor == current_flavor %}active{% endif %}">
+									<span class="price__label">Subscription Price</span>
+									<span id="subscription-price-new" class="price">{{ subscription_price | money_without_currency }}</span>
+								</p>
+							{% endif %}
+						{% endfor %}
+						<div class="savings">
+							<i class="triangle">◀</i>
+							<p class="savings__text"><b>Amazing!</b> You're saving <span class="currency">$</span><span id="savings__subscription" class="savings__amount">9.99</span></p>
+						</div>
+					</div>
+
+					<div class="option__buy">
+						<a class="clickbank_button button" 
+						   href="http://{{ product.selected_or_first_available_variant.sku }}-sub.oraorganic.pay.clickbank.net?quantity=1" 
+						   target="cb">
+						 <button class="flat aqua">Buy Now</button>
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		{% comment %}Guarantee{% endcomment %}
+		{% if block_guarantee %}
+		<div id="guarantee" class="block">
+			<h2 class="block__title">{{ block_guarantee.title }}</h2>
+			<div class="block__description">{{ block_guarantee.description }}</div>
+			<div class="customer__feedback">
+				<div id="feedback-1" class="feedback">{{ block_guarantee.feedback-1 }}</div>
+				<div id="feedback-2" class="feedback">{{ block_guarantee.feedback-2 }}</div>
+				<div id="feedback-3" class="feedback">{{ block_guarantee.feedback-3 }}</div>
+			</div>
+		</div>
+		{% endif %}
+
+		{% comment %}About Ora{% endcomment %}
+		{% if block_about %}
+		<div id="about" class="block">
+			<div class="block__image" style="background-image: url('{{ block_about.image | img_url: 'master' }}');"></div>
+			<h2 class="block__title">{{ block_about.title }}</h2>
+			<div class="block__description">{{ block_about.description }}</div>
+			<!-- Product: Link to Clickbank Purchase -->
+			<a href="#product__purchase" class="clickbank__buy-now button"><button class="flat aqua">Get Ora</button></a>
+		</div>
+		{% endif %}
+
+	</div>
+
+	<script>
+		{% include 'product.js' %}
+		loadImages(); // Load hi-res product images
+		initVariants("{{ current_flavor }}", [{{ flavors }}], "{{ current_size }}" ); // Init the current variant ingredients
+	</script>
+
+	<style>
+	  header {
+	  	position: relative;
+	  }
+	  #main {
+	  	margin-top: 0;
+	  }
+	  .cbtb .trust-badge.header {
+	  	background: #fafafa;
+	  }
+	</style>
+
+	<!-- Load other page specific Scripts -->
+	<script>
+		$(document).ready(function() {
+
+			function changeFlavor(flavor) {
+
+				$('.flavor').removeClass('active');
+				$('.flavor.'+flavor).addClass('active');
+
+				/* Ingredients */
+				$('.ingredient').hide();
+				$('.ingredient.'+flavor).show();
+
+				var sku = $('.option__flavor.'+flavor).attr('data-sku'),
+				    cb_sku = { sku: "{{ product.selected_or_first_available_variant.sku }}" };
+
+				console.log(sku);
+
+				window.history.pushState(cb_sku, "{{ product.title }}", "{{ shop.url }}{{ page.url }}?sku="+sku); // Change the active sku
+			}
+
+			function changePrice(object) {
+
+				var qty             = Number(object.html()),
+				    option          = object.parents('.option'),
+				    onetime_price   = Number($('.option.onetime').find('.option__unit-price').html()),
+				    subs_price      = Number($('.option.subscription').find('.option__unit-price').html()),
+				    original_price  = option.find('.option__original-price .price'),
+				    new_price       = option.find('.option__new-price .price'),
+				    savings         = option.find('.savings__amount'),
+				    discount        = Number("{{ section.settings.discount }}"),
+				    qty_discount    = (100-discount)/100,
+				    unit_price      = 0,
+				    new_price_calc  = 0;
+
+			  // Check if subscription or onetime
+			  //@TODO - make sure subscription price doesn't go below 20% discount
+				if (option.hasClass('subscription')) {
+					unit_price     = subs_price;
+					new_price_calc = (unit_price*qty/100).toFixed(2);
+				} else {
+					unit_price     = onetime_price;
+					new_price_calc = (unit_price*qty*qty_discount/100).toFixed(2);
+				}
+
+				// Calculate the new price + savings
+				var savings_calc = (onetime_price*qty/100).toFixed(2) - new_price_calc;
+				    
+				// If qty is more than 1, then show savings prompt and update price,
+				// otherwise, hide savings prompt and update price
+				if (qty > 1) {
+					original_price.html((onetime_price*qty/100).toFixed(2));
+					new_price.html(new_price_calc);
+
+					savings.parents('.savings').addClass('active');
+					savings.html(savings_calc.toFixed(2));
+
+				} else {
+					original_price.html((onetime_price*qty/100).toFixed(2));
+					new_price.html((unit_price*qty/100).toFixed(2));
+
+					if (option.hasClass('subscription')) { 
+						savings.html(savings_calc.toFixed(2)); // Show subscription savings
+					} else {
+						savings.parents('.savings').removeClass('active');
+					}
+				}
+				
+
+			}
+
+			function changeActiveOption(object) {
+
+				$('.option').removeClass('active');
+				$('.option__buy button').addClass('inactive');
+				object.parents('.option').addClass('active');
+				object.parents('.option').find('.option__buy button').removeClass('inactive');
+
+			}
+
+			/* Set current variant in URL */
+			if (window.location.href.indexOf('sku=') > -1) {
+				var sku    = window.location.href.split('sku=')[1].split('&')[0],
+				    flavor = $('.option__flavor[data-sku="'+sku+'"]').attr('data-flavor');
+				console.log("stored sku = "+sku);
+				changeFlavor(flavor);
+
+			} else {
+				var cb_sku = { sku: "{{ product.selected_or_first_available_variant.sku }}" };
+				window.history.pushState(cb_sku, "{{ product.title }}", "{{ shop.url }}{{ page.url }}?sku={{ product.selected_or_first_available_variant.sku }}"); // Change the active sku
+			}
+
+			/* Product: Flavor Change Handler */
+			$('.option__flavors .option__flavor').click(function() {
+
+				var flavor = $(this).attr('data-flavor'),
+				    sku    = $(this).attr('data-sku'),
+				    qty    = $(this).parents('.option').find('.option__quantity-option.active').html(),
+				    cb_btn = $('.clickbank_button');
+
+				// Change active option
+				$('.option__flavor').removeClass('active');
+				$('.option__flavor.'+flavor).addClass('active');
+
+				// Make Parent option active
+				changeActiveOption($(this));
+
+				// Change Flavor 
+				changeFlavor(flavor)
+
+				var cb_link = "http://"+sku+".oraorganic.pay.clickbank.net?quantity="+qty;
+
+				cb_btn.attr('href', cb_link); // Assign new payment link
+
+			})
+
+
+			/* Product: Quantity Change Handler */
+			$('.option__quantity .option__quantity-option').click(function() {
+				// Change active option
+				$(this).siblings().removeClass('active');
+				$(this).addClass('active');
+
+				var qty      = $(this).html(),
+				    sku      = $(this).parents('.option').find('.option__flavor.active').attr('data-sku'),
+				    cb_btn   = $('.clickbank_button');
+
+				// Make Parent option active
+				changeActiveOption($(this));
+
+				var cb_link = "http://"+sku+".oraorganic.pay.clickbank.net?quantity="+qty;
+
+				cb_btn.attr('href', cb_link); // Assign new payment link
+
+				changePrice($(this));
+
+			})
+
+			/* Set price on page load */
+			$('.option__quantity-option.active').each(function() {
+				changePrice($(this));
+			})
+			$('.option__flavor.active').click();
+
+			/* Initialize for Clickbank */
+	    var sku = "{{ product.selected_or_first_available_variant.sku }}";
+
+	    $('body').before('<script src="//cbtb.clickbank.net/?vendor=oraorganic"><'+'/script>');
+
+	    /* Purchase Parameters */
+	    $('.product__quantity-wrapper input').change(function() {
+	      var quantity = $(this).val();
+	      $('.clickbank_button').attr('href', 'http://'+sku+'.oraorganic.pay.clickbank.net/?quantity='+quantity);
+	    })
+
+
+	    /* ====================== */
+	    /* Animations & tooltips */
+	    /* ====================== */
+
+	    //==== SMOOTH SCROLL ====//
+	    $('a[href*="#"]:not([href="#"])').click(function() {
+	      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+	        var target = $(this.hash);
+	        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+	        if (target.length) {
+	          $('html, body, #main').animate({
+	            scrollTop: target.offset().top
+	          }, 1000);
+	          return false;
+	        }
+	      }
+	    });
+
+		})
+	</script>
+{% endif %}
+{% schema %}
+  {
+    "name": "Clickbank",
+    "settings": [
+      {
+      	"id": "discount",
+      	"type": "number",
+      	"label": "% Discount per item purchased",
+      	"default": 15
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+		        {
+		        "id": "product",
+		        "type": "product",
+		        "label": "Product"
+		      },
+          {
+            "id": "title",
+            "type": "text",
+            "label": "Product Title"
+          },
+          {
+          	"id": "feature-text-1",
+          	"type": "text",
+          	"label": "Product Feature 1"
+          },
+          {
+          	"id": "feature-text-2",
+          	"type": "text",
+          	"label": "Product Feature 2"
+          },
+          {
+          	"id": "feature-text-3",
+          	"type": "text",
+          	"label": "Product Feature 3"
+          },
+          {
+            "id": "description",
+            "type": "richtext",
+            "label": "Product Description"
+          }
+        ]
+      },
+      {
+        "type": "ingredients",
+        "name": "Ingredients",
+        "settings": [
+        	{
+        		"id": "title",
+        		"type": "text",
+        		"label": "Ingredients Title"
+        	},
+        	{
+        		"id": "description",
+        		"type": "richtext",
+        		"label": "Ingredients Description"
+        	}
+        ]
+      },
+      {
+        "type": "reviews",
+        "name": "Reviews",
+        "settings": [
+        	{
+        		"id": "title",
+        		"type": "text",
+        		"label": "Reviews Title"
+        	}
+        ]
+      },
+      {
+        "type": "purchase",
+        "name": "Purchase",
+        "settings": [
+        	{
+        		"id": "title",
+        		"type": "text",
+        		"label": "Purchase Title"
+        	}
+        ]
+      },
+      {
+      	"type": "guarantee",
+      	"name": "Guarantee",
+      	"settings": [
+      		{
+      			"id": "title",
+      			"type": "text",
+      			"label": "Block Title"
+      		},
+      		{
+      			"id": "description",
+      			"type": "richtext",
+      			"label": "Block Description"
+      		},
+      		{
+      			"id": "feedback-1",
+      			"type": "richtext",
+      			"label": "Customer Feedback 1"
+      		},
+      		{
+      			"id": "feedback-2",
+      			"type": "richtext",
+      			"label": "Customer Feedback 2"
+      		},
+      		{
+      			"id": "feedback-3",
+      			"type": "richtext",
+      			"label": "Customer Feedback 3"
+      		}
+      	]
+      },
+      {
+      	"type": "about",
+      	"name": "About",
+      	"settings": [
+      		{
+      			"id": "title",
+      			"type": "text",
+      			"label": "About Us Title"
+      		},
+        	{
+        		"id": "description",
+        		"type": "richtext",
+        		"label": "About Description"
+        	},
+        	{
+        		"id": "image",
+        		"type": "image_picker",
+        		"label": "About Us Photo"
+        	}
+      	]
+      }
+    ],
+    "presets": [
+    	{
+    		"name": "Clickbank",
+    		"category": "Content",
+    		"blocks": [
+    			{
+    				"type": "product"
+    			},
+    			{
+    				"type": "ingredients"
+    			},
+    			{
+    				"type": "reviews"
+    			},
+    			{
+    				"type": "purchase"
+    			},
+    			{
+    				"type": "guarantee"
+    			},
+    			{
+    				"type": "about"
+    			}
+    		]
+    	}
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+  
+{% endstylesheet %}
+
+{% javascript %}
+  
+{% endjavascript %}

@@ -1,0 +1,128 @@
+<script>
+  function popUp(id) {
+    var popUpID = document.getElementById(id);
+    var popID = "#" + id
+    popUpID.style.display = "block";
+//     $(popID).slideDown(0);
+    return false;
+  }
+  function popDown(id) {
+    var popUpID = document.getElementById(id);
+    var popID = "#" + id
+    popUpID.style.display = "none";
+//     $(popID).slideUp(100);
+    return false;
+  }
+</script>
+<!-- Detail Icons -->
+<div class="row" align="middle" style="margin:auto; padding-bottom:30px; color:#52D6AA; line-height:20px;">
+  <div class="col-lg-1">
+  </div>
+  <!--  ORGANIC  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="organic-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}})">
+        <h4>Organic</h4>
+      <p>
+        Only the good stuff.
+      </p>
+    </div>
+    <a href=""><img alt="organic supplements" src="{{ 'icon-green-organic.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('organic-info'); return false;" onmouseleave="popDown('organic-info'); return false;"></a>
+    <p style="padding-top:10px">organic</p>
+  </div>
+  <!--  VEGAN  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="vegan-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}})">
+      <p>
+        <h4>Vegan</h4> 
+        <p>100% plant powered.</p>
+    </div>
+    <a href=""><img alt="vegan supplements" src="{{ 'icon-green-vegan.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('vegan-info'); return false;" onmouseleave="popDown('vegan-info'); return false;"></a>
+    <p style="padding-top:10px">vegan</p>
+  </div>
+  <!--  CHEF DESIGNED  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="chef-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}})">
+        <h4>Chef Designed</h4>
+        <p>Michelin Star supplements.</p>
+    </div>
+    <a href=""><img alt="tasty supplements" src="{{ 'icon-green-chef.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('chef-info'); return false;" onmouseleave="popDown('chef-info'); return false;"></a>
+    <p style="padding-top:10px">chef designed</p>
+  </div>
+  <!--  RAW  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="raw-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}})">
+        <h4>Raw</h4>
+        <p>Uncooked, as nature intended.</p>
+    </div>
+    <a href=""><img alt="raw ingredient supplements" src="{{ 'icon-green-raw.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('raw-info'); return false;" onmouseleave="popDown('raw-info'); return false;"></a>
+    <p style="padding-top:10px">raw</p>
+  </div>
+  <!-- TESTED -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="test-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}})">
+        <h4>Independently Tested</h4>
+        <p>Transparent & trustworthy.</p>
+    </div>
+    <a href=""><img alt="tested supplements" src="{{ 'icon-green-test.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('test-info'); return false;" onmouseleave="popDown('test-info'); return false;"></a>
+    <p style="padding-top:10px">independently tested</p>
+  </div>
+  <!--  DAIRY FREE  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="dairy-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}});">
+        <h4>Dairy Free</h4>
+          <p>Lactose intolerant tolerant.</p>
+    </div>
+    <a href=""><img alt="dairy-free supplements" src="{{ 'icon-green-dairy.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('dairy-info'); return false;" onmouseleave="popDown('dairy-info'); return false;"></a>
+    <p style="padding-top:10px">dairy free</p>
+  </div>
+  <!--  WHEAT  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="wheat-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}})">
+        <h4>Gluten Free</h4>
+          <p>Celiac friendly!</p>
+    </div>
+    <a href=""><img alt="gluten-free supplements" src="{{ 'icon-green-wheat.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('wheat-info'); return false;" onmouseleave="popDown('wheat-info'); return false;"></a>
+    <p style="padding-top:10px">gluten free</p>
+  </div>
+  <!--  SOY  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="soy-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}})">
+        <h4>Soy Free</h4>
+        <p>Safe from the soy.</p>
+    </div>
+    <a href=""><img alt="soy-free supplements" src="{{ 'icon-green-soy.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('soy-info'); return false;" onmouseleave="popDown('soy-info'); return false;"></a>
+    <p style="padding-top:10px">soy free</p>
+  </div>
+  <!--  CHEMICALS  -->
+  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-1">
+    <div id="chemicals-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}}); bottom: 120px; padding-bottom:20px; width:280px">
+      <p>
+        <h4>No Artifical Ingredients</h4>
+        <p>Yeah that's right, they're real.</p>
+    </div>
+    <a href=""><img alt="no artificial ingredients supplements" src="{{ 'icon-green-chemicals.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('chemicals-info'); return false;" onmouseleave="popDown('chemicals-info'); return false;"></a>
+    <p style="padding-top:10px">no artificial ingredients</p>
+  </div>
+  <!--  GMO  -->
+  <div class="col-xs-6 col-sm-12 col-md-12 col-lg-1">
+    <div id="gmo-info" class="icon-popup hidden-xs" style="background-image: url({{'popup-bubble.png' | asset_url}}); width: 260px;">
+        <h4>Non-GMO</h4>
+        <p>No Frankenstein ingredients.</p>
+    </div>
+    <a href=""><img alt="non-gmo supplements" src="{{ 'icon-green-GMO.png' | asset_url }}" style="height:80px;width:80px" onclick="popUp('gmo-info'); return false;" onmouseleave="popDown('gmo-info'); return false;"></a>
+    <p style="padding-top:10px">non-gmo</p>
+  </div>
+</div>
+<!-- SHADOW FOR FIREFOX -->
+<!-- <svg height="0" xmlns="http://www.w3.org/2000/svg">
+  <filter id="drop-shadow">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+    <feOffset dx="2" dy="2" result="offsetblur"/>
+    <feFlood flood-color="rgba(0,0,0,0.2)"/>
+    <feComposite in2="offsetblur" operator="in"/>
+    <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</svg> -->

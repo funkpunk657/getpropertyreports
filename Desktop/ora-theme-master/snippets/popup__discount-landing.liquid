@@ -1,0 +1,75 @@
+<!-- Popup Discount:
+     Appears on landing on the page with the correct URL params. See the script below the
+     HTML for the param reference. -->
+<div id="landing__modal-discount-wrapper" style="display: none;">
+	<div id="popup__discount-landing" class="feature_popup">
+	  <i class="triangle down">▼</i>
+		<h3 class="popup__title">Nice work!</h3>
+		<p>You found a <span id="discount_amount">20</span>% off discount code!</p>
+		<p><strong>Write down the code below</strong> and use it at checkout to claim your deal.</p>
+		<p class="popup__discount_code landing__discount-code-{{product.handle}}"></p>
+	</div>
+</div>
+<!-- Landing Discount: Fixed on page -->
+<!-- <div id="landing__discount" style="display: none;">
+	<p class="subtitle">Your Code</p>
+	<p><b class="landing__discount-code-{{product.handle}} popup_trigger" data-popup="landing__discount-info"></b><span id="landing__discount-info" class="popup"><i class="triangle">◀</i>Enter this code at checkout to get your 20% off!</span></p>
+</div> -->
+
+<!-- Popup Discount Script: Initialize -->
+<script>
+  $(document).ready(function() {
+  	// Check the URL Params for a landing modal
+  	if (window.location.search.indexOf('landing_discount_code') > -1) {
+
+			var params           = window.location.search;
+			if (params.indexOf('landing_modal_v') > -1)         { var modal_visibility  = params.split("landing_modal_v=")[1].split("&")[0] };
+			if (params.indexOf('landing_discount_code') > -1)   { var discount_code     = params.split("landing_discount_code=")[1].split("&")[0] };
+			if (params.indexOf('landing_discount_amount') > -1) { var discount_amount   = params.split("landing_discount_amount=")[1].split("&")[0] };
+
+			console.log("Discount Code = "+discount_code);
+
+			$('#discount_amount').html(discount_amount);
+
+			if (modal_visibility) {
+				if (modal_visibility == "true") {
+					// Show the overlay and the modal
+					showOverlay($('#landing__modal-discount-wrapper'), 'landing__overlay');
+					$('#landing__modal-discount-wrapper').fadeIn();
+				} else {
+					$('.landing__discount-code-{{product.handle}}').fadeIn();
+				}
+			}
+
+			if (discount_code != "") {
+				console.log("COOKIE");
+				// Set a cookie for the user
+				setCookie(".landing__discount_code-{{product.handle}}", discount_code, 3);
+
+				// Attach the params to the DOM
+				$('.landing__discount-code-{{product.handle}}').html(discount_code);
+			}
+
+			// Handle clicking the landing__overlay
+			$('.landing__overlay').on('click.close', function() {
+				$('#landing__modal-discount-wrapper').fadeOut();
+			})
+			
+		}
+
+// 		// Check for cookies! If the user has a discount code cookie then we'll show the landing discount code on the page.
+// 		// (the code for cookies is in custom.js.liquid)
+// 		var landing_cookie = getCookie('landing__discount_code-{{product.handle}}');
+
+// 		console.log(landing_cookie);
+
+// 		// if (landing_cookie !== "") {
+// 		// 	// Hide the smile popup trigger 
+// 		// 	$('#smile_popup_trigger').hide();
+// 		// 	// Show the landing discount
+// 		// 	$('#landing__discount').show();
+// 		// 	$('.landing__discount-code-{{product.handle}}').html(landing_cookie);
+// 		// }
+
+  })
+</script>

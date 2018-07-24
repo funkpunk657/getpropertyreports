@@ -1,0 +1,188 @@
+<div id="blog__news" class="blog">
+  
+  <!-- Blog: Introduction - Desktop -->
+  <div class="blog__news-introduction dsk">
+    <!-- Introduction: Text -->
+    <div class="introduction-text">
+      <h1>Welcome!</h1>
+      <p>This is the Ora Blog - an ever-growing database of <strong>approachable, helpful</strong> and <strong>well-researched</strong> articles on health, lifestyle and nutrition.</p>
+      <p>Our writers have a wealth of experience and qualifications and have been chosen for their ability to communicate often difficult and confusing concepts in a clear, readable manner.</p>
+      <p>Start by choosing one of the topics below or scroll through our latest articles to the right.</p>
+    </div>
+    <!-- Introduction: Topics -->
+    <div class="introduction-topics">
+      {% for tag in blog.all_tags %}
+        {% if tag contains 'category=' %}
+          {% assign topic = tag | split: '=' | last %}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" id="topic-{{ topic }}"><i class="linear arrow__right"></i>{{ topic }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Blog: Introduction - Mobile -->
+  <div class="blog__news-introduction mob tab">
+    <div class="introduction-text">
+      <h1>Your Nutrition Advocate.</h1>
+      <p>This is the Ora Advocate - an ever-growing database of <strong>approachable, helpful</strong> and <strong>well-researched</strong> articles on health, lifestyle and nutrition.</p>
+    </div>
+  </div>
+  
+  <!-- Blog: Articles -->
+  <div id="blog__news-articles">
+
+    <!-- Articles: Search & Tags -->
+    <div id="articles-search_wrapper">
+      <!-- Articles: Search (Algolia) - see algolia_autocomplete.css.hogan.liquid for styles -->
+      <div id="articles-search">
+        <input id="search" type="search" name="q" placeholder="Search the database..." value="{{ search.terms | escape }}" class="algolia-shopify-autocomplete"/>
+        <script>
+          /* Script for mobile */
+          $(document).ready(function() {
+            if ($(window).width < 767) {
+              $('#search').on('focus', function() {
+                var scrollTop = $('#search').offset().top-22.5;
+                window.scrollTo({
+                  top: scrollTop,
+                  left: 0,
+                  behavior: 'smooth'
+                });
+              })
+            }
+          })
+        </script>
+      </div>
+      <!-- Introduction: Topics -->
+      <div class="introduction-topics">
+        <select id="topics-mobile" name="topics-mobile">
+        {% for tag in blog.all_tags %}
+          {% if tag contains 'category=' %}
+            {% assign topic = tag | split: '=' | last %}
+            <option><a href="{{ blog.url }}/tagged/{{ tag | handle }}" id="topic-{{ topic }}"><i class="linear arrow__right"></i>{{ topic }}</a></option>
+          {% endif %}
+        {% endfor %}
+        </select>
+        <script>
+          $(document).ready(function() {
+            /* If we're on a category page, set the selectmenu to this value */
+            console.log(window.location.href);
+            if (window.location.href.indexOf('category') > -1) {
+              var topic = window.location.href.split("category-")[1];
+              console.log(topic);
+              $('#topics-mobile').val(topic);
+            }
+
+            /* Set Timeout on the select menu so we give the page time to load the correct category */
+            setTimeout(function() {
+              $('#topics-mobile').selectmenu()
+              /* Change the page if Select Menu Changed */
+              $('#topics-mobile').on('selectmenuchange', function(event, ui) {
+                var new_value = event.currentTarget.value;
+                console.log(new_value);
+                window.location = "{{ blog.url }}/tagged/category-"+new_value;
+              })
+            }, 300)
+            
+
+          })
+        </script>
+      </div>
+      <!-- Articles: Tags -->
+      <div class="icon-left"></div>
+      <div id="article-tags">
+        {% for tag in blog.all_tags %}
+          {% if tag contains 'topic=' %}
+            {% assign topic = tag | split: "=" | last %}
+            <div><a id="{{ tag | handle }}" class="topic-link" onclick="window.location = '{{ blog.url }}/tagged/{{ tag | handle }}'" href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ topic }}</a></div>
+          {% endif%}
+        {% endfor %}
+      </div>
+      <div class="icon-right"></div>
+      <script>
+        $(document).ready(function() {
+          if ($(window).width() > 767) {
+            var slider = $("#article-tags");
+            $(slider).slick({
+              autoplay: true,
+              autoplaySpeed: 3000,
+              centerPadding: '15px',
+              slidesToShow: 3,
+              speed: 500,
+              touchToSlide: true,
+              swipeToSlide: true,
+              infinite: true,
+              prevArrow: $('.icon-left'),
+              nextArrow: $('.icon-right'),
+            })
+          }
+          /* Handle topic link click */
+          // $('.topic-link').click(function(e) { e.preventDefault(); })
+        })
+      </script>
+      <style>
+        .slick-current {
+          display: none !important;
+        }
+        .findify-root {
+          display: none !important;
+        }
+      </style>
+    </div>
+    
+    <!-- Articles -->
+    <div id="articles">
+      {% for article in blog.articles limit: 30 %}
+
+        <!-- Article: Setup Image-->
+        {% if article.excerpt contains "excerpt-img" %}
+        {% assign img_src = article.excerpt | split: '"excerpt-img" src="' %}
+        {% assign img_src = img_src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' | replace: 'http:http://', 'https://' %}
+        {% endif %}
+        <!-- Article: Setup Content -->
+        {% if article.excerpt contains "excerpt-img" %}
+          {% assign article_content = article.excerpt | split: '<br>' %}
+          {% assign article_content = article_content[1] | replace: "<p>", "" | replace: "</p>", "" %}
+        {% endif %}
+        <!-- Article: Get Category -->
+        {% for tag in article.tags %}
+          {% if tag contains "category=" %}
+            {% assign article_category = tag | split: "=" | last %}
+          {% endif %}
+        {% endfor %}
+
+        <!-- Article: Preview Container -->
+        {% cycle '<div class="article__row">','','','','','' %}
+        {% cycle '<div class="column large">','<div class="column medium">','','','','' %}
+        <div class="article__preview {% cycle 'large','medium', 'medium', 'small', 'small', 'small' %}">
+          <p class="article__preview-search_terms hidden">{{ article.title }} - {{ article_content }}</p>
+          <div class="article__preview-image_wrapper"><img src="{{ img_src | replace: '.jpg', '_512x512.jpg' }}" alt="{{ article.title }}" class="article__preview-image"/></div>
+          <a href="{{ article.url }}">
+            <h5 class="article__preview-title">{{ article.title }}</h5>
+            <p class="article__preview-content">{{ article_content }}</p>
+            <p class="article__preview-category">{{ article_category }}</p>
+          </a>
+        </div>
+        {% unless forloop.last %}
+          {% cycle '</div>','','','','','</div>' %}
+          {% cycle '','','','','','</div>' %}
+        {% else %}
+          </div>
+        {% endunless %}
+
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  #main {
+    margin-top: 0;
+  }
+  .ui-menu-item {
+    text-transform: capitalize;
+  }
+  /* Hide Product Results */
+  .aa-dataset-products {
+    display: none;
+  }
+</style>

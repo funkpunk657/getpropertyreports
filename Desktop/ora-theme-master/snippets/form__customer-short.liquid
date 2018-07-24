@@ -1,0 +1,159 @@
+<div id="form__customer-short">	
+	<!-- Customer Form: Wrapper -->
+	<div id="form__customer-wrapper">
+		<!-- Customer Form: Sign Up -->
+		<div id="form__customer-register" class="form">
+			{% form 'create_customer' %}
+				<div class="errors">
+			    {% if form.errors %}
+			      {% assign form_errors = form.errors | default_errors %}
+			      {{ form.errors | default_errors }}
+			    {% endif %}
+			  </div>
+			  <input type="hidden" name="return_to" value="/pages/subscriptions#subscriptions__step_2" />
+			  <div id="create-account" class="login-box">
+			  	<div class="input-group">
+				  	<label for="first_name">First Name</label>
+				    <input id="first_name" type="text" value="" name="customer[first_name]" id="first_name" class="long login-input" size="30" />
+				  </div>
+				  <div class="input-group">
+				  	<label for="last_name">Last Name</label>
+				    <input id="last_name" type="text" value="" name="customer[last_name]" id="last_name" class="long login-input" size="30"/>
+				  </div>
+				  <div class="input-group">
+				  	<label for="email">E-mail Address</label>
+				    <input id="email" type="email" value="" name="customer[email]" id="email" class="long login-input" size="30" placeholder="E-mail"/>
+				  </div>
+				  <div class="input-group">
+				  	<label for="password">Password</label>
+				    <input id="password" type="password" value="" name="customer[password]" id="password" class="long login-input" size="30" placeholder="Password"/>
+				  </div>
+			    <div class="actions">
+			      <input id="sign-up-btn" type="submit" class="flat aqua" value="SIGN UP" />
+			    </div>
+			  </div>
+			  <hr class="dsk" />
+			  <!-- Customer: Already has Account -->
+				<p class="customer_has_account">Already have an account?<a class="form_switcher" data-target="#form__customer-login"><br><b> Click here</b> to login.</a></p>
+			{% endform %}
+		</div>
+		
+
+		<!-- Customer Form: Login -->
+		<div id="form__customer-login" class="form">
+	    <div class="wrapper">
+	      <!-- Customer Form: Login Form -->
+	      <div id="login-form" class="login-box">
+	      {% form 'customer_login' %}
+	      {% if form.errors %}
+	      	<script>
+	      		$(document).ready(function() {
+		      		/* Choose current screen based on URL */
+							var location = '#subscriptions__intro';
+							if (window.location.href.indexOf('subscriptions__step') > -1) {
+								var location = '#subscriptions__step' +
+									window.location.href.split('subscriptions__step')[1].split('&')[0];
+								console.log(location);
+								window.location = location;
+							}
+						})
+	      	</script>
+	      {% else %}
+					<input type="hidden" id="return_url" name="return_to" value="/pages/subscriptions#subscriptions__step_1" />
+	      {% endif %}
+	        <div class="form_errors">
+	        	<!-- Customer Form: Errors -->
+	        	{{ form.errors | default_errors }}
+	        	<!-- Customer Form: Forgot Password -->
+	          <div class="forgot-password">
+	            <a href="#recover"><p id="forgot-pwd">{{ 'customer.login.forgot_password' | t }}</p></a>
+	          </div>
+	        </div>
+	        <p class="reset-success success"><span class="text-accent-2">Thanks!</span> Instructions for resetting your password have been sent.</p>
+	        <div>
+	          <div id="login_email" class="input-group">
+	          	<label>E-mail Address:</label>
+	            <input type="email" value="" name="customer[email]" id="customer_email" class="long login-input" placeholder="E-mail address" />
+	          </div>
+	          {% comment %}
+	            Customer Account Login
+	          {% endcomment %}
+	          <div id="login_password" class="input-group">
+	          	<label>Password:</label>
+	            <input type="password" value="" name="customer[password]" id="customer_password" class="long password login-input" placeholder="Password"/>
+	          </div>
+	          
+	          <div class="login actions">
+	            <input type="submit" class="flat aqua" value="sign in" />		
+	            <hr class="dsk"/>     
+	            <p>Don't have an account? <br><a class="form_switcher" data-target="#form__customer-register">Sign up <b>here</b>.</a></p>
+	          </div>
+
+	        </div>
+	      {% endform %}
+	      </div>
+		  </div>
+		  <!-- END LOGIN FORM -->
+
+		  <!-- Script: Toggle Sign Up / Log In Form -->
+		  <script>
+		  	$(document).ready(function() {
+		  		function toggleForm() {
+		  			$('.form_switcher').on('click', function(e) {
+
+		  				e.preventDefault();
+
+		  				var current_form = '#'+$(this).parents('.form').attr('id'),
+		  				    target_form  = $(this).attr('data-target');
+
+		  				console.log(current_form);
+		  				console.log(target_form);
+
+		  				$(current_form).slideToggle();
+		  				$(target_form).slideToggle();
+
+		  			})
+		  		}
+
+		  		toggleForm();
+		  	})
+		  </script>
+
+		  <script>
+		    $(document).ready(function showRecoverPasswordForm() {
+		      $('#forgot-pwd').click(function(){
+		          $(this).slideToggle(300);
+		          $('#login-form').slideToggle(300);
+		          $('#recover').slideToggle(300);
+		        return false;
+		      });
+		      
+		      $('#cancel-forgot-pwd').click(function(){
+		          $('#forgot-pwd').slideToggle(300);
+		          $('#login-form').slideToggle(300);
+		          $('#recover').slideToggle(300);
+		        return false;
+		      });
+
+		      {% if reset_success %} 
+		        $(".reset-success").show();
+		      {% endif %}
+		      
+		    });
+		    
+		    $(document).ready(function() {
+		      if (window.location.href.indexOf('#recover') > -1){
+		        $('#forgot-pwd').slideUp();
+		        $('#login-form').slideUp();
+		        $('#recover').slideDown();
+		        return false;
+		      }
+		    });
+		    
+		    
+		  </script>
+		</div>
+	</div>
+
+	
+</div>

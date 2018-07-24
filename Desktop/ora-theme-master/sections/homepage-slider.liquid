@@ -1,0 +1,160 @@
+{% comment %}
+== HOMEPAGE SLIDER ==
+{% endcomment %}
+{% if template == "index" %}
+  <div id="slider-wrapper">
+
+    {% assign collection = collections[settings.homepage_collection] %}
+
+    <!-- Home: Hero Slider -->
+    <div id="slider" class="hero">
+
+      {% for block in section.blocks %}
+        {% if block.settings.product %}
+
+          <div id="{{ block.settings.product }}" class="slide" style="background-image: url({{ block.settings.product-image | img_url: 'master' }})">
+            <div class="slide__content">
+
+              {% comment %}Content{% endcomment %}
+              <h6 class="slide__feature-text">{{ block.settings.product-feature-text }}</h6>
+              <h3 class="slide__title">{{ block.settings.product-title }}</h3>
+              <p class="slide__description">{{ block.settings.product-caption }}</p>
+              <a class="slide__link button" href="{{ block.settings.link }}"><button class="flat aqua">{{ block.settings.linktext }}</button></a>
+
+              {% comment %}Arrows{% endcomment %}
+              <div class="arrows">
+                <a href="#slide-{{ forloop.index }}" class="arrow left"></a>
+                <a href="#slide-{{ forloop.index }}" class="arrow right"></a>
+              </div>
+
+            </div>
+          </div>
+
+        {% endif %}
+      {% endfor %}
+
+    </div>
+    
+    
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      setTimeout(function() {
+        var slider = $("#slider");
+          $(slider).slick({
+            centerMode: false,
+            centerPadding: '20px',
+            autoplay: true,
+            autoplaySpeed: 5000,
+            slidesToShow: 1,
+            speed: 500,
+            touchToSlide: true,
+            swipeToSlide: true,
+            infinite: true,
+            fade: true,
+            prevArrow: $('.arrow.left'),
+            nextArrow: $('.arrow.right'),
+          })
+          setTimeout(function() {
+            slider.animate({opacity: 1}, 500);
+          }, 2000)
+        },500);
+      })
+        
+  </script>
+{% endif %}
+{% schema %}
+  {
+    "name": "Product Slides",
+    "max_blocks": 6,
+    "settings": [
+      {
+        "id": "product-title",
+        "type": "text",
+        "label": "Heading",
+        "default": "Title"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "id": "product",
+            "type": "product",
+            "label": "Product"
+          },
+          {
+            "id": "product-feature-text",
+            "type": "text",
+            "label": "Product Feature Text"
+          },
+          {
+            "id": "product-title",
+            "type": "text",
+            "label": "Product Title"
+          },
+          {
+            "id": "product-image",
+            "type": "image_picker",
+            "label": "Product Image"
+          },
+          {
+            "id": "product-caption",
+            "type": "textarea",
+            "label": "Product Caption"
+          },
+          {
+            "id": "link",
+            "type": "url",
+            "label": "Button link"
+          },
+          {
+            "id": "linktext",
+            "type": "text",
+            "label": "Button text",
+            "default": "Click here"
+          }
+        ]
+      },
+      {
+        "type": "press",
+        "name": "Press",
+        "settings": [
+          {
+            "id": "press-logo",
+            "type": "image_picker",
+            "label": "Press Logo"
+          },
+          {
+            "id": "press-link",
+            "type": "url",
+            "label": "Press Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product Slides",
+        "category": "Slides",
+        "blocks": [
+          {
+            "type": "product"
+          },
+          {
+            "type": "press"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

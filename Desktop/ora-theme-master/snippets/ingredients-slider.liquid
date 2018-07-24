@@ -1,0 +1,482 @@
+<div class="ingredient-slider slider">
+	{% if product.tags contains 'ingredients-acai' %}
+	<div id="acai" class="ingredient">
+		<img src="{{ 'ingredients-acai.png' | asset_url }}" alt="Organic Acai" rel="share"/>
+		<div class="description">
+			<h4>Organic Açai<br><i>Euterpe oleracea</i></h4>
+			<p>Açai berries are high in antioxidants, iron, calcium and Vitamin A with amino acids. They're also pretty rich in Omega fatty acids; important in the absorption of fat-soluble vitamins.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}
+		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-acerola' %}
+	<div id="acerola" class="ingredient">
+		<img src="{{ 'ingredients-acerola.png' | asset_url }}" alt="Organic Acerola" rel="share"/>
+		<div class="description">
+			<h4>Organic Acerola<br><i>Malpighia emarginata</i></h4>
+			<p>Acerola is a west indian cherry that helps boost immunity and is one of the richest berry sources of Vitamin C, whilst also being high in antioxidants and B vitamins.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-agati' %}
+	<div id="agati" class="ingredient">
+		<img src="{{ 'ingredients-agati.png' | asset_url }}" alt="Organic Agati" rel="share"/>
+		<div class="description">
+			<h4>Organic Agati<br><i>Sesbania grandiflora</i></h4>
+			<p>Agati has been a staple of indian medicine for hundreds of years, most often known for its properties as a tonic and disinfectant and its use a treatment for thrush.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-amaranth' %}
+	<div id="amaranth" class="ingredient">
+		<img src="{{ 'ingredients-amaranth.png' | asset_url }}" alt="Organic Amaranth" rel="share"/>
+		<div class="description">
+			<h4>Organic Amaranth<br><i>Amaranthus caudatus L.</i></h4>
+			<p>An ancient seed (like quinoa!) eaten by the Aztecs, Amaranth contains all the essential amino acids, including Lysine, and is a great source of calcium, Vitamin C and iron.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-annatto' %}
+	<div id="annatto" class="ingredient">
+		<img src="{{ 'ingredients-annatto.png' | asset_url }}" alt="Organic Annatto" rel="share"/>
+		<div class="description">
+			<h4>Organic Annatto<br><i>Bixa orellana</i></h4>
+			<p>Annatto is high in fiber, antioxidants and carotenid content - an antioxidant specific to ocular health, helping to keep your eyes healthy and your vision strong.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-apple' %}
+	<div id="apple" class="ingredient">
+		<img src="{{ 'ingredients-apple.png' | asset_url }}" alt="Organic Apple" rel="share"/>
+		<div class="description">
+			<h4>Organic Apple<br><i>Malus pumila</i></h4>
+			<p>Apples are not only naturally fresh and delicious, but also rich in phytochemical antioxidants, including quercetin and phloridzin, and have been found in laboratory conditions to slow the spread of cancer cells and even <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pmc/articles/PMC442131/')" target="_blank">lower cholesterol!</a></p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-basil' %}
+	<div id="basil" class="ingredient">
+		<img src="{{ 'ingredients-basil.png' | asset_url }}" alt="Organic Basil" rel="share"/>
+		<div class="description">
+			<h4>Organic Basil<br><i>Ocimum basilicum</i></h4>
+			<p>Basil, whilst also delicious, is a great source of pro-vitamin A (or beta-carotene) which helps to oxidize cholesterol in the bloodstream, and magnesium - both being essential to good cardiovascular health.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-blackberry' %}
+	<div id="blackberry" class="ingredient">
+		<img src="{{ 'ingredients-blackberry.png' | asset_url }}" alt="Organic Blackberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Blackberry<br><i>Rubus</i></h4>
+			<p>Blackberries have one of the highest antioxidant levels of all fruits (even more than açai), and are also low in sodium and calories.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-blueberry' %}
+	<div id="blueberry" class="ingredient">
+		<img src="{{ 'ingredients-blueberry.png' | asset_url }}" alt="Organic Blueberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Blueberry<br><i>Cyanococcus</i></h4>
+			<p>Blueberries contain the unique, phenol-like antioxidants pterostilbene and resveratrol and are a very good source of vitamin K, vitamin C, and manganese.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-broccoli' %}
+	<div id="broccoli" class="ingredient">
+		<img src="{{ 'ingredients-broccoli.png' | asset_url }}" alt="Organic Broccoli" rel="share"/>
+		<div class="description">
+			<h4>Organic Broccoli<br><i>Brassica oleracea var. italica</i></h4>
+			<p> Broccoli is an excellent source of vitamin K, vitamin C, chromium, and folate, as well as a great source of dietary fiber.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-chlorella' %}
+	<div id="chlorella" class="ingredient">
+		<img src="{{ 'ingredients-chlorella.png' | asset_url }}" alt="Organic Chlorella" rel="share"/>
+		<div class="description">
+			<h4>Organic Chlorella<br><i>Chlorella regularis</i></h4>
+			<p>Chlorella contains high levels of chlorophyll, and more than 20 vitamins and minerals including iron, calcium and potassium.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-cocoa' %}
+	<div id="cocoa" class="ingredient">
+		<img src="{{ 'ingredients-cocoa.png' | asset_url }}" alt="Organic Cocoa" rel="share"/>
+		<div class="description">
+			<h4>Organic Cocoa<br><i>Theobroma cacao</i></h4>
+			<p>Believe it or not, cocoa has recently been shown to help in weight loss by <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/24100674')" target="_blank">increasing mitochondrial biogenesis</a>, and improve mood and cognition thanks to its high antioxidant content. Even better, it makes taking your daily multivitamin that much more delicious!</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-coconut' %}
+	<div id="coconut-oil" class="ingredient">
+		<img src="{{ 'ingredients-coconut.png' | asset_url }}" alt="Organic Coconut" rel="share"/>
+		<div class="description">
+			<h4>Organic Coconut<br><i>Cocos nucifera</i></h4>
+			<p>Coconut and coconut oil is all the rage these days, and for good reason: it contains Medium Chain Triglycerides (MCTs), which are fatty acids that assist in the <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/8654328')">metabolic process.</a></p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-curry-leaves' %}
+	<div id="curry-leaves" class="ingredient">
+		<img src="{{ 'ingredients-curry-leaves.png' | asset_url }}" alt="Organic Curry Leaves" rel="share"/>
+		<div class="description">
+			<h4>Organic Curry Leaves<br><i>Murraya koenigii</i></h4>
+			<p>Known as Kadi Patta, and a great source of nutrition in India for centuries, curry leaves are an excellent source of Vitamins A, B and E, supporting the immune system and heart function.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-dulse' %}
+	<div id="dulse" class="ingredient">
+		<img src="{{ 'ingredients-dulse.png' | asset_url }}" rel="share"/>
+		<div class="description">
+			<h4>Organic Dulse<br><i>Palmaria palmata</i></h4>
+			<p>Dulse is a form red algae that is quite similar to seaweed, though it is higher in both fiber and protein. It's also a great source of Iron, Magnesium, and Calcium; nutrients essential to good bone health.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-flaxseed' %}
+	<div id="flaxseed" class="ingredient">
+		<img src="{{ 'ingredients-flaxseed.png' | asset_url }}" alt="Organic Flaxseed" rel="share"/>
+		<div class="description">
+			<h4>Organic Flaxseed<br><i>Linum usitatissimum</i></h4>
+			<p>#1 source of lignans among vegetable products - polyphenols that provide antioxidants and fiber.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-goji-berry' %}
+	<div id="goji-berry" class="ingredient">
+		<img src="{{ 'ingredients-goji-berry.png' | asset_url }}" alt="Organic Goji Berry" rel="share"/>
+		<div class="description">
+			<h4>Organic Goji Berry<br><i>Lycium barbarum</i></h4>
+			<p>Goji berries - in large quantities - are great antioxidants and generally afford a greater sense of well-being. Using low-intensity water extraction, the same benefits can be translated into powder form.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-gooseberry' %}
+	<div id="gooseberry" class="ingredient">
+		<img src="{{ 'ingredients-gooseberry.png' | asset_url }}" alt="Organic Gooseberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Gooseberry<br><i>Ribes uva-crispa</i></h4>
+			<p>Gooseberries, or Amla, are super-high in Vitamin C and are great for supporting food and calcium absorption. They're also high in fiber, to assist in maintaining good digestive health.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-green-tea' %}
+	<div id="green-tea" class="ingredient">
+		<img src="{{ 'ingredients-green-tea.png' | asset_url }}" alt="Organic Green Tea" rel="share"/>
+		<div class="description">
+			<h4>Organic Green Tea<br><i>Camellia sinensis</i></h4>
+			<p>Green tea leaves are well-known for their antioxidant properties, but it's also shown to assist in the <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/18326618')" target="_blank">burning of fat</a> when combined with diet and excercise.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-hemp' %}
+	<div id="hemp" class="ingredient">
+		<img src="{{ 'ingredients-hemp.png' | asset_url }}" alt="Organic Hemp" rel="share"/>
+		<div class="description">
+			<h4>Organic Hemp<br><i>Cannabis sativa L.</i></h4>
+			<p>Hemp is a great source of protein and omega fatty acids. It's also more easily digested than meat, cheese or whey protein varieties.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-himalayan-rock-salt' %}
+	<div id="himalayan-rock-salt" class="ingredient">
+		<img src="{{ 'ingredients-himalayan-rock-salt.png' | asset_url }}" alt="Himalayan Rock Salt" rel="share"/>
+		<div class="description">
+			<h4>Himalayan Rock Salt</h4>
+			<p>Salt is an essential part of our everyday diet. Himalayan Rock Salt is <a onclick="window.open('http://www.jstor.org/stable/30055696?seq=1#page_scan_tab_contents')" target="_blank">harvested in the mountains</a> in the Punjab region of Pakistan and gets its famous pink color from trace amounts of iron oxide in the crystals. A delicious complement to the sweetness of cocoa and coconut!</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-jerusalem-artichoke' %}
+	<div id="jerusalem-artichoke" class="prebiotic">
+		<img src="{{ 'ingredients-jerusalem-artichoke.png' | asset_url }}" alt="Organic Jerusalem Artichoke"/>
+		<div class="description">
+			<h4>Jerusalem Artichoke<br><i>Helianthus tuberosus</i></h4>
+			<p>Neither an artichoke, nor from Jerusalem, the Jerusalem Artichoke is a sunflower root that's high in fiber and a natural prebiotic - <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3705355/')">stimulating</a> and feeding the Bifidobacteria in the gut.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-kale' %}
+	<div id="kale" class="ingredient">
+		<img src="{{ 'ingredients-kale.png' | asset_url }}" alt="Organic Kale" rel="share"/>
+		<div class="description">
+			<h4>Organic Kale<br><i>Brassica oleracea var. sabellica</i></h4>
+			<p>Kale is a great detoxifier, and helps to regulate blood glucose levels. It's also an excellent source of protein and essential vitamins.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-lemon' %}
+	<div id="lemon" class="ingredient">
+		<img src="{{ 'ingredients-lemon.png' | asset_url }}" alt="Organic Lemon" rel="share"/>
+		<div class="description">
+			<h4>Organic Lemon<br><i>Citrus × limon</i></h4>
+			<p>Lemon is a great source of Vitamin C, but has also been recently found to help with <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/19015756')" target="_blank">suppressing weight gain</a> due to the high number of polyphenol antioxidants in them.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-lichen' %}
+	<div id="lichen" class="ingredient">
+		<img src="{{ 'ingredients-lichen.png' | asset_url }}" alt="Lichen" rel="share"/>
+		<div class="description">
+			<h4>Lichen<br><i>Umbilicaria esculenta</i></h4>
+			<p>Lichen is <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/10850004')" target="_blank">a source of Vitamin D3</a>, a whole food alternative to Cholecalciferol derived from lanolin (from sheep's wool), and is all natural and vegan.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-microalgae' %}
+	<div id="microalgae" class="ingredient">
+		<img src="{{ 'ingredients-microalgae.png' | asset_url }}" alt="Microalgae" rel="share"/>
+		<div class="description">
+			<h4>Microalgae<br><i>Psammothidium perpusillum</i></h4>
+			<p>Thought Omega-3 only came from fish? Not exactly. Fish get their omega-3 fatty acids from eating algae; so we went straight to the source. No fishy taste and 100% plant-based!</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-monk-fruit' %}
+	<div id="monk-fruit" class="ingredient">
+		<img src="{{ 'ingredients-monk-fruit.png' | asset_url }}" alt="Monk Fruit" rel="share"/>
+		<div class="description">
+			<h4>Monk Fruit<br><i>Siraitia grosvenorii</i></h4>
+			<p>Monk Fruit has been used for centuries in traditional eastern medicine for its high antioxidant properties and for its naturally occurring sweetness - a great sugarfree alternative, and no stevia aftertaste!</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-moringa' %}
+	<div id="moringa" class="ingredient">
+		<img src="{{ 'ingredients-moringa.png' | asset_url }}" alt="Organic Moringa" rel="share"/>
+		<div class="description">
+			<h4>Organic Moringa<br><i>Moringa oleifera</i></h4>
+			<p>Moringa has been a staple of traditional herbal medicines for centuries, and is particularly rich in Vitamins C and B6. It also <a onclick="window.open('http://www.sciencedirect.com/science/article/pii/S1756464613002090')">contains Quercetin</a>, an antioxidant known to <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/17951477')" target="_blank">reduce blood pressure.</a></p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-oat-grass' %}
+	<div id="oat-grass" class="ingredient">
+		<img src="{{ 'ingredients-oat-grass.png' | asset_url }}" alt="Organic Oat Grass" rel="share"/>
+		<div class="description">
+			<h4>Organic Oat Grass<br><i>Arrhenatherum</i></h4>
+			<p>Contains chlorophyll, enzymes and vitamins including Vitamin K, Vitamin C, folic acid, calcium and can contain up to 30% protein.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-orange' %}
+	<div id="orange" class="ingredient">
+		<img src="{{ 'ingredients-orange.png' | asset_url }}" alt="Organic Orange" rel="share"/>
+		<div class="description">
+			<h4>Organic Orange<br><i>Citrus sinensis</i></h4>
+			<p>You probably know it already, but Oranges are a great source of Vitamin C. Our products use orange in a natural whole food form, meaning bioavailability and absorption is much higher than synthetic ascorbic acid.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-parsley' %}
+	<div id="parsley" class="ingredient">
+		<img src="{{ 'ingredients-parsley.png' | asset_url }}" alt="Organic Parsley" rel="share"/>
+		<div class="description">
+			<h4>Organic Parsley<br><i>Petroselinum crispum</i></h4>
+			<p>Maybe surprisingly, parsley is one of the best sources of Vitamins A and C, as well as being rich in antioxidants.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-pea' %}
+	<div id="pea" class="ingredient">
+		<img src="{{ 'ingredients-pea.png' | asset_url }}" alt="Organic Pea" rel="share"/>
+		<div class="description">
+			<h4>Organic Pea<br><i>Pisum sativum</i></h4>
+			<p>The sustainable way to get protein! Pea crops provide soil with important nutrients, and maintain a high protein and fiber content.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-pineapple' %}
+	<div id="pineapple" class="ingredient">
+		<img src="{{ 'ingredients-pineapple.png' | asset_url }}" alt="Organic Pineapple" rel="share"/>
+		<div class="description">
+			<h4>Organic Pineapple<br><i>Ananas comosus</i></h4>
+			<p>Pineapple not only adds a fruity kick to our Omega-3, it's also full of Vitamin C and manganese, an important cofactor in energy production that also supports antioxidant defenses against free radicals.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-pomegranate' %}
+	<div id="pomegranate" class="ingredient">
+		<img src="{{ 'ingredients-pomegranate.png' | asset_url }}" alt="Organic Pomegranate" rel="share"/>
+		<div class="description">
+			<h4>Organic Pomegranate<br><i>Punica granatum</i></h4>
+			<p>A great source of Vitamins C and K, pomegranate is fibrous berry that is also super-high in antioxidants, showing antioxidant activity <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/11052704')" target="_blank">three times higher</a> than that of green tea. Yum!</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-quinoa' %}
+	<div id="quinoa" class="ingredient">
+		<img src="{{ 'ingredients-quinoa.png' | asset_url }}" alt="Organic Quinoa" rel="share"/>
+		<div class="description">
+			<h4>Organic Quinoa<br><i>Chenopodium quinoa</i></h4>
+			<p>Naturally gluten-free, quinoa contains essential fiber and vitamins and has a complete amino acid profile.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-raspberry' %}
+	<div id="raspberry" class="ingredient">
+		<img src="{{ 'ingredients-raspberry.png' | asset_url }}" alt="Organic Raspberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Raspberry<br><i>Rubus idaeus L.</i></h4>
+			<p>Apart from their delicious tangy flavor, raspberries are known for their Vitamin C, micronutrients and dietary fiber. Though few studies have been done in humans, in laboratory conditions red raspberry extract <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/26773014')" target="_blank">can reduce risk</a> of metabolic and cardiovascular disease.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-rosemary' %}
+	<div id="rosemary" class="ingredient">
+		<img src="{{ 'ingredients-rosemary.png' | asset_url }}" alt="Organic Rosemary" rel="share"/>
+		<div class="description">
+			<h4>Organic Rosemary<br><i>Rosmarinus officinalis</i></h4>
+			<p>Just the scent of Rosemary is enough to remind you of good times, good food and good friends - but in small amounts (as in our Plant-based Omega-3 Spray), Rosemary has been <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/21877951')" target="_blank">shown to increase cognitive performance in the elderly and help the speed of memory.</a></p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-sacha-inchi' %}
+	<div id="sacha-inchi" class="ingredient">
+		<img src="{{ 'ingredients-sacha-inchi.png' | asset_url }}" alt="Organic Sacha Inchi" rel="share"/>
+		<div class="description">
+			<h4>Organic Sacha Inchi<br><i>Plukenetia volubilis</i></h4>
+			<p>A great source of the protein tryptophan that helps the brain produce serotonin. Also high in fiber and Omega fatty acids.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-shiitake' %}
+	<div id="shiitake" class="ingredient">
+		<img src="{{ 'ingredients-shiitake.png' | asset_url }}" alt="Organic Shiitake" rel="share"/>
+		<div class="description">
+			<h4>Organic Shiitake<br><i>Lentinula edodes</i></h4>
+			<p>Native to east Asia, Shiitake mushrooms are more than just a funny name, they're a great source of iron and <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4042564/')" target="_blank">Vitamin B12</a> for vegans and vegetarians. Please, eat some!</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-spinach' %}
+	<div id="spinach" class="ingredient">
+		<img src="{{ 'ingredients-spinach.png' | asset_url }}" alt="Organic Spinach" rel="share"/>
+		<div class="description">
+			<h4>Organic Spinach<br><i>Spinacia oleracea</i></h4>
+			<p>Looks like Mom knew what she was talking about! Spinach is one of the most nutritious plants out there, being high in <a onclick="window.open('https://ndb.nal.usda.gov/ndb/foods/show/3202')">Vitamins A, C and K1</a>, as well as antioxidants. Strong to the Finich!</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-spirulina' %}
+	<div id="spirulina" class="ingredient">
+		<img src="{{ 'ingredients-spirulina.png' | asset_url }}" alt="Organic Spirulina" rel="share"/>
+		<div class="description">
+			<h4>Organic Spirulina<br><i>Arthrospira</i></h4>
+			<p>Dried spirulina contains between 51% and 71% protein and is rich in B Vitamins, Iron and Manganese.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-sprouted-rice' %}
+	<div id="sprouted-rice" class="ingredient">
+		<img src="{{ 'ingredients-sprouted-rice.png' | asset_url }}" alt="Organic Sprouted Rice" rel="share"/>
+		<div class="description">
+			<h4>Organic Sprouted Rice<br><i>Oryza</i></h4>
+			<p>Contains Gamma Amino Butyric Acid (GABA), an essential amino acid, while providing a large amount of protein and smooth texture.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-strawberry' %}
+	<div id="strawberry" class="ingredient">
+		<img src="{{ 'ingredients-strawberry.png' | asset_url }}" alt="Organic Strawberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Strawberry<br><i>Fragaria × ananassa</i></h4>
+			<p>Strawberries are a source of antioxidant-promoting vitamin C and manganese, as well as providers great amounts of dietary fiber.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-sunflower-oil' %}
+	<div id="sunflower-oil" class="ingredient">
+		<img src="{{ 'ingredients-sunflower-oil.png' | asset_url }}" alt="Organic Sunflower Oil" rel="share"/>
+		<div class="description">
+			<h4>Organic Sunflower Oil<br><i>Helianthus annuus</i></h4>
+			<p>Sunflower oil is now a well-known cooking ingredient and provider of essential fats and minerals, whilst being important for lowering <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/1955619')" target="_blank">low-density-lipoprotein cholesterol, decreasing the risk of heart disease.</a></p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+	{% if product.tags contains 'ingredients-wheatgrass' %}
+	<div id="wheatgrass" class="ingredient">
+		<img src="{{ 'ingredients-wheatgrass.png' | asset_url }}" alt="Organic Wheatgrass" rel="share"/>
+		<div class="description">
+			<h4>Organic Wheatgrass<br><i>Triticum</i></h4>
+			<p>A complete source of protein with a full amino acid profile. Approximately 20% of the calories of wheatgrass come in the form of protein.</p>
+			{% if supplement_facts %}<p><a class="show-facts"><b>Click here</b> to see the label</a></p>{% endif %}		</div>
+	</div>
+	{% endif %}
+</div>
+<!-- == INIT PRODUCT INGREDIENT SLIDER (SLICKJS) == -->
+{% assign ingredient_count = 0 %}
+{% for tag in product.tags %}
+	{% if tag contains 'ingredients-' %}
+		{% assign ingredient_count = ingredient_count | plus: 1 %}
+	{% endif %}
+{% endfor %}
+{% if ingredient_count < 3 %}
+	{% assign slides_to_show = 1 %}
+	{% assign center_mode = false %}
+	<style>
+	  .ingredient-slider .slick-active img { width: 300px; margin: 0 auto; }
+		.ingredient-slider .slick-active .description { width: 450px; margin: 0 auto; opacity: 1; z-index: 1; }
+		@media (max-width: 468px) {
+ 			.ingredient-slider .slick-active img { width: 225px; margin: 0 auto; }
+			.ingredient-slider .slick-active .description { width: 95%; margin: 0 auto; }
+		}
+	</style>
+{% else %}
+  {% assign slides_to_show = 3 %}
+  {% assign center_mode = true %}
+{% endif %}
+
+<script>
+  $(document).ready(function() {
+  	// console.log("ingredients = {{ ingredient_count }}");
+    $('.ingredient-slider').slick({
+      centerMode: {{ center_mode }},
+      centerPadding: '150px',
+      slidesToShow: {{ slides_to_show }},
+      speed: 500,
+      touchToSlide: true,
+      swipeToSlide: true,
+      touchThreshold: 20,
+      prevArrow: '<button type="button" class="slick-prev"><img src="{{ "icon-left.svg" | asset_url }}"/></button>',
+      nextArrow: '<button type="button" class="slick-next"><img src="{{ "icon-right.svg" | asset_url }}"/></button>',
+      responsive: [
+      	{
+      		breakpoint: 1080,
+      		settings: {
+      			centerPadding: '90px'
+      		}
+      	},
+      	{
+      		breakpoint: 991,
+      		settings: {
+      			centerPadding: '10px',
+      			slidesToShow: {{ slides_to_show }}
+      		}
+      	},
+      	{
+      		breakpoint: 769,
+      		settings: {
+      			centerPadding: '0px'
+      		}
+      	},
+      	{
+      		breakpoint: 468,
+      		settings: {
+      			slidesToShow: 1,
+      			centerPadding: '20px'
+      		}
+      	}
+      ]
+    })
+
+
+    // Show supplement facts on click
+    $('.show-facts').click(function(e) {
+    	document.getElementsByClassName("facts-trigger")[0].click();
+    	return false;
+    })
+  })
+</script>

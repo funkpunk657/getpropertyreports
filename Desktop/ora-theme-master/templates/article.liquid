@@ -1,0 +1,167 @@
+<!-- SETUP
+  Setup all of the variables used in the article template:
+    1. Category
+    2. Background / Feature Images
+    3. Infographics
+    4. Misc
+ -->
+{% for tag in article.tags %}
+  {% if tag contains "category=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign category = t[1] %}
+  {% endif %}
+  {% if tag contains "author=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link_text=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link_text = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image_mobile=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image_mobile = t[1] %}
+  {% endif %}
+  {% if tag contains "recommendation_text" %}
+    {% assign recommended_products = true %}
+    {% assign recommendation_text = tag | split: "=" | last %}
+  {% endif %}
+{% endfor %}
+<div id="article">
+{% if blog.handle == "news" %}
+  <!-- Article: Header -->
+  <div class="article__header news">
+    <!-- Article Image: Pinterest -->
+    <!-- Article Header: Image -->
+    {% if article.excerpt contains "header-img" %}
+    {% assign src = article.excerpt | split: 'src="' %}
+    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' %}
+      <div id="article__header-image" style="background-image:url('{{ src }}');" class="row fill">
+        <!-- Article Header: Title -->
+        <div class="article__title"><h1>{{ article.title }}</h1></div>
+        <!-- Article Header: Pinterest Friendly Image (for repinning) -->
+        <img class="article__pinterest-image" src=""/>
+      </div>
+      <!-- Load the Pinterest image after the page has finished loading -->
+      <script async defer>
+        $(document).ready(function() {
+          $('.article__pinterest-image').attr('src', "{{ article.image.src | img_url: 'large' }}");
+        })
+      </script>
+    {% endif %}
+  </div>
+{% else %}
+  <!-- Article: Career Blog only (no header image) -->
+  <div class="article__header careers">
+    <h1 class="article__title">{{ article.title }}</h1>
+  </div>
+{% endif %}
+<div class="wrapper">
+  <!--START POST-->
+  <article class="article__wrapper">
+    <div class="{% unless blog.comments_enabled? %}no-comments{% endunless %}">
+      <div class="wysiwyg">
+        <!-- Article Content: Standard / News -->
+        {% if blog.handle == "news" %}
+          <div class="article__meta">
+            <!-- Article: Capture all tags -->
+            {% capture tags %}
+              {% if article.tags.size > 0 %}
+                {% for tag in article.tags %}
+                  <a href="{{ blog.url }}/tagged/{{tag | handle }}">{{ tag }}</a>
+                  {% unless forloop.last %}, {% endunless %}
+                {% endfor %}{% endif %}{% endcapture %}
+            {% if article.tags.size > 0 %}
+              <!-- Article: Assign author name and links -->
+              {% for tag in article.tags %}
+                {% if tag contains "author=" %} {% assign author = tag | split: 'author=' | last %} {% endif %}
+                {% if tag contains "author_link=" %} {% assign authorLink = tag | split: 'author_link=' | last %} {% endif %}
+              {% endfor %}
+              <!-- Article: Author and Author Link (if applicable) -->
+              {% if authorLink %}
+                <a class="author__link" href="{% unless authorLink contains 'http' %}https://{{ authorLink }}{% else %}{{ authorLink }}{% endunless %}" target="_blank">
+                  <span>Written by <b class="article__author">{{ author }}</b></span>
+                </a>
+              {% endif %}
+            {% else %}
+              <p><span>Written by <b class="article__author">The Ora Crew</b></span></p>
+            {% endif %}
+            <!-- Article: Publish Date -->
+            <div class="article__publish-date">
+              <span>{{ article.published_at | date: '%d' }}</span>
+              <span class="article__date">{{ article.published_at | date: '%b' }} '{{ article.published_at | date: '%y' }}</span>
+            </div>
+          </div>
+          <!-- Article: Content -->
+          <div class="article__content">
+            {{ article.content }}
+          </div>
+        <!-- Article Content: Careers -->
+        {% elsif blog.handle == "careers" %}
+          <div class="job_listing">
+            <div class="article__content job_listing-description">
+              {{ article.content }}
+            </div>
+            <div class="job_listing-apply">
+              <a href="mailto:kia@ora.organic?subject={{ article.title }} - Job Application&body=[ Please make sure to leave your full name and phone number so that we can get back to you as soon as possible. Good luck! ]" class="button">
+                <button class="flat aqua">Apply</button>
+              </a>
+            </div>
+          </div>
+        {% else %}
+          <div class="article__content">
+            {{ article.content}}
+          </div>
+        {% endif %}
+        <!-- SHARING TOOLBOX -->
+        <div class="addthis_toolbox">
+          {% comment %}{% include 'addthis' %}{% endcomment %}
+        </div>
+      </div>
+    </div>
+    <!-- Article: Product Recommendations -->
+    {% if recommended_products %}
+      {% include 'recommendations_products' %}
+    </div>
+    {% endif %}
+    <!--START ACTIONS-->
+    <div class="actions">
+      <a id="back__button" href="{{ blog.url }}">Back to {% if blog.handle == "news" %}the Ora Blog{% else %}Jobs{% endif %}</a>
+    </div>
+    <!--END ACTIONS-->
+  </article>
+  <!--END POST-->
+  <br class="break">
+  
+</div>
+</div>
+<!--END BLOG-->
+<style>
+  #main {
+    margin-top: 0;
+  }
+  .addthis_toolbox {
+    text-align: center;
+  }
+  .addthis_default_style .addthis_separator, .addthis_default_style .at4-icon, .addthis_default_style .at300b, .addthis_default_style .at300bo, .addthis_default_style .at300bs, .addthis_default_style .at300m {
+    display: inline-block;
+    float: none;
+  }
+</style>
+<script>
+  /* Scroll: Check scroll position */
+  checkScrollPosition();
+
+  $(window).scroll(function() {
+    checkScrollPosition();
+  })
+ 
+</script>

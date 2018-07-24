@@ -1,0 +1,936 @@
+<!-- Wholesale: Introduction -->
+<div id="wholesale__introduction">
+	<div class="intro__wrapper" style="{% if customer %}display: none;{% endif %}">
+		<div class="intro__content">
+			<h3>Interested in becoming an Ora Organic Retailer?</h3>
+			<p class="intro__text">We are currently taking on new Direct Retailers in the Continental US. All of our flagship products, including Trust Your Gut, Nothing Fishy Here, and So Lean &amp; So Clean are available for purchase.</p>
+			<p><b>Delivery Time: </b>{{ settings.wholesale_delivery_time }}</p>
+			<p><b>Minimum Purchase: </b>{{ settings.wholesale_minimum_purchase }}</p>
+			{% if settings.wholesale_current_offers %}
+				<p><b>Current Offers: </b>{% if settings.apply_wholesale_discount %}{{ settings.wholesale_discount_percent }}% off orders with the code <u>{{ settings.wholesale_discount_code }}</u>, {% endif %}{{ settings.wholesale_current_offers }}</p>
+			{% endif %}
+			<hr>
+			<a class="button show_form_login" href="#register"><button class="flat aqua medium">SIGN UP FOR AN ACCOUNT</button></a>
+			<a class="button show_form_login" href="#login"><i class="linear arrow__right"></i>OR CLICK HERE TO SIGN IN</a>
+		</div>
+		<div class="intro__media-background"></div>
+		<div class="intro__media">
+			<!-- Home: Press -->
+		  <div id="media__links" class="card">
+		    <div class="seen-in">
+		      <a title="Ora NBJ" href="#" target="_blank">
+		        <img src="{{ 'logo-nbj.png' | asset_img_url: '180x180' }}" alt="Ora organic supplements - featured in the Nutrition Business Journal">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Ora New Hope Network" href="http://www.newhope.com/vitamins-and-supplements/2017-watch-millennials-shift-supplements-world-these-3-ways" target="_blank">
+		        <img src="{{ 'logo-newhope.png' | asset_img_url: '180x180' }}" alt="Ora supplements - featured in New Hope Network Magazine">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Ora Vegnews" href="#" target="_blank">
+		        <img src="{{ 'logo-vegnews.png' | asset_img_url: '180x180' }}" alt="Ora supplements - featured in Vegnews best of vegan 2017">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Forbes" href="https://www.forbes.com/pictures/5921c9b74bbe6f1b730a8391/ora-organic-health-supple/#3ea0acc204fb" target="_blank">
+		        <img src="{{ 'logo-forbes.png' | asset_img_url: '180x180' }}" alt="Ora organic - Forbes Magazine">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Ora Fast Company Article" href="http://www.fastcoexist.com/3046309/take-your-vitamins-and-supplements-minus-all-the-artificial-ingredients" target="_blank">
+		        <img src="{{ 'logo-fastcompany.png' | asset_img_url: '180x180' }}" alt="Ora organic vegan supplements - featured in Fast Company articles">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Popsugar" href="https://www.popsugar.com/fitness/photo-gallery/43889754/image/43891759/Ora-So-Lean-So-Clean" target="_blank">
+		        <img id="popsugar" src="{{ 'logo-popsugar.png' | asset_img_url: '300x180' }}" alt="Ora organic - Popsugar Best Tasting Vegan Protein Powders Out There">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Ora Well and Good Article" href="http://wellandgood.com/2015/08/25/the-tasty-omega-supplement-that-wants-to-put-a-stop-to-the-burping/" target="_blank">
+		        <img src="{{ 'logo-well-and-good.png' | asset_img_url: '180x180' }}" alt="Ora organic vegan supplements - featured in Well and Good articles">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="ABC Shark Tank" href="http://abc.go.com/shows/shark-tank/episode-guide/season-8/18-episode-18" target="_blank">
+		        <img id="shark-tank" src="{{ 'logo-abc.png' | asset_img_url: '180x180' }}" alt="Ora organic - As seen on shark tank ABC">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Vogue" href="http://www.vogue.com/article/clover-grocery-new-york-cafe-health-food-organic-skin-care-beauty-elixirs" target="_blank">
+		        <img src="{{ 'logo-vogue.png' | asset_img_url: '180x180' }}" alt="Ora organic - Vogue Clover Grocery">
+		      </a>
+		    </div>
+		    <div class="seen-in">
+		      <a title="Huffington Post" href="http://www.huffingtonpost.com/entry/all-natural-supplements-pitched-on-shark-tank-ora_us_58b22f17e4b0e5fdf6197326" target="_blank">
+		        <img src="{{ 'logo-huffington-post.png' | asset_img_url: '200x200' }}" alt="Ora organic - Huffington Post Shark Tank">
+		      </a>
+		    </div>
+			</div>
+			<!-- Wholesale Media: Awards -->
+			<div class="media__award card">
+				<img src="{{ 'logo-nexty.png' | asset_img_url: '180x180' }}" alt="Ora Organic - Editor's Choice, Supplements, Nexty Expo East 2016">
+				<p class="award__title">Editor's Choice,<br>Supplements</p>
+				<p class="award__location">Expo East 2016</p>
+			</div>
+			<div class="media__award card">
+				<img src="{{ 'logo-nexty.png' | asset_img_url: '180x180' }}" alt="Ora Organic - Best New Supplement Delivery Format, Nexty Expo West 2017">
+				<p class="award__title">Best New Supplement<br> Delivery Format</p>
+				<p class="award__location">Expo West 2017</p>
+			</div>
+		</div>
+	</div>
+
+<!-- Wholesale: Sign In -->
+<div id="wholesale__sign-in" style="{% if customer %}display: block;{% endif %}">
+		{% if customer %}
+			{% if customer.tags contains 'Wholesale' %}
+		<!-- =================================== -->
+		<!-- ==== WHOLESALE ORDER FORM === -->
+		<!-- =================================== -->
+		<!-- Check if they're direct or distributor -->
+		<div id="direct__or__distributor" class="hero">
+			<div class="wrapper">
+				<h5>How will you be purchasing Ora Organic Products?</h5>
+				<a href="#direct__purchase" class="button"><button class="flat aqua outline">Direct</button></a>
+				<a href="#distributor__purchase" class="button"><button class="flat aqua outline">Distributor</button></a>
+			</div>
+		</div>
+
+		<!-- If they're direct, let's add wholesale items to cart, and then process an order through Shopify -->
+		<div id="direct__purchase">
+			<div id="direct__purchase__products">
+				<form id="order-form__direct" class="order-form multiAdd" method="post">
+					<div class="welcome">
+						<h3 class="order-form__prompt">Which products would you like to order?</h3>
+						<h5>Please pick the products you'd like to order from the options below. Click <b>Show Product Details</b> to see additional information on each of the products.</h5>
+						<hr>
+						<h6><span><b>Lead Time:</b> 7 Business Days</span>|<span><b>Minimum Order:</b> $100.00</span>|<span><b>Special Deal:</b> 15% off all Expo East Show orders!</span></h6>
+					</div>
+					<div class="products">
+					{% for product in collection.products %}
+					  {% for variant in product.variants %}
+          	<div class="product">
+              <a class="product__image" href="{{ variant.url | collection }}">
+                <img src="{{ variant.image | default: product.featured_image | img_url: 'large' }}" alt="{{ variant.title | escape }}" />
+              </a>
+              <a class="product__title" href="{{ variant.url | collection }}">
+                {% unless variant.sku == blank %}
+               	  <p><b>{{ variant.sku }}</b></p>
+                {% endunless %}
+                <p>{{ product.title }} {% unless variant.title contains 'Default' %}<span class="variant">({{ variant.title }})</span>{% endunless %}</p>
+              </a>
+              <div class="product__details__wrapper">
+              	<!-- PRODUCT DETAILS -->
+              	<a href="#" class="show_product__details">Show Product Details</a>
+              	<div class="product__details">
+              	<hr>
+              	{% for tag in product.tags %}
+              		<!-- PRODUCT SIZE -->
+              		{% if tag contains "size=" %}
+              			{% assign tag_content = tag | split: '=' %}
+              			<p><span class="name">Size: </span><span class="product__details__size">{{ tag_content[1] }}</span></p>
+              		{% endif %}
+              		<!-- PRODUCT SERVINGS -->
+              		{% if tag contains "servings=" %}
+              			{% assign tag_content = tag | split: '=' %}
+              			<p><span class="name">Servings: </span><span class="product__details__servings">{{ tag_content[1] }}</span></p>
+              		{% endif %}
+              		<!-- PRODUCT UNITS / CASE -->
+              		{% if tag contains "units_per_case=" %}
+              			{% assign tag_content = tag | split: '=' %}
+              			<p><span class="name">Units / Case: </span><span class="product__details__units_per_case">{{ tag_content[1] }}</span></p>
+              		{% endif %}
+              	{% endfor %}
+              	<p><span class="name" style="width: 90px">UPC: </span><span class="product__details__upc">{{ variant.barcode }}</span></p>
+              	</div>
+            	</div>
+              <hr>
+              <div class="product__price product__price__wholesale">
+              	<p><span class="name">Wholesale Cost: </span>$<span class="price__wholesale">{{ variant.price | money_without_currency }}</span></p>
+              </div>
+              <div class="product__price product__price__srp">
+              	<p><span class="name">SRP: </span>$<span class="price__srp">{{ variant.compare_at_price | money_without_currency }}</span></p>
+            	</div>
+              <div class="product__quantity-wrapper quantity-wrapper">
+	              <input id="direct__purchase_{{variant.id}}" name="updates[{{ variant.id }}]" onfocus="this.select()" class="quantity field" min="0" {% unless variant.inventory_management == blank or variant.inventory_policy == 'continue' %} max="{{ variant.inventory_quantity }}" {% endunless %} type="text" value="0" tabindex="1" />
+	              <div class="quantity__buttons">
+                  <a href="#" class="btn-plus"></a>
+                  <a href="#" class="btn-minus"></a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+		      {% endfor %}
+		      </div>
+		      <!-- Special cart just for the wholesale page -->
+					<div class="footer-cart">
+						<div class="subtotal">
+							<p><span class="name">Subtotal: </span>$<span class="subtotal">0.00</span></p>
+						</div>
+						<div class="shipping">
+							<p><span class="name">Shipping: </span><span class="shipping">0.00</span></p>
+						</div>
+						<div class="total">
+							<p><span class="name">Total: </span>$<span class="total">0.00</span></p>
+						</div>
+						{% if settings.apply_wholesale_discount %}
+						<div class="discount">
+						 <p class="text-accent-2">(<span class="desktop">Includes</span> <b>$<span class="discount">0.00</span> <span class="desktop">Discount</span><span class="mobile">off</span> </b>)</p>
+						</div>
+						{% endif %}
+						<div class="actions">
+							<p id="message__minimum_order">Minimum Order is $100</p>
+							<textarea name="note" class="hidden">Wholesale</textarea>
+							<input id="save" class="flat pink outline" type="button" value="Save for Later" />
+							<input id="complete" class="flat aqua outline" type="submit" value="Complete Order" />
+						</div>
+					</div>
+				</form>
+				<!-- SAVE CART FOR LATER -->
+				<div id="save-cart">
+					<div class="loading">
+						<img src="{{ 'cart-add.gif' | asset_url }}"/>
+						<div class="message__thank-you">
+							<h2>Thank you!</h2>
+							<p>You will receive an e-mail shortly with a link to your order.</p>
+							<a href="/" class="button"><button class="flat aqua outline">Back to Ora</button></a>
+						</div>
+					</div>
+					<div class="wrapper">
+						<form id="form__save-cart" method="post">
+							<div class="close-btn"><a></a></div>
+							<h5>Save for later</h5>
+							<h6>Fill out the information below to save your cart. We'll send a link to your e-mail address so you can access this page again at any time.</h6>
+							<input type="email" name="email" placeholder="Your e-mail address" required/>
+							<input type="text" name="name" placeholder="Your full name" required/>
+							<input type="text" name="company" placeholder="Your company name" required/>
+							<input id="cart_link" type="hidden" name="cart_link" value=""/>
+							<hr>
+							<input type="button" id="save_submit" class="flat aqua outline" value="Save cart" />
+							<input type="submit" class="hidden" value="Save cart" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- If they're distributor, let's get all their details, and send it to a google sheet to be processed later -->
+		<div id="distributor__purchase">
+			<div id="distributor__purchase__products">
+				<form id="order-form__distributor" class="order-form multiAdd" method="post">
+					<div class="welcome">
+						<h3 class="order-form__prompt">Which products would you like to order?</h3>
+						<h5>Please pick the products you'd like in order from the options below. Click <b>Show Product Details</b> to see additional information on each of the products.</h5>
+						<hr>
+						<h6><span><b>Lead Time:</b> 7 Business Days</span>|<span><b>Special Deal:</b> 15% off all Expo West Show orders!</span></h6>
+					</div>
+					<div class="products">
+					{% for product in collection.products %}
+					  {% for variant in product.variants %}
+          	<div class="product">
+              <a class="product__image" href="{{ variant.url | collection }}">
+                <img src="{{ variant.image | default: product.featured_image | img_url: 'large' }}" alt="{{ variant.title | escape }}" />
+              </a>
+              <a class="product__title" href="{{ variant.url | collection }}">
+                {% unless variant.sku == blank %}
+               	  <p><b>{{ variant.sku }}</b></p>
+                {% endunless %}
+                <p>{{ product.title }} {% unless variant.title contains 'Default' %}<span class="variant">({{ variant.title }})</span>{% endunless %}</p>
+              </a>
+              <div class="product__details__wrapper">
+              	<!-- PRODUCT DETAILS -->
+              	<a href="#" class="show_product__details">Show Product Details</a>
+              	<div class="product__details">
+              	<hr>
+              	{% for tag in product.tags %}
+              		<!-- PRODUCT SIZE -->
+              		{% if tag contains "size=" %}
+              			{% assign tag_content = tag | split: '=' %}
+              			<p><span class="name">Size: </span><span class="product__details__size">{{ tag_content[1] }}</span></p>
+              		{% endif %}
+              		<!-- PRODUCT SERVINGS -->
+              		{% if tag contains "servings=" %}
+              			{% assign tag_content = tag | split: '=' %}
+              			<p><span class="name">Servings: </span><span class="product__details__servings">{{ tag_content[1] }}</span></p>
+              		{% endif %}
+              		<!-- PRODUCT UNITS / CASE -->
+              		{% if tag contains "units_per_case=" %}
+              			{% assign tag_content = tag | split: '=' %}
+              			<p><span class="name">Units / Case: </span><span class="product__details__units_per_case">{{ tag_content[1] }}</span></p>
+              		{% endif %}
+              	{% endfor %}
+              	<p><span class="name" style="width: 90px">UPC: </span><span class="product__details__upc">{{ variant.barcode }}</span></p>
+              	</div>
+            	</div>
+              <hr>
+              <div class="product__price product__price__wholesale">
+	              <!-- DISTRIBUTOR PRICE -->
+                {% for tag in product.tags %}{% if tag contains "distributor_price=" %}
+            			{% assign tag_content = tag | split: '=' %}
+	              	<p><span class="name">Wholesale Cost: </span>$<span class="price__wholesale">{{ tag_content[1] }}</span></p>
+              	{% endif %}{% endfor %}
+              </div>
+              <div class="product__price product__price__srp">
+              	<p><span class="name">SRP: </span>$<span class="price__srp">{{ variant.compare_at_price | money_without_currency }}</span></p>
+            	</div>
+              <div class="product__quantity-wrapper quantity-wrapper">
+	              <input id="distributor__purchase_{{variant.id}}" name="{{variant.sku}}" onfocus="this.select()" class="quantity field" min="0" {% unless variant.inventory_management == blank or variant.inventory_policy == 'continue' %} max="{{ variant.inventory_quantity }}" {% endunless %} type="text" value="0" tabindex="1" />
+	              <div class="quantity__buttons">
+                  <a href="#" class="btn-plus"></a>
+                  <a href="#" class="btn-minus"></a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+		      {% endfor %}
+		      </div>
+		      <!-- Special cart just for the wholesale page -->
+					<div class="footer-cart">
+						<div class="subtotal">
+							<p><span class="name">Subtotal: </span>$<span class="subtotal">0.00</span></p>
+						</div>
+						<div class="shipping">
+							<p><span class="name">Shipping: </span><span class="shipping">0.00</span></p>
+						</div>
+						<div class="total">
+							<p><span class="name">Total: </span>$<span class="total">0.00</span></p>
+						</div>
+						{% if settings.apply_wholesale_discount %}
+						<div class="discount">
+						 <p class="text-accent-2">(<span class="desktop">Includes</span> <b>$<span class="discount">0.00</span> <span class="desktop">Discount</span><span class="mobile">off</span> </b>)</p>
+						</div>
+						{% endif %}
+						<div class="actions">
+							<input name="discount_code"    value="{{ settings.wholesale_discount_code }}" type="hidden"/>
+            	<input name="discount_percent" value="{{ settings.wholesale_discount_percent }}%" type="hidden"/>
+            	<input name="order_total"      value="0" type="hidden"/>
+							<input id="show_form_submit" class="flat aqua outline" type="button" value="Next" />
+						</div>
+					</div>
+					<div id="form_submit">
+						<div class="loading">
+							<img src="{{ 'cart-add.gif' | asset_url }}"/>
+							<div class="message__thank-you">
+								<h2>Thank you!</h2>
+								<p>Our sales team and your distributor will be in touch shortly to confirm and process your order.</p>
+								<a href="/" class="button"><button class="flat aqua outline">Back to Ora</button></a>
+							</div>
+						</div>
+						<div class="wrapper">
+							<div class="close-btn">
+								<a id="close-form" href="#"></a>
+							</div>
+							<div class="fields">
+								<h5>Nearly there!</h5>
+								<p style="margin-bottom: 0;">Please enter your details below: </p>
+								<p style="font-size: 10px">(<span class="text-accent-2">*</span> denotes a required field)</p>
+							  <div class="field-wrapper required">
+							  	<input type="text"   name="company" placeholder="Company name" value="{{customer.company}}" required/>
+							  </div>
+							  <div class="field-wrapper required">
+							  	<input type="text"   name="contact_name" placeholder="Contact name" value="{{customer.first_name}} {{customer.last_name}}" required/>
+							  </div>
+							  <div class="field-wrapper required">
+							  	<input type="text"   name="distributor" placeholder="Your distributor" value="" required/>
+							  </div>
+							  <div class="field-wrapper required">
+							  	<input type="tel"    name="contact_number" placeholder="Phone number" required/>
+							  </div>
+							  <div class="field-wrapper required">
+							  	<input type="email"  name="contact_email" placeholder="Email address" value="{{customer.email}}" required/>
+							  </div>
+							  <div class="field-wrapper">
+								  <input type="text"   name="purchase_order_number" placeholder="Purchase order #" />
+							  </div>
+							  <hr>
+							  <h6>Billing Address</h6>
+							  <div class="field-wrapper required"><input type="text"   name="billing_address_street" placeholder="Street address" required/></div>
+							  <div class="field-wrapper required"><input type="text"   name="billing_address_city" placeholder="City" required/></div>
+							  <div class="field-wrapper required"><input type="text"   name="billing_address_state" placeholder="State" required/></div>
+							  <div class="field-wrapper required"><input type="number" name="billing_address_zip" placeholder="Zipcode" required/></div>
+							  <h6>Shipping Address</h6>
+							  <div class="field-wrapper">
+							  	<input id="same_billing_address" type="checkbox" name="billing_same_as_shipping" />
+							  	<label for="billing_same_as_shipping">Same as Billing Address?</label>
+							  </div>
+							  <div class="field-wrapper required"><input type="text"   name="shipping_address_street" placeholder="Street address" required/></div>
+							  <div class="field-wrapper required"><input type="text"   name="shipping_address_city" placeholder="City" required/></div>
+							  <div class="field-wrapper required"><input type="text"   name="shipping_address_state" placeholder="State" required/></div>
+							  <div class="field-wrapper required"><input type="number" name="shipping_address_zip" placeholder="Zipcode" required/></div>
+							  <hr>
+							  <h6>Required Delivery Date (if applicable)</h6>
+							  <div class="field-wrapper"><input type="date"   name="delivery_date" placeholder="Required delivery date" /></div>
+							  <!-- SUBMIT FORM -->
+							  <hr>
+								<input class="flat aqua outline" type="submit" value="Complete Order" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+			{% else %}
+				<div id="non-wholesale_customer">
+					<div class="message">
+						<h5>Sorry! You're not registered for a Wholesale Account. If you'd like to become a retailer for Ora Organic, please e-mail us at <a href="mailto:shannon@ora.organic">shannon@ora.organic</a> and we'll get you set up.</h5>
+					</div>
+				</div>
+			{% endif %}
+		{% else %}
+	    <!-- =================================== -->
+			<!-- ==== SIGN UP / SIGN IN === -->
+			<!-- =================================== -->
+			<div id="register" class="form-container">
+				<div id="sign-up-form">
+				{% form 'create_customer' %}
+		    <div class="errors">
+		      {% if form.errors %}
+		        {% assign form_errors = form.errors | default_errors %}
+		        {{ form.errors | default_errors }}
+		      {% endif %}
+		    </div>
+		    <input type="hidden" name="return_to" value="{{ collections['order-form'].url }}" />
+		    <div id="create-account" class="login-box">
+		      <h3 class="accounts-title">Sign up to be an Ora retailer.</h3>
+		      <input id="first_name" type="text" value="" name="customer[first_name]" id="first_name" class="long login-input" size="30" placeholder="First name" />
+		      <input id="last_name" type="text" value="" name="customer[last_name]" id="last_name" class="long login-input" size="30" placeholder="Last name" />
+		      <input id="email" type="email" value="" name="customer[email]" id="email" class="long login-input" size="30" placeholder="E-mail"/>
+		      <input id="password" type="password" value="" name="customer[password]" id="password" class="long login-input" size="30" placeholder="Password"/>
+		      <div class="actions">
+		        <a href="#signup"><input id="sign-up-btn" type="submit" class="flat aqua" value="SIGN UP" /></a>
+		        <input type="hidden" name="customer[tags][tag-1]" value="Wholesale" />
+		      </div>
+		      <hr>
+		      <p>Already a Retailer? <a class="switch_button" href="#login">Sign in here</a></p>
+			  </div>
+		    {% endform %}
+		    </div>
+	    </div>
+	    <div id="login" class="form-container">
+			  <div class="form container-fluid">
+			    <div class="col-md-8 col-md-offset-2">
+			      <div id="recover" class="login-box">
+			      <!-- START RECOVER PASSWORD -->
+			      {% form 'recover_customer_password' %}
+			          {% if form.errors != null %}
+			            <div class="container-fluid errors">
+			              <p >Sorry, no account found with that e-mail address!</p>
+			            </div>
+			          {% endif %}
+			          <div class="template_header">
+			            <h1 class="accounts-title">Don't worry!</h1>
+			          </div>
+			          <div id="recover_email" class="clearfix">
+			            <input type="email" value="" size="30" name="email" id="recover-email" placeholder="Enter your e-mail address" />
+			          </div>
+			          <p class="recover-message">We'll send you an e-mail with a link to reset your password.</p>
+			          <div class="actions">
+			            <input type="submit" class="flat aqua" value="{{ 'customer.login.forgot_password_submit_button' | t }}" />
+			            <a id="cancel-forgot-pwd" class="text-accent-2">Cancel</a>
+			          </div>
+			          {% if form.posted_successfully? %}
+			            {% assign reset_success = true %}
+			          {% endif %}
+			      {% endform %}
+			      <!-- END RECOVER PASSWORD -->
+			      </div>
+			      <div id="login-form" class="login-box">
+			      <!-- START LOGIN FORM -->
+			      {% form 'customer_login' %}
+			        <div class="text-center">{{ form.errors | default_errors }}</div>
+			        <p class="reset-success success"><span class="text-accent-2">Thanks!</span> Instructions for resetting your password have been sent.</p>
+			        <div>
+			          <h3>Welcome Back!</h3>
+			          <div id="login_email" class="clearfix large_form">
+			            <input type="email" value="" name="customer[email]" id="customer_email" class="long login-input" placeholder="E-mail address" />
+			          </div>
+			          {% comment %}
+			            Customer Account Login
+			          {% endcomment %}
+			          <div id="login_password" class="clearfix large_form">
+			            <input type="password" value="" name="customer[password]" id="customer_password" class="long password login-input" placeholder="Password"/>
+			          </div>
+			          <!-- START FORGOT PASSWORD -->
+			          <div class="forgot-password container-fluid">
+			            <a href="#recover"><p id="forgot-pwd">{{ 'customer.login.forgot_password' | t }}</p></a>
+			          </div>
+			          <!-- END FORGOT PASSWORD -->
+			          <div class="login actions">
+			            <input type="submit" class="flat aqua" value="sign in" />		
+			            <hr />     
+			            <p>Don't have an account? Sign up <a class="switch_button" href="#register">here.</a></p>
+			          </div>
+			        </div>
+			      {% endform %}
+			      </div>
+			    </div>
+			  </div>
+		  </div>
+		{% endif %}
+</div>
+<style>
+	/* Hide the shopping cart because we're on the wholesale page */
+	.login-cart {
+		padding-right: 10px;
+	}
+	.login-cart .callout,
+	.beeketing-page-block,
+	footer {
+		display: none !important;
+	}
+</style>
+<!-- LOGIN FORM SCRIPT -->
+<script>
+  $(document).ready(function showRecoverPasswordForm() {
+    $('#forgot-pwd').click(function(){
+        $('#login-form').fadeOut();
+        $(this).fadeIn();
+        $('#recover').fadeIn();
+      return false;
+    });
+    
+    $('#cancel-forgot-pwd').click(function(){
+        $('#forgot-pwd').fadeOut();
+        $('#recover').fadeOut();
+        $('#login-form').fadeIn();
+      return false;
+    });
+
+    {% if reset_success %} 
+      $(".reset-success").show();
+    {% endif %}
+    
+  });
+
+  // Sign up button
+  $('#sign-up-btn').click(function() {
+  	window.location.href += "#signup";
+  })
+
+  $(document).ready(function() {
+
+  	// Show wholesale sign in / login screen
+  	$('.show_form_login').click(function() {
+  		$('.intro__wrapper').fadeOut();
+  		$('.form-container').fadeOut();
+  		$('#wholesale__sign-in').fadeIn();
+  		$($(this).attr('href')).fadeIn();
+  	})
+
+  	// Show login form
+  	$('.switch_button').click(function () {
+  		$('.form-container').fadeOut();
+  		$($(this).attr('href')).fadeIn();
+  	})
+    if (window.location.href.indexOf('#recover') > -1){
+      $('#forgot-pwd').slideUp();
+      $('#login-form').slideUp();
+      $('#recover').slideDown();
+      return false;
+    }
+  });
+</script>
+<!-- SCRIPT TO SEND DISTRIBUTOR ORDER FORM TO OUR SPREADSHEET -->
+<script>
+$(document).ready(function() {
+	/* Show Submit Form Popup for Distributor Order form */
+	$('#show_form_submit').click(function(e) {
+		e.preventDefault();
+		$('#form_submit').addClass('show');
+		$('.products, .footer-cart').addClass('hidden-mobile');
+		$('#form_submit').click(function(e) {
+			var container = $("#form_submit .wrapper");
+			var close_btn = $('#close-form');
+			if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+      {
+				$('#form_submit').removeClass('show');
+				$('.products, .footer-cart').removeClass('hidden-mobile');
+			} else if (close_btn.is(e.target)) {
+				$('#form_submit').removeClass('show');
+				$('.products, .footer-cart').removeClass('hidden-mobile');
+			}
+		})
+	})
+	/* Handle form Billing Address Checkbox */
+	$('#same_billing_address').change(function() {
+		if ($(this).is(':checked')) {
+			$('#order-form__distributor input[name="shipping_address_street"]')
+				.val($('#order-form__distributor input[name="billing_address_street"]').val());
+			$('#order-form__distributor input[name="shipping_address_city"]')
+				.val($('#order-form__distributor input[name="billing_address_city"]').val());
+			$('#order-form__distributor input[name="shipping_address_state"]')
+				.val($('#order-form__distributor input[name="billing_address_state"]').val());
+			$('#order-form__distributor input[name="shipping_address_zip"]')
+				.val($('#order-form__distributor input[name="billing_address_zip"]').val());
+		}
+	})
+
+  /* Parse form details and create a JSON object that we can send to the server to retrieve results */
+	$('#order-form__distributor').submit(function(e) {
+		e.preventDefault();
+		console.log('submitting form...');
+		
+		$('#form_submit .wrapper .fields').css('opacity', 0).hide();
+		// Queue up the loading!
+		$('#form_submit .loading').queue(function() { $(this).fadeIn().dequeue(); });
+		
+		/* Get input values from form - serializeArray() returns us a jQuery array of the form inputs */
+    values = jQuery("#order-form__distributor").serializeArray();
+
+    var output = [];
+    /* Create output for interpretation by Webhook */
+    /* Define count as -1, as it refers to the **PREVIOUS** value in the loop */
+    var count = -1;
+    var email = "";
+    /* Loop through existing values and consolidate like 'name' values */
+    values.forEach(function(value, index) {
+    	/* If the count is -1, then we are on the first value */
+    	var key = value.name;
+    	var attr = value.value;
+    	var obj = {};
+
+    	if (count > -1){
+    		/* If the current value name is the same previous one, then concatenate the values */
+    		if (Object.keys(output[count])[0] == key) {
+    			output[count][key] += ", "+attr;
+    		} else { /* If they're different, then create a new array object */
+    			obj[key] = attr;
+    			output.push(obj) ;
+    			count++;
+    		}
+    	} else { 
+    		obj[key] = attr;
+    		output.push(obj);
+    		count++;
+    	}
+    	/* Log the output of each value */
+			// console.log(output);
+			if (key == "email") {
+				email = attr;
+			}
+
+    })
+    String.prototype.replaceAll = function(search, replacement) {
+		    var target = this;
+		    return target.replace(new RegExp(search, 'g'), replacement);
+		};
+    /* Log the final output */
+		var final_output = JSON.stringify(output)
+												.replace("[","")
+												.replace("]","")
+												.split("{").join(" ")
+												.split("}").join(" ");
+		// console.log({final_output});
+
+		/* Send the data to Zapier webhook (Mailchimp and Google Sheets) */
+		$.ajax({
+		  type: "POST",
+		  url: "https://hooks.zapier.com/hooks/catch/914765/mw7hzf/",
+		  data: "{"+final_output+"}",
+		  success: (function() {
+		  	console.log("submission success");
+		  	$('#form_submit .loading')
+					.queue(function() { $(this).children('img').fadeOut(); $(this).dequeue(); })
+					.delay(400)
+					.queue(function() { $(this).children('.message__thank-you').fadeIn(); $(this).dequeue(); });
+
+		  })(),
+		  dataType: JSON
+		});
+	})
+
+;})
+</script>
+<script>
+	
+	$(document).ready(function() {
+		/**
+		* SHOW/HIDE DIRECT ORDER FORM
+		*/
+		$('#direct__or__distributor a').click(function(e) {
+			e.preventDefault();
+			var form = $($(this).attr('href'));
+			/**
+			* UPDATE CART
+			* Clear and then Update the cart to get all wholesale items that are currently in it.
+			*/
+			$('.shopping-cart .quantity').each(function() {
+				var quantity = $(this).val();
+				var id = $(this).attr('id').split('updates_')[1];
+				// Each quantity input has a unique id, prefixed by the relevant form
+				$('#'+form.attr('id')+"_"+id).val(quantity);
+			})
+			// Slide down the form
+			$('#direct__or__distributor').slideUp();
+			form.slideDown();
+			// Update the Totals
+			updateTotals();
+			updateQuantity();
+		})
+
+		/**
+		* SHOW PRODUCT DETAILS
+		*/
+		$('.show_product__details').click(function(e) {
+			e.preventDefault();
+			if ($(this).hasClass('details__visible')) {
+				$(this)
+					.html('Show Product Details')
+					.removeClass('details__visible')
+				  .next().slideUp(); 
+			} else {
+				$(this)
+					.html('Hide Product Details')
+					.addClass('details__visible')
+					.next().slideDown();
+			}
+		})
+
+		/**
+		* DYNAMIC FOOTER CART 
+		* All the scripts required to dynamically update the footer cart subtotal and totals
+		*/
+		// Run update Totals and updateQuantity on page load
+		updateTotals();
+		updateQuantity();
+		// Update Totals Function
+		function updateTotals() {
+			// Set everything to zero
+			$('span.subtotal, span.shipping, span.total').html("0.00");
+			// If there is a wholesale discount, get that
+			{% if settings.apply_wholesale_discount %}
+			var wholesale_discount = 1-(Number("{{ settings.wholesale_discount_percent }}")/100); 
+			{% else %}
+			var wholesale_discount = 1;
+			{% endif %}
+
+			// Calculate Totals for each order form
+			var subtotal = 0;
+
+			$('.order-form').each(function() {
+				$(this).find('.quantity').each(function() { 
+					var quantity = Number($(this).val());
+					var price    = Number($(this).parents('.product').find('.price__wholesale').html()).toFixed(2);
+					subtotal += (quantity * price);
+				})
+				// Subtotal
+				$(this).find('span.subtotal').html(subtotal.toFixed(2));
+				{% if settings.apply_wholesale_discount %}
+					$(this).find('span.discount').html((subtotal*(1-wholesale_discount)).toFixed(2));
+				{% endif %}
+
+				// Calculate Shipping
+				var shipping = 0;
+				if (subtotal < (200.00/wholesale_discount)) {
+					shipping = 9.95;
+					$(this).find('span.shipping').html('$'+shipping);
+				} else {
+					$(this).find('span.shipping').html('Free');
+				}
+
+				// Calculate Total
+				var total = (subtotal + shipping)*wholesale_discount;
+				$(this).find('span.total').html(total.toFixed(2));
+				$(this).find('input[name="order_total"]').val(total.toFixed(2));
+			})
+
+			// Minimum Order
+			if (subtotal < (100.00/wholesale_discount)) {
+				$('#order-form__direct #message__minimum_order').fadeIn();
+				$('#order-form__direct  .actions input').addClass('inactive');
+			} else {
+				$('#order-form__direct #message__minimum_order').fadeOut();
+				$('#order-form__direct .actions input').removeClass('inactive');
+			}
+
+		}
+		$('.order-form .quantity').on('change paste keyup', function() {
+			updateTotals();			
+		})
+
+	});
+
+	/** 
+	* SAVE FOR LATER 
+	* Save the cart (clear & update the cart) and show a popup that allows the user
+	* to enter their details and have a link to the wholesale page e-mailed to them.
+	*/
+	$('#order-form__direct #save').click(function() {
+
+		$('#save-cart').addClass('show'); // Fade in the Save cart wrapper and form (modal)
+		$('.products, .footer-cart').addClass('hidden-mobile'); // Fade out the footer cart on mobile
+
+
+		$('#save-cart').click(function(e) {
+			var container = $("#save-cart .wrapper");
+			var close_btn = $("#save-cart .close-btn a");
+
+			if (!container.is(e.target) // if the target of the click isn't the container...
+	          && container.has(e.target).length === 0) // ... nor a descendant of the container
+	    {
+
+				$('#save-cart').removeClass('show');
+				$('.products, .footer-cart').removeClass('hidden-mobile');
+
+			} else if (close_btn.is(e.target)) {
+
+				$('#save-cart').removeClass('show');
+				$('.products, .footer-cart').removeClass('hidden-mobile');
+
+			}
+		})
+	})
+	/**
+	* CREATE PERMALINK TO CART
+	* Create a cart link that will be sent to the user by e-mail, that way they can return
+	* at any time to complete their purchase. We submit the form from here to make sure that
+	* the cart link is included in the form before it goes out
+	*/
+	function createCartPermalink() {
+
+		var cart_link = "{{ shop.url }}/cart/";
+
+		$('#order-form__direct .quantity').each(function() {
+
+			var variant_id  = $(this).attr("id").split("purchase_")[1];
+			var variant_qty = $(this).val();
+			var variant_url = variant_id+":"+variant_qty+","; // format for Shopify cart permalink
+
+			if (variant_qty > 0) {
+				cart_link += variant_url;
+			}
+			
+		})
+		// Remove extraneous commas
+		if (cart_link.endsWith(",")) {
+			cart_link = cart_link.substring(0, (cart_link.length-1));
+		}
+		// Create the hidden input with cart link to be sent out to Zapier
+		$('#cart_link').val(cart_link);
+		$('#form__save-cart').submit();
+	}
+	/**
+	* SEND CART TO MAILCHIMP
+	*/
+	$('#save_submit').click(function(e) {
+		$('#form__save-cart').css('opacity', 0).hide();
+		// Queue up the loading!
+		$('#save-cart .loading').queue(function() { $(this).fadeIn().dequeue(); });
+		addItemsToCart(e);
+	})
+	$('#form__save-cart').submit(function(e) {
+		e.preventDefault();
+
+		/* Get input values from form - serializeArray() returns us a jQuery array of the form inputs */
+    values = jQuery("#form__save-cart").serializeArray();
+
+    var output = [];
+    /* Create output for interpretation by Webhook */
+    /* Define count as -1, as it refers to the **PREVIOUS** value in the loop */
+    var count = -1;
+    var email = "";
+    /* Loop through existing values and consolidate like 'name' values */
+    values.forEach(function(value, index) {
+    	/* If the count is -1, then we are on the first value */
+    	var key = value.name;
+    	var attr = value.value;
+    	var obj = {};
+
+    	if (count > -1){
+    		/* If the current value name is the same previous one, then concatenate the values */
+    		if (Object.keys(output[count])[0] == key) {
+    			output[count][key] += ", "+attr;
+    		} else { /* If they're different, then create a new array object */
+    			obj[key] = attr;
+    			output.push(obj) ;
+    			count++;
+    		}
+    	} else { 
+    		obj[key] = attr;
+    		output.push(obj);
+    		count++;
+    	}
+    	/* Log the output of each value */
+			// console.log(output);
+			if (key == "email") {
+				email = attr;
+			}
+
+    })
+    String.prototype.replaceAll = function(search, replacement) {
+		    var target = this;
+		    return target.replace(new RegExp(search, 'g'), replacement);
+		};
+    /* Log the final output */
+		var final_output = JSON.stringify(output)
+												.replace("[","")
+												.replace("]","")
+												.split("{").join(" ")
+												.split("}").join(" ");
+		console.log({final_output});
+
+		/* Send the data to Zapier webhook (Mailchimp and Google Sheets) */
+		$.ajax({
+		  type: "POST",
+		  url: "https://hooks.zapier.com/hooks/catch/914765/mlwfug/",
+		  data: "{"+final_output+"}",
+		  success: (function() {
+		  	console.log("submission success");
+		  	$('#save-cart .loading')
+					.queue(function() { $(this).children('img').fadeOut(); $(this).dequeue(); })
+					.delay(400)
+					.queue(function() { $(this).children('.message__thank-you').fadeIn(); $(this).dequeue(); });
+
+		  })(),
+		  dataType: JSON
+		});
+	})
+
+	function addItemsToCart(e) {
+		Shopify.queue = [];
+
+		$('#order-form__direct .quantity').each(function() {
+			variant_id = $(this).attr('id').split('purchase_')[1];
+			// If the quantity is greater than zero, then add the item to the queue
+			if ($(this).val() > 0) {
+				Shopify.queue.push( {
+			    variantId: variant_id,
+			    quantity: parseInt($(this).val(), 10) || 0
+			  } );
+			}
+		  // Clear the item from the cart
+		  Shopify.removeItem(variant_id);
+		});
+
+		Shopify.moveAlong = function() {
+			// console.log(Shopify.queue);
+		  // If we still have requests in the queue, let's process the next one.
+		  if (Shopify.queue.length) {
+		    var request = Shopify.queue.shift();
+		    Shopify.addItem(request.variantId, request.quantity, Shopify.moveAlong);
+		  }
+		  // If the queue is empty, we will redirect to the checkout page.
+		  else {
+		  	if ($(e.target).is("#order-form__direct")) {
+		  		document.location.href = '/checkout';	
+		  	} else {
+		  		createCartPermalink();
+		  	}
+		  }
+		};
+
+		Shopify.moveAlong();
+	}
+
+	/**
+	 * CHECKOUT SCRIPT
+	 * Clear the cart add all the products to the cart, then send the user to Checkout.
+	 */
+	$('#order-form__direct').submit(function(e) {
+		e.preventDefault();
+		addItemsToCart(e);
+	})
+</script>

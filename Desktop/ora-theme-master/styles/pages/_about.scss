@@ -1,0 +1,389 @@
+#about {
+
+	/* Introduction */
+	#introduction {
+		max-width: 1440px;
+		margin: 0 auto;
+		padding: 60px;
+		@include display-flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 90vh;
+		flex-flow: row wrap;
+
+		/* Introduction: Image */
+		.introduction__image-wrapper {
+			flex: 1;
+
+			.introduction__image-image {
+				border-radius: 8px;
+				max-width: 720px;
+			}
+		}
+		/* Introduction: Text */
+		.introduction__text-wrapper {
+			flex: 1;
+			margin-left: 60px;
+			padding: 0;
+
+			.introduction__text-heading {
+				margin: 7.5px 0 22.5px;
+				font-size: 48px;
+			}
+			.introduction__text-content {
+				margin: 0 0 22.5px;
+
+				p {
+					font-size: 16px;
+				}
+			}
+			.introduction__text-actions {
+				button {
+					margin: 0 0 22.5px;
+					padding-left: 30px;
+					padding-right: 30px;
+				}
+			}
+		}
+	}
+
+	/* Products */
+	#products {
+		height: auto;
+
+		/* Products: Photo */
+		.products__photo-wrapper {
+			position: relative;
+
+			.products__photo-image {
+				width: 100%;
+			}
+		
+		}
+
+		/* Products: Info */
+		.products__info-wrapper {
+			display: block;
+			width: 100%;
+			background-color: $color__background-alternate;
+			padding: 30px 0;
+			@include display-flex;
+			justify-content: center;
+			align-items: center;
+
+			.product__info-text {
+				max-width: 750px;
+				@include display-flex;
+				justify-content: center;
+				align-items: center;
+
+				p {
+					flex: 2;
+					margin: 0;
+				}
+				.button {
+					flex: 1;
+
+					button {
+						width: 100%;
+						margin: 0;
+					}
+				}
+			}
+		}
+
+	}
+
+	/* Team */
+	#team {
+		text-align: center;
+
+		.header {
+			padding: 60px 60px;
+
+			h2 {
+				font-style: italic;
+				font-size: 48px;
+				padding: 30px 0 15px;
+			}
+			h5 {
+				font-family: Avenir;
+		    font-size: 18px;
+		    width: 55%;
+		    line-height: 1.6em;
+		    display: block;
+		    margin: 0 auto;
+		    font-weight: normal;
+			}
+		}
+
+		.team__profiles {
+			padding: 15px 5% 60px;
+
+			#team__profiles-table {
+				tbody {
+					@include display-flex;
+					flex-flow: row wrap;
+					justify-content: center;
+				}
+				tr {
+					@include display-flex;
+					flex-flow: column nowrap;
+					max-width: 300px;
+					margin: 0 2%;
+				}
+				td:nth-of-type(1) {
+					padding: 30px;
+					width: 100% !important;
+					img {
+						border-radius: 50%;
+						width: 100%;
+						height: 100%;
+					}
+				}
+				td:nth-of-type(2) {
+					font-size: 30px;
+					font-style: italic;
+					font-family: $baskerville;
+					width: 100% !important;
+					margin-bottom: 15px;
+				}
+				td:nth-of-type(3) {
+					font-size: 16px;
+					padding: 0 30px 45px;
+					width: 100% !important;
+				}
+				td:nth-last-of-type(1) {
+					display: none;
+				}
+			}
+		}
+	}
+	/* VIDEO */
+	#video {
+		text-align: center;
+		background-color: $color__background-alternate;
+		position: relative;
+		padding: 60px 0;
+		height: auto;
+
+		.video__text-wrapper {
+			max-width: 840px;
+			margin: 0 auto;
+
+			.video__text-heading {
+				margin: 0 0 15px;
+			}
+			.video__text-content {
+				p {
+					font-size: 16px;
+				}
+			}
+		}
+
+		iframe {
+			width: 100%;
+			min-height: 70vh;
+			max-width: 1200px;
+			margin: 60px auto;
+			border-radius: 8px;
+		}
+	}
+	#contact-us {
+		.wrapper {
+			@include vertical-align;
+
+			a {
+				display: block;
+				margin: 0 auto;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: none;
+				}
+				button {
+					padding: 10px 45px;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+	#about {
+		/* About: Mission */
+		#introduction {
+			padding: 0;
+
+			.introduction__image-wrapper {
+				flex: none;
+				width: 100%;
+				margin-bottom: 30px;
+
+				.introduction__image-image {
+					width: 100%;
+					border-radius: 0;
+					max-width: initial;
+				}
+			}
+			.introduction__text-wrapper {
+				margin-left: 0;
+				text-align: justify;
+				padding: 30px 60px 45px;
+			}
+		}
+		/* Products */
+		#products {
+			.products__info-wrapper {
+				.product__info-text {
+					padding: 0 30px;
+
+					p {
+						margin-right: 15px;
+					}
+				}
+			}
+		}
+		/* About: Team */
+		#team {
+			.header {
+				h5 {
+					width: 90%;
+				}
+			}
+		}
+		/* Video */
+		#video {
+			padding: 60px 45px 0;
+
+			iframe {
+				margin: 45px auto;
+			}
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	#about {
+		text-align: justify;
+
+		#introduction {
+			height: auto;
+			padding: 0;
+			max-width: initial;
+			flex-flow: row wrap;
+
+			.introduction__image-wrapper {
+				width: 100%;
+				max-width: initial;
+				flex: none;
+
+				.introduction__image-image {
+					width: 120%;
+					margin-left: -11%;
+					border-radius: none;
+				}
+			}
+			.introduction__text-wrapper {
+				width: 100%;
+				margin: 0;
+				padding: 22.5px;
+				flex: none;
+
+				.introduction__text-heading {
+					font-size: 36px;
+				}
+				.introduction__text-content {
+				}
+				.introduction__text-actions {
+					button {
+						width: 100%;
+					}
+				}
+			}
+		}
+		/* Products */
+		#products {
+			.products__info-wrapper {
+				padding: 0;
+
+				.product__info-text {
+					flex-flow: row wrap;
+					width: 100%;
+					padding: 22.5px;
+					text-align: center;
+
+					p {
+						flex: none;
+						width: 100%;
+						margin-bottom: 15px;
+						font-size: 16px;
+					}
+				}
+			}
+		}
+		/* About: Team */
+		#team {
+			/* Team: Header */
+			.header {
+				padding: 22.5px;
+
+				h2 {
+					padding: 0;
+					margin-bottom: 22.5px;
+					font-size: 36px;
+					text-align: center;
+				}
+				h5 {
+					width: auto;
+					font-size: 16px;
+					text-align: justify;
+				}
+			}
+			/* Team: Team Profiles */
+			.team__profiles {
+				#team__profiles-table {
+					display: block;
+					margin: 0 auto;
+				}
+			}
+		}
+		/* Video */
+		#video {
+			padding: 60px 0 0;
+
+			/* Video: Text Wrapper */
+			.video__text-wrapper {
+				padding: 0 22.5px;
+
+				.video__text-heading {
+					margin: 0 15px 22.5px;
+					font-size: 36px;
+				}
+				.video__text-content {
+					text-align: justify;
+
+					p {
+						width: 100%;
+					}
+				}
+			}
+			/* Video: Video Wrapper */
+			#video__video-wrapper {
+				iframe {
+					min-height: initial;
+					border-radius: 0;
+					margin: 30px auto 0;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	#about {
+		#products {
+
+		}
+	}
+}

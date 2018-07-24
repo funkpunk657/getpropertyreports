@@ -1,0 +1,62 @@
+  <p id="mobile-title">Your Account</p>
+  <div id="sidebar" class="sidebar">
+    <div class="header">
+      <a href="/"><img src="{{ 'logo.png' | asset_url }}"/></a>
+      <p class="welcome">
+        <b>{{ customer.name }}</b>
+        <br> 
+        {{ customer.email }}
+      </p>
+      <div class="breadcrumbs">
+        {% if customer.tags contains 'Wholesale' %}
+          <a id="previous">Wholesale Account</a>
+        {% else %}
+          <a id="previous">Account</a><p>  /  </p><a id="current">Dashboard</a>
+        {% endif %}
+      </div>
+    </div>
+    <ul>
+      <li id="dashboard_link" class="title link active"><a href="#dashboard">Dashboard</a></li>
+      {% unless customer.tags contains 'Wholesale' %}
+      <li id="subscriptions_link" class="title link">
+        {% if customer.metafields.subscriptions.customer_string %}
+          <a id="to_subscriptions" href="/tools/recurring/customer/{{customer.metafields.subscriptions.customer_string}}/subscriptions/">Subscriptions</a>
+        {% else %}
+          <a href="#subscriptions">Subscriptions</a>
+        {% endif %}
+      </li>
+      {% endunless %}
+      <li id="addresses_link" class="title link"><a href="#addresses">Addresses</a></li>
+      <li id="order_history_link" class="title link"><a href="#order_history">Order History</a></li>
+      {% if customer.tags contains 'Wholesale' %}
+        <li id="wholesale-link" class="title link">
+          <a href="/collections/wholesale-order-form">Place an Order</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+  <!-- CUSTOM STYLE FOR ACCOUNT PAGE -->
+  <style>
+    header {
+      background-color: white !important;
+      border-bottom: 1px solid #e8e8e8 !important;
+    }
+    #main {
+      margin-top: 0;
+    }
+    footer {
+      display: none !important;
+    }
+    @media (max-width: 767px) {
+      #main {
+        margin-top: 0;
+      }
+      header {
+        box-shadow: none;
+        z-index: 1003;
+      }
+    }
+    footer {
+      display: none;
+    }
+  </style>

@@ -1,0 +1,151 @@
+<!-- TESTS WE RUN -->
+<div class="testing" style="padding-bottom: 50px">
+  <div style="margin-top:30px; background-color:#fbfaf6; text-align:center;" class="test-title">
+    <h1>Product Testing</h1>
+    <div class="col-sm-offset-1 col-md-offset-2 col-sm-10 col-md-8 col-lg-8" style="padding:20px">
+      <h3>Shouldn’t our supplements be as healthy as the food we eat? We think so. That's why we're starting a movement for radical transparency in nutritional supplements.<br><br>
+          When you go to the Farmers’ Market and buy an apple, you can rest assured that the red thing with a stem you just picked up is, in fact, an apple. But how many people have given serious thought to their supplements - the ingredients they contain or how they’re made?<br><br>
+          Just like apples, Ora’s products are what they say they are and we can prove it. We run multiple cutting edge tests to verify ingredient purity and label accuracy. We believe in providing you with the service and transparency you deserve.<br><br>
+          Nature's nutrients, verified by science.</h3>
+  	</div>
+    <a class="img-btn" href=""><img src="{{ 'blue-bottle.jpg' | asset_url }}" style="max-height:250px"></a>
+  </div>
+  <!--OMEGA 3-->
+  <div class="test-elements" style="padding-top:150px;padding-bottom:150px;">
+    <div class="col-md-12">
+      <h3 class="test-prompt">Click a product below to see how we test it!</h3>
+    </div>
+    <div class="col-md-4">
+      <a href="" style="color:#52daa6">
+        <div class="test-wrapper">
+          <h2 id="test-element" class="test-product">Omega 3</h2>
+          <h2 class="test-icon">+</h2>
+        </div>
+      </a>
+      <div class="test-text col-md-12">
+        <hr>
+        <ul><br>
+          <li><h4>Heavy metals and purity test</h4>
+              To confirm the purity of the omega-3 oil. Note: our microalgae omega-3 oil is grown and fermented in drinking quality water outside of the ocean, so it’s naturally free of common ocean toxins and contaminants
+          </li>
+          <li><h4>Batch quantities test</h4>
+              Test on the raw omega-3 oils before they’re blended to confirm that the original batch contains at least 500mg DHA and 250mg EPA, as listed on the label
+          </li>
+          <li><h4>Quantities test after blending and bottling</h4>
+              Test on the final product after it’s mixed with organic flavors and bottled, to confirm that the final product and label accurately reflect the total omega-3 content
+          </li>
+          <li><h4>Oxidation test immediately after blending</h4>
+              To confirm that the product being sold is fresh and stable
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--PROBIOTICS-->
+    <div class="col-md-4">
+      <a href="" style="color:#52daa6">
+        <div class="test-wrapper" style="margin-left: -20px;">
+          <h2 class="test-product">Probiotics</h2>
+          <h2 class="test-icon">+</h2>
+        </div>
+      </a>
+      <div class="test-text col-md-12">
+        <hr>
+        <ul><br>
+          <!--<li><h4>DNA sequencing test</h4>
+              To ensure label accuracy and ingredient purity. Test confirms the identity and presence of each ingredient listed on the label. It also reveals any plants, bacteria, fungi, insects, contaminants, additives and adulterants not intended to exist in the finished product<br>
+              Tested at the world’s leading (and FDA contracted) independent DNA botanical testing laboratory; located near Berkeley, CA
+          </li><br>
+          <li><h4>DNA confirmation test</h4>
+              Secondary DNA test at an additional independent testing laboratory to double check the identity and presence of each probiotic strain
+          </li><br>-->
+          <li><h4>Gluten test</h4>
+              To confirm the product is gluten-free
+          </li>
+          <li><h4>Enumeration test</h4>
+              To confirm that the product contains 16 billion probiotics per serving as indicated on the label
+          </li>
+          <li><h4>Pathogenic bacteria test</h4>
+              To ensure only the strains listed on the label are present in the product
+          </li>
+          <li><h4>Heavy metals test</h4>
+              To confirm the purity of the product
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--PROTEIN-->
+    <div class="col-md-4">
+      <a href="" style="color:#52daa6">
+        <div class="test-wrapper">
+          <h2 class="test-product">Protein</h2>
+          <h2 class="test-icon">+</h2>
+        </div>
+      </a>
+      <div class="test-text col-md-12">
+        <hr>
+        <ul><br>
+          <li><h4>Amino acid profile test</h4>
+              To ensure the product contains a complete amino acid profile.<br>
+              Note: Many plant-based protein products that include only one source of protein (like rice) do not contain a complete amino acid profile. This is why we include protein from several organic sources, such as: pea, rice, quinoa, hemp, amaranth and sacha inchi 
+          </li>
+          <li><h4>Protein content test</h4>
+              To ensure label accuracy: that the product contains 18g of protein per serving
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('.test-wrapper').click(function(){
+    $(this).parent().next().slideToggle(300);
+    return false;
+  });
+  $('.test-wrapper').mouseenter(function() {  
+    $(this).children('.test-icon').fadeIn(100);
+    return false;
+  });
+  $('.test-wrapper').mouseleave(function() {
+    $(this).children('.test-icon').fadeOut(100);
+    return false;
+  });
+  $('.img-btn').click(function(){
+    $('html, body').animate({
+      scrollTop: $("#test-element").offset().top
+    }, 500)
+    return false;
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

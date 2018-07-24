@@ -1,0 +1,199 @@
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js';    
+
+var head = document.getElementsByTagName('head')[0]
+head.insertBefore(script, head.childNodes[0]);
+
+setTimeout(function() {
+  $(document).ready(function() {
+
+        console.log("insert birthday")
+
+        /* Zapier Webhooks Function */
+        function zapierWebhook(webhook_url, action, data, callback) {
+
+          console.log(data);
+          console.log(action);
+          /* Send the data to Zapier webhook (Mailchimp and Google Sheets) */
+          $.ajax({
+            type: action,
+            url: webhook_url,
+            data: data,
+            success: (function() {
+
+              console.log("submission success");
+
+              if (callback) {
+                console.log("calling callback");
+                callback();
+              }
+
+            })(),
+            dataType: JSON
+          });
+        }
+
+        // Insert Birthday + Referrer
+        function additionalInfo() {
+
+          function createSection() {
+            $('#shipping-address')
+              .after(
+                '<div id="additional-information" style="margin-top: 45px;">'+
+                  '<div class="section__header" style="margin-bottom: 15px">'+
+                    '<h3 class="section__title" style="margin-bottom: 15px;">A bit about you</h3>'+
+                    '<p class="section__text">Let us know when your big day is so we can be sure to send you a little something special!</p>'+
+                  '</div>'+
+                  '<div class="section__content">'+
+                    '<div id="birthday" class="fieldset">'+ // Birthday
+                      '<div class="field field--required field--show-floating-label">'+
+                        '<label class="field__label field__label--visible" for="checkout_birthday">Birthday</label>'+
+                        '<input type="date" class="field__input" aria-required="true" name="checkout[birthday]" id="checkout_birthday" style="background: transparent; padding: 0; margin: 0; border: none; line-height: 1.5em; padding-top: 1.25em; padding-bottom: 1.25em;">'+
+                        '<p class="field__error-message">Please enter your date of birth</p>'+
+                      '</div>'+
+                    '</div>'+
+                    '<div id="referrer" class="fieldset" style="margin-bottom: 30px; border-bottom: 0;">'+ // Referrer
+                      '<div class="field field--required field--show-floating-label">'+
+                        '<label class="field__label field__label--visible" for="checkout_referrer">How did you hear about us?</label>'+
+                        '<select type="select" class="field__input" id="checkout_referrer" name="referrer">'+
+                          '<option value="" disabled selected>Please select an option</option>'+
+                          '<option value="Google">Google</option>'+
+                          '<option value="Facebook">Facebook</option>'+
+                          '<option value="Instagram">Instagram</option>'+
+                          '<option value="Pinterest">Pinterest</option>'+
+                          '<option value="Podcast">Podcast</option>'+
+                          '<option value="Friend / Family">Friend / Family</option>'+
+                          '<option value="Vitamin Shoppe">Vitamin Shoppe</option>'+
+                          '<option value="Health Practitioner">Health Practitioner</option>'+
+                          '<option value="Print (magazines etc.)">Print (magazines etc.)</option>'+
+                          '<option value="Shark Tank">Shark Tank</option>'+
+                          '<option value="Other">Other</option>'+
+                        '</select>'+
+                        '<p class="field__error-message">Please let us know how you found out about Ora!</p>'+
+                      '</div>'+
+                      '<div class="field other">'+
+                        '<label class="field__label field__label--visible" style="display: none;" for="referred_by_other" data-option="Other">Let us know here...</label>'+
+                        '<input id="referred_by_other" style="display: none" class="field__input" aria-required="true" name="referrer" type="text" data-option="Other"/>'+
+                        '<label class="field__label field__label--visible" style="display: none" for="referred_by_podcast" data-option="Podcast">Which Podcast?</label>'+
+                        '<input id="referred_by_podcast" style="display: none" class="field__input" aria-required="true" name="referrer" placeholder="Which Podcast?" type="text" data-option="Podcast"/>'+
+                        '<label class="field__label field__label--visible" style="display: none" for="referred_by_print" data-option="Print (magazines etc.)">Which publication?</label>'+
+                        '<input id="referred_by_print" style="display: none" class="field__input" aria-required="true" name="referrer" placeholder="Which publication?" type="text" data-option="Print (magazines etc.)"/>'+
+                      '</div>'+
+                    '</div>'+
+                  '</div>'+
+               '</div>'
+              );
+
+            if ($('#export_additional_info').html() !== undefined) { $('#export_additional_info').remove(); }
+
+            // Replace Submit button
+            var original_submit_button = $('.current-step-contact_information input#continue-button'),
+                new_submit_button      = '<button id="export_additional_info" class="btn" style="background-color: {{ settings.accent_color_1 }};"><span class="btn__content" style="color: white;">Continue</span></button>';
+
+            original_submit_button.hide(); // Hide original button
+            original_submit_button.after(new_submit_button); // Add new button 
+
+          }
+
+          function handleReferrerInput() {
+            // Create action to send additional information to Zapier, and then trigger the checkout
+            setTimeout(function() {
+
+              /* Show the other text input when ooption selected */
+              $('#checkout_referrer').on('change', function() {
+
+                console.log($(this).val());
+
+                val = $(this).val();
+
+                if (val == "Other" || val == "Podcast" || val == "Print (magazines etc.)") {
+
+                  // Slide up the other text inputs, and slide down the relevant one
+                  $(this).parents('.fieldset').find('.other > *').slideUp(200);
+                  $('input[data-option="'+$(this).val()+'"],label[data-option="'+$(this).val()+'"]').slideDown(200).parent().css('border-bottom', '1px solid #dfdfdf');
+
+                } else {
+                  $(this).parents('.fieldset').find('.other > *').slideUp(200).parent().css('border-bottom', '0');
+                }
+
+              })
+
+               // Create validation handlers
+              $('.field--required .field__input').on('mouseleave', function() {
+
+                if ($(this).val() == "" || $(this).val() == null) {
+                  $(this).parents('.field').addClass('invalid');
+                } else {
+                  $(this).parents('.field').removeClass('invalid');
+                }
+
+              })
+
+              $('#export_additional_info').click(function(e) {
+
+                // e.preventDefault();
+
+                console.log("Get the cart contents");
+
+                /* Get the cart contents */
+                var products_added = [];
+                $('.product__description__name').each(function() {
+                  var product = $(this).text(),
+                      variant = $(this).parent().find('.product__description__variant').text();
+                  products_added.push(product+" - "+variant);
+                })
+
+                var birthday    = $('#checkout_birthday').val(),
+                    referred_by = $('#checkout_referrer').val();
+
+                /* Get the referred by value */
+                if ($('#referred_by_other').val() !== "" && referred_by == "Other") {
+                  console.log($('#referred_by_other').val());
+                  var referred_by = "Other: "+referred_by.val();
+                } else  if ($('#referred_by_podcast').val() !== "" && referred_by == "Podcast") {
+                  var referred_by = "Podcast: "+$('#referred_by_podcast').val();
+                } else if ($('#referred_by_print').val() !== "" && referred_by == "Print (magazines etc.)") {
+                  var referred_by = "Print: "+$('#referred_by_print').val();
+                } else {
+                  var referred_by = referred_by;
+                }
+
+                console.log("Referred By = "+referred_by);
+                console.log("{{customer.shopify_customer_id}} - send info to zapier");
+
+                var data = {
+                  "first_name"            : $('#checkout_shipping_address_first_name').val(),
+                  "last_name"             : $('#checkout_shipping_address_last_name').val(),
+                  "email"                 : $('#checkout_email').val(),
+                  "birthday"              : birthday,
+                  "referrer"              : referred_by,
+                  "products_added"        : "Subscription",
+                  "value"                 : $('.total-line__price').html(),
+                  // "order_number"          : "{{order_number}}",
+                  // "order_id"              : "https://oraorganic.myshopify.com/admin/orders/{{id}}"
+                }
+
+                console.log(data);
+
+                zapierWebhook("https://hooks.zapier.com/hooks/catch/914765/al2n81/", "POST", data, function() {
+                  console.log("submission success");
+                })
+
+              })
+            },300)
+          }
+
+          if ($('#additional-information').html() == undefined) {
+            createSection();
+            handleReferrerInput();
+          } else {
+            $('#additional-information').remove();
+            createSection();
+            handleReferrerInput();
+          }
+        }
+
+        additionalInfo();
+  });
+},750);

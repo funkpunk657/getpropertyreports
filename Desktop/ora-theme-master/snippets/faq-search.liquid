@@ -1,0 +1,68 @@
+{% if product.description contains '<section id="product-faq">' %}
+  {% assign description = product.description | split: '<section id="product-faq">' | last | split: '</section>' %}
+{% elsif product.description contains '<h3><span style="font-weight: 400;">FAQs</span></h3>' %}
+  {% assign description = product.description | split: '<h3><span style="font-weight: 400;">FAQs</span></h3>' | last | split: '<p><b>END FAQS</b></p>' %}
+{% endif %}
+
+{% if description %}
+
+  <!-- FAQ: Detail -->
+  <div id="faq-detail" class="faq-detail">
+    <div class="question-wrapper">
+      <p class="question">Where are the ingredients sourced from?</p>
+      <p class="answer">We source ingredients from North America and Europe whenever possible and only use the highest quality plant-based food that has been certified USDA Organic. Many of the ingredients are native to South America or Asia and are best grown there. Others are seasonal and better quality ingredients can be found in other parts of the world depending on the time of year.</p>
+    </div>
+  </div>
+
+	<!-- FAQ Search: FAQs -->
+  <div class="faq-search">
+    {{ description | first }}
+  </div>
+
+
+<!-- Ingredient Detail Script -->
+<script>
+  $(document).ready(function() {
+
+    /* Set up the FAQs (from Google Docs table) */
+    $('.faq-search table tr').addClass('question-wrapper');
+    $('.faq-search table tr td:nth-of-type(1)').addClass('question');
+    $('.faq-search table tr td:nth-of-type(2)').addClass('answer');
+    $('.faq-search table tr:nth-of-type(1)').remove(); // Remove the header line
+
+    /* Set Active Ingredient on page load */
+    $('.faq-search .question-wrapper').first().addClass('active');
+    $('.faq-detail .question-wrapper .question').html($('.faq-search .question-wrapper').first().find('.question').text());
+    $('.faq-detail .question-wrapper .answer').html($('.faq-search .question-wrapper').first().find('.answer').html());
+
+    /* Handle Ingredient Click */
+    $('.faq-search .question').click(function() {
+
+      console.log("clicked");
+
+      $('.faq-search .question-wrapper').removeClass('active');
+      $(this).parents('.question-wrapper').addClass('active');
+
+      var parent   = $(this).parents('.question-wrapper'),
+          question = parent.find('.question').text(),
+          answer   = parent.find('.answer').html();
+
+      $('.faq-detail .question-wrapper .question').html(question);
+      $('.faq-detail .question-wrapper .answer').html(answer);
+
+      /* Scroll to Answer */
+      if ($(window).width() > 767) {
+        $('html, body').animate({
+          scrollTop: ($("#faq-detail").offset().top-250)
+        }, 300);
+      }
+
+    })
+
+    /* Handle Ask Us a Question click */
+  })
+</script>
+
+{% endif %}
+
+

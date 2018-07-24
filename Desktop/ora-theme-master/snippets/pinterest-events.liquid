@@ -1,0 +1,27 @@
+<script>
+
+{% if template == 'product' %}
+	pintrk('track', 'pagevisit', {
+		property: '{{ page.title }}',
+		line_items: [
+			{
+			product_name: '{{ product.title }}',
+			product_variant: '{{ product.selected_or_first_available_variant.title }}'
+			}
+		]
+	});
+{% else %}
+	pintrk('track', 'pagevisit', {
+		property: '{{ page.title }}'
+	});
+{% endif %}
+
+{% if template contains 'subscription' %}
+  $('.subscriptions__intro-actions button').click(function() {
+  	pintrk('track', 'signup', {
+			lead_type: 'Potential Subscriber'
+		});
+  })
+{% endif %}
+
+</script>

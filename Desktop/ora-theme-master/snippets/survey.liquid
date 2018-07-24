@@ -1,0 +1,469 @@
+<form id="survey" action="" method="post">
+	<div id="slide-1" class="slide first">
+		<div class="wrapper">
+			<h2>Don't know where to start?</h2>
+			<h6>That's no problem! Our Wellness team created the <span class="text-accent-1 next" style="cursor: pointer;">Ora Check Up</span> to help you understand how and what you can do to feel better, every day.</h6>
+			<button id="start" class="flat aqua">Let's Go</button>
+		</div>
+	</div>
+	<div id="slide-2" class="slide">
+		<div class="wrapper">
+			<div class="header">
+				<h3 class="slide-title">1. The Basics</h3>
+				<h5 class="mobile-slide-title">The Basics</h5>
+			</div>
+			<div class="content">
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>What aspects of health are you most interested in?</h5>
+						<p>(Choose as many as you like)</p>
+					</div>
+					<div class="answer mobile-one">
+						<label><input type="checkbox" id="cbox1-1" name="interests" value="Digestion" />Digestion</label>
+						<label><input type="checkbox" id="cbox1-2" name="interests" value="Heart Health" />Heart Health</label>
+						<label><input type="checkbox" id="cbox1-3" name="interests" value="Weight Management" />Weight Management</label>
+						<label><input type="checkbox" id="cbox1-4" name="interests" value="Memory and Focus" />Memory and Focus</label>
+						<label><input type="checkbox" id="cbox1-5" name="interests" value="Childhood Development" />Childhood Development</label>
+						<label><input type="checkbox" id="cbox1-6" name="interests" value="Pre/Post Natal Nutrition" />Pre/Post Natal Nutrition</label>
+						<label><input type="checkbox" id="cbox1-7" name="interests" value="Athletic Performance" />Athletic Performance</label>
+						<label><input type="checkbox" id="cbox1-8" name="interests" value="Plant-based Nutrition" />Plant-based Nutrition</label>
+						<label><input type="checkbox" id="cbox1-9" name="interests" value="Sustainability" />Sustainability</label>
+						<label><input type="checkbox" id="cbox1-10" name="interests" value="Recipes" />Healthy Recipes</label>
+					</div>
+				</div>
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>Do you have any dietary restrictions?</h5>
+						<p>(Choose all that apply)</p>
+					</div>
+					<div class="answer mobile-two">
+						<label><input type="checkbox" id="cbox2-1" name="dietary" value="Gluten-free" />Gluten free</label>
+						<label><input type="checkbox" id="cbox2-2" name="dietary" value="Dairy-free" />Dairy free</label>
+						<label><input type="checkbox" id="cbox2-3" name="dietary" value="Vegetarian" />Vegetarian</label>
+						<label><input type="checkbox" id="cbox2-4" name="dietary" value="Vegan" />Vegan</label>
+						<label><input type="checkbox" id="cbox2-5" name="dietary" value="Non-gmo" />Non-GMO</label>
+						<label><input type="checkbox" id="cbox2-6" name="dietary" value="Nut-free" />Nut Free</label>
+						<label><input type="checkbox" id="cbox2-7" name="dietary" value="Soy-free" />Soy Free</label>
+						<label><input type="checkbox" id="cbox2-8" name="dietary" value="Organic" />Organic</label>
+					</div>
+				</div>
+			</div>
+			<button class="arrow prev">Back</button>
+			<button class="arrow next">Next</button>
+		</div>
+	</div>
+	<div id="slide-3" class="slide">
+		<div class="wrapper">
+			<div class="header">
+				<h3 class="slide-title">2. A bit about your health</h3>
+				<h5 class="mobile-slide-title">Your Health</h5>
+			</div>
+			<div class="content">
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>How often do you eat the following foods?</h5>
+						<p>(Slide the dot along the bar to the appropriate answer)</p>
+					</div>
+					<div class="answer range">
+						<label><span>All the Veggies!</span><input type="range" name="vegetables_frequency" value="2" min="0" max="4" step="1" /></label>
+						<label><span>Red Meat</span><input type="range" name="red_meat_frequency" value="2" min="0" max="4" step="1" /></label>
+						<label><span>Poultry</span><input type="range" name="poultry_pork_frequency" value="2" min="0" max="4" step="1" /></label>
+						<label><span>Seafood</span><input type="range" name="seafood_frequency" value="2" min="0" max="4" step="1" /></label>
+						<label><span>Grains</span><input type="range" name="grains_frequency" value="2" min="0" max="4" step="1" /></label>
+						<label><span>Processed food or Sugar <i style="font-size: 10px;">(be honest - I saw you sneaking!)</i></span><input type="range" name="sugar_frequency" value="2" min="0" max="4" step="1" /></label>
+					</div>
+				</div>
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>How much alcohol do you drink per week?</h5>
+					</div>
+					<div class="answer two mobile-one">
+						<label><input type="radio" name="alcohol_frequency" value="1">I don't drink - My body is a temple</label>
+						<label><input type="radio" name="alcohol_frequency" value="2">1-3 Drinks</label>
+						<label><input type="radio" name="alcohol_frequency" value="3">4-6 Drinks</label>
+						<label><input type="radio" name="alcohol_frequency" value="4">6+ Drinks</label>
+					</div>
+				</div>
+			</div>
+			<button class="arrow prev">Back</button>
+			<button class="arrow next">Next</button>
+		</div>
+	</div>
+	<div id="slide-4" class="slide">
+		<div class="wrapper">
+			<div class="header">
+				<h3 class="slide-title">3. A bit (more) about your health ;)</h3>
+				<h5 class="mobile-slide-title">Your Health</h5>
+			</div>
+			<div class="content">
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>How many times do you do exercise per week?</h5>
+						<p>(At least 30 minutes per day)</p>
+					</div>
+					<div class="answer two mobile-one">
+						<label><input type="radio" name="exercise_frequency" value="0" />I don't</label>
+						<label><input type="radio" name="exercise_frequency" value="1" />Once or twice</label>
+						<label><input type="radio" name="exercise_frequency" value="2" />A few times</label>
+						<label><input type="radio" name="exercise_frequency" value="3" />Most days</label>
+						<label><input type="radio" name="exercise_frequency" value="4" />Every darn day! #beastmode</label>
+					</div>
+				</div>
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>How often do you take a supplement?</h5>
+					</div>
+					<div class="answer two mobile-one">
+						<label><input type="radio" name="supplement_frequency" value="0">What's a supplement?</label>
+						<label><input type="radio" name="supplement_frequency" value="1">Only when I need a health boost</label>
+						<label><input type="radio" name="supplement_frequency" value="2">When I remember (#goals)</label>
+						<label><input type="radio" name="supplement_frequency" value="3">Daily</label>
+					</div>
+				</div>
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>Are sustainable sourcing and manufacturing practices important to you?</h5>
+					</div>
+					<div class="answer mobile-two">
+						<label><input type="radio" name="sustainable_manufacturing" value="yes" />Absolutely</label>
+						<label><input type="radio" name="sustainable_manufacturing" value="no" />Not Really</label>
+					</div>
+				</div>
+			</div>
+			<button class="arrow prev">Back</button>
+			<button class="arrow next">Next</button>
+		</div>
+	</div>
+	<div id="slide-5" class="slide">
+		<div class="wrapper">
+			<div class="header">
+				<h3 class="slide-title">4. Keep in touch</h3>
+				<h5 class="mobile-slide-title">Keep in Touch</h5>
+			</div>
+			<div class="content">
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>What's your name?</h5>
+					</div>
+					<div class="answer">
+						<input type="text" name="first_name" id="first_name" placeholder="First Name"/>
+						<input type="text" name="last_name" id="first_name" placeholder="Last Name"/>
+					</div>
+				</div>
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>What's your e-mail address?</h5>
+					</div>
+					<div class="answer">
+						<input type="email" name="email" id="email" placeholder="username@yourdomain.com"/>
+						<div class="tick"></div>
+					</div>
+				</div>
+				<div class="question-wrapper">
+					<div class="question">
+						<h5>What's your favorite flavor?</h5>
+						<p>(Choose as many as you like)</p>
+					</div>
+					<div class="answer mobile-two">
+						<label><input type="checkbox" id="cbox4-1" name="flavor" value="Vanilla" />Vanilla</label>
+						<label><input type="checkbox" id="cbox4-2" name="flavor" value="Chocolate" />Chocolate</label>
+						<label><input type="checkbox" id="cbox4-3" name="flavor" value="Chai" />Chai</label>
+						<label><input type="checkbox" id="cbox4-4" name="flavor" value="Citrus" />Citrus</label>
+						<label><input type="checkbox" id="cbox4-5" name="flavor" value="Savory" />Savory</label>
+						<label><input type="checkbox" id="cbox4-6" name="flavor" value="Everything" />Everything!</label>
+						<label><input type="checkbox" id="cbox4-7" name="flavor" value="None" />None thanks!</label>
+					</div>
+				</div>
+				<div class="question-wrapper">
+					<div class="answer one accepts-marketing">
+						<label><input type="checkbox" id="cbox5-1" name="accepts_marketing" value="accepts_marketing" checked /><span>This was fun! I’d like to receive more awesomeness from time to time</span></label>
+					</div>
+				</div>
+				<div class="actions">
+					<input type="submit" class="submit flat aqua inactive" id="submit" value="GET RESULTS" />
+				</div>
+			</div>
+			<button class="arrow prev">Back</button>
+		</div>
+	</div>
+	<div id="results" class="slide">
+		<div id="loader">
+			<h6 class="message">Getting your results now...</h6>
+			<img src="{{ 'cart-add.gif' | asset_url }}"/>
+		</div>
+		<div class="wrapper" style="display: none;">
+			<div class="header">
+				<h3 class="slide-title">Your Results</h3>
+				<h5 class="mobile-slide-title">Your Results</h5>
+			</div>
+			<div class="content">
+				<div class="results">
+					<div class="result">
+						<div id="gif" style="display: none;"></div>
+						<p id="score">50</p>
+						<h4 class="text-accent-1">You're a <strong id="animal">Walrus</strong>!</h4>
+					</div>
+					<div class="result-detail">
+						<p><i>Just kidding!</i> That number there is your <strong>Wellness Score</strong>. Based on your answers to the survey, we’ve calculated (using our proprietary algorithm) your approximate wellness rating out of 100.<br></p>
+						<p><strong>What does that mean?</strong></p>
+						<p>It means <span id="comment1">you're pretty well!</span></p>
+						<div class="blog-posts">
+							<div class="blog-preview-container">
+							  <h5>So What Now?</h5>
+								<p id="comment2"></p>
+								<div class="blog-preview">
+									<a id="blog_link_1">
+										<h6 id="blog_title_1"></h6>
+										<div class="blog-image"><div class="overlay"></div></div>
+									</a>
+								</div>
+							</div>
+							<div class="blog-preview-container">
+							  <h5>From The Blog</h5>
+								<p>So you're interested<span id="interests">Health</span>? Here are some more reading recommendations:</p>
+								<div class="blog-preview">
+									<a id="blog_link_2">
+										<h6 id="blog_title_2"></h6>
+										<div class="blog-image"><div class="overlay"></div></div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="arrow prev">Back</button>
+		</div>
+	</div>
+</form>
+<style>
+	footer {
+		display: none;
+	}
+	header {
+		border-bottom: 1px solid #e8e8e8 !important;
+		background-color: white !important;
+	}
+</style>
+<!-- Script to activate survey -->
+<script>
+// Setup the getResults variable - we need to run this over and over to check for a result being fed back from Google sheets
+var getResults;
+var pulse;
+
+// Create the survey functionality
+$(document).ready(function() {
+	var survey = $('#survey');
+	var start  = $('#start');
+
+	// If there is a hash in the URL, then make sure that slide is showing on refresh
+	// NOTE: This is only for testing purposes!!!
+	if (window.location.hash) {
+		$('.slide').hide();
+		$(window.location.hash).show();
+	}
+
+	// Unhide the survey
+	survey.fadeIn(500);
+
+	// Setup Slide Change URL Function
+	function slideChange(id) {
+		window.location.hash = "#"+id;
+	}
+	// Setup slide change functions
+	function nextSlide(currentSlide) {
+		var nextSlide   = currentSlide.next('.slide');
+
+		currentSlide
+			.queue(function() { $(this).fadeOut(); $(this).dequeue(); })
+			.queue(function() { nextSlide.fadeIn(); slideChange(nextSlide.attr('id')); window.scrollTo(0, 0); $(this).dequeue(); });
+	}
+	function prevSlide(currentSlide) {
+		var prevSlide   = currentSlide.prev('.slide');
+		currentSlide
+			.queue(function() { $(this).fadeOut(); $(this).dequeue(); })
+			.queue(function() { prevSlide.fadeIn(); slideChange(prevSlide.attr('id')); window.scrollTo(0, 0); $(this).dequeue(); });
+	}
+
+	// Start the survey and setup the nextSlide handler
+	$('#start, .next').click(function(e) {
+		e.preventDefault();
+		var currentSlide = $(this).parents('.slide');
+		nextSlide(currentSlide);
+	});
+	// Setup the prevSlide handler
+	$('.prev').click(function(e) {
+		e.preventDefault();
+		var currentSlide = $(this).parents('.slide');
+		prevSlide(currentSlide);
+	});
+
+	// Verify email address as it is entered, then add the 'verified' class to the input once it's correct
+	// Email Validation
+	function validateEmail(email) {
+	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	    return re.test(email);
+	}
+	$('#email').on('change paste keyup', function() {
+		if (validateEmail($(this).val()) == true) {
+			$('#submit').removeClass('inactive');
+			$(this).addClass('verified');
+			$('.tick').addClass('verified');
+		} else {
+			$('#submit').addClass('inactive');
+			$(this).removeClass('verified');
+			$('.tick').removeClass('verified');
+		}
+	})
+
+	/* Set up the loading text, make it pulse */
+	pulse = setInterval(function() {
+		$('#loader .message')
+			.queue(function() { $(this).css('opacity', 0.5); })
+		  .queue(function() { $(this).css('opacity', 1); })
+		  .dequeue();
+	}, 2000);
+	
+
+	/* Parse form details and create a JSON object that we can send to the server to retrieve results */
+	survey.submit(function(e) {
+		e.preventDefault();
+		console.log('submitting form...');
+		
+		/* Get input values from form - serializeArray() returns us a jQuery array of the form inputs */
+    values = jQuery("#survey").serializeArray();
+
+    var output = [];
+    /* Create output for interpretation by Webhook */
+    /* Define count as -1, as it refers to the **PREVIOUS** value in the loop */
+    var count = -1;
+    var email = "";
+    /* Loop through existing values and consolidate like 'name' values */
+    values.forEach(function(value, index) {
+    	/* If the count is -1, then we are on the first value */
+    	var key = value.name;
+    	var attr = value.value;
+    	var obj = {};
+
+    	if (count > -1){
+    		/* If the current value name is the same previous one, then concatenate the values */
+    		if (Object.keys(output[count])[0] == key) {
+    			output[count][key] += ", "+attr;
+    		} else { /* If they're different, then create a new array object */
+    			obj[key] = attr;
+    			output.push(obj) ;
+    			count++;
+    		}
+    	} else { 
+    		obj[key] = attr;
+    		output.push(obj);
+    		count++;
+    	}
+    	/* Log the output of each value */
+			// console.log(output);
+			if (key == "email") {
+				email = attr;
+			}
+
+    })
+    String.prototype.replaceAll = function(search, replacement) {
+		    var target = this;
+		    return target.replace(new RegExp(search, 'g'), replacement);
+		};
+    /* Log the final output */
+		var final_output = JSON.stringify(output)
+												.replace("[","")
+												.replace("]","")
+												.split("{").join(" ")
+												.split("}").join(" ");
+		// console.log({final_output});
+
+		/* Send the data to Zapier webhook (Mailchimp and Google Sheets) */
+		$.ajax({
+		  type: "POST",
+		  url: "https://hooks.zapier.com/hooks/catch/914765/h5o0jv/",
+		  data: "{"+final_output+"}",
+		  success: (function() {
+		  	console.log("submission success");
+		  	/* Retrieve the results of the survey and run the spinner until they've come back */
+		  	var url = "https://script.google.com/macros/s/AKfycbycxONE_cu0ODPHHSZAh5uJUuARs3dqJFopNvsBengM002n480/exec?email="+email;
+
+				getResults = setInterval(function() {
+					$.ajax({
+						url: url,
+						dataType: "jsonp"
+					})
+				}, 1000); /* Check the Entries sheet every 0.25 seconds for the e-mail's data */
+
+		  	/* Send the user to the results slide */
+				nextSlide($('#submit').parents('.slide'));
+
+		  })(),
+		  dataType: JSON
+		});
+	})
+
+;})
+
+/* ==== CALLBACK FUNCTION ==== */
+// Set up function to run when jsonCallback called for JSONP
+function jsonCallback(json){
+	/* Check the json result to see if it has a value */
+	if (json.errorText || json == undefined || json == null) {
+		return;
+	} else {
+		// Stop the function from re-running
+		clearInterval(getResults);
+		clearInterval(pulse);
+
+		// Now hide the loader and fill in the results!
+		$('#loader')
+		  .queue(function() { 
+
+		  	$(this).fadeOut();
+		  	/* Parse the interests object to make the last comma into an 'and' */
+				var interests_raw = json.interests;
+				var last_comma    = interests_raw.lastIndexOf(',');
+				var interests     = interests_raw.substring(0, last_comma)+" "+interests_raw.slice(last_comma,interests_raw.length).replace(',', 'and');
+				var gif           = "url("+json.gif+")";
+
+				/* Get the Blog Article attributes based on the url */
+				{% for article in blogs["news"].articles %}
+
+					if ( json.blogLink1.indexOf("{{ article.url }}") > -1 ) {
+
+						$('#blog_link_1').attr('href', json.blogLink1);
+						$('#blog_title_1').html("{{ article.title | escape }}");
+						$('#blog_link_1 .blog-image').css('background-image',"url({{ article.image | img_url: 'grande' }})");
+
+					} else if ( json.blogLink2.indexOf("{{ article.url }}") > -1 ) {
+
+						$('#blog_link_2').attr('href', json.blogLink1);
+						$('#blog_title_2').html("{{ article.title | escape }}");
+						$('#blog_link_2 .blog-image').css('background-image',"url({{ article.image | img_url: 'grande' }})");
+
+					}
+				{% endfor %}
+
+				/* Fill in the DOM with the results */
+			  $('#comment1').html(json.comment1);
+			  $('#comment2').html(json.comment2);
+			  $('#gif').css('background-image', gif);
+			  $('#score').html(Number(json.score).toFixed(0));
+			  $('#animal').html(json.animal);
+			  $('#interests').html(interests);
+
+		})
+		.queue(function() {  }) // Fade out the loader
+		.queue(function() { $('#results .wrapper').fadeIn(500); }) // Fade in the results
+		.dequeue(); // Close the queue
+	}
+
+}
+	
+</script>
+
+
+
+
+

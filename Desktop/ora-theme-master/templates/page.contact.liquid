@@ -1,0 +1,81 @@
+
+<div id="contact">
+  <div id="hero" class="hero parallax-window" data-parallax="scroll" data-image-src="{{ 'contact-hero.jpg' | asset_url }}">
+    <div class="wrapper card">
+      <h1>How can we help?</h1>
+      <h5>Use the relevant email below for your inquiry - or save yourself some time and check out our FAQs to see if your question’s already been answered!</h5>
+      <a class="button" href="/pages/faqs"><button class="flat aqua medium">See FAQs</button></a>
+    </div>
+  </div>
+  <div id="contact-details">
+    <div id="customer-enquiries" class="wrapper">
+      <h4>Customer Inquiries</h4>
+      <a class="email" href="mailto:info@ora.organic">info@ora.organic</a>
+      <p>Send us an email or login to facebook to use the live chat option availble in the bottom right corner of this screen. We love hearing from you! <br><br>You can also reach us on <strong>+1 (858) 429-5591</strong>, Monday to Friday 9am to 5pm PT.</p>
+    </div>
+    <div id="press-enquiries" class="wrapper">
+      <h4>Press Inquiries</h4>
+      <a class="email" href="mailto:press@ora.organic">press@ora.organic</a>
+      <p>Interested in featuring Ora Organic on your blog, in an article or interview? Send us an email and we’ll get back to you in a jiffy!</p>
+    </div>
+    <div id="wholesale-enquiries" class="wrapper">
+      <h4>Wholesale Inquiries</h4>
+      <a class="email" href="mailto:wholesale@ora.organic">wholesale@ora.organic</a>
+      <p>We think our products would look great on your store shelf too! Send us an email or <a href="https://oraorganic.typeform.com/to/Vq7QKz">apply here</a> to become a retailer and we’ll be in touch.</p>
+    </div>
+    <div id="ambassador-enquiries" class="wrapper">
+      <h4>Ambassador Inquiries</h4>
+      <a class="email" href="mailto:ambassdors@ora.organic">ambassadors@ora.organic</a>
+      <p>Life of the wellness party? Social media whiz-kid? Sounds like you’d make a great Ora Organic Ambassador! Drop us an email!</p>
+    </div>
+  </div>
+  <div id="action" class="hero parallax-window" data-parallax="scroll" data-image-src="{{ 'contact-hero.jpg' | asset_url }}">
+    <div class="wrapper">
+      <a href="/pages/products" class="button"><button class="flat aqua medium">Back to Shop</button></a>
+    </div>
+  </div>
+</div>
+
+<style>
+  #main {
+    margin-top: 0;
+  }
+</style>
+
+<!-- Manual Scroll Script for Contact Page -->
+<script>
+  $(document).ready(function() {
+
+    var header  = $('header');
+
+    if ($(document).scrollTop() == 0) {
+      header.addClass("top")
+    }
+    $(window).scroll(function() {
+      if ($(this).scrollTop() >= $("#action").offset().top-30) {
+
+        header.removeClass("scrolled");
+        header.addClass("top");
+
+      } else if ($(this).scrollTop() >= 30) {
+
+        header.addClass("scrolled");
+        header.addClass("top");
+
+      } else {
+
+        header.removeClass("scrolled");
+        header.addClass("top");
+
+      }
+    })
+  })
+</script>
+<script>
+$(document).ready(function(){
+    $('.faq-question').click(function(){
+        $(this).parent().next().slideToggle(200);
+      return false;
+    });
+});
+</script>

@@ -1,0 +1,59 @@
+<div id="blog__careers">
+{% paginate blog.articles by 3 %}
+  <div class="wrapper">
+    <div class="header">
+      <h1>Jobs at Ora Organic</h1>
+      <h5>Got a passion for plant-based nutrition and the skills to make a difference?</h5>
+    </div>
+    <div id="job_listings" class="content">
+      {% for article in blog.articles %}
+        <div class="job_listing">
+          <a href="{{ article.url }}">
+            <h4 class="job_listing-title">{{ article.title }}</h4>
+            <!-- TIME / LOCATION -->
+            <div class="job_listing-detail">
+            {% for tag in article.tags %}
+              {% if tag contains 'job_time' %}
+                <!-- JOB TIME -->
+                {% assign job_tag = tag | split: "=" %}
+                <p class="job_listing-time">{{ job_tag[1] }} // </p>
+              {% endif %}
+            {% endfor %}
+            {% for tag in article.tags %}
+              {% if tag contains 'job_location' %}
+                <!-- JOB LOCATION -->
+                {% assign job_tag = tag | split: "=" %}
+                <p class="job_listing-location"><span>LOCATION: </span>{{ job_tag[1] | replace: "-", " " }}</p>
+              {% endif %}
+            {% endfor %}
+            </div>
+            <p class="job_listing-excerpt">
+              {{ article.excerpt }}
+            </p>
+            <div class="job_listing-tags">
+            {% for tag in article.tags %}
+              {% if tag contains 'job_tag' %}
+                <!-- JOB TAGS -->
+                {% assign job_tag = tag | split: "=" %}
+                <p class="job_listing-tag">{{ job_tag[1] | replace: "-", " " }} <span class="separator">|</span></p>
+              {% endif %}
+            {% endfor %}
+            </div>
+            <a href="{{ article.url }}" class="job_listing-link">LEARN MORE</a>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endpaginate %}
+</div>
+<style>
+#main {
+  margin-top: 0;
+}
+</style>
+<script>
+$(document).ready(function() {
+  $('header').addClass('top');
+})
+</script>

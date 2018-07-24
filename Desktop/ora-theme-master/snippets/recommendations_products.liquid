@@ -1,0 +1,48 @@
+<div class="article__recommendations">
+  <h3 class="recommendation__text">{{ recommendation_text }}</h3>
+  {% for tag in article.tags %}
+    {% if tag contains 'recommended_product' %}
+      {% assign product_handle = tag | split: "=" | last %}
+      {% for product in collections["shop"].products %}
+        {% for variant in product.variants %}
+          {% if product.handle == product_handle and variant.option2 != "1"%}
+          <div class="article__recommendation">
+            {% if product.variants.size < 2 %}
+              <!-- Recommendation: Product Image (single product, no variant) -->
+              {% assign product_link = product.url %}
+              {% assign featured_image = product.metafields["c_f"]["Creative Image URL"] %}
+              <a class="content variant link" href="{{ product_link }}">
+                <img class="recommendation__image" src="{{ featured_image }}" alt="{{ product.title | escape }}"/>
+              </a>
+            {% else %}
+              <!-- Recommendation: Product Image (single product, more than one variant) -->
+              {% assign product_link = variant.url %}
+              {% assign featured_image = variant.metafields["c_f"]["Variant Creative Image URL"] %}
+              {% if featured_image %}
+                <a class="content variant link" href="{{ product_link }}">
+                  <img class="recommendation__image" src="{{ featured_image }}" alt="{{ product.title | escape }}"/>
+                </a>
+              {% endif %}
+            {% endif %}
+            <!-- Recommendation: Product Title -->
+            <p class="recommendation__title">
+              <a href="{{ product_link }}">{{ product.title }}{% if product.variants.size > 1 %} - {{ variant.option1 }} {% endif %}</a>
+            </p>
+            <!-- Recommendation: Product Excerpt -->
+            {% if product.description contains '<div class="product-excerpt">' %}
+              {% assign full_description = product.description | split: '<div class="product-excerpt">/n<p>' | last %}
+              {% assign description = full_description | split: '</p>' %}
+                <div class="recommendation__description">
+                  {{ description[0] }}</div>
+                </div>
+            {% endif %}
+            <div class="recommendation__actions">
+              <a href="{{ product_link }}" class="button"><button class="flat aqua">Learn More</button></a>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</div>

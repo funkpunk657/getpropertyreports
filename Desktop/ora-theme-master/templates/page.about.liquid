@@ -1,0 +1,149 @@
+{% comment %}
+  About Us Page
+{% endcomment %}
+<div id="about">
+  <!-- Introduction -->
+  <div id="introduction">
+    <!-- Introduction: Image -->
+    <div class="introduction__image-wrapper">
+      <img class="introduction__image-image" src="{{ 'team-photo.jpg' | asset_url }}"/>
+    </div>
+    <!-- Introduction: Text -->
+    <div class="introduction__text-wrapper">
+      <h1 class="introduction__text-heading">We're Ora Organic</h1>
+      <div class="introduction__text-content">
+        <p>We make ridiculously nutritious plant-based products that make people and the planet healthier.</p>
+        <p>When we began searching for supplements that matched our high standards for food we quickly realized there was a huge problem in the space. Companies were bottling cheap, synthetic chemicals in ugly and unsustainable packaging – making the whole supplement experience an unenjoyable mess.</p>
+        <p>Ora Organic was created by and for healthy foodies to replace synthetic supplements with nutrients from organic &amp; sustainable sources. That means omega-3 from microalgae and protein from plants!</p>
+        <p>And because we love food, our very own chef created delicious organic flavors for our products! Because #yum</p>
+      </div>
+      <!-- Introduction Text: Actions -->
+      <div class="introduction__text-actions">
+        <a href="https://www.ora.organic/blogs/news/54830785-the-trouble-with-supplements" class="button"><button class="flat aqua">Read More About our Mission</button></a>
+      </div>
+    </div>
+  </div>
+  <!-- Products -->
+  <div id="products">
+    <!-- Products: Photo -->
+    <div class="products__photo-wrapper">
+      <img class="products__photo-image" src="{{ 'about-products.jpg' | asset_url }}"/>
+    </div>
+    <!-- Products: Info -->
+    <div class="products__info-wrapper">
+      <div class="product__info-text">
+        <p><b>All of our products are: </b>Vegan, Non-GMO, Gluten-free, Soy-free, Dairy-free and made with Organic, Plant-based Whole Foods.</p>
+        <a href="/pages/products" class="button"><button class="flat aqua">Shop All Products</button></a>
+      </div>
+    </div>
+    
+  </div>
+  <!-- Team -->
+  <div id="team">
+    <div class="header">
+      <h2>Kia Ora!</h2>
+      <h5>We’re an American and New Zealand team hell-bent on creating better nutrition! ‘<b>Ora</b>’ comes from the New Zealand Maori greeting ‘<b>Kia Ora</b>’ which literally translates to ‘be well’. To us, that means creating quality nutritional products using sustainable sourcing and of course downright <b><i>delicious flavors</i></b>! We’re creative and passionate about what we do, and we love food (A LOT). Meet the founding team:</h5>
+    </div>
+    <div class="team__profiles">
+      <!-- Extract the profiles table from the page -->
+      {% assign profiles_table = page.content | split: '<tbody>' | last | split: '</tbody>' | first %}
+      <!-- Place the profiles table -->
+      <table id="team__profiles-table">
+        <tbody>
+          {{ profiles_table }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Video -->
+  <div id="video"> 
+    <!-- Video Text -->
+    <div class="video__text-wrapper">
+      <h2 class="video__text-heading">Hold on to your Kombucha, honey!</h2>
+      <div class="video__text-content">
+        <p>Have you really thought about what goes into making most supplements? You might be surprised - a Vitamin C tablet doesn’t necessarily come from fruit, and your Vitamin D tablets definitely aren’t made from sunlight.</p>
+      </div>
+    </div>
+    <!-- Video -->
+    <div id="video__video-wrapper">
+      <div id="player"></div>
+    </div>
+  </div>
+</div>
+<!-- VIDEO SCRIPT -->
+<script>
+  // 2. This code loads the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // 3. This function creates an <iframe> (and YouTube player)
+  //    after the API code downloads.
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: 'ieTb2WUa1L4',
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  // 4. The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+    
+  }
+
+  // 5. The API calls this function when the player's state changes.
+  //    The function indicates that when playing a video (state=1),
+  //    the player should play for six seconds and then stop.
+  var done = false;
+  function onPlayerStateChange(event) {
+    // if (event.data == YT.PlayerState.PLAYING && !done) {
+    //   setTimeout(stopVideo, 6000);
+    //   done = true;
+    // }
+  }
+  function startVideo() {
+    player.playVideo();
+  }
+  function stopVideo() {
+    player.stopVideo();
+  }
+
+  $(document).ready(function() {
+    $('#play-video').click(function() {
+      $('#background-image').addClass("hide");
+      startVideo();
+      return false;
+    })
+  })
+</script>
+<!-- Manual Scroll Script for About Page -->
+<script>
+  $(document).ready(function() {
+
+    var header  = $('header');
+    var mission = $('#mission').offset().top;
+
+    if ($(document).scrollTop() == 0) {
+      header.addClass("top")
+    }
+    $(window).scroll(function() {
+      if ($(this).scrollTop() >= mission-30) {
+
+        header.addClass("scrolled");
+        header.removeClass("top");
+
+      } else {
+
+        header.removeClass("scrolled");
+        header.addClass("top");
+
+      }
+    })
+  })
+</script>

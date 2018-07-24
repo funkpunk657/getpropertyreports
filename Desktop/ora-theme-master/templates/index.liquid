@@ -1,0 +1,144 @@
+{% comment %}
+  Re-use the 'rte' class wherever you output content that was added by a merchant using the Rich Text Editor ( 'rte' stands for rich text editor ).
+  Style all HTML elements in that content the same way across the board.
+  Use the 'rte' class in your CSS to help maintain that consistency.
+  Example: the h2 element should have the same size and color in:
+  - product descriptions
+  - collection descriptions
+  - page content
+  - blog posts
+{% endcomment %}
+
+{% comment %}
+  Very important reading:
+  http://docs.shopify.com/themes/liquid-basics/what-is-true-and-false-in-liquid
+  Learn how to read theme settings in your theme.
+{% endcomment %}
+
+{% unless settings.homepage_collection == blank or collections[settings.homepage_collection].empty? %}
+{% assign collection = collections[settings.homepage_collection] %}
+<div id="home">
+  
+  {% comment %} Home: Dynamic Sections {% endcomment %}
+  {{ content_for_index }}
+  
+  <!-- Home: Innovation Lab -->
+  
+  <div class="reviews__actions">
+  <!-- @TODO - Implement Reviews Page -->
+    <!-- <a class="reviews__link button" href="/pages/reviews"><button class="flat medium aqua">See more reviews</button></a> -->
+  </div>
+  <!-- Home: Blog Featured-->
+  <div id="blog">
+    <div class="header">
+      <h2>Recipes, guides, stories and more</h2>
+    </div>
+    <div class="wrapper">
+      <div class="articles">
+        <!--  START CONTENT  -->
+        {% for article in blogs["news"].articles | limit: 3 %}
+          {% include 'article-grid-item' %}
+        {% endfor %}
+        <!--  END CONTENT  -->
+      </div>
+    </div>
+    <div class="blog__actions">
+      <a class="blog__link button" href="/blogs/news"><button class="flat medium aqua">Visit the blog</button></a>
+      <a class="blog__recipes-link" href="https://www.ora.organic/blogs/news/tagged/category-recipes"><i class="linear arrow__right"></i>Or find a <b>recipe</b></a>
+    </div>
+  </div>
+  <!-- Home: Social -->
+  <div id="social" class="card" style="display: none;">
+    <div id="instafeed"></div>
+    <!-- <script type="text/javascript">
+      var userFeed = new Instafeed({
+          get: 'user',
+          userId: '1789166023',
+          clientId: 'c4514c49adc149fda9587b5ad6298aa7',
+          accessToken: '1789166023.c4514c4.95ae00b4d52344f4b2bd43eb89a27cc2',
+          resolution: 'standard_resolution',
+          limit: 8,
+          template: '<a class="image" target="_blank" href="{% raw %}{{link}}{% endraw %}" style="background-image: url({% raw %}{{image}}{% endraw %});"><span class="overlay"></span><span class="likes">{% raw %}{{likes}}{% endraw %}</span></a>'
+      });
+      userFeed.run();
+    </script> -->
+  </div>
+  <!-- ABOUT US -->
+  <!-- <div id="socials" class="card">
+    <div class="wrapper">
+      <h2>Check us out on Pinterest!</h2>
+      <hr>
+      <a data-pin-do="embedUser" data-pin-board-width="900" data-pin-scale-height="450" data-pin-scale-width="240" href="https://www.pinterest.com/ora_organic/"></a>
+    </div>
+  </div> -->
+</div>
+{% endunless %}
+<!-- Manual Scripts for Home Page -->
+<!-- SCROLL SCRIPT -->
+<script async defer>
+  $(document).ready(function() {
+
+    checkScrollPosition();
+
+    $(window).scroll(function() {
+      checkScrollPosition();
+    })
+
+    //==== SMOOTH SCROLL ====//
+    $('a[href*="#"]:not([href="#"])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+
+          if (window.innerWidth <= 768) {
+            var video_offset = target.offset().top/1.5
+          } else {
+            var video_offset = target.offset().top-75;
+          }
+
+          $('html, body, #main').animate({
+            scrollTop: video_offset
+          }, 1000);
+          return false;
+        }
+      }
+    });
+
+  })
+</script>
+<!-- Product: Load Product specific scripts -->
+<script async defer>{% include 'product.js' %}</script>
+<style>
+  #main {
+    position: relative;
+    margin-top: 0;
+    padding-top: 0;
+    overflow: hidden;
+  }
+  .loader {
+    top: 75px;
+  }
+  @media (max-width: 768px) {
+    .arrow-right,
+    .arrow-left {
+      display: none;
+    }
+    header.top {
+      background-color: transparent;
+      border-bottom: none;
+    }
+  }
+  @media (max-width: 468px) {
+    .site {
+      margin: 0;
+    }
+    header .site-logo {
+      display: flex;
+    }
+    #main, header {
+      margin-top: 0;
+    }
+
+  }
+</style>

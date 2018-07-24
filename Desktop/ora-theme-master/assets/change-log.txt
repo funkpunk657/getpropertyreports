@@ -1,0 +1,5 @@
+17/06/2016
+1. page.products.liquid - handle sold out products
+2. shop.scss - styling for sold out popup box on shop page
+3. product.liquid - added 'new-edition' section to product description to allow for new product introductions
+4. product.scss - removed 100vh screen height for #product

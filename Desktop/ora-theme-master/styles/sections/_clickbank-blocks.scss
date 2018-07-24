@@ -1,0 +1,816 @@
+#clickbank-blocks {
+	@include display-flex;
+	flex-flow: column nowrap;
+	align-items: center;
+
+	/* ======================== */
+	/* Blocks */
+	/* ======================== */
+	.block {
+		width: 100%;
+		text-align: center;
+		padding: 45px 0;
+
+		.block__title {
+			font-size: 36px;
+			font-family: $font__body;
+			font-weight: 500;
+			font-style: normal;
+			margin: 30px 22.5px;
+		}
+		a, span {
+			font-size: inherit;
+		}
+		.block__description {
+			p {
+				font-size: 18px;
+			}
+		}
+	}
+	.block:nth-of-type(odd) { background-color: $color__background; }
+	.block:nth-of-type(even) { background-color: $color__background-alternate; }
+
+	.block__content-wrapper {
+		@include display-flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: center;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.clickbank-show {
+		display: initial !important;
+	}
+	.clickbank-hide {
+		display: none !important;
+	}
+
+	/* ======================== */
+	/* Product */
+	/* ======================== */
+	/* Product Details */
+	#product__details {
+		padding: 90px 0;
+
+		/* Product: Photos */
+		.product__photos {
+			flex: 1;
+			text-align: center;
+			padding: 30px;
+
+			img {
+				width: 100%;
+				height: 100%;
+				border: none;
+				border-radius: 0;
+				display: none;
+				background-color: transparent;
+
+				&.active {
+					display: block;
+					border: none;
+				}
+			}
+		}
+
+		/* Product: Content */
+		.product__content {
+			flex: 1;
+			text-align: left;
+
+			.product__title {
+				font-size: 36px;
+				font-family: $font__body;
+				font-weight: 500;
+				font-style: normal;
+				margin: 22.5px 0;
+			}
+
+			/* Product: Reviews */
+			.product__reviews-aggregate {
+				.yotpo {
+					display: inline-block;
+					margin-right: 15px;
+
+					.yotpo-stars {
+						.yotpo-icon {
+							background-image: none !important;
+						}
+					}
+					.text-m {
+				    font-size: 18px;
+				    font-weight: 700;
+				    padding: 5px 15px;
+				    display: inline-block;
+					}
+				}
+				/* Supplement Facts trigger */
+				/* Product Header: Supplement Facts */
+				.facts-trigger {
+					display: inline-block;
+					vertical-align: top;
+					font-weight: 700;
+					font-size: 12px;
+					text-transform: uppercase;
+					letter-spacing: 1px;
+
+					.facts-icon { vertical-align: sub; }
+					.facts-icon:before {
+						margin: 0 7.5px 0 0;
+						content: "\e6d9";
+						font-weight: normal;
+						font-size: 24px;
+						vertical-align: sub;
+					}
+				}
+			}
+
+			/* Product: Feature Text */
+			.product__feature-text {
+				font-weight: 700;
+				font-size: 14px;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				margin-top: 22.5px;
+
+				.separator {
+					margin: 0 5px;
+				}
+			}
+
+			/* Product: Description */
+			.product__description {
+				font-size: 18px;
+				margin: 22.5px 0 30px;
+				padding-bottom: 15px;
+				border-bottom: 1px solid $color__input-border;
+			}
+
+			.button {
+				button {
+					margin: 22.5px 0;
+					width: 300px;
+					font-size: 16px;
+					font-weight: 700;
+				}
+			}
+
+		}
+
+		/* Product: Photo Modal */
+		.photo-zoom {
+			.modal-dialog {
+				width: 800px;
+
+				.modal-content {
+					padding: 15px;
+					border-radius: 8px;
+
+					img {
+						width: 100%;
+					}
+				}
+			}
+		}
+
+	}
+
+	/* Product: Dietary */
+	#product__dietary {
+		width: 100%;
+
+		.dietary-icons {
+			background-color: $color__background-alternate;
+			padding: 45px 0 30px;
+			margin: 0;
+			list-style: none;
+			width: 100%;
+
+			li {
+				padding: 15px 0;
+			}
+			.dietary {
+				width: 60px;
+				height: 60px;
+				margin: 0 5px;
+			}
+			p {
+				font-size: 18px;
+			}
+		}
+	}
+
+	/* Product: Ingredients */
+	#product__ingredients {
+		.block__description {
+			max-width: 660px;
+			padding: 0 30px 30px;
+			margin: 0 auto;
+
+			p {
+				font-size: 18px;
+				margin: 22.5px;
+			}
+		}
+		.reviews {
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+	}
+
+	/* Product: Reviews */
+	#product__reviews {
+		.reviews {
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+	}
+
+	/* Product: Guarantee Short */
+	#guarantee__short {
+		.wrapper {
+			max-width: 600px;
+			margin: 0 auto;
+
+			p {
+				font-size: 18px;
+			}
+
+			button {
+				width: 300px;
+				font-weight: 700;
+				font-size: 16px;
+			}
+		}
+	}
+
+	/* Product: Purchase */
+	#product__purchase {
+		.block__description {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+		.purchase__options {
+			@include display-flex;
+			max-width: 1200px;
+			margin: 0 auto;
+			flex-flow: row wrap;
+			justify-content: center;
+			align-items: center;
+
+			.option {
+				@include display-flex;
+				flex-flow: column nowrap;
+				justify-content: flex-start;
+				text-align: center;
+				flex: 1;
+				max-width: 360px;
+				margin: 30px;
+				padding: 30px;
+				border-radius: 8px;
+				@include transition(all);
+
+				&.active {
+					box-shadow: 0px 2px 8px lightgrey;
+
+					.option__prices {
+						.savings.active {
+							@include display-flex;
+						}
+					}
+					.option__selected {
+						display: block;
+					}
+					.option__buy {
+						pointer-events: all;
+					}
+				}
+
+				.subscription__info {
+					font-size: 14px;
+					font-weight: 500;
+					color: $color__text-link;
+					cursor: pointer;
+					position: relative;
+
+					.triangle { display: none; }
+
+					&:hover {
+
+						.triangle { 
+							display: initial; 
+							color: $color__background;
+							font-size: 20px;
+							text-shadow: -2px 2px 2px $color__input-border;
+							font-style: normal;
+							display: block;
+							position: absolute;
+							left: 1%;
+							right: 1%;
+							bottom: 15px;
+							margin: 0 auto;
+							text-align: center;
+							transform: rotate(-90deg);
+						}
+
+						&:before {
+							position: absolute;
+							content: "Save 20% on your Ora products - delivered monthly, no obligation, cancel anytime. Simple!";
+							font-size: 16px;
+							font-weight: 300;
+							bottom: 30px;
+							left: 0;
+							color: $color__text-copy;
+							background-color: $color__background;
+							padding: 15px;
+							border-radius: 8px;
+							box-shadow: 0px 2px 8px lightgrey;
+						}
+					}
+				}
+
+				.option__selected {
+					display: none;
+					color: $color__accent-1;
+					text-transform: uppercase;
+					font-weight: 900;
+					font-size: 12px;
+					letter-spacing: 1px;
+					text-align: center;
+					margin: 7.5px;
+				}
+
+				.option__photo {
+					img {
+						max-width: 300px;
+						margin: 0 auto;
+						width: 100%;
+						height: 100%;
+						display: none;
+						background-color: transparent;
+
+						&.active {
+							display: block;
+						}
+					}
+				}
+
+				.option__type {
+					font-size: 24px;
+					font-weight: 500;
+				}
+
+				.option__flavors {
+					list-style: none;
+					padding: 0;
+					@include display-flex;
+					margin: 22.5px 0;
+
+					.option__flavor {
+						flex: 1;
+						padding: 10px 15px 9px;
+						border-radius: 8px;
+						border: 1px solid $color__input-border;
+						background-color: $color__background;
+						margin: 0 7.5px;
+						cursor: pointer;
+						@include transition(all);
+
+						&.active {
+							color: $color__accent-1;
+							border-color: $color__accent-1;
+						}
+					}
+				}
+
+				.option__quantity {
+					@include display-flex;
+					align-items: center;
+					justify-content: center;
+					padding-bottom: 22.5px;
+					margin-bottom: 22.5px;
+					border-bottom: 1px solid $color__input-border;
+
+					.quantity__label {
+						font-size: 16px;
+						font-weight: 500;
+						margin: 0 7.5px;
+					}
+
+					.option__quantity-option {
+						flex: 1;
+						padding: 10px 15px 9px;
+						border-radius: 8px;
+						border: 1px solid $color__input-border;
+						background-color: $color__background;
+						margin: 0 7.5px;
+						cursor: pointer;
+						@include transition(all);
+
+						&.active {
+							color: $color__accent-1;
+							border-color: $color__accent-1;
+						}
+					}
+				}
+
+				.option__prices {
+					@include display-flex;
+					flex-flow: row wrap;
+					justify-content: center;
+					align-items: center;
+					position: relative;
+
+					span {
+						color: inherit;
+						font-size: inherit;
+						font-weight: inherit;
+
+						&:nth-of-type(1) { text-align: left; flex: 1; }
+						&:nth-last-of-type(1) { text-align: right; }
+					}
+
+					.option__price {
+						max-width: 100%;
+						width: 100%;
+						font-size: 20px;
+						font-weight: 500;
+						display: none;
+						
+
+						&.active {
+							@include display-flex;
+						}
+					}
+
+					.option__original-price {
+						color: $color__text-headings-alt;
+						text-decoration: line-through;
+					}
+					.option___new-price {
+
+					}
+
+					/* Savings */
+					.savings {
+						z-index: 10;
+						background-color: $color__background;
+						box-shadow: 2px 2px 2px lightgrey;
+						padding: 15px 22.5px 17px;
+						right: -87.5%;
+						bottom: -5px;
+						position: absolute;
+						border-radius: 8px;
+						align-items: center;
+						display: none;
+
+						.savings__text {
+							margin: 0;
+
+							.currency,
+							.savings__amount {
+								color: $color__accent-1;
+								font-weight: 700;
+								font-size: 20px;
+								border-bottom: 2px solid $color__accent-1;
+							}
+						}
+						> .triangle {
+							color: $color__background;
+							font-size: 20px;
+							text-shadow: -2px 2px 2px $color__input-border;
+							font-style: normal;
+							display: block;
+							position: absolute;
+							left: -15px;
+							margin: 0 auto;
+							text-align: center;
+						}
+					}
+				}
+
+				/* Subscription Savings */
+				&.subscription {
+					.option__prices {
+						.savings {
+							right: -100%;
+						}
+					}
+				}
+
+				.option__buy {
+					pointer-events: none;
+
+					button {
+						width: 100%;
+						margin: 7.5px 0;
+						font-weight: 700;
+
+						&.inactive {
+							pointer-events: none;
+							cursor: default;
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+	/* Guarantee */
+	#guarantee {
+		.block__description {
+			max-width: 600px;
+			margin: 0 auto;
+
+			p {
+				font-size: 18px;
+			}
+		}
+		.customer__feedback {
+			@include display-flex;
+			justify-content: center;
+			align-items: flex-start;
+			margin: 45px auto 30px;
+			max-width: 1200px;
+
+			.feedback {
+				margin: 0 30px; 
+				text-align: center;
+				flex: 1;
+
+				p {
+					font-size: 18px;
+				}
+			}
+		}
+	}
+
+	/* Returns */
+	#returns {
+		padding: 45px 22.5px 60px;
+
+		.block__description {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+	}
+
+	/* About */
+	#about {
+		padding: 0 0 90px;
+
+		.block__image {
+			width: 100%;
+			height: 75vh;
+			background-size: cover;
+			background-position: center;
+			margin-bottom: 75px;
+		}
+		.block__description {
+			max-width: 600px;
+			margin: 0 auto;
+
+			p {
+				font-size: 18px;
+			}
+		}
+		.button {
+			button {
+				width: 270px;
+				margin: 37.5px auto;
+				font-size: 16px;
+				font-weight: 700;
+			}
+		}
+	}
+
+	/* Clickbank Disclaimer */
+	#clickbank-disclaimer {
+		padding: 60px 22.5px;
+		
+		.block__description {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+	}
+
+}
+
+/* =================== */
+/* Responsiveness */
+/* =================== */
+@media (max-width: 1340px) {
+	#clickbank-blocks {
+		#product__purchase {
+			.purchase__options {
+				.option.subscription {
+					.option__prices {
+						.savings {
+							right: initial;
+							left: -100%;
+
+							.triangle {
+								left: initial;
+								right: -15px;
+								transform: rotate(180deg);
+								text-shadow: -2px -2px 2px $color__input-border;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* === Smaller screens (including iPad) === */
+@media (max-width: 991px) {
+	#clickbank-blocks {
+		#product__details {
+			.product__photos {
+				max-width: 450px;
+				flex: none;
+			}
+			.product__content {
+				flex: none;
+				text-align: center;
+				width: 100%;
+
+				.button {
+					button {
+						margin: 0 auto;
+					}
+				}
+
+				.product__reviews-aggregate {
+					.yotpo {
+						margin-left: 15px;
+						margin-right: 0;
+					}
+					.facts-trigger {
+						display: block;
+						margin: 15px 0 30px;
+					}
+				}
+
+				.product__description {
+					border-bottom: none;
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}
+
+/* === Mobile Devices === */
+@media (max-width: 767px) {
+	#clickbank-blocks {
+
+		/* === Blocks === */
+		.block {
+			padding: 45px 22.5px;
+
+			.block__title {
+				font-size: 30px;
+			}
+
+			.block__description {
+				p {
+					font-size: 18px;
+				}
+			}
+		}
+
+		/* === Product === */
+		#product__details {
+			padding: 0;
+
+			.product__photos {
+				padding: 30px 30px 0;
+			}
+
+			.product__content {
+				.product__title {
+					font-size: 24px;
+					font-weight: 700;
+				}
+				.product__feature-text {
+					padding: 0 30px;
+					font-size: 12px;
+				}
+				.product__description {
+					padding: 0 30px 15px 45px;
+					text-align: left;
+
+					p {
+						font-size: 16px;
+						position: relative;
+
+						&:before {
+					    content: "\e934";
+					    font-family: $linear-icons;
+					    margin-right: 10px;
+					    color: $color__accent-1;
+					    font-size: 14px;
+					    vertical-align: bottom;
+					    position: absolute;
+					    left: -22.5px;
+					    font-weight: 700;
+						}
+					}
+				}
+				.button {
+					padding: 0 22.5px 22.5px;
+					display: block;
+
+					button {
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		#product__dietary {
+			.dietary-icons {
+				.dietary {
+					width: 40px;
+					height: 40px;
+				}
+			}
+		}
+
+		#product__ingredients {
+			padding: 45px 0;
+
+			.block__description {
+				padding: 0;
+			}
+			.product__ingredients-wrapper {
+				padding: 0;
+
+				.ingredients-list {
+					.ingredient.selected {
+						background-color: $color__background-alternate;
+						margin: 30px 22.5px;
+					}
+				}
+			}
+		}
+
+		#product__reviews {
+			padding: 45px 0;
+		}
+
+		/* Product: Purchase */
+		#product__purchase {
+			.purchase__options {
+				.option {
+					&.onetime { order: 2; }
+					&.subscription { order: 1; }
+
+					.option__prices .savings {
+						left: 0 !important;
+						bottom: 0;
+						position: fixed;
+						width: 100%;
+						justify-content: center;
+						padding: 15px 15px 22.5px;
+
+						.savings__text {
+							font-size: 18px;
+							.currency {
+								margin-left: 5px;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		#guarantee {
+			.customer__feedback {
+				flex-flow: row wrap;
+
+				.feedback {
+					flex: none;
+					width: 100%;
+					margin: 30px 0;
+				}
+			}
+		}
+
+		#about {
+			.block__image { margin-bottom: 45px; }
+			.block__title { font-size: 30px; }
+			.block__description { padding: 0 22.5px; }
+		}
+
+	}
+}
+
+
+
+
+

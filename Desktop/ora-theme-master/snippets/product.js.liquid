@@ -1,0 +1,825 @@
+/*=====================================*/
+/* Product Scripts: product.js.liquid
+/*=====================================*/
+$(document).ready(function() {
+
+  /** Product: FAQs
+  *   Mimic Bootstrap's collapse function. We're not using 
+  *   Bootstrap because the amount of HTML required for it to 
+  *   function is cumbersome, due to the amount of HTML we have
+  *   to enter manually into the Shopify RTE. 
+  */
+  $('#product-faq .question').click(function(e) {
+    // Get this question's answer
+    var answer = $(this).parent().find('.answer');
+    // If the target clicked is this question, then hide the answer
+    if ($(e.target)[0] == $(this)[0] && answer.css('display') == 'block') {
+      $(this).removeClass('active');
+      answer.slideUp(200);
+    } else {
+      // Hide all answers that are currently showing and remove Classes from question
+      $('.question').removeClass('active');
+      $('.answer').slideUp(200);
+      // Find the question's answer and show
+      $(this).addClass('active');
+      $(this).parent().find('.answer').slideDown(200);
+    }
+    
+  })
+
+  $(".show .feature-image").elevateZoom({ zoomType: "window", zoomWindowWidth: 500, scrollZoom: true, easing: true });
+                
+  $(".zoomContainer").mouseover(function() { $('.zoomContainer').addClass('visible') });
+  $(".zoomContainer").mouseleave(function() { $('.zoomContainer').removeClass('visible') });
+
+})
+
+/* Search Initialization 
+*  This function is used to initialize the search functionality for any area on the site
+*  that requires filtering from user input.
+*/
+function searchInit(search_box_wrapper, result_wrapper, method) {
+  var list = [];
+  /* Setup the list from which we search */
+  $(result_wrapper).each(function() {
+    list.push({ 'name' : $(this).html(), 'object' : $(this) });
+  })
+  /* Create a delay function to handle user text input 
+  *  Credit: https://stackoverflow.com/questions/1909441/how-to-delay-the-keyup-handler-until-the-user-stops-typing?rq=1
+  */
+  var delay = (function(){
+    var timer = 0;
+    return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+  /* Make the search box functional! */
+  /* @TODO - set threshold for amount of time between ending change paste to running search query */
+  $(search_box_wrapper).find('.search-box').on('paste keyup', function() {
+    /* Set a timeout / delay so that we give some time for the user input to finish */
+    delay(function() {
+      var search_term = $(search_box_wrapper).find('.search-box').val().toLowerCase();
+      // console.log("current search term = "+search_term);
+      
+      var options = {
+        shouldSort: false,
+        threshold: 0.6,
+        location: 0,
+        distance: 200,
+        maxPatternLength: 8,
+        minMatchCharLength: 2,
+        keys: [
+          "name",
+        ]
+      };
+
+      var fuse = new Fuse(list, options); // "list" is the item array
+      var result = fuse.search(search_term);
+
+      // console.log(result);
+
+      /* Hide all results */
+      if (method == 'slide') {
+        $(result_wrapper).slideUp(200);
+      } else {
+        $(result_wrapper).fadeOut(200);
+      }
+      
+
+      /* Show matching results */
+      if (search_term !== "") {
+        for (i=0; i < result.length; i++) {
+          for (j=0; j < list.length; j++) {
+            if (result[i] == list[j]) {
+              
+              /* Search: Check that the result matches the currently selected flavor */
+              var classes        = $(result[i].object[0]).attr("class");
+              var current_flavor = $('.flavor_text.active').html().toLowerCase().replace(" ", "-");
+            
+              if (classes.indexOf(current_flavor) > -1) {
+                if (method == 'slide') {
+                  result[i].object.slideDown(200);
+                } else {
+                  result[i].object.fadeIn(200);
+                }
+                
+              }
+              
+            }
+          }
+        }
+      } else {
+        $(result_wrapper).fadeIn();
+      }
+    }, 600)
+    
+  })
+}
+
+/* Generic function */
+/* Convert string to title case */
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+String.prototype.capitalize = function() {
+    return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
+
+/* Pretty Selector (Two options only) */
+function prettySelector(element, selector, method) {
+
+  var selector = selector;
+
+  selector.removeClass('expanded'); // Close the dropup
+
+  if (method == "open") {
+    selector.addClass('expanded'); // Open the dropup
+  } else {
+    selector.children().removeClass('active'); 
+    element.addClass('active');
+  }
+  
+}
+
+/* == Subscription: Functions == */
+/* Subscription Selector */
+/* Setup pretty selector */
+$('.product__subscription-selector .option').on('click', function() {
+  
+  var value    = $(this).attr('data-value'),
+      arrow    = $(this).parent().children('.arrow'),
+      selector = $(this).parent();
+
+  console.log("order type = "+value);
+
+  if (selector.hasClass('expanded')) {
+    changeSubscription($(this), value); // Change the subscription option
+    prettySelector($(this), $('.product__subscription-selector'), "close"); // Close the dropup
+    arrow.removeClass('chevron-down').addClass('chevron-up') // Change the arrow
+  } else {
+    prettySelector($(this), $('.product__subscription-selector'), "open"); // Open the dropup
+    arrow.removeClass('chevron-up').addClass('chevron-down') // Change the arrow
+  }
+
+});
+
+function changeSubscription(element, option_value) {
+  /* Attach selector to subscription input */
+    var value              = option_value,
+        buy_bar            = element.parents('#product__buy-bar'),
+        product_price      = buy_bar.find('.product-price'),
+        standard_price     = buy_bar.find('.product__standard-price'),
+        subscription_price = buy_bar.find('.product__subscription-price'),
+        flavor             = $('.product__variant-option.active').attr('data-flavor'),
+        size               = $('.product__size-selector .active').attr('data-value');
+
+    // console.log("order type = "+option_value);
+
+    /* Set the Standard Price based on Input */
+    if (option_value == "autodeliver") {
+      standard_price.html("USD "+subscription_price.html());
+    } else {
+      standard_price.html(product_price.html());
+    }
+
+    if (size == undefined) { size = "" }; // Set size to blank if undefined
+
+    /* Click the subscription option that has been chosen */
+    element.parents('.product-details').find('.subscription-details input[value="'+value+'"]').click();
+
+    /* Change variant */
+    changeVariant(flavor, size);
+
+    
+}
+
+/*=====================================*/
+/* Product Detail Page */
+/*=====================================*/
+/* Setup the flavors on the product page */
+function initVariants(current_flavor, flavors, size) {
+  /* Get current flavor */
+  var current_flavor = current_flavor,
+      flavors        = flavors,
+      current_size   = size;
+
+  /* Show all current flavor items on page load */
+  setTimeout(function() { 
+    $('.supplement-facts .'+current_flavor+', .supplement-facts .'+current_flavor+'_'+current_size).addClass('active');
+    // $('.active.'+current_flavor).show(); // All content
+    $('.ingredient.'+current_flavor).show() // Ingredient Search 
+
+    /* Mobile Only */
+    if ($(window).width() <= 768) {
+      $('.content.'+current_flavor+'_'+current_size).addClass('active');
+    } else {
+      $('.content.'+current_flavor+'_'+current_size).removeClass('active');
+      $('.product__overview.'+current_flavor+'_'+current_size).addClass('active');
+    }
+
+  },300);
+
+  /* Set up a listener to the slick slider init, handle the creation of thumbnails */
+  $('.product__photos-grid').on('init reInit', function() {
+    console.log('slick initialized');
+    setTimeout(function() {
+
+      $('.photo__thumbnails li:nth-of-type(1)').click(); // Click the first button to initialize the thumbnail button ids
+
+      setTimeout(function() {$('.product__photos-grid .image_wrapper').each(function() {
+
+        var id  = '#'+$(this).attr('aria-describedby'),
+            src = 'url('+$(this).find('img').attr('src').replace('512x512','128x128')+')';
+
+        $(id).find('button').css({'background-image': src }); // Set background image to the slide image (for thumbnails)
+
+      })},300);
+
+    },750)
+  })
+
+  /* Enable Slick Slider on Product Images */
+  $('.product__photos-grid').slick({
+    infinite: true,
+    adaptiveHeight: true,
+    speed: 300,
+    cssEase: 'linear',
+    dots: true,
+    dotsClass: 'photo__thumbnails'
+  });
+
+
+
+
+
+  /* Filter Slick slides based on flavor */
+  for (i=0; i < flavors.length; i++) {
+    
+    if (flavors[i] == current_flavor) {
+      $('.product__photos-grid').slick('slickFilter', '.'+flavors[i]+'_'+current_size);
+      break;
+    }
+    
+  }
+
+}
+
+/* == Product Variant functions == */
+/* NB: These functions are run at the bottom of product.liquid */
+function changeVariant(flavor, size) {
+
+  /* Flavor: Change the single option selector */
+  $('.single-option-selector[data-option="option1"]').val(toTitleCase(flavor.replaceAll('-',' '))).trigger('change');
+  /* Size: Change the single option selector */
+  if (size !== "") { 
+    $('.single-option-selector[data-option="option2"]').val(size).trigger('change');
+  }
+
+  /* Change Photos */
+  $('.product__photos-grid').slick('slickUnfilter');
+  $('.product__photos-grid').slick('slickFilter', '.'+flavor+'_'+size);
+  // $('.product__photos-grid .slick-active').height();
+
+  setTimeout(function() { loadImages(); },1250); // Load Hi Res Images for Slick Slider
+
+  /* Set price */
+  var active_variant = $('.product__size-selector .'+flavor+'.size_'+size),
+      standard_price = active_variant.attr('data-price'),
+      subscription_price = active_variant.attr('data-subscription-price');
+
+  // console.log(standard_price);
+
+  // console.log(subscription_price);
+  $('.product__standard-price').html(standard_price);
+  $('.product__subscription-price').html(subscription_price);
+
+  // console.log($('.single-option-selector[data-option="option1"]').val());
+  // console.log($('.single-option-selector[data-option="option2"]').val());
+
+  /* Show the Product Overview */
+  setTimeout(function() { $('.product-details-nav .link:nth-of-type(1)').click(); }, 150);
+
+  
+}
+
+/* Handle Flavor Change on the product page */
+function changeFlavors() {
+  $('.product__variant-option').click(function(e) {
+
+    e.preventDefault();
+
+
+    var current_flavor = $(this).parent().children('.active').attr('data-flavor'),
+        new_flavor     = $(this).attr('data-flavor'),
+        product_id     = $(this).attr('data-product-id'),
+        variant_id     = $(this).attr('data-variant-id'),
+        flavors        = $(this).parents('.product__buy-bar').find('.product__variant-option'),
+        size           = $('.product__size-selector .active.'+new_flavor).attr('data-value');
+
+    if (size == undefined) { size = "" } // Set size to nothing if undefined
+
+    if (current_flavor !== new_flavor) {
+
+      /* Handle the flavor content change */
+      $('.'+current_flavor).not('.option').removeClass('active'); // Remove .active from current flavor
+      $('.'+current_flavor+'_'+size).removeClass('active'); // Remove Current Flavor + Size active classes
+      $('.'+new_flavor).not('.content, .option, .add-to-cart').addClass('active'); // Add .active to new flavor
+
+      /* Specific content changes */
+      $('.'+new_flavor+'_'+size).addClass('active'); // Add .active to new flavor and size
+      $(this).parents('.product__buy-bar').find('.product__variant-title .flavor').html(toTitleCase(new_flavor.replaceAll('-', ' '))); // Set the new flavor title
+
+      /* Handle Ingredient changes */
+      $('.product__ingredients .'+current_flavor).hide();
+      $('.product__ingredients .'+new_flavor).show();
+      
+      /* Show all Active flavor content */
+      $('.'+new_flavor+'.active');
+
+      /* Set the variant id for subscriptions */
+      $('.original_select_'+product_id).val(variant_id);
+
+      /* Set the available size options */
+      $('.product__size-selector .'+current_flavor).hide();
+      $('.product__size-selector .'+new_flavor).show();
+
+      /* Trigger Variant Change */
+      changeVariant(new_flavor, size);
+      
+    }
+
+  })
+}
+
+/* Product Variant Size Selector */
+function changeSize(target, expand) {
+    
+  var current_size = target.parent().find('.active').attr('data-value'),
+      new_size     = target.attr('data-value'),
+      arrow        = target.parent().children('.arrow'),
+      selector     = target.parent(),
+      product_id   = target.attr('data-product-id'),
+      variant_id   = target.attr('data-variant-id'),
+      element      = selector.children('.option[data-size='+target.attr('data-size')+']'),
+      flavor       = $('.product__buy-bar').find('.product__variant-option.active').attr('data-flavor');
+
+  if (current_size == undefined) { current_size = "" } // Set size to nothing if undefined
+  if (new_size     == undefined) { new_size = "" } // Set size to nothing if undefined
+
+  /* Handle the Selector click */
+  if (selector.hasClass('expanded') || expand == true) {
+    prettySelector(element, $('.product__size-selector'), "close"); // Close the dropup
+    arrow.removeClass('chevron-down').addClass('chevron-up') // Change the arrow
+
+     /* Handle the size change */
+    $('.add-to-cart').removeClass('active'); // Get the correct add to cart button
+    $('.'+flavor+'_'+current_size).removeClass('active'); // Remove .active from old size/flavor
+    $('.'+flavor+'_'+new_size).addClass('active'); // Add .active to new flavor and size
+
+  } else {
+    prettySelector(element, $('.product__size-selector'), "open"); // Open the dropup
+    arrow.removeClass('chevron-up').addClass('chevron-down') // Change the arrow
+  }
+
+  /* Set the Variant Price */
+  var standard_price     = $('.product__standard-price'),
+      subscription_price = $('.product__subscription-price'),
+      subscription_text  = $('.product__subscription-price-text'),
+      subscription_selector = $('.product__subscription'),
+      variants_selector     = $('.product__variants-selector');
+
+  /* Hide Subscription Price if Single Servings */
+  if (new_size == 1) { 
+    subscription_price.addClass('shrink'); 
+    subscription_selector.addClass('shrink');
+    variants_selector.addClass('shrink');
+    subscription_text.html('Free Shipping over $10'); 
+  } else { 
+    subscription_price.removeClass('shrink'); 
+    subscription_selector.removeClass('shrink');
+    variants_selector.removeClass('shrink');
+    subscription_text.html(' for subscribers'); 
+  };
+
+  /* Set the variant id for subscriptions */
+  $('.original_select_'+product_id).val(variant_id);
+
+  /* Trigger Variant Change */
+  changeVariant(flavor, new_size);
+
+  /* Trigger Subscription Change */
+  if (new_size == 1) {
+    changeSubscription(target, "onetime");
+    $('.product__subscription-selector .option[data-value="onetime"]').click().click();
+  } else {
+    changeSubscription(target, "autodeliver");
+    $('.product__subscription-selector .option[data-value="autodeliver"]').click().click();
+  }
+
+};
+
+/* Change the size of the variant selected */
+$('.product__size-selector .option').on('click', function(e) {
+  changeSize($(this));
+})
+
+/* Product: Tabbed Navigation */
+$('.product-details-nav .link').click(function(e) {
+
+  e.preventDefault();
+  var active_content = $('.product-details .content.active'),
+      next             = $(this).attr('data-target'); 
+
+  // Make this the active title
+  $(this).parent().children('.link').removeClass('active');
+  $(this).addClass('active');
+
+  /* Flavors: Fade in the correct text based on flavor */
+  // if (active_content.hasClass('variant')) {
+
+    // console.log($('.single-option-selector[data-option="option1"]').val());
+
+    var current_flavor = $('.single-option-selector[data-option="option1"]').val().toLowerCase().replaceAll(' ', '-'),
+        current_size   = $('.single-option-selector[data-option="option2"]').val();
+
+    if (current_size == undefined) { current_size = ""; };
+
+    next += ('.'+current_flavor+'_'+current_size);
+
+    $(next).addClass('active'); // Make the next item active
+  // }
+
+  // console.log(next);
+
+  // Fade the content smoothly
+  active_content.removeClass('active')
+    // .queue(function() { $(this).hide() })
+    // .dequeue()
+    .queue(function() { $(next).addClass('active'); })
+    .dequeue();
+    
+})
+
+
+
+/* Product: Search Ingredients + FAQs */
+/* Trigger search box */
+$('.search-box-wrapper .search-trigger').bind('click', function(e) {
+  e.preventDefault();
+  $(this).children('span').fadeOut();
+  $(this).addClass('expanded');
+
+  /* Navigation Arrows (Mobile) */
+  $(this).parents('.content').find('.navigation__arrows').addClass('expanded');
+
+  var search_box = $(this).parents('.search-box-wrapper').find('.search-box');
+
+  /* Search Box */
+  setTimeout(function() {
+    search_box.fadeIn();
+    search_box.focus();
+    search_box.unbind('click');
+  },400);
+
+
+
+})
+
+/* Functions */
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
+
+/* ==================
+   Algolia Functions 
+   ================== */
+/* Create Index */
+function createIndex(index_name, obj_ids, data) {
+  /* Algolia Ingredient Search Index */
+  var client  = algoliasearch('GHWNZ7DZTD', '967adf60928d10ecdaaeb7c016ab452b');
+  var index   = client.initIndex(index_name);
+
+  /* Check if Index already has data */
+  index.getObjects(obj_ids, function(err, content) {
+    if (content.results[0] == null) { // if it doesn't then add data
+      index.addObjects(data, function(err, content) {
+        console.log("Added to Index");
+      })
+    } 
+
+    // console.log(obj_ids);
+
+    var results     = content.results,
+        results_ids = [];
+
+    /* Compile the results objectIDs */
+    for (i=0; i<results.length; i++) {
+      if (results[i] !== null) {
+        results_ids.push(results[i].objectID);
+      }
+    }
+
+    // console.log(results_ids);
+
+    for (i=0; i<obj_ids.length; i++) {
+      if (isInArray(obj_ids[i], results_ids)) {
+      } else {
+        index.saveObjects(data, function(err, content) {
+          console.log("Updated Index");
+        })
+      }
+    }
+  });
+
+}
+
+/* Instant Search: Initialize */
+function instantSearchInit(index_name, search_container, results_container, template, callback) {
+  /* Initialize Search */
+  var search = instantsearch({
+    // Replace with your own values
+    appId: 'GHWNZ7DZTD',
+    apiKey: 'e75c199b7e6d2f7eae3a2d4d652e6c71', // search only API key, no ADMIN key
+    indexName: index_name,
+    urlSync: false,
+    searchParameters: {
+      hitsPerPage: 50
+    },
+    searchFunction: callback
+  });
+
+  /* Bind Search to Input */
+  search.addWidget(
+    instantsearch.widgets.searchBox({
+      container: search_container
+    })
+  );
+
+  /* Display Results */
+  search.addWidget(
+    instantsearch.widgets.hits({
+      container: results_container,
+      templates: {
+        item: document.getElementById(template).innerHTML,
+        empty: "We didn't find any results for the search <em>\"{% raw %}{{query}}{% endraw %}\"</em>"
+      }
+    })
+  );
+
+  /* Start Search */
+  search.start();
+}
+
+if ($(window).width() < 767) {
+  $('.search-box').on('paste keyup', function() {
+    var search_position = $(this).offset().top-150;
+    // console.log(search_position);
+    $(window).scrollTop(search_position);
+  });
+}
+
+
+/* ========================= */
+/* Search: Ingredient Search */
+/* ========================= */
+/* Expand / Hide Ingredients on click */
+function expandIngredient() {
+  if ($(window).width() > 767) {
+    $('.ingredient').off('click');
+    $('.ingredient').on('click', function() {
+
+      console.log('clicked');
+
+      var image       = $(this).find('img'),
+          description = $(this).find('.description p, .description h4 i');
+
+      /* show clicked ingredient, hide if already clicked */
+      if ($(this).hasClass('expanded')) { 
+        $(this).removeClass('expanded').find('.description p, .description h4 i').fadeOut(100);
+        $(this).parent().removeClass('expanded');
+      } else {
+        $('.ingredient, .ais-hits--item').removeClass('expanded');
+        $('.ingredient .description p, .ingredient .description h4 i').fadeOut(100);
+        $(this).addClass('expanded');
+        $(this).parent().addClass('expanded');
+        description.fadeIn();
+      }
+
+    })
+  }
+}
+
+/* Function to initialize the ingredient instant search with algolia */
+function initIngredientSearch() {
+
+  var index_name = 'ingredients__{{product.handle}}';
+  var obj_ids    = [];
+  var data       = [];
+
+  /* Get Ingredient Data */
+  $('.ingredient').each(function() {
+    data.push({
+      objectID: $(this).attr('id'),
+      title: $(this).find('h4').html(),
+      description: $(this).find('.description p').html(),
+      image: $(this).find('img').attr('src')
+    })
+    obj_ids.push($(this).attr('id'));
+  })
+
+  /* Create the Index */
+  createIndex(index_name, obj_ids, data)
+
+  /* Initialize Search */
+  instantSearchInit(index_name, '#ingredient_search_box', '.ingredient-search', 'hit-template', function(helper) {
+    helper.search();
+    if ($(window).width() > 767) { // If we're on desktop, then show the ingredient expander
+      setTimeout(function() { 
+        $('.ingredient').off('click'); // Remove current click
+        expandIngredient(); // Add click ingredient expansion
+      }, 1000);
+    }
+    setTimeout(function() { navArrows('.ingredient-search .ais-hits'); },300); // Activate arrows
+  })
+  
+}
+
+/* Initialize Ingredient Search on Product Page */
+{% if template == "product" %}
+
+// initIngredientSearch();
+
+/* Run Expand Ingredient on page load */
+// setTimeout(function() {
+//   expandIngredient();
+// },1000)
+
+{% endif %}
+
+
+
+
+/* ========================= */
+/* Search: FAQ Search */
+/* ========================= */
+/* Function to initialize the ingredient instant search with algolia */
+function initFaqSearch() {
+
+  var index_name = 'faqs__{{product.handle}}';
+  var obj_ids    = [];
+  var data       = [];
+
+  /* Get Ingredient Data */
+  $('.faq-search .question-wrapper').each(function(index) {
+    data.push({
+      objectID: "question-"+index,
+      question: $(this).find('.question').html(),
+      answer: $(this).find('.answer').html(),
+    })
+    obj_ids.push("question-"+index);
+  })
+
+  /* Create the Index */
+  createIndex(index_name, obj_ids, data)
+
+  /* Initialize Search */
+  instantSearchInit(index_name, '#faq_search_box', '.faq-search', 'hit-template-faqs', function(helper) {
+    helper.search(); // Run Search
+    setTimeout(function() { 
+      navArrows('.faq-search .ais-hits'); 
+    },300); // Activate arrows
+  })
+  
+}
+
+{% if template == "product" %}
+/* Initialize Ingredient Search */
+// initFaqSearch();
+
+// /* Init Arrows */
+// setTimeout(function() { navArrows('.ais-hits'); },300);
+
+{% endif %}
+
+/* Product: Arrow Navigation */
+function navArrows(swiperClass) {
+
+  /* Monitor arrow clicks */
+  $('#product__ingredients_faqs .navigation__arrows .linear').off('mousedown'); // Unbind mousedown
+  $('#product__ingredients_faqs .navigation__arrows .linear').on('mousedown', function() {
+
+    /* Get swiper */
+    if (swiperClass) { 
+      var swiper = $(this).parents('.content').find(swiperClass); 
+    } else { 
+      var swiper = $(this).parents('.content').find('.swiper') 
+    };
+
+    var position    = swiper.scrollLeft(),
+        amount      = swiper.width(),
+        nextPosition = Math.round((position/amount)+1)*amount;
+        prevPosition = Math.round((position/amount)-1)*amount;
+
+    // console.log(position);
+
+    if ($(this).hasClass('arrow__right')) {
+      swiper.animate({scrollLeft: nextPosition}, 300);
+    } else {
+      swiper.animate({scrollLeft: prevPosition}, 300);
+    }
+    console.log($(window).width());
+    /* Check Scroll position */
+    if (prevPosition < 10 && $(window).width() < 768) {
+      $(this).parents('.navigation__arrows').find('.arrow__left').css('opacity', 0);
+    } else {
+      $(this).parents('.navigation__arrows').find('.arrow__left').css('opacity', 1);
+    }
+
+  })
+
+  /* Monitor scroll position */
+  setTimeout(function() {
+
+    var swiper      = $('.swiper .ais-hits');
+    
+    /* Calculate Swiper Width */
+    var swiper_width = 0;
+    swiper.children().each(function() { swiper_width += $(this).outerWidth(true); })
+    swiper_width = (swiper_width/2 - 450);
+
+    /* Handle scroll */
+    swiper.on('scroll', function() {
+
+      var position    = $(this).scrollLeft(),
+          arrow_left  = swiper.parents('.content').find('.arrow__left'),
+          arrow_right = swiper.parents('.content').find('.arrow__right');
+      
+      if ($(window).width() < 768) {
+        /* Left Arrow: Check the position of the scroll */
+        if (position > $(window).width()) {
+          arrow_left.css('opacity', 1);
+        } else {
+          arrow_left.css('opacity', 0);
+        }
+        /* Right Arrow: Check the position of the scroll */
+        if (position > swiper_width) {
+          arrow_right.css('opacity', 0);
+        } else {
+          arrow_right.css('opacity', 1);
+        }
+      }
+      
+
+    })
+
+  },500);
+
+}
+
+
+
+/* Load Hi Res Images on page load */
+function loadImages() {
+    
+  $('.show-zoom').each(function() {
+
+    if ($(this).attr('src').indexOf('512x512') > -1) { // If low res image, then up-res it!
+
+      var raw_src = $(this).attr('src').split('_512x512');
+          src     = raw_src[0]+raw_src[1];
+
+      $(this).attr('src', src);
+    }
+
+  })
+  
+}
+
+/* Show Hi Res Images on Zoom */
+$('.show-zoom').click(function(e) {
+
+  var src = $(this).attr('src');
+
+  console.log(src);
+  $('.photo-zoom__placeholder').attr('src', src);
+  document.getElementsByClassName("photo-zoom-trigger")[0].click();
+  return false;
+})
+
+/* Show supplement facts on trigger */
+$('.facts-trigger').click(function(e) {
+
+  console.log("clicked trigger")
+
+  document.getElementsByClassName('show-facts')[0].click();
+
+})
+
+
+
+
+
+
+

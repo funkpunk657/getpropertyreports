@@ -1,0 +1,374 @@
+{% assign add_to_cart = 'Add to cart' %}
+{% assign sold_out = 'Sold Out' %}
+{% assign unavailable = 'Unavailable' %}
+{% assign page = pages.products %}
+
+<!-- Get Filter Options -->
+{% include 'shop-filters' %}
+
+<!-- Start Shop -->
+<div id="shop">
+  <div id="shop__filters">
+    <!-- Filters: Product Type -->
+    <h6>Shop Products</h6>
+    <i id="shop__filters-product_type-mobile" class="mob linear mob-filter">Product Type</i>
+    <div class="filter">
+      <p class="filter-header mob">Product Type</p>
+      <ul id="shop__filters-product_type">
+        {% for product_type in product_types %}
+        <li>
+          <label><span>{{ product_type | strip | replace: "-", " " }}</span>
+          <input id="{{ product_type | strip }}" class="product_type" data-filter-type="product_type" type="checkbox" />
+          </label>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <!-- Filters: Delivery Method -->
+    <h6>Delivery Method</h6>
+    <i id="shop__filters-delivery_method-mobile" class="mob linear mob-filter">Delivery</i>
+    <div class="filter">
+      <p class="filter-header mob">Delivery Method</p>
+      <ul id="shop__filters-delivery_method">
+        {% for delivery_method in delivery_methods %}
+        <li>
+          <label><span>{{ delivery_method | strip | replace: "-", " " }}</span>
+          <input id="{{ delivery_method | strip }}" class="delivery_method" data-filter-type="delivery_method" type="checkbox" />
+          </label>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <!-- Filters: Flavor -->
+    <!-- <h6>Flavor</h6>
+    <i id="shop__filters-flavor-mobile" class="mob linear mob-filter">Flavor</i> -->
+    <div class="filter" style="display: none;">
+      <p class="filter-header mob">Flavor</p>
+      <ul id="shop__filters-flavor">
+        {% for flavor in flavors %}
+          <li class="popup_container">
+            <div id="popup_{{ flavor }}" class="popup">
+              <i class="triangle">◀</i>
+              <label>{{ flavor | strip | replace: "-", " " }}</label>
+            </div>
+            <a class="popup_trigger" data-popup="popup_{{ flavor }}"></a>
+            <label>
+              <span class="mob">{{ flavor | strip | replace: "-", " " }}</span>
+              <input id="{{ flavor | strip }}" class="flavor {{ flavor | strip }}" data-filter-type="flavor" type="checkbox"/>
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <!-- Filter: Featured (Mobile Only) -->
+    <i id="shop__filters-featured-mobile" class="mob linear">Featured</i>
+    <!-- Footer -->
+    <div class="footer">
+      <p>Ora Organic’s products are <strong>always</strong> vegan, plant-based, gluten-free, dairy-free, soy-free, wheat-free, non-gmo and made from organic whole foods.</p>
+    </div>
+  </div>
+  <div id="shop__products">
+    <div class="mobile-intro mob">
+      <h6>Welcome!</h6>
+      <p>Ora Organic’s products are <strong>always</strong> vegan, plant-based, gluten-free, dairy-free, soy-free, wheat-free, non-gmo and made from organic whole foods.</p>
+      <p>Swipe through our full range below:</p>
+    </div>
+
+    <div class="products-wrapper">
+    {% for product in collections["shop"].products %}
+
+      {% assign count = forloop.index %}
+
+      <!-- Get all product flavors -->
+      {% capture flavors %}
+        {% for variant in product.variants %}
+          '{{ variant.option1 | downcase | replace: " ", "-" }}'
+          {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      {% endcapture %}
+
+      {% assign flavors = flavors | strip | strip_newlines | replace: " ","" | replace: "'", "" | split: "," | uniq %}
+
+      <!-- Get all product sizes -->
+      {% capture sizes %}{% for variant in product.variants %}'{{ variant.option2 }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+
+      {% assign sizes   = sizes | strip | strip_newlines | replace: " ","" | replace: "'", "" | split: "," | uniq  %}
+
+      <!-- Get current flavor and current size -->
+      {% assign current_flavor  = product.selected_or_first_available_variant.option1 | downcase | replace: " ", "-" %}
+      {% assign current_size    = product.selected_or_first_available_variant.option2 %}
+
+      <!-- Create the normal products (no pre-order variant) -->
+      {% include 'product-grid-item' %}
+
+    {% endfor %}
+    <div 
+      id="dummy" 
+      class="product__grid-item"
+      data-product-type=" "
+      data-delivery-method=" "
+      data-flavor=" "
+      ></div>
+    <div id="dummy_1" class="product__form-wrapper"></div>
+    </div>
+  </div>
+</div>
+<style>
+  #main {
+    margin-top: 0;
+  }
+  /* Hide Footer and Social on shop page, not relevant to buyer */
+  footer {
+    /*display: none !important;*/
+  }
+  @media (max-width: 768px) {
+    header .site-logo {
+      z-index: -1;
+      opacity: 0;
+    }
+  }
+  @media (min-width: 469px) {
+    .product__back-to-shop.mob {
+      display: none !important;
+    }
+  }
+  @media (max-width: 468px) {
+    header {
+      border-bottom: 1px solid #e8e8e8 !important;
+      background-color: white !important;
+    }
+    #main {
+      padding-top: 45px;
+    }
+    footer, #fb-livechat-content {
+      display: none;
+    }
+  }
+</style>
+{% if settings.show_deal_sidebar %}
+  <style>.mobile-title { display: none !important; }</style>
+{% endif %}
+<!-- Product: Load Product specific scripts -->
+<script>{% include 'product.js' %}</script>
+<!-- FILTER PRODUCTS // SEARCH -->
+<script>
+  $(document).ready(function () {
+
+    /* Hide Products Function */
+    function hideProducts(id, type, checked) {
+      var product   = { name: id, type: type },
+          v_index   = visible_products.indexOf(product);
+
+      /* Check if the box is checked or unchecked and if the item is in the visible products */
+      if (checked && v_index < 0) { 
+        
+        visible_products.push(product); 
+        hidden_products.splice(v_index, 1);
+      
+      } else { 
+
+        visible_products.splice(v_index, 1);
+        hidden_products.push(product);
+
+      }
+
+    }
+
+    /* Start Filtering Visible / Hidden Products */
+    var visible_products = [];
+    var hidden_products  = [];
+
+    $('.filter input').on('change', function() {
+
+      $('.product__grid-item:not(.visible)').fadeOut(200);
+
+      var val              = $(this).attr('id'),
+          val_type         = "data-"+$(this).attr('data-filter-type').replace("_","-");
+          is_checked       = $(this).is(":checked");
+
+      $('.product__grid-item').each(function() {
+        
+        var product_type    = $(this).attr(val_type).toLowerCase().replace("_","-").replace(" ","-");
+
+        // console.log("product_type="+product_type);
+        // console.log("val="+val);
+
+        if (product_type.indexOf(val) > -1) { 
+          hideProducts($(this).attr('id'), product_type, is_checked);
+        }
+
+      })
+
+      /* Loop through the hidden and visible product arrays and display accordingly */
+      if (visible_products.length == 0) { 
+        $('.product__grid-item').fadeIn(200).removeClass("visible");
+      } else {
+        for ( i = 0; i < hidden_products.length; i++) { $('#'+hidden_products[i].name).fadeOut(200).removeClass("visible"); }
+        for ( i = 0; i < visible_products.length; i++) { $('#'+visible_products[i].name).fadeIn(200).addClass("visible"); }
+      }
+
+      // console.log(visible_products);
+      // console.log(hidden_products);
+
+    })
+
+    /* Handle Supplement Facts Trigger */
+    $('.facts-trigger').click(function() {
+
+      var flavor           = $(this).parents('form').find('.single-option-selector[data-option="option1"]').val().replaceAll(" ","-").toLowerCase(),
+          size             = $(this).parents('form').find('.single-option-selector[data-option="option2"]').val(),
+          supplement_facts = $(this).parents('form').find('.supplement-facts p, .supplement-facts img');
+
+      console.log("Supplement facts for = "+flavor+"_"+size);
+
+      /* Change the supplement facts */
+      supplement_facts.hide();
+      $(this).parents('form').find('.supplement-facts p.'+flavor+'_'+size+', .supplement-facts img.'+flavor+'_'+size).show();
+    })
+
+    /* Products: Flavor Change */
+    $('.product__variants-selector .product__variant-option').click(function () {
+
+      // Get the selected flavor
+      var flavor     = $(this).attr('data-option'),
+          size       = $(this).attr('data-size'),
+          variant_id = $(this).attr('data-variant-id'),
+          product_id = $(this).attr('data-product-id');
+
+      var selected_flavor = flavor.replaceAll(" ", "-").toLowerCase(),
+          selected_size   = size;
+
+      // Change the original select for subscriptions
+      $('.original_select_'+product_id)
+        .val($(this).attr('data-variant-id'));
+
+      /* Change the single option selector (NOTE: We need to change this for ReCharge to recognize that the variant has changed) */
+      $(this).parents('form').find('.single-option-selector[data-option="option1"]')
+        .val(flavor)
+        .trigger('change');
+
+      // console.log("Variant ID = "+$('.original_select_'+product_id).val());
+      // console.log("Subscription Variant ID = "+$('#discount-select-'+product_id).val());
+
+      // Change the active variant
+      $('.product__variants-selector .product__variant-option').removeClass('active');
+      $(this).addClass('active');
+
+      console.log(flavor);
+      console.log(size);
+      console.log($(this).parents('form').find('.single-option-selector[data-option="option1"]').val());
+
+      // Change the add to cart success flavor
+      $('.product__variant-title .flavor').html(flavor);
+
+      /* Buy Box - Set correct variant */
+      $(this).parents('form').find('.product__actions input').removeClass('active').hide();
+      $(this).parents('form').find('.product__actions input.'+selected_flavor+'_'+selected_size).addClass('active').show();
+
+      // Update the single option selector for this product
+      var selector = $(this).parents('.product__variants').find('.single-option-selector');
+      // selector.val(flavor).trigger('change');
+      // console.log(selector.val());
+
+    })
+
+    /* add listener to hash */
+    window.addEventListener("hashchange", hashChange, false);
+
+    function hashChange() {
+      if (!window.location.hash) {
+        $('.back-to-shop').click();
+      }
+    }
+
+    /* Shop: Show product detail on click */
+    $('.trigger').click(function(e) {
+
+        e.preventDefault();
+
+        // Get the product to show from the anchor reference
+        var product = $(this).attr("href");
+
+        $('.product__grid-item').fadeOut(200).removeClass("visible");
+        $('#shop__filters, #shop__products').addClass('show-product');
+        $(product).fadeIn(200);
+        $('header .mobile-title').fadeOut(200);
+        $('.product__back-to-shop.mob').fadeIn(200);
+        console.log("trigger clicked");
+        $('#shipping_warning_link').addClass('hidden'); // Hide the shipping warning link
+        
+
+        $('.back-to-shop').click(function() {
+          
+          $('#shop__filters, #shop__products').removeClass('show-product');
+          $(product).fadeOut(200);
+          $('.product__grid-item').fadeIn(200);
+          $('header .mobile-title').fadeIn(200);
+          $('.product__back-to-shop.mob').fadeOut(200);
+          $('#shipping_warning_link').removeClass('hidden'); // Show the shipping warning link
+
+        })
+
+    })
+
+    /* Product: Mobile Filter buttons */
+    $('.mob-filter').click(function() {
+      // Raise the filters above the products
+      $('#shop__filters').css('z-index', 1070);
+      // Show the overlay
+      $('.shopping-cart-overlay').addClass('show').css('z-index', 2);
+      // Make the products behind the overlay unclickable
+      $('.products-wrapper').addClass('inactive');
+
+      // Show the correct filter if switching from one filter to another
+      if ($(this).hasClass('show-filter')) {
+        $(this).removeClass('show-filter')
+          .next('.filter').slideUp();
+      } else {
+        $('.filter').slideUp();
+        $(this).addClass('show-filter')
+          .next('.filter').slideToggle();
+      }
+
+      // Handle when the user tries to exit the filter
+      $(document).on("mouseup.filter touchend.filter", function(e) {  
+        var container = $('.filter');
+        if (!container.is(e.target) // if the target of the click isn't the container...
+              && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+          // Hide the filter
+          $('.filter').slideUp(200);
+          $('.mob-filter').removeClass('show-filter');
+
+          // Hide the overlay
+          $('.shopping-cart-overlay').removeClass('show').css('z-index', -1);
+          $('#shop__filters').css('z-index', 1060);
+
+          // Make it so that the user can't click all the way through to a product when closing the filters
+          setTimeout(function() {$('.products-wrapper').removeClass('inactive')}, 300);
+
+          // Unbind the document from non-filter clicks 
+          $(document).on("mouseup.filter touchend.filter").unbind();
+
+        }
+      });
+      
+    })
+
+    /* Product Mobile: Click Flavor input */
+    $('#shop__filters-flavor .popup_trigger').on('click', function () {
+      $(this).next('label').children('input').click();
+    })
+
+    /* Set all products to Subscription */
+    // $('.product__subscription .option').removeClass('active');
+    // $('.product__subscription .option[data-value="autodeliver"]').addClass('active');
+
+    // setTimeout(function() {
+    //   /* Set selector to Subscription */
+    //   $('.subscription-details input[value="autodeliver"]').click();
+    // }, 2000)
+
+  })
+</script>
+

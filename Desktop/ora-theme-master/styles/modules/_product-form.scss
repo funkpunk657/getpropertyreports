@@ -1,0 +1,457 @@
+.product-form {
+
+	/* Product Content */
+	.product__content {
+		@include display-flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+		align-items: center;
+
+		/* Product Content: Product Photos & Price */
+		.product__photos {
+			flex: 1;
+			max-width: 330px;
+			text-align: center;
+
+			/* Product Photos: Image */
+			.product-photo {
+				width: 100%;
+
+				img {
+					width: 100%;
+				}
+
+			}
+			.facts-trigger {
+				font-size: 12px;
+				font-weight: 700;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+				display: none;
+			}
+			/* Product Photo: Flavors */
+			.product__flavor-wrapper {
+		    margin: 5px auto;
+		    @include display-flex;
+		    justify-content: center;
+
+		    .popup_container {
+		    	position: relative;
+		    	margin: 0 7.5px;
+		    }
+			}
+			/* Product Photo: Price */
+			.product__price {
+				.price {
+					font-weight: 500;
+					margin: 15px 0 0;
+				}
+			}
+			/* Product Photo: Reviews */
+			.product__reviews-aggregate {
+				position: relative;
+
+				.yotpo {
+					.yotpo-stars {
+						.yotpo-icon {
+							background-image: none !important;
+						}
+					}
+					.text-m {
+				    font-size: 18px;
+				    font-weight: 700;
+				    padding: 5px 15px;
+				    display: inline-block;
+					}
+				}
+
+				.product__reviews-popup {
+					top: initial;
+					bottom: 75px;
+					left: -60px;
+					width: 450px;
+					height: 420px;
+					z-index: 2000;
+
+					h6 {
+						font-weight: 500;
+						text-align: left;
+						font-size: 16px;
+						margin-left: 10px;
+					}
+
+					.promoted-products-box,
+					.yotpo-label,
+					.yotpo-bottomline,
+					.yotpo-nav {
+						display: none !important;
+					}
+
+					.reviews {
+						height: 100%;
+						overflow: scroll;
+					}
+				}
+
+				/* Product: Reviews Aggregated */
+				.yotpo {
+					display: inline-block;
+
+					.yotpo-stars {
+						display: block;
+					}
+					.text-m {
+						display: block;
+						text-align: center;
+						padding-top: 15px;
+						margin-top: 22.5px;
+					}
+				}
+			}
+		}
+		/* Product Content: Product Details */
+		.product__details {
+			flex: 2;
+			max-width: 540px;
+			margin-left: 60px;
+
+			.product__subtitle {
+				font-size: 36px;
+				margin-bottom: 15px;
+			}
+
+			/* Product: Product Description */
+			.product__description {
+				ul {
+					list-style: none;
+					padding-left: 15px;
+
+					li {
+						line-height: 2em;
+
+						&:before {
+							content: "\e934";
+							font-family: $linear-icons;
+							margin-right: 10px;
+							color: $color__accent-1;
+							font-size: 14px;
+							vertical-align: bottom;
+						}
+					}
+				}
+			}
+
+			/* Product: Dietary Information */
+			.product__dietary {
+				list-style: none;
+				padding: 0;
+				text-align: left;
+				margin: 15px 0 0;
+				padding-bottom: 15px;
+				border-bottom: 1px solid $color__input-border;
+
+				li:nth-of-type(1) {
+					padding-bottom: 7.5px;
+				}
+
+				.dietary-icons {
+					
+				}
+				.dietary {
+					margin: 7.5px;
+				}
+				p {
+					font-size: 16px;
+				}
+			}
+
+			/* Product: Buy Button */
+			.product__buy-button {
+				text-align: left;
+				padding-top: 22.5px;
+				padding-bottom: 15px;
+				position: relative;
+
+				.button {
+					background-color: $color__accent-1;
+					color: white;
+					display: block;
+					padding: 15px 0;
+					text-align: center;
+					text-transform: uppercase;
+					font-weight: 500;
+					letter-spacing: 1.5px;
+					width: 270px;
+					font-size: 14px;
+					margin: 0;
+
+					&.inactive {
+						background-color: $color__input-border;
+						pointer-events: none;
+					}
+				}
+			}
+
+			/* Product: Supplement Facts */
+			.product__supplement-facts {
+				.modal-content {
+					text-align: center;
+					padding: 15px;
+				}
+				img {
+					width: 100%;
+				}
+				h2 {
+					font-size: 30px;
+				}
+			}
+		}
+		/* Product Content: Page Link */
+		.product__page-link {
+			display: block;
+		}
+	}
+
+	.supplement-facts {
+		button {
+			font-size: 14px;
+			width: 240px;
+			padding: 12px 30px 10px;
+		}
+		.modal {
+
+			.modal-content {
+				border-color: transparent;
+			}
+
+			h2 {
+				display: block;
+				font-family: $baskerville;
+				font-style: italic;
+				font-size: 30px !important;
+				text-align: center;
+			}
+			img {
+				display: block;
+				max-width: 100%;
+				border-radius: 8px;
+				margin: 0 auto;
+				padding: 0 15px 15px;
+			}
+		}
+	}
+}
+
+@media (max-width: 991px) {
+	.product-form {
+		.product__content {
+			justify-content: center;
+			padding-bottom: $size__site-navbar;
+
+			.product__photos,
+			.product__details {
+				flex: initial;
+			}
+
+			.product__details {
+				.product__buy-button {
+					border-top: 1px solid $color__input-border;
+
+					.button {
+						width: 100%;
+					}
+				}
+					
+			}
+
+			.product__page-link {
+				display: none;
+			}
+
+
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	.product-form {
+		.product__content {
+			.product__photos {
+				flex: initial;
+
+				.product-photo {
+					img {
+						width: 80%;
+						margin: 0 auto;
+					}
+				}
+				/* Product Photo: Flavors */
+				.product__flavor-wrapper {
+					margin: 5px auto 15px;
+				}
+				.mobile-title {
+					font-weight: 500;
+				}
+				.product__reviews-aggregate {
+					.product__reviews-popup {
+						width: 100%;
+						left: 0;
+						height: 300px;
+					}
+				}
+			}
+			.product__back-to-shop {
+				top: 18px;
+
+				a {
+					font-size: 14px;
+
+					i:before {
+						font-size: 18px;
+					}
+				}
+			}
+			.product__details {
+				margin-left: 0;
+
+				.product__subtitle {
+					display: none;
+				}
+
+				/* Product: Description */
+				.product__description {
+					padding: 22.5px 15px 15px;
+					margin-top: 22.5px;
+					border-top: 1px solid $color__input-border;
+
+					ul {
+						padding-left: 0;
+						padding-top: 7.5px;
+
+						li {
+							@include display-flex;
+						}
+					}
+				}
+
+				/* Product: Dietary */
+				.product__dietary {
+					text-align: center;
+					margin: 0;
+					padding: 22.5px 15px 15px;
+					border-top: 1px solid $color__input-border;
+					border-bottom: 1px solid $color__input-border;
+
+					li:nth-of-type(1) {
+						@include display-flex;
+						flex-flow: row nowrap;
+						justify-content: center;
+						padding-bottom: 15px;
+
+						.dietary {
+							flex: 1;
+							width: auto;
+							max-width: auto;
+						}
+					}
+				}
+
+				/* Product: Mobile Link to Detail Page */
+				.product__mobile-product-link {
+					padding: 15px 15px 30px;
+					text-align: center;
+					border-top: 1px solid $color__input-border;
+					border-bottom: 1px solid $color__input-border;
+
+					h6 {
+						color: $color__text-headings-alt;
+						font-weight: 500;
+						text-transform: uppercase;
+					}
+
+					.product__mobile-product-links {
+						padding: 0 15px;
+						a {
+							display: block;
+							width: 100%;
+							
+							button {
+								width: 100%;
+								pointer-events: none;
+							}
+						}
+					}
+				}
+
+				/* Product: Buy Box Trigger */
+				.product__buy-button {
+			    position: fixed;
+			    padding: 7.5px;
+			    background-color: white;
+			    bottom: 0;
+			    z-index: 1050;
+			    left: 0;
+			    height: auto;
+			    width: 100%;
+
+			    .button {
+			    	width: 100%;
+			    	font-size: 12px;
+			    	padding: 10px;
+			    }
+				}
+			}
+			.product__page-link {
+				display: none;
+			}
+		}
+		.mobile-product__price {
+			position: fixed;
+			bottom: 50px;
+			left: 0;
+			z-index: 1049;
+			width: 100%;
+			background-color: $color__background;
+			box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.15);
+			text-align: center;
+
+
+			.price {
+				font-weight: 500;
+				font-size: 16px;
+				vertical-align: middle;
+			}
+			.subscription-price {
+				font-size: 12px;
+				margin-left: 7.5px;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	.product__back-to-shop {
+		position: fixed;
+		z-index: 1004;
+		top: 10px;
+		left: 1%;
+		right: 1%;
+		width: 150px;
+		text-align: center;
+		margin: 0 auto;
+		transform: none;
+
+		a {
+			font-size: 14px;
+			color: $color__text-link;
+			margin-left: -10px;
+
+			i:before {
+				font-size: 18px;
+				color: $color__text-link;
+				
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+#page_404 {
+	text-align: center;
+	height: 60vh;
+	position: relative;
+
+	.wrapper {
+		@include vertical-align;
+
+		h1 {
+			font-style: italic;
+		}
+		h4 {
+			padding: 30px;
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	#page_404 {
+		.wrapper {
+			h1 {
+				font-size: 36px;
+				padding: 0 30px;
+			}
+		}
+	}
+}

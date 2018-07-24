@@ -1,0 +1,80 @@
+<!-- Landing Modals - Birthday 
+     This is a landing modal made and displayed using Javascript, used to help
+     convert people who have come from an advertising campaign that mentions the
+     Birthday code. -->
+
+<!-- Script: Get URL Parameters and show modal -->
+<script>
+  $(document).ready(function() {
+  	// Check the URL Params for a landing modal
+  	if (window.location.search.indexOf('landing_modal=birthday') > -1) {
+
+			var params           = window.location.search;
+			if (params.indexOf('landing_modal_v') > -1)       { var modal_visibility = params.split("landing_modal_v=")[1].split("&")[0] };
+			if (params.indexOf('landing_discount_code') > -1) { var discount_code    = params.split("landing_discount_code=")[1].split("&")[0] };
+
+			console.log("Discount Code = "+discount_code);
+
+			if (modal_visibility) {
+				if (modal_visibility == "true") {
+					// Show the overlay and the modal
+					showOverlay($('#landing__modal-wrapper'), 'landing__overlay');
+					$('#landing__modal-wrapper').fadeIn();
+				} else {
+					$('#landing__discount-code').fadeIn();
+				}
+			}
+
+			if (discount_code) {
+				// Set a cookie for the user
+				setCookie("landing__discount_code", discount_code, 30);
+
+				// Attach the params to the DOM
+				$('.landing__discount-code').html(discount_code);
+			}
+
+			// Handle clicking the landing__overlay
+			$('.landing__overlay').on('click.close', function() {
+				$('#landing__modal-wrapper').fadeOut();
+			})
+			
+		}
+
+		// Check for cookies! If the user has a discount code cookie then we'll show the landing discount code on the page.
+		// (the code for cookies is in custom.js.liquid)
+		// var landing_cookie = getCookie('landing__discount_code');
+
+		// if (landing_cookie !== "") {
+		// 	// Hide the smile popup trigger 
+		// 	$('#smile_popup_trigger').hide();
+		// 	// Show the landing discount
+		// 	$('#landing__discount').show();
+		// 	$('.landing__discount-code').html(landing_cookie);
+		// }
+
+  })
+</script>
+
+<!-- Landing Modal: Birthday -->
+<div id="landing__modal-wrapper">
+	<div id="landing__birthday" class="landing__modal">
+		<div class="landing__modal-header">
+			<h2>Happy Birthday!</h2>
+		</div>
+		<div class="landing__modal-content">
+			<p>We've got a little gift for you - Use the code below to <b>get 20% off everything</b> at Ora Organic!</p>
+			<div class="landing__modal-discount-wrapper">
+				<p>Your code: <b class="landing__discount-code">BDAY</b></p>
+			</div>
+		</div>
+		<div class="landing__modal-action">
+			<a href="/pages/products" class="button"><button class="flat aqua medium">Shop Now</button></a>
+		</div>
+	</div>
+</div>
+
+<!-- Landing Discount: Fixed on page -->
+<!-- <div id="landing__discount" style="display: none;">
+	<p class="subtitle">Your Code</p>
+	<p><b class="landing__discount-code popup_trigger" data-popup="landing__discount-info"></b><span id="landing__discount-info" class="popup"><i class="triangle">◀</i>Enter this code at checkout to get your 20% off!</span></p>
+</div> -->

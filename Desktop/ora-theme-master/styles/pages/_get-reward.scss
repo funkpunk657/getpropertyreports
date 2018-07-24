@@ -1,0 +1,50 @@
+#get_reward {
+	@include display-flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	margin-top: -$size__site-navbar;
+
+	.content {
+		max-width: 315px;
+		margin: 0 auto;
+		text-align: center;
+
+		input[type="submit"],
+		input[type="email"] {
+			width: 100%;
+		}
+
+		input[type="email"] {
+			border: 1px solid $color__input-border;
+			margin: 15px 0;
+		}
+
+		input [type="submit"] {
+			margin-top: 15px;
+		}
+
+		p {
+			margin: 15px 0 0;
+		}
+
+		label {
+			font-weight: normal;
+			margin-left: 10px;
+			margin-bottom: 0;
+			vertical-align: sub;
+		}
+
+		.mc-field-group {
+			text-align: left;
+		}
+		#mce-responses {
+			margin: 15px 0;
+			font-family: $font__body;
+		}
+		.reward__product {
+			text-transform: capitalize;
+		}
+
+	}
+}

@@ -1,0 +1,187 @@
+/* Standard styles for the custom slider */
+.ingredient-slider {
+	height: 90vh;
+	width: 100%;
+	text-align: center;
+
+	&.slick-slider .slick-list {
+		width: 100%;
+
+		.slick-center img {
+			opacity: 1;
+			transform: scale(1.33);
+		}
+		.slick-track {
+			padding: 30px 0;
+		}
+		.slick-slide {
+			text-align: center;
+			outline: none;
+		}
+	}
+
+	.slick-arrow {
+		position: absolute; 
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		font-size: 30px;
+		color: $color__text-copy;
+		outline: none;
+		top: 55%;
+		z-index: 3;
+
+		img {
+			width: 45px;
+			opacity: 0.7;
+		}
+	}
+	.slick-prev {
+		left: 25%;
+	}
+	.slick-next {
+		right: 25%;
+	}
+
+	img {
+		width: 210px;
+		margin: 15px auto;
+		@include all-transition;
+	}
+	.prebiotic {
+		img {
+			width: 120px;
+			margin: 45px auto;
+		}
+	}
+	.probiotic {
+		img {
+			border-radius: 100%;
+			width: 120px;
+			margin: 45px auto;
+		}
+	}
+	.description {
+		padding: 30px 15px 0;
+		opacity: 0;
+		z-index: -1;
+		@include all-transition;
+
+		h4 {
+			font-size: 30px;
+
+			i {
+				font-size: 24px;
+				font-family: $baskerville;
+			}
+		}
+
+		p {
+			font-size: 16px;
+			line-height: 1.6em;
+
+			a {
+				cursor: pointer;
+				pointer-events: all;
+				outline: none;
+			}
+			a:hover {
+				cursor: pointer;
+				text-decoration: none;
+			}
+		}
+	}
+	.slick-center .description {
+		opacity: 1;
+		z-index: 1;
+	}
+}
+
+@media (min-width: 768px) {
+	.ingredient-slider {
+		.description {
+			width: 150%;
+			margin-left: -25%;
+		}
+	}
+}
+
+@media (max-width: 991px) {
+	.ingredient-slider {
+		.description {
+			h4 {
+				font-size: 30px;
+			}
+		}
+	}
+}
+@media (width: 768px) {
+	.ingredient-slider {
+		height: 70vh;
+
+		.slick-arrow {
+			top: 45%;
+		}
+		.slick-next {
+			right: 15%;
+		}
+		.slick-prev {
+			left: 15%;
+		}
+	}
+}
+@media (max-width: 468px) {
+	.ingredient-slider {
+		.slick-arrow {
+			top: 15%;
+			z-index: 3;
+
+			img {
+				width: 30px;
+			}
+		}
+		.slick-prev {
+			left: -50px;
+		}
+		.slick-next {
+			right: -50px;
+		}
+
+		img {
+			width: 120px;
+		}
+		.prebiotic {
+			img {
+				margin: 30px auto;
+			}
+		}
+
+		.description {
+			padding-top: 5px;
+
+			h4 {
+				font-size: 24px;
+
+				i {
+					font-size: 18px;
+				}
+			}
+
+			p {
+				font-size: 14px;
+			}
+
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+

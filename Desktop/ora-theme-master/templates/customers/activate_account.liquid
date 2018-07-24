@@ -1,0 +1,46 @@
+{% layout settings.customer_layout %}
+<div class="row" style="padding-top: 50px; text-align: center;">
+  <div class="container-bstrp-fluid">
+	<div id="create-account" class="col-md-6 col-md-offset-3">
+		<h1 class="accounts-title" style="font-size: 60px; padding: 50px;">Activate!</h1>
+		{% form 'activate_customer_password' %}
+		    {{ form.errors | default_errors }}
+		    <div id="password" class="clearfix large_form">
+		      <input type="password" value="" name="customer[password]" id="customer_password" placeholder="Enter new password" />
+		    </div>
+		    <div id="password_confirm" class="clearfix large_form">
+		      <input type="password" value="" name="customer[password_confirmation]" id="customer_password_confirmation" placeholder="Confirm new password" />
+		    </div>
+			  <p id="confirmation_subtext">{{ 'customer.activate_account.subtext' | t }}</p>
+		    <div class="action_bottom">
+		      <input type="submit" class="button primary btn-aqua" value="{{ 'customer.activate_account.submit' | t }}" />
+		      <input type="submit" class=" button cancel btn-blue" name="decline" id="customer_decline" value="{{ 'customer.activate_account.cancel' | t }}" />
+		    </div>
+		  {% endform %}
+	</div>
+  </div>
+</div>
+
+<style>
+  #customer_password,
+  #customer_password_confirmation {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+    margin: 15px auto;
+    line-height: 2em;
+    width: 75%;
+  }
+  .action_bottom,
+  #confirmation_subtext {
+    margin-top: 20px;
+  }
+  #confirmation_subtext,
+  .action_bottom input,
+  .action_bottom span {
+    font-size: 18px !important;
+  }
+  .action_bottom input {
+    padding: 15px 40px !important;
+    margin: 15px;
+  }
+</style>

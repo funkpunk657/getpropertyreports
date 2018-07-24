@@ -1,0 +1,138 @@
+<!-- SETUP
+  Setup all of the variables used in the article template:
+    1. Category
+    2. Background / Feature Images
+    3. Infographics
+    4. Misc
+ -->
+{% for tag in article.tags %}
+  {% if tag contains "category=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign category = t[1] %}
+  {% endif %}
+  {% if tag contains "author=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link_text=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link_text = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image_mobile=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image_mobile = t[1] %}
+  {% endif %}
+  {% if tag contains "recommendation_text" %}
+    {% assign recommended_products = true %}
+    {% assign recommendation_text = tag | split: "=" | last %}
+  {% endif %}
+{% endfor %}
+<!-- START ARTICLE -->
+<div id="article" class="feature">
+  <div class="hero" style="background-image: url({{ feature_image }})"> 
+    <div class="article__title-wrapper">
+      <h5 class="article__category">{{ category }}</h5>
+      <h1 class="article__title">{{ article.title }}</h1>
+    </div>
+    <div class="article__author-wrapper">
+      <p class="article__author">{{ author }} for Ora Organic</p>
+      <a href="{{ author_link }}" target="_blank" class="article__author-link">{{ author_link_text }}</a>
+    </div>
+  </div>
+  <style>
+    {% if feature_image_mobile %}
+      @media (max-width: 468px) {
+        #article .hero {
+          background-image: url({{ feature_image_mobile }}) !important;
+        }
+      }
+    {% endif %}
+  </style>
+  <div class="content">
+    <div class="article__content">  
+      
+      <!-- Article: Content -->
+      {{ article.content }}
+
+      <!-- Article: Product Recommendations -->
+      {% if recommended_products %}
+      <div class="article__recommendations">
+        <h3 class="recommendation__text">{{ recommendation_text }}</h3>
+        {% for tag in article.tags %}
+          {% if tag contains 'recommended_product' %}
+            {% assign product_handle = tag | split: "=" | last %}
+            {% for product in collections["shop"].products %}
+              {% if product.handle == product_handle %}
+              <div class="article__recommendation">
+                <!-- Recommendation: Product Image -->
+                {% for image in product.images %}
+                  {% if image.alt contains 'featured-image' or image.alt contains 'Creative' %}
+                  <a class="content variant link" href="{{ product.url }}">
+                    <img class="recommendation__image" src="{{ image | img_url: '512x512' }}" alt="{{ product.title | escape }}"/>
+                  </a>
+                  {% endif %}
+                {% endfor %}
+                <!-- Recommendation: Product Title -->
+                <h6 class="recommendation__title"><a href="{{ product.url }}">{{ product.title }}</a></h6>
+                <!-- Recommendation: Product Excerpt -->
+                {% if product.description contains '<div class="product-excerpt">' %}
+                  {% assign full_description = product.description | split: '<div class="product-excerpt">/n<p>' | last %}
+                  {% assign description = full_description | split: '</p>' %}
+                    <div class="recommendation__description">
+                      {{ description[0] }}</div>
+                    </div>
+                {% endif %}
+                <div class="recommendation__actions">
+                  <a href="{{ product.url }}" class="button"><button class="flat aqua outline">Learn More</button></a>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+  <!--START ACTIONS-->
+  <div class="actions">
+    <a id="back__button" href="{{ blogs['news'].url }}">Back to the Ora Blog</a>
+  </div>
+  <!--END ACTIONS-->
+</div>
+<!-- Template specific styling -->
+<style>
+#main {
+  margin-top: 0;
+  padding-top: 75px;
+}
+</style>
+<script>
+  $(document).ready(function() {
+     /* Clear header if tagged */
+    {% for tag in article.tags %}
+      {% if tag contains 'clear_header' %}
+        // If scroll top is 0, then add top class to make header transparent
+        if ($(window).scrollTop() == 0) { $('header').addClass('top'); }
+        $('.article__category, .article__title, .article__author').css('color', '#FFF');
+        // Listen to the page scrolling
+        $(window).scroll(function() {
+          if ($(this).scrollTop() < 180) {
+            $('header').addClass('top');
+          } else {
+            $('header').removeClass('top');
+          }
+        })
+      {% endif %}
+    {% endfor %}
+  })
+</script>

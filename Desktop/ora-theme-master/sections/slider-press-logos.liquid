@@ -1,0 +1,119 @@
+{% comment %}
+== HOMEPAGE SLIDER ==
+{% endcomment %}
+{% if template == "index" %}
+  <div class="slider-wrapper">
+
+    {% assign collection = collections[settings.homepage_collection] %}
+
+    <!-- Home: Hero Slider -->
+    <div id="slider-press-logos" class="slider">
+
+      {% for block in section.blocks %}
+
+          <div class="press-link-wrapper">
+            <a title="{{ block.settings.press-title }}" href="{{ block.settings.press-link }}" target="_blank">
+              <img src="{{ block.settings.press-logo | img_url: 'master' }}" alt="{{ block.settings.press-logo-alt }}">
+            </a>
+          </div>
+
+      {% endfor %}
+
+    </div>
+    
+  </div>
+{% endif %}
+<script>
+  $(document).ready(function() {
+    setTimeout(function() {
+      var slider = $("#slider-press-logos");
+        $(slider).slick({
+          centerMode: false,
+          centerPadding: '20px',
+          slidesToShow: 6,
+          speed: 500,
+          touchToSlide: true,
+          swipeToSlide: true,
+          infinite: true,
+          autoplay: true,
+          autoplaySpeed: 2000,
+          arrows: false,
+          responsive: [
+            {
+              breakpoint: 1200,
+              settings: {
+                slidesToShow: 5,
+              }
+            },
+            {
+              breakpoint: 767,
+              settings: {
+                slidesToShow: 4,
+              }
+            },
+            {
+              breakpoint: 468,
+              settings: {
+                slidesToShow: 3,
+              }
+            }
+          ]
+        })
+        setTimeout(function() {
+          slider.animate({opacity: 1}, 500);
+        }, 2000)
+      },500);
+    })
+      
+</script>
+
+{% schema %}
+  {
+    "name": "Press Logos",
+    "blocks": [
+      {
+        "type": "press",
+        "name": "Press",
+        "settings": [
+          {
+            "id": "press-title",
+            "type": "text",
+            "label": "Press Title"
+          },
+          {
+            "id": "press-logo",
+            "type": "image_picker",
+            "label": "Press Logo"
+          },
+          {
+            "id": "press-link",
+            "type": "url",
+            "label": "Press Link"
+          },
+          {
+            "id": "press-logo-alt",
+            "type": "text",
+            "label": "Logo Alt text"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Press Logos",
+        "category": "Slides",
+        "blocks": [
+          {
+            "type": "press"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

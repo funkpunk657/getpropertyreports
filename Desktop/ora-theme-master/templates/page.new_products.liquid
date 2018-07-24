@@ -1,0 +1,70 @@
+<div id="new_products">
+	<div id="hero" class="hero parallax-window" data-parallax="scroll" data-image-src="{{ 'new-products-hero.jpg' | asset_url }}">
+		<div class="wrapper card">
+			<h1 class="header">What's cookin' good lookin'?</h1>
+			<h6 class="content">Welcome to the Innovation Lab - where we’re always working on new and exciting products! Here you can take a sneak peek at what’s in production and get in first with a pre-order or sign up to be notified when a product becomes available. <br><br>Everything here is vegan, organic, non-GMO, cruelty-free, sustainable, soy-free, gluten-free and contains no artifcial ingredients. You dig?</h6>
+		</div>
+	</div>
+	<div id="products">
+		<div class="header">
+      <h2>Menu.</h2>
+      <p>Click on an image to learn more.</p>
+    </div>
+    <div id="product-grid">
+		{% for product in collections["shop"].products %}
+      {% if product.tags contains "innovation-lab" %}
+  			{% assign count = forloop.index %}
+  			{% include 'product-grid' %}
+      {% endif %}
+		{% endfor %}
+		</div>
+		<div class="footer">
+			<p></p>
+		</div>
+	</div>
+	<div id="action" class="hero parallax-window" data-parallax="scroll" data-image-src="{{ 'new-products-hero.jpg' | asset_url }}">
+		<div class="wrapper">
+			<a href="/pages/products" class="button"><button class="flat aqua medium">Back to Shop</button></a>
+		</div>
+	</div>
+</div>
+<style>
+#main {
+	margin-top: 0;
+}
+</style>
+<script>
+	$(document).ready(function() {
+
+		// Page Scroll Script
+		if ($(document).scrollTop() == 0) {
+      $('header').addClass('top');
+    }
+
+    $(window).scroll(function() {
+
+    	if ($(window).scrollTop() == 0) {
+    		$('header').removeClass('scrolled').addClass('top');
+    	} else if ($(window).scrollTop() >= $('#hero').offset().top) {
+    		$('header').removeClass('scrolled').addClass('scrolled');
+    	} else {
+    		$('header').removeClass('scrolled').addClass('top');
+    	}
+    })
+
+    /* ==== SHOW PRODUCT BUY BOX ==== */
+    // Handle the buy box clicked
+    $('.buy-box-trigger > a').click(function(e) {
+      e.preventDefault();
+      var purchase_wrapper = $(this).attr('href');
+      $(purchase_wrapper).fadeIn();
+      $(purchase_wrapper).click(function(e) {
+        if ($(e.target).parents(purchase_wrapper).length == 0) {
+          $(this).fadeOut();
+        }
+      })
+      $('.close-button, .add-to-cart').click(function() { $(purchase_wrapper).fadeOut(); })
+    })
+
+	})
+</script>

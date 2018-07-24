@@ -1,0 +1,95 @@
+.email-signup {
+	height: 450px;
+	@include display-flex;
+	flex-flow: column nowrap;
+	margin: 60px 0;
+
+	&.full-width {
+		form {
+			position: absolute;
+			left: 0;
+			width: 100%;
+		}
+	}
+
+	form {
+		background-color: $color__background-alternate;
+		height: inherit;
+		text-align: center;
+		padding: 30px 5%;
+		@include display-flex;
+		justify-content: center;
+		align-items: center;
+		flex-flow: column nowrap;
+
+		h4 {
+			font-size: 28px;
+			font-weight: 500;
+		}
+		h6 {
+			font-size: 18px;
+			padding: 0 0 15px;
+			max-width: 450px;
+		}
+		p.disclaimer {
+			font-size: 13px !important;
+			margin: 30px 0;
+			max-width: 450px;
+		}
+
+		.input-group {
+			max-width: 390px;
+			@include display-flex;
+			flex-flow: column nowrap;
+			position: relative;
+			margin: 0 auto;
+			width: 100%;
+
+			.email {
+				height: 60px;
+				font-size: 16px;
+				width: 100%;
+			}
+			.submit {
+				width: 100%;
+			}
+			.page-loader {
+				position: absolute;
+				bottom: -20px;
+				width: 90px;
+				height: 90px;
+				z-index: -1;
+				opacity: 0;
+				left: 1%;
+				right: 1%;
+				margin: 0 auto !important;
+
+				&.loading {
+					z-index: 2;
+					opacity: 1;
+				}
+			}
+		}
+
+	}
+}
+
+@media (max-width: 468px) {
+	.email-signup {
+		form {
+			text-align: center;
+
+			h4 {
+				font-size: 20px;
+			}
+			h6 {
+				font-size: 16px;
+			}
+			.input-group {
+				.email {
+					height: 52px;
+				}
+			}
+		}
+	}
+}

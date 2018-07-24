@@ -1,0 +1,49 @@
+#product__recommendations {
+	text-align: center;
+
+	h4 {
+		font-weight: 500;
+		margin-bottom: 22.5px;
+	}
+
+}
+
+.findify-element {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 0 22.5px 60px;
+	text-align: center;
+
+	.findify-root {
+		.findify-recommendation {
+			.findify-lists--products-list__title {
+				display: none !important;
+			}
+			.findify-widget--grid__column {
+				cursor: pointer;
+
+				.findify-widget--product {
+					border-radius: 8px;
+					padding: 22.5px 15px !important;
+					cursor: pointer;
+
+					.findify-widget--rating__count {
+						display: inline-block !important;
+					}
+				}
+
+				div, a, img, h5, span {
+					cursor: pointer;
+				}
+			}
+			.findify-widget--product__title {
+				margin-top: 15px !important;
+
+				span {
+					font-weight: 500 !important;
+					display: block;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,35 @@
+<!-- This is the snippet for the Email Signup Bar used at the top of the website, 
+		 when turned on in Theme settings. Always administrate any changes to the
+		 deal bar content from the Theme Customize screen, NOT this template! -->
+<!-- SIGN UP BAR -->
+<div id="signup-bar" class="bar">
+  <div class="wrapper">
+    {% form 'customer' %}
+    <input type="hidden" id="contact_tags" name="contact[tags]" value="newsletter"/>
+    <p>Sign up to receive 10% off: </p>
+    <div class="input-group">
+      <input type="email" class="email form-control" id="contact_email" name="contact[email]" placeholder="Enter E-mail Address">
+      <span class="input-group-btn">
+        <input class="submit flat aqua" type="submit" id="contact_submit" type="button" value="SIGN UP"/>
+      </span>
+    </div>
+    {% endform %}
+  </div>
+  {% include 'icon-close' %}
+</div>
+<!-- SIGN UP TO NEWSLETTER SCRIPT -->
+<script>
+  $(document).ready(function() {
+
+      $('#main, header, #signup-bar').addClass('show-bar');
+      {% if settings.show_deal_bar %}
+        $('#signup-bar').css('z-index', '-2');
+      {% endif %}
+
+      $('.bar .close-btn').click(function() {
+        $('#main, header, #signup-bar').removeClass('show-bar');
+        $('#signup-bar').css('z-index', '-1');
+      });
+
+  });
+</script>

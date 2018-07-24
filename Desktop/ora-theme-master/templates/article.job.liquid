@@ -1,0 +1,236 @@
+<!-- SETUP
+  Setup all of the variables used in the article template:
+    1. Category
+    2. Background / Feature Images
+    3. Infographics
+    4. Misc
+ -->
+{% for tag in article.tags %}
+  {% if tag contains "category=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign category = t[1] %}
+  {% endif %}
+  {% if tag contains "author=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link_text=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link_text = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image_mobile=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image_mobile = t[1] %}
+  {% endif %}
+  {% if tag contains "recommendation_text" %}
+    {% assign recommended_products = true %}
+    {% assign recommendation_text = tag | split: "=" | last %}
+  {% endif %}
+{% endfor %}
+<div id="article">
+{% if blog.handle == "news" %}
+  <!-- Article: Header -->
+  <div class="article__header news">
+    <!-- Article Image: Pinterest -->
+    <!-- Article Header: Image -->
+    {% if article.excerpt contains "header-img" %}
+    {% assign src = article.excerpt | split: 'src="' %}
+    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' %}
+    <div id="article__header-image" style="background-image:url('{{ src }}');" class="row fill">
+      <!-- Article Header: Title -->
+      <div class="article__title"><h1>{{ article.title }}</h1></div>
+      <!-- Article Header: Pinterest Friendly Image (for repinning) -->
+      <img class="article__pinterest-image" src=""/>
+    </div>
+    <!-- Load the Pinterest image after the page has finished loading -->
+    <script async defer>
+      $(document).ready(function() {
+        $('.article__pinterest-image').attr('src', "{{ article.image.src | img_url: 'large' }}");
+      })
+    </script>
+    {% endif %}
+  </div>
+  {% endif %}
+  <div class="wrapper">
+    <!--START POST-->
+    <article class="article__wrapper">
+      <div class="{% unless blog.comments_enabled? %}no-comments{% endunless %}">
+        <div class="wysiwyg">
+          <!-- Article Content: Standard / News -->
+          {% if blog.handle == "news" %}
+            <div class="article__meta">
+              <!-- Article: Capture all tags -->
+              {% capture tags %}
+                {% if article.tags.size > 0 %}
+                  {% for tag in article.tags %}
+                    <a href="{{ blog.url }}/tagged/{{tag | handle }}">{{ tag }}</a>
+                    {% unless forloop.last %}, {% endunless %}
+                  {% endfor %}{% endif %}{% endcapture %}
+              {% if article.tags.size > 0 %}
+                <!-- Article: Assign author name and links -->
+                {% for tag in article.tags %}
+                  {% if tag contains "author=" %} {% assign author = tag | split: 'author=' | last %} {% endif %}
+                  {% if tag contains "author_link=" %} {% assign authorLink = tag | split: 'author_link=' | last %} {% endif %}
+                {% endfor %}
+                <!-- Article: Author and Author Link (if applicable) -->
+                {% if authorLink %}
+                  <a class="author__link" href="{% unless authorLink contains 'http' %}https://{{ authorLink }}{% else %}{{ authorLink }}{% endunless %}" target="_blank">
+                    <span>Written by <b class="article__author">{{ author }}</b></span>
+                  </a>
+                {% endif %}
+              {% else %}
+                <p><span>Written by <b class="article__author">The Ora Crew</b></span></p>
+              {% endif %}
+              <!-- Article: Publish Date -->
+              <div class="article__publish-date">
+                <span>{{ article.published_at | date: '%d' }}</span>
+                <span class="article__date">{{ article.published_at | date: '%b' }} '{{ article.published_at | date: '%y' }}</span>
+              </div>
+            </div>
+            <!-- Article: Content -->
+            <div class="article__content">
+              {{ article.content }}
+            </div>
+          <!-- Article Content: Careers -->
+          {% elsif blog.handle == "careers" %}
+            <div class="job_listing">
+              <div class="article__content job_listing-description">
+                <div style="clear: both;"></div>
+                <h1 class="job_title">{{ article.title }}</h1>
+                {{ article.content }}
+              </div>
+              <div class="job_listing-apply">
+                <a href="mailto:careers@ora.organic?subject={{ article.title }} - Job Application&body=[ Please make sure to leave your full name and phone number so that we can get back to you as soon as possible. Good luck! ]" class="button">
+                  <button class="flat aqua apply">Apply</button>
+                </a>
+              </div>
+            </div>
+          {% else %}
+            <div class="article__content">
+              {{ article.content}}
+            </div>
+          {% endif %}
+          <!-- SHARING TOOLBOX -->
+          <div class="addthis_toolbox">
+            {% include 'addthis' %}
+          </div>
+        </div>
+      </div>
+      <!-- Article: Product Recommendations -->
+      {% if recommended_products %}
+      <div class="article__recommendations">
+        <h3 class="recommendation__text">{{ recommendation_text }}</h3>
+        {% for tag in article.tags %}
+          {% if tag contains 'recommended_product' %}
+            {% assign product_handle = tag | split: "=" | last %}
+            {% for product in collections["shop"].products %}
+              {% for variant in product.variants %}
+                {% if product.handle == product_handle %}
+                <div class="article__recommendation">
+                  {% if product.variants.size < 2 %}
+                    <!-- Recommendation: Product Image (single product, no variant) -->
+                    {% assign product_link = product.url %}
+                    {% assign featured_image = product.metafields["c_f"]["Creative Image URL"] %}
+                    <a class="content variant link" href="{{ product_link }}">
+                      <img class="recommendation__image" src="{{ featured_image }}" alt="{{ product.title | escape }}"/>
+                    </a>
+                  {% else %}
+                    <!-- Recommendation: Product Image (single product, more than one variant) -->
+                    {% assign product_link = variant.url %}
+                    {% assign featured_image = variant.metafields["c_f"]["Variant Creative Image URL"] %}
+                    {% if featured_image %}
+                      <a class="content variant link" href="{{ product_link }}">
+                        <img class="recommendation__image" src="{{ featured_image }}" alt="{{ product.title | escape }}"/>
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                  <!-- Recommendation: Product Title -->
+                  <h6 class="recommendation__title">
+                    <a href="{{ product_link }}">{{ product.title }}{% if product.variants.size > 1 %} {{ variant.title }} {% endif %}</a>
+                  </h6>
+                  <!-- Recommendation: Product Excerpt -->
+                  {%- assign variant_excerpt = variant.metafields["c_f"]["Variant Excerpt"] -%}
+                  {% if product.variants.size < 2 %}
+                    {% assign full_description = product.description | split: '<div class="product-excerpt">/n<p>' | last %}
+                    {% assign description = full_description | split: '</p>' | first | append: '</div>' %}
+                  {% else %}
+                    {% assign description = variant_excerpt %}
+                  {% endif %}
+                  <div class="recommendation__description">
+                    {{ description }}
+                  </div>
+                  <div class="recommendation__actions">
+                    <a href="{{ product_link }}" class="button"><button class="flat aqua outline">Learn More</button></a>
+                  </div>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      <!--START ACTIONS-->
+      <div class="actions">
+        <a id="back__button" href="{{ blog.url }}">Back to {% if blog.handle == "news" %}the Ora Blog{% else %}Jobs{% endif %}</a>
+      </div>
+      <!--END ACTIONS-->
+    </article>
+    <!--END POST-->
+    <br class="break">
+
+  </div>
+</div>
+<!--END BLOG-->
+<style>
+  #main {
+    margin-top: 0;
+  }
+  .addthis_toolbox {
+    text-align: center;
+  }
+  .addthis_default_style .addthis_separator, .addthis_default_style .at4-icon, .addthis_default_style .at300b, .addthis_default_style .at300bo, .addthis_default_style .at300bs, .addthis_default_style .at300m {
+    display: inline-block;
+    float: none;
+  }
+  h1 {
+    margin:100px auto 20px auto;
+  }
+  button.apply {
+  margin:0px auto 30px auto !important;
+    width:200px;
+    font-weight:600;
+  }
+  #article .article__content h2 {
+    font-size: 20px;
+    margin:20px auto !important;
+  }
+  header {
+    border-bottom: 1px solid #e8e8e8 !important;
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    $('header').addClass('dark');
+  })
+  /* Scroll: Check scroll position */
+  checkScrollPosition();
+
+  $(window).scroll(function() {
+    checkScrollPosition();
+    if ($(this).scrollTop() == 0) {
+      $('header').addClass('dark');
+    } else {
+      
+    }
+  })
+ 
+</script>

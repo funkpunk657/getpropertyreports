@@ -1,0 +1,106 @@
+{% layout settings.customer_layout %}
+<div id="account">
+  {% include 'account-sidebar' %}
+  <div id="details">
+    <div id="order" class="section">
+      <div class="content-wrapper">
+        <!--  START HEADER  -->
+          <div class="header">
+            <h6>
+              Order <span class="text-accent-1">{{ order.name }}</span>
+              <!-- Below Added by PB Ecommerce for International Tracking -->
+              {% if order.metafields.global.CPORD != blank %}
+              {% assign tracking_url = "https://tracking.ecommerce.pb.com/track/" | append: order.metafields.global.CPORD %}
+                  <a href="{{ shop.url }}" target='_blank'>Click here for International Tracking Service for your order</a>
+              {% endif %}
+              <!-- Above Added by PB Ecommerce for International Tracking -->
+            </h6>
+            <div>
+              {% assign order_date =  order.created_at | date: format: 'long' %}
+              <p>{{ 'customer.order.date' | t: date: order_date }}</p>
+              {% if order.cancelled %}
+                <div id="order_cancelled">
+                  <p>
+                    {% assign cancelled_date = order.cancelled_at | date: format: 'long' %}
+                    <b>{{ 'customer.order.cancelled' | t: date: cancelled_date }}</b>
+                    <br>
+                    <span>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason }}</span>
+                </p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="content">
+            {% if customer.orders.size != 0 %}
+              {% assign order_url = order.customer_url %}
+              <div id="order-order.order_number" class="order">
+                <div class="order-details">
+                  <h6 class="order-number">Order Number: <span class="text-accent-1">{{ order.order_number | link_to: order_url }}</span></h6>
+                  <h6 class="order-date">{{ order.created_at | date: "%B %-d, %Y" }}</h6>
+                  <hr>
+                </div>
+                <div class="order-items">
+                  {% for item in order.line_items %}
+                    <div class="order-item">
+                      {% assign product = item.product %}
+                      <img src="{{ product | img_url: 'medium' }}">
+                      <div class="item">
+                        <a class="item-title" href="{{order.customer_url}}">{{ product.title }}</a>
+                        <p class="item-price">{{ item.quantity }} x {{ item.price | money }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <br>
+                <div class="shipping-details">
+                  <label class="shipment">Shipped To:</label>
+                  <p class="shipping_address">{{ order.shipping_address.address1 }}, {{ order.shipping_address.city }}, {{ order.shipping_address.province }} {{ order.shipping_address.zip }}, {{ order.shipping_address.country }}</p>
+                  <br>
+                  <a id="reorder" class="action text-accent-1" href="#reorder">Re-order</a>
+                </div>
+                <div class="order-totals">
+                  <label>Subtotal</label>
+                  <p>{{ order.subtotal_price | money }}</p>
+                  <br>
+                  <label>Shipping</label>
+                  <p>{{ order.shipping_price | money }}</p>
+                  <br>
+                  <label>Total</label>
+                  <p>{{ order.total_price | money }}</p>
+                </div>
+                <hr>
+              </div>
+            {% else %}
+              <p>{{ 'customer.orders.none' | t }}</p>
+            {% endif %}
+          </div>  
+      </div>
+      <!--  ADDRESS INFORMATION  -->
+      {% include 'customer-addresses' %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () { 
+    function toggleSection(e) {
+      var page;
+      if (e) { page = "/account" + e.children('a').attr("href") } else { page = "/account#"+window.location.href.split("#")[1] };
+      window.location = page;
+      // Remove active class from all links and add active to selected link
+      $('.link').removeClass('active');
+      $(page+"_link").addClass('active');
+      // Change mobile title to the active page
+      $('#mobile-title, #current')
+        .html(page.slice(1)
+        .replace("_"," ")
+        .replace(/\b\w/g, l => l.toUpperCase()));
+    }
+    if (window.location.href.indexOf("#") > -1) {
+      toggleSection();
+    }
+    $('#sidebar .link, .content .action').click(function() {
+      toggleSection($(this));
+    });
+  })
+</script>

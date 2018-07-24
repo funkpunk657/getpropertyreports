@@ -1,0 +1,18 @@
+<!-- SHOW COLLECTION 
+	 Only if it is a subscription box, otherwise redirect the user to the shop (page.products) page -->
+<style>
+  body {
+    opacity: 0;
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    if (window.location.href.indexOf("month-subscription") <= -1) {
+    	window.location.assign("https://www.ora.organic/pages/ora-organic-supplements");
+    } else {
+    	$('body').animate({
+    		'opacity': 1 
+    	}, 300);
+    }
+  })
+</script>

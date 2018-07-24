@@ -1,0 +1,21 @@
+#order-form,
+.order-form {
+	.product__quantity-wrapper {
+		display: inline-table !important;
+		margin: 15px auto;
+
+		> * {
+			display: table-cell !important;
+		}
+
+		input {
+			width: 90%;
+			padding: 0;
+			margin-left: 7.5px;
+			text-align: center;
+		}
+		.quantity__buttons {
+			width: 45%;
+		}
+	}
+}

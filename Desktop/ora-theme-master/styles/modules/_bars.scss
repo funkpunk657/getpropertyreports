@@ -1,0 +1,159 @@
+.bar {
+	position: fixed; 
+	top: 0;
+	width: 100%;
+	height: $default__bar-height;
+	z-index: -1;
+	opacity: 0;
+	background-color: $default__bar-background-color;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+
+	.wrapper {
+		display: block;
+		width: 97.5%;
+		height: 100%;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	p, a {
+		display: inline-table;
+		vertical-align: middle;
+	}
+
+	a {
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	p {
+		color: white;
+		padding: 5px 10px;
+		margin: 0;
+		vertical-align: middle;
+		font-family: $font__body;
+		font-size: 16px;
+	}
+
+	span {
+		color: white;
+		font-family: $font__body;
+		font-size: 16px;
+	}
+
+	button {
+		margin-top: 0;
+		font-size: 12px;
+		height: 36px;
+		margin-top: 7px;
+		border-radius: 0;
+	}
+
+	.close-btn {
+		position: absolute;
+		right: 15px;
+		top: 15px;
+		cursor: pointer;
+
+		g {
+			fill: white;
+		}
+	}
+
+	&.show-bar {
+		height: $default__bar-height;
+		z-index: 3;
+		opacity: 1;
+	}
+
+	&#signup-bar {
+		.wrapper {
+			text-align: left;
+
+			p {
+				display: inline-table;
+				height: 60px;
+				font-family: $font__body;
+		    font-size: 16px;
+		    font-weight: 500;
+		    line-height: 25px;
+				padding: 4px 10px;
+			}
+
+			.input-group {
+				display: inline-table;
+				width: 300px;
+
+				input {
+					width: 240px;
+					margin-top: 7px;
+					margin-right: -1px;
+					height: 36px;
+					border: none;
+					border-radius: 0;
+				}
+
+				.input-group-btn {
+					line-height: normal;
+					
+					input {
+					    width: auto;
+					    font-size: 12px;
+					}
+				}
+			}
+		}
+	}
+}
+
+#deal-bar {
+
+	a {
+		height: 100%;
+	}
+
+	button {
+		font-size: 14px;
+		height: $default__bar-height;
+		margin: 0 15px;
+		padding: 0 30px;
+		border-radius: 0;
+	}
+}
+
+@media (max-width: 468px) {
+	.bar {
+		p, a, span {
+			font-size: 10px;
+		}
+		p {
+			display: block;
+			line-height: 50px;
+			padding: 0;
+			margin-left: -15px;
+		}
+		svg {
+			width: 14px;
+		}
+	}
+	#signup-bar {
+		display: none;
+	}
+	#deal-bar {
+		display: none;
+		button {
+			display: none;
+		}
+	}
+}
+@media (max-width: 320px) {
+	.bar {
+		p, a, span {
+			font-size: 8px;
+		}
+	}
+}

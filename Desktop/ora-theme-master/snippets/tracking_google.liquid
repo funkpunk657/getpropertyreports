@@ -1,0 +1,44 @@
+<!-- Google: Adwords Conversions -->
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/940808742/?guid=ON&amp;script=0"/>
+</div>
+</noscript>
+
+<!-- Google: Remarketing -->
+<!-- Setup Google Remarketing Variables -->
+{% case template %}
+	{% when 'index' %}
+		{% assign ecomm_pagetype = 'home' %}
+	{% when 'product' %}
+	  {% assign ecomm_prodid = "'" | append: product.selected_or_first_available_variant.sku | append: "'"%}
+		{% assign ecomm_pagetype = 'product' %}
+		{% assign ecomm_total_value = product.selected_or_first_available_variant.price | money_without_currency %}
+	{% when 'page.products' %}
+		{% assign ecomm_pagetype = 'category' %}
+	{% when 'cart' %}
+		{% capture products %}{% for item in cart.items %}'{{ item.sku }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+		{% assign ecomm_prodid = '[' | append: products | append: ']' %}
+		{% assign ecomm_pagetype = 'cart' %}
+		{% assign ecomm_total_value = cart.total_price %}
+	{% else %}
+		{% assign ecomm_pagetype = 'other' %}
+{% endcase %}
+<!-- Google Code for Remarketing Tag -->
+<script type="text/javascript">
+var google_tag_params = {
+{% if ecomm_prodid %}ecomm_prodid: {{ ecomm_prodid }},{% endif %}
+ecomm_pagetype: '{{ ecomm_pagetype }}',
+{% if ecomm_totalvalue %}ecomm_totalvalue: {{ ecomm_total_value }}{% endif %}
+};
+</script>
+<!-- Generic tags -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 940808742;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>

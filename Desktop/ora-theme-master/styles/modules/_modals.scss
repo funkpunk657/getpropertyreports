@@ -1,0 +1,138 @@
+.modal {
+	z-index: 1100 !important;
+}
+
+/* Landing Modals */
+#landing__modal-wrapper {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 1100;
+	display: none;
+
+	.landing__modal {
+		@include vertical-align(fixed);
+		z-index: 1100;
+		background-color: $color__background;
+		border-radius: 8px;
+		padding: 30px;
+		max-width: 360px;
+		margin: 0 auto;
+		left: 1%;
+		right: 1%;
+		text-align: center;
+
+		/* Landing Modal: Header */
+		.landing__modal-header {
+			h2 {
+				margin: 15px 0 30px;
+			}
+		}
+
+		/* Landing Modal: Content */
+		.landing__modal-content {
+			p {
+				font-size: 16px;
+				margin: 22.5px 0;
+			}
+
+			.landing__modal-discount-wrapper {
+				margin: 22.5px 7.5px;
+				border-top: 1px solid $color__input-border;
+				border-bottom: 1px solid $color__input-border;
+
+				p {
+					font-size: 18px;
+					
+					.landing__discount-code {
+						text-transform: uppercase;
+					}
+				}
+			}
+		}
+
+		/* Landing Modal: Actions */
+		.landing__modal-action {
+			margin: 22.5px 0 0;
+
+			button {
+				width: 100%;
+			}
+		}
+	}
+}
+	
+
+/* Landing Discount */
+#landing__discount {
+	position: fixed;
+	left: 30px;
+	bottom: 30px;
+	z-index: 1090;
+	background-color: $color__background;
+	border-top: 3px solid $color__accent-1;
+	box-shadow: 0px 2px 30px rgba(0,0,0,0.1);
+	padding: 15px 30px;
+	text-align: center;
+
+	.subtitle {
+		font-size: 11px;
+		font-weight: 500;
+		color: $color__text-headings-alt;
+		text-transform: uppercase;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	.popup {
+
+	}
+}
+
+
+@media (max-width: 767px) {
+	#landing__discount {
+		top: 0;
+		left: 60px;
+		right: 60px;
+		padding: 12px 12px 11px;
+		bottom: initial;
+		z-index: 1050;
+		border: none;
+		box-shadow: none;
+
+		.subtitle, p {
+			display: inline-block;
+			font-size: 11px;
+		}
+
+		.subtitle:after {
+			content: ":";
+			font-family: $font__body;
+		}
+
+		&.behind {
+			z-index: 2;
+		}
+
+		.popup {
+			top: 100%;
+	    min-width: 165px;
+	    width: 120px;
+	    padding: 10px;
+
+	    .triangle {
+	    	transform: rotate(90deg);
+	    	bottom: initial;
+	    	top: -11px;
+	    	right: 25%;
+	    	font-size: 13px;
+	    }
+		}
+
+	}
+}

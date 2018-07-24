@@ -1,0 +1,375 @@
+<head>
+  <!-- AUTO REDIRECT TO SHOPIFY CHECKOUT -->
+  <script>
+    $(document).ready(function() {
+      var referrer =  document.referrer;
+      
+      // if (referrer.indexOf('checkout') > -1) { 
+      //   window.location = "http://www.ora.organic/pages/ora-organic-supplements";
+      // } else {
+      //   $('input[name="checkout"]').click();
+      // }
+
+      // Set Continue shopping link to last page
+      $('#continue-shopping').attr("href", referrer);
+
+    });
+
+  </script>
+</head>
+<div id="cart" style="background-color: #fafafa;">
+  {% if cart.item_count > 0 %}
+
+  <form id="cart-wrapper" action="/cart" method="post">
+
+      <!-- Cart Header -->
+      <h2 class="cart-header">Check it out!</h2>
+
+      <!-- Cart Contents -->
+      <div class="cart-contents">
+
+        <!-- Check if there is a subscription item -->
+        {% assign subscription = false %}
+        {% for item in cart.items %}{% if item.title contains 'Subscription' %}{% assign subscription = true %}{% endif %}{% endfor %}
+        <!-- Check the cart for quantity and subscriptions -->
+        {% if cart.item_count > 1 or item.title contains 'Subscription' %}
+          {% assign discount_percentage = settings.deal_sidebar_discount_percentage_2 | replace: "%", "" %}
+        {% else %}
+          {% assign discount_percentage = settings.deal_sidebar_discount_percentage_1 | replace: "%", "" %}
+        {% endif %}
+        {% assign discount_multiplier = 100 | minus: discount_percentage %}
+        
+        {% for item in cart.items %}   
+          <!-- BOLD APPS: Product Discount -->
+          {% comment %}
+          Determining the handle of the collection that was last seen for the 'continue shopping' link.
+          {% endcomment %}
+          
+          {% assign collection_url = item.product.collections.last.url %}
+          {% if collection_url == '/collections/frontpage' or collection_url == blank %}
+            {% assign collection_url = '/collections/all' %}
+          {% endif %}
+          
+          {% if forloop.first %}
+            {% assign continue_shopping_url = collection_url %}
+          {% endif %}
+
+          <div class="{% if forloop.first %}first{% endif %} cart-row">
+            <div class="item-photo col-xs-3">
+              <img src="{{ item | img_url: 'master' }}" alt="{{ item.title | escape }}"/>
+            </div>
+            <div class="item-details col-xs-9">
+              <div class="description">
+                <a href="{{ item.url | within: collections.all }}"> 
+                  {{ item.title }}
+                  {% if item.product.tags contains 'pre-order' and product.selected_or_first_available_variant.inventory_quantity < 1 %}
+                   (Pre-order)
+                  {% endif %}
+                </a>
+              </div>
+              <!-- Don't let the customer add more free products -->
+              {% unless item.product.tags contains 'DISCOUNT_HIDDEN_PRODUCT' %}
+              <div class="quantity-wrapper">
+                <div class="buttons">
+                  {% include 'icon-plus' %}
+                  {% include 'icon-minus' %}
+                </div>
+                <input type="text" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" {{ bold_qty_attr }}/>
+              </div>
+              {% else %}
+              <input type="text" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="1" />
+              {% endunless %}
+              <div class="line-price">
+                {% assign on_sale = false %}
+                <!-- Check if normal product is on sale -->
+                {% if item.product.tags contains 'on_sale=true' %}{% assign on_sale = true %}{% endif %}
+                <!-- Check if subscription product is on sale  -->
+                {% if item.product.tags contains 'Subscription' %}
+                  {% assign original_handle = item.product.metafields["subscriptions"].original_handle %}
+                  {% if all_products[original_handle].tags contains 'on_sale=true' %}{% assign on_sale = true %}{% endif %}
+                {% endif %}
+                {% if settings.show_deal_sidebar and on_sale == true %}
+                  <p class="old_price" style="text-decoration: line-through; margin: 0; color: red; font-size: 11px;">{{ item.line_price | money_with_currency }}</p>
+                  <p class="active">{{ item.line_price | times: discount_multiplier | divided_by: 100 | money_with_currency }}</p>
+                {% else %}
+                  <p class="active">{{ item.line_price | money_with_currency }}</p>
+                {% endif %}
+              </div>
+              <div class="remove">
+                <div class="cart-remove">
+                  <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="removeLine" rel="{{ item.variant.id }}"></a>
+                </div>
+              </div> 
+            </div>
+          </div>
+        {% endfor %}
+        <!-- NOTES -->
+        <div class="notes">
+          <h4 class="title show">Special Instructions</h4>
+          <div class="note">
+            <p>Enter your note below: <span class="text-accent-2">(Discount code goes on the <b>next page!</b>)</span></p>
+            <textarea name="note">{{ cart.note }}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- CART SUMMARY -->
+      {% if cart.item_count > 0 %}
+      <div class="summary">
+        <!-- Cart Summary: Sidebar Deal Summary -->
+        {% if settings.show_deal_sidebar %}
+          <style>
+            #cart #cart-wrapper .cart-contents { padding-bottom: 90px; }
+            @media (max-width: 767px) {
+              header .nav #shipping_warning_link.mobile { display: none !important; };
+            }
+          </style>
+          <!-- <div class="sidebar-deal-summary">
+            {% if cart.item_count == 1 %}
+              <p><b>{{ settings.deal_sidebar_code_viewable }}</b> - You're saving <span id="sidebar-deal-saved"><b>${{ settings.deal_sidebar_discount_percentage_1 | times: cart.total_price | divided_by: 100 | money_without_currency }}</b></span>!</p>
+            {% else %}
+              <p><b>{{ settings.deal_sidebar_code_viewable }}</b> - You're saving <span id="sidebar-deal-saved"><b>${{ settings.deal_sidebar_discount_percentage_2 | times: cart.total_price | divided_by: 100 | money_without_currency }}</b></span>!</p>
+            {% endif %}
+          </div> -->
+        {% endif %}
+        <!-- Cart Summary: Guarantee -->
+        <div class="guarantee">
+          <p><b>Our Promise to You:</b> If you're not 100% satisfied with your Ora products, <u>we'll refund your order</u>. Your happiness is our priority.</p> 
+        </div>
+        <div class="subtotal">
+          <h4>Subtotal:</h4>
+          <!-- If Deal Bar is active, then we need to show what the discounted amount is -->
+          {% if settings.show_deal_sidebar %}
+            {% assign on_sale = false %}
+            <!-- Get correct discount amount -->
+            {% assign cart_subtotal = 0 %}
+            {% for item in cart.items %}
+              {% if item.product.tags contains 'on_sale=true' %}
+                {% assign on_sale = true %}
+                {% assign cart_subtotal = cart_subtotal | plus: item.line_price | times: discount_multiplier | divided_by: 100 %}
+              {% else %}
+                {% assign cart_subtotal = cart_subtotal | plus: item.line_price %}
+              {% endif %}
+            {% endfor %}
+            <p>{{ cart_subtotal | money_with_currency }}</p>
+          {% else %}
+            <p>{{ cart.total_price | money_with_currency }}</p>
+          {% endif %}
+        </div>
+        <div class="shipping">
+          <h4>Shipping:</h4>
+          {% if cart.total_price < 1000 %} 
+            {% assign shipping = 295 | money_with_currency %}
+          {% else %}
+            {% assign shipping = 0 %}
+          {% endif %}
+          <p>{% if shipping == 0 or settings.free_shipping_deal %}Free (US Only){% else %}{{ shipping }}{% endif %}</p>
+        </div>
+        <!-- START ACTIONS -->
+        <div class="actions">
+          <div class="update_wrapper">
+            <input type="submit" id="update" name="update" class="flat pink" value="{{ 'cart.general.update' | t }}" />
+          </div>
+          <input type="submit" id="checkout" name="checkout" class="flat aqua" value="CHECKOUT" {% if cart_has_subscription_item == 'true' %} onclick="event.preventDefault(); saveCartNoteThenRedirect()" {% endif %} />
+        </div>
+      </div>
+      {% endif %}
+      
+  </form>
+
+  {% else %}
+
+  <div class="cart-empty">
+    <h2 class="gamma">Nothin' here!</h2>
+    <a class="button" href="/pages/products"><button style="width: 270px" class="flat aqua">Shop Ora Products</button></a>
+  </div>
+
+  {% endif %}
+</div>
+<style>
+  footer {
+    display: none;
+  }
+  @media (width: 768px) {
+    header.top {
+      background-color: transparent;
+    }
+  }
+  #messageus_button {
+    display: none;
+  }
+</style>
+
+<script>
+  $(document).ready(function() {
+
+    $('header').addClass('top dark');
+    /* UPDATE CART TOTAL AND SUBTOTAL ON QUANTITY CHANGE
+     Listen for any changes to the quantity inputs in the shopping cart. If there is a change,
+     update the cart total and subtotal. NOTE: At the moment this change will not persist if the
+     checkout button is not clicked. May need to run update before leaving the page if the button
+     is not checked. */
+    function updateCartPageQtyChange() {
+  
+        var old_qty;
+        var item_price; 
+  
+        $('#cart .quantity-wrapper input').focusout(function(e) {
+        e.preventDefault()
+  
+          var item_val     = Number($(this).parents('.item-details').find('.line-price p.active').html().split("USD ")[1]);
+              old_qty      = Number($(this).val());
+              item_price   = item_val/old_qty;
+
+          {% if settings.show_deal_sidebar %}
+
+            var product_url = $(this).parents('.item-details').find('.description a').attr("href").split("?")[0]+'.js';
+            
+            /* Get the product so we can check its tags */
+            var on_sale = false;
+
+            jQuery.getJSON(product_url, function(product) {
+              var tags = product.tags;
+              for (i=0; i <= tags.length; i++) {
+                if (tags[i] == 'on_sale=true') {
+                  on_sale = true;
+                }
+              }
+            });
+
+            if (on_sale == true) {
+              var item_old_val   = Number($(this).parents('.item-details').find('.line-price p.old_price').html().split("USD ")[1])
+                item_old_price = item_old_val/old_qty;
+            }
+            
+          {% endif %}
+  
+          console.log("Item Price = "+item_price);
+  
+        })
+
+        // Hide the checkout button and make the user update the cart
+        $('#cart .cart-remove a').click(function() { 
+          $('#cart #checkout').css('z-index', '-1');
+          $('#cart #update').css({'z-index': '1', 'opacity': 1});
+        })
+  
+        $('#cart .quantity-wrapper input').on('change paste keyup', function() {
+          // console.log("input changed");
+          $('#cart #checkout').css('z-index', '-1');
+          $('#cart #update').css({'z-index': '1', 'opacity': 1});
+
+  
+          // Item variables
+          var new_qty    = Number($(this).val());
+          var new_value  = (item_price * new_qty).toFixed(2);
+          var line_price = $(this).parents('.item-details').find('.line-price p.active');
+          var qty_diff   = new_qty - old_qty;
+
+          console.log("New Value = "+new_value);
+
+          // Cart variables
+          var cart_subtotal_val     = Number($('#cart .subtotal p').html().split("USD ")[1]);
+          var val_diff              = (qty_diff * item_price);
+          var new_cart_subtotal_val = (val_diff + cart_subtotal_val).toFixed(2);
+          var cart_shipping         = $('#cart .shipping p');
+          var cart_total            = $('#cart .subtotal p');
+          var shipping_line         = $('#cart .shipping-line');
+
+          console.log("Val Diff = "+val_diff);
+          console.log("New Cart Subtotal = "+new_cart_subtotal_val);
+
+          // Update line price & cart subtotal
+          line_price.html("USD "+new_value);
+          $('#cart .subtotal p').html("USD "+new_cart_subtotal_val);
+  
+          // Update cart shipping and total
+          var total_quantity = 0;
+          $('#cart .quantity-wrapper input').each(function() {
+            line_quantity = Number($(this).val());
+            total_quantity += line_quantity;
+          });
+
+          /* Deal Sidebar Cart Code */
+          {% if settings.show_deal_sidebar %}
+
+            var product_url = $(this).parents('.item-details').find('.description a').attr("href").split("?")[0]+'.js';
+            
+            /* Get the product so we can check its tags */
+            var on_sale = false;
+
+            jQuery.getJSON(product_url, function(product) {
+              var tags = product.tags;
+              for (i=0; i <= tags.length; i++) {
+                if (tags[i] == 'on_sale=true') {
+                  on_sale = true;
+                }
+              }
+            });
+
+            if (on_sale == true) {
+              var new_old_value  = (item_old_price * new_qty).toFixed(2);
+              var line_old_price = $(this).parents('.item-details').find('.line-price p.old_price');
+
+              /* Set the new line price for discounted item */
+              line_old_price.html("USD "+new_old_value);
+
+              /* Get the savings on the cart total */
+              var full_price_cart = 0;
+              $('#cart .line-price p.old_price').each(function() {
+                var price    = Number($(this).html().split("USD ")[1]);
+
+                full_price_cart += price;
+              })
+
+              /* Assign the cart savings */
+              var cart_savings = full_price_cart - new_cart_subtotal_val;
+
+              console.log("Full Price Cart = "+full_price_cart);
+
+              /* Set the cart savings */
+              $('#sidebar-deal-saved b').html("$"+cart_savings.toFixed(2));
+            }
+          {% endif %}
+  
+          // Update the count on the minicart and remove inactive class from checkout button
+          $('.count').html(total_quantity);
+  
+          // Change the total based on whether or not free shipping applies (more than 1 item)
+          // console.log("Total Value = "+new_cart_subtotal_val);
+          if (new_cart_subtotal_val < 10.00) {
+            $('#cart .shipping p.paid:nth-of-type(1)').html("Spend over $49 and we'll pay for your shipping!*");
+            {% if settings.free_shipping_deal %}
+              $('.shipping p').html("Free (US Only)");
+            {% else %}
+              $('.shipping p').html("USD 2.95");
+            {% endif %}
+          } else {
+            cart_shipping.html("Free (US Only)");
+          }
+  
+          old_qty = new_qty;
+  
+        })
+  
+        // Handle clicking outside of the cart, update the cart using Shopify getCart() function
+        // $(document).mouseup(function (e) {
+        //       var container = $(".shopping-cart");
+    
+        //       if (!container.is(e.target) && $('.shopping-cart').hasClass('show-cart') // if the target of the click isn't the container...
+        //           && container.has(e.target).length === 0) // ... nor a descendant of the container
+        //       {
+        //           // Clear all box styling
+        //           setTimeout(function() {
+        //             Shopify.updateCartFromForm($('.shopping-cart form'));
+        //             updateCartQtyChange();
+        //         }, 350);
+        //       }
+        // })
+  
+    }
+  
+    updateCartPageQtyChange();
+  
+  })
+</script>

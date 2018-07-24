@@ -1,0 +1,180 @@
+{% layout settings.customer_layout %}
+<!--START OVERVIEW-->
+  <div class="col-md-1 col-lg-1">
+  </div>
+  <div class="col-md-10 col-lg-10">
+    <!--  START HEADER  -->
+    <div style="text-align: center; padding-top:50px">
+      <h1 class="text-header">
+        My Account.
+      </h1>
+    </div>
+    <!--  END HEADER  -->
+    <!--  START ACCOUNT  -->
+      <div class="col-md-12" style="padding-bottom: 50px;">
+        <h1 style="padding-bottom:20px">{{ customer.first_name }} | recent orders</h1>
+        {% if customer.orders.size != 0 %}
+        <table id="your-account">
+          <thead style="font-family: 'Josefin Sans'; color:#5b86c9; letter-spacing:1px">
+            <tr>
+              <th>Date</th>
+              <th>Item</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in customer.orders %}
+              {% for item in order.line_items %}
+                <tr>
+                  {% assign product = item.product %}
+                  <td>{{ order.created_at | date: "%D"}}</td>
+                  <td><img style="max-height: 50px;" src="{{ product | img_url: 'compact' }}"></td>
+                  <td>{{ product.title }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.price | money_without_trailing_zeros }}</td>
+                </tr>
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <p>{{ 'customer.orders.none' | t }}</p>
+        {% endif %}
+      </div>
+<!--       <div class="col-md-3">
+        <div class="next-box">
+          <div class="next-box-head" style="text-align: center">
+            <h2>next delivery.</h2>
+          </div>
+          <div class="next-box-body" style="text-align: center">
+            {% assign order_count = customer.orders_count %}
+            {% assign latest_order = customer.orders[0] %}
+            {% assign order_date = latest_order.created_at | date: "%D" %}
+            <div id="order_date" style="display: none;"> {{ order_date }}</div>
+            {% if order_date != null %}
+            <p>Your next delivery will be on </p>
+            <p id="next_order_date" style="font-weight: bold;"></p>
+            <script>
+              document.onreadystatechange = function nextOrderDate() {
+                var orderDate = document.getElementById("order_date").innerHTML;
+                var d = new Date( orderDate );
+
+                d.setMonth( d.getMonth( ) + 1 );
+                  ( d.getMonth( ) + 1 ) + '/' + d.getDate( ) + '/' + d.getFullYear( );
+
+                var m_names = new Array("January", "February", "March", 
+                "April", "May", "June", "July", "August", "September", 
+                "October", "November", "December");
+
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+
+                document.getElementById("next_order_date").innerHTML = (curr_date + "-" + m_names[curr_month] 
+                + "-" + curr_year);
+              };
+            </script>
+            {% else %}
+            <p>You haven't got any current subscriptions!</p>
+            {% endif %}
+          </div>
+        </div>
+      </div> -->
+    <!--  END ACCOUNT  -->
+    <!--  START BUTTONS  -->
+  <!--   <div class="container-bstrp-fluid account-buttons" style="padding-bottom: 50px; text-align: center;">
+      <div class="col-md-4">
+        <a href="/tools/recurring/customer/{{customer.id}}/subscriptions/">
+          <img src="{{ 'modify.png' | asset_url }}" class="content-center grey-overlay">
+        </a>
+          <h1 style="color: #4b7ed1;">Add/Modify Order</h1>
+        <h4>Change it up.</h4>
+      </div>
+      <div class="col-md-4">
+        <a href="/tools/recurring/customer/{{customer.id}}/subscriptions/">
+          <img src="{{ 'pause.png' | asset_url }}" class="content-center grey-overlay">
+        </a>
+        <h1 style="color: #52d6aa;">Pause Subscription</h1>
+        <h4>Products piling up?<br> Pause your deliveries til' you're ready to receive more</h4>
+      </div>
+      <div class="col-md-4">
+        <a href="/tools/recurring/customer/{{customer.id}}/subscriptions/">
+          <img src="{{ 'cancel.png' | asset_url }}" class="content-center grey-overlay">
+        </a>
+        <h1 style="color: #fbaf5d;">Cancel Membership</h1>
+        <h4>You're making a huge mistake, but you'll be back</h4>
+      </div>
+    </div> -->
+    <!--  END BUTTONS  -->
+    <!--  START ACCOUNT INFO  -->
+    <div class="col-md-12" style="padding-bottom: 150px;">
+      <h1 style="padding-bottom:10px">account information</h1>
+      <div class="col-md-6 customer-account">
+        <div class="col-xs-12 col-md-12">
+        <h3>Contact Information</h3>
+        <div class="col-md-2 col-sm-2 col-xs-2 labels">
+          <p><b>Name:</b></p>
+          <p><b>E-mail:</b></p>
+          <p><b>Phone:</b></p>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10 values">
+          <p>Hi, {{ customer.name }}</p>
+          <p>{{ customer.email }}</p>
+          <p>{{ customer.default_address.phone }}</p>
+        </div>
+        </div>
+        <div class="col-xs-12 col-md-12">
+        <h3>User Information</h3>
+        <div class="col-md-2 col-sm-2 col-xs-2 labels">
+          <p><b>Username:</b></p>
+          <p><b>Password:</b></p>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10 values">
+          <p>{{ customer.email }}</p>
+          <p>*****</p>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-6 customer-account">
+        <div class="col-xs-12 col-md-12">
+        <h3>Shipping Address</h3>
+        <div class="col-md-2 col-sm-2 col-xs-2 labels">
+          <p><b>Street:</b></p>
+          <p><b>City:</b></p>
+          <p><b>State:</b></p>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10 values">
+          {% assign s_address = latest_order.shipping_address %}
+          <p>{{ s_address.street }}</p>
+          <p>{{ s_address.city }}</p>
+          {% capture state_zip %}{{ s_address.province }}, {{ s_address.zip }}{% endcapture%}
+          <p>{{ state_zip }}</p>
+        </div>
+        </div>
+        <div class="col-xs-12 col-md-12">
+        <h3>Billing Address</h3>
+        <div class="col-md-2 col-sm-2 col-xs-2 labels">
+          <p><b>Street:</b></p>
+          <p><b>City:</b></p>
+          <p><b>State:</b></p>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10 values">
+          {% assign b_address = latest_order.billing_address %}
+          <p>{{ b_address.street }}</p>
+          <p>{{ b_address.city }}</p>
+          {% capture state_zip %}{{ b_address.province }}, {{ b_address.zip }}{% endcapture%}
+          <p>{{ state_zip }}</p>
+        </div>
+        <div>
+          <a href="/account/addresses"><button class="btn-aqua menu-btn-left" style="margin-top:80px;" >EDIT ADDRESSES</button></a>
+        </div>
+      </div>
+      </div>
+    </div>
+    <!--  END ACCOUNT INFO  -->
+  </div>
+  <div class="col-md-1 col-lg-1">
+  </div>
+<!-- END OVERVIEW -->

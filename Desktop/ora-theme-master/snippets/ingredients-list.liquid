@@ -1,0 +1,526 @@
+<!-- Start Search -->
+<div class="ingredients-list">
+{% for ingredient in product.metafields["ingredients"] %}
+	{% assign ingredient_flavor = ingredient | first | replace: " ", "-" %}
+	{% assign ingredient_handle = ingredient | downcase | replace: " ", "-" %}
+	<!-- Ingredient Search: Ingredients -->
+	{% if ingredient_handle contains 'acai' %}
+	<div id="acai" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-acai.png' | asset_url }}" alt="Organic Acai" rel="share"/>
+		<div class="description">
+			<h4>Organic Acai<br><i>Euterpe oleracea</i></h4>
+			<p>Açai berries are high in antioxidants, iron, calcium and Vitamin A with amino acids. They're also pretty rich in Omega fatty acids; important in the absorption of fat-soluble vitamins.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'agati' %}
+	<div id="agati" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-agati.png' | asset_url }}" alt="Organic Agati" rel="share"/>
+		<div class="description">
+			<h4>Organic Agati<br><i>Sesbania grandiflora</i></h4>
+			<p>Agati has been a staple of indian medicine for hundreds of years, most often known for its properties as a tonic and disinfectant and its use a treatment for thrush.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'amaranth' %}
+	<div id="amaranth" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-amaranth.png' | asset_url }}" alt="Organic Amaranth" rel="share"/>
+		<div class="description">
+			<h4>Organic Amaranth<br><i>Amaranthus caudatus L.</i></h4>
+			<p>An ancient seed (like quinoa!) eaten by the Aztecs, Amaranth contains all the essential amino acids, including Lysine, and is a great source of calcium, Vitamin C and iron.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'annatto' %}
+	<div id="annatto" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-annatto.png' | asset_url }}" alt="Organic Annatto" rel="share"/>
+		<div class="description">
+			<h4>Organic Annatto<br><i>Bixa orellana</i></h4>
+			<p>Annatto is high in fiber, antioxidants and carotenid content - an antioxidant specific to ocular health, helping to keep your eyes healthy and your vision strong.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'organic-apple' %}
+	<div id="apple" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-apple.png' | asset_url }}" alt="Organic Apple" rel="share"/>
+		<div class="description">
+			<h4>Organic Apple<br><i>Malus pumila</i></h4>
+			<p>Apples are not only naturally fresh and delicious, but also rich in phytochemical antioxidants, including quercetin and phloridzin<span class="clickbank-hide">, and have been found in laboratory conditions to slow the spread of cancer cells and even <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pmc/articles/PMC442131/')" target="_blank">lower cholesterol!</a></span><span class="clickbank-show">.</span></p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'basil' %}
+	<div id="basil" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-basil.png' | asset_url }}" alt="Organic Basil" rel="share"/>
+		<div class="description">
+			<h4>Organic Basil<br><i>Ocimum basilicum</i></h4>
+			<p>Basil, whilst also delicious, is a great source of pro-vitamin A (or beta-carotene) which helps to oxidize cholesterol in the bloodstream, and magnesium - both being essential to good cardiovascular health.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'blackberry' %}
+	<div id="blackberry" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-blackberry.png' | asset_url }}" alt="Organic Blackberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Blackberry<br><i>Rubus</i></h4>
+			<p>Blackberries have one of the highest antioxidant levels of all fruits (even more than açai), and are also low in sodium and calories.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	<!-- Ingredients: Blueberry -->
+	{% if ingredient_handle contains 'blueberry' %}
+	<div id="blueberry" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-blueberry.png' | asset_url }}" alt="Organic Blueberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Blueberry<br><i>Cyanococcus</i></h4>
+			<p>Blueberries contain the unique, phenol-like antioxidants pterostilbene and resveratrol and are a very good source of vitamin K, vitamin C, and manganese.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'chlorella' %}
+	<div id="chlorella" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-chlorella.png' | asset_url }}" alt="Organic Chlorella" rel="share"/>
+		<div class="description">
+			<h4>Organic Chlorella<br><i>Chlorella regularis</i></h4>
+			<p>Chlorella contains high levels of chlorophyll, and more than 20 vitamins and minerals including iron, calcium and potassium.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'cocoa' %}
+	<div id="cocoa" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-cocoa.png' | asset_url }}" alt="Organic Cocoa" rel="share"/>
+		<div class="description">
+			<h4>Organic Cocoa<br><i>Theobroma cacao</i></h4>
+			<p>Believe it or not, cocoa has recently been shown to help in weight loss by <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/24100674')" target="_blank">increasing mitochondrial biogenesis</a>, and improve mood and cognition thanks to its high antioxidant content. Even better, it makes taking your daily multivitamin that much more delicious!</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'curry-leaves' %}
+	<div id="curry-leaves" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-curry-leaves.png' | asset_url }}" alt="Organic Curry Leaves" rel="share"/>
+		<div class="description">
+			<h4>Organic Curry Leaves<br><i>Murraya koenigii</i></h4>
+			<p>Known as Kadi Patta, and a great source of nutrition in India for centuries, curry leaves are an excellent source of Vitamins A, B and E, supporting the immune system and heart function.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'dulse' %}
+	<div id="dulse" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-dulse.png' | asset_url }}" rel="share"/>
+		<div class="description">
+			<h4>Organic Dulse<br><i>Palmaria palmata</i></h4>
+			<p>Dulse is a form red algae that is quite similar to seaweed, though it is higher in both fiber and protein. It's also a great source of Iron, Magnesium, and Calcium; nutrients essential to good bone health.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'flaxseed' %}
+	<div id="flaxseed" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-flaxseed.png' | asset_url }}" alt="Organic Flaxseed" rel="share"/>
+		<div class="description">
+			<h4>Organic Flaxseed<br><i>Linum usitatissimum</i></h4>
+			<p>#1 source of lignans among vegetable products - polyphenols that provide antioxidants and fiber.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'goji-berry' %}
+	<div id="goji-berry" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-goji-berry.png' | asset_url }}" alt="Organic Goji Berry" rel="share"/>
+		<div class="description">
+			<h4>Organic Goji Berry<br><i>Lycium barbarum</i></h4>
+			<p>Goji berries - in large quantities - are great antioxidants and generally afford a greater sense of well-being. Using low-intensity water extraction, the same benefits can be translated into powder form.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'gooseberry' %}
+	<div id="gooseberry" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-gooseberry.png' | asset_url }}" alt="Organic Gooseberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Gooseberry<br><i>Ribes uva-crispa</i></h4>
+			<p>Gooseberries, or Amla, are super-high in Vitamin C and are great for supporting food and calcium absorption. They're also high in fiber, to assist in maintaining good digestive health.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'green-tea' %}
+	<div id="green-tea" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-green-tea.png' | asset_url }}" alt="Organic Green Tea" rel="share"/>
+		<div class="description">
+			<h4>Organic Green Tea<br><i>Camellia sinensis</i></h4>
+			<p>Green tea leaves are well-known for their antioxidant properties, but it's also shown to assist in the <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/18326618')" target="_blank">burning of fat</a> when combined with diet and excercise.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'hemp' %}
+	<div id="hemp" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-hemp.png' | asset_url }}" alt="Organic Hemp" rel="share"/>
+		<div class="description">
+			<h4>Organic Hemp<br><i>Cannabis sativa L.</i></h4>
+			<p>Hemp is a great source of protein and omega fatty acids. It's also more easily digested than meat, cheese or whey protein varieties.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'sea-salt' %}
+	<div id="himalayan-sea-salt" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-himalayan-rock-salt.png' | asset_url }}" alt="Himalayan Rock Salt" rel="share"/>
+		<div class="description">
+			<h4>Himalayan Sea Salt</h4>
+			<p>Salt is an essential part of our everyday diet. Himalayan Rock Salt is <a onclick="window.open('http://www.jstor.org/stable/30055696?seq=1#page_scan_tab_contents')" target="_blank">harvested in the mountains</a> in the Punjab region of Pakistan and gets its famous pink color from trace amounts of iron oxide in the crystals. A delicious complement to the sweetness of cocoa and coconut!</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'jerusalem-artichoke' %}
+	<div id="jerusalem-artichoke" class="prebiotic ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-jerusalem-artichoke.png' | asset_url }}" alt="Organic Jerusalem Artichoke"/>
+		<div class="description">
+			<h4>Jerusalem Artichoke<br><i>Helianthus tuberosus</i></h4>
+			<p>Neither an artichoke, nor from Jerusalem, the Jerusalem Artichoke is a sunflower root that's high in fiber and a natural prebiotic - <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3705355/')">stimulating</a> and feeding the Bifidobacteria in the gut.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'kale' %}
+	<div id="kale" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-kale.png' | asset_url }}" alt="Organic Kale" rel="share"/>
+		<div class="description">
+			<h4>Organic Kale<br><i>Brassica oleracea var. sabellica</i></h4>
+			<p>Kale is a great detoxifier, and helps to regulate blood glucose levels. It's also an excellent source of protein and essential vitamins.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'lemon' %}
+	<div id="lemon" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-lemon.png' | asset_url }}" alt="Organic Lemon" rel="share"/>
+		<div class="description">
+			<h4>Organic Lemon<br><i>Citrus × limon</i></h4>
+			<p>Lemon is a great source of Vitamin C, but has also been recently found to help with <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/19015756')" target="_blank">suppressing weight gain</a> due to the high number of polyphenol antioxidants in them.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'microalgae' %}
+	<div id="microalgae" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-microalgae.png' | asset_url }}" alt="Microalgae" rel="share"/>
+		<div class="description">
+			<h4>Microalgae<br><i>Psammothidium perpusillum</i></h4>
+			<p>Thought Omega-3 only came from fish? Not exactly. Fish get their omega-3 fatty acids from eating algae; so we went straight to the source. No fishy taste and 100% plant-based!</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'monk-fruit' %}
+	<div id="monk-fruit" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-monk-fruit.png' | asset_url }}" alt="Monk Fruit" rel="share"/>
+		<div class="description">
+			<h4>Monk Fruit<br><i>Siraitia grosvenorii</i></h4>
+			<p>Monk Fruit has been used for centuries in traditional eastern medicine for its high antioxidant properties and for its naturally occurring sweetness - a great sugarfree alternative, and no stevia aftertaste!</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'moringa' %}
+	<div id="moringa" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-moringa.png' | asset_url }}" alt="Organic Moringa" rel="share"/>
+		<div class="description">
+			<h4>Organic Moringa<br><i>Moringa oleifera</i></h4>
+			<p>Moringa has been a staple of traditional herbal medicines for centuries, and is particularly rich in Vitamins C and B6. It also <a onclick="window.open('http://www.sciencedirect.com/science/article/pii/S1756464613002090')">contains Quercetin</a>, an antioxidant known to <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/17951477')" target="_blank">reduce blood pressure.</a></p>
+		</div>
+	</div>
+	{% endif %}
+	
+	{% if ingredient_handle contains 'orange' %}
+	<div id="orange" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-orange.png' | asset_url }}" alt="Organic Orange" rel="share"/>
+		<div class="description">
+			<h4>Organic Orange<br><i>Citrus sinensis</i></h4>
+			<p>You probably know it already, but Oranges are a great source of Vitamin C. Our products use orange in a natural whole food form, meaning bioavailability and absorption is much higher than synthetic ascorbic acid.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'parsley' %}
+	<div id="parsley" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-parsley.png' | asset_url }}" alt="Organic Parsley" rel="share"/>
+		<div class="description">
+			<h4>Organic Parsley<br><i>Petroselinum crispum</i></h4>
+			<p>Maybe surprisingly, parsley is one of the best sources of Vitamins A and C, as well as being rich in antioxidants.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'pea' %}
+	<div id="pea" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-pea.png' | asset_url }}" alt="Organic Pea" rel="share"/>
+		<div class="description">
+			<h4>Organic Pea<br><i>Pisum sativum</i></h4>
+			<p>The sustainable way to get protein! Pea crops provide soil with important nutrients, and maintain a high protein and fiber content.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'organic-pineapple' %}
+	<div id="pineapple" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-pineapple.png' | asset_url }}" alt="Organic Pineapple" rel="share"/>
+		<div class="description">
+			<h4>Organic Pineapple<br><i>Ananas comosus</i></h4>
+			<p>Pineapple not only adds a fruity kick to our Omega-3, it's also full of Vitamin C and manganese, an important cofactor in energy production that also supports antioxidant defenses against free radicals.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'pomegranate' %}
+	<div id="pomegranate" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-pomegranate.png' | asset_url }}" alt="Organic Pomegranate" rel="share"/>
+		<div class="description">
+			<h4>Organic Pomegranate<br><i>Punica granatum</i></h4>
+			<p>A great source of Vitamins C and K, pomegranate is fibrous berry that is also super-high in antioxidants, showing antioxidant activity <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pubmed/11052704')" target="_blank">three times higher</a> than that of green tea. Yum!</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'quinoa' %}
+	<div id="quinoa" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-quinoa.png' | asset_url }}" alt="Organic Quinoa" rel="share"/>
+		<div class="description">
+			<h4>Organic Quinoa<br><i>Chenopodium quinoa</i></h4>
+			<p>Naturally gluten-free, quinoa contains essential fiber and vitamins and has a complete amino acid profile.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'raspberry' %}
+	<div id="raspberry" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-raspberry.png' | asset_url }}" alt="Organic Raspberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Raspberry<br><i>Rubus idaeus L.</i></h4>
+			<p>Apart from their delicious tangy flavor, raspberries are known for their Vitamin C, micronutrients and dietary fiber.<span class="clickbank-hide"> Though few studies have been done in humans, in laboratory conditions red raspberry extract <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/26773014')" target="_blank">can reduce risk</a> of metabolic and cardiovascular disease.</span></p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'rosemary' %}
+	<div id="rosemary" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-rosemary.png' | asset_url }}" alt="Organic Rosemary" rel="share"/>
+		<div class="description">
+			<h4>Organic Rosemary<br><i>Rosmarinus officinalis</i></h4>
+			<p>Just the scent of Rosemary is enough to remind you of good times, good food and good friends - but in small amounts (as in our Plant-based Omega-3 Spray), Rosemary has been <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/21877951')" target="_blank">shown to increase cognitive performance in the elderly and help the speed of memory.</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'sacha-inchi' %}
+	<div id="sacha-inchi" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-sacha-inchi.png' | asset_url }}" alt="Organic Sacha Inchi" rel="share"/>
+		<div class="description">
+			<h4>Organic Sacha Inchi<br><i>Plukenetia volubilis</i></h4>
+			<p>A great source of the protein tryptophan that helps the brain produce serotonin. Also high in fiber and Omega fatty acids.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'shiitake' %}
+	<div id="shiitake" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-shiitake.png' | asset_url }}" alt="Organic Shiitake" rel="share"/>
+		<div class="description">
+			<h4>Organic Shiitake<br><i>Lentinula edodes</i></h4>
+			<p>Native to east Asia, Shiitake mushrooms are more than just a funny name, they're a great source of iron and <a onclick="window.open('http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4042564/')" target="_blank">Vitamin B12</a> for vegans and vegetarians. Please, eat some!</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'spinach' %}
+	<div id="spinach" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-spinach.png' | asset_url }}" alt="Organic Spinach" rel="share"/>
+		<div class="description">
+			<h4>Organic Spinach<br><i>Spinacia oleracea</i></h4>
+			<p>Looks like Mom knew what she was talking about! Spinach is one of the most nutritious plants out there, being high in <a onclick="window.open('https://ndb.nal.usda.gov/ndb/foods/show/3202')">Vitamins A, C and K1</a>, as well as antioxidants. Strong to the Finich!</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'spirulina' %}
+	<div id="spirulina" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-spirulina.png' | asset_url }}" alt="Organic Spirulina" rel="share"/>
+		<div class="description">
+			<h4>Organic Spirulina<br><i>Arthrospira</i></h4>
+			<p>Dried spirulina contains between 51% and 71% protein and is rich in B Vitamins, Iron and Manganese.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'sprouted-rice' %}
+	<div id="sprouted-rice" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-sprouted-rice.png' | asset_url }}" alt="Organic Sprouted Rice" rel="share"/>
+		<div class="description">
+			<h4>Organic Sprouted Rice<br><i>Oryza</i></h4>
+			<p>Contains Gamma Amino Butyric Acid (GABA), an essential amino acid, while providing a large amount of protein and smooth texture.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'strawberry' %}
+	<div id="strawberry" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-strawberry.png' | asset_url }}" alt="Organic Strawberry" rel="share"/>
+		<div class="description">
+			<h4>Organic Strawberry<br><i>Fragaria × ananassa</i></h4>
+			<p>Strawberries are a source of antioxidant-promoting vitamin C and manganese, as well as providers great amounts of dietary fiber.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'sunflower-oil' %}
+	<div id="sunflower-oil" class="ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'ingredients-sunflower-oil.png' | asset_url }}" alt="Organic Sunflower Oil" rel="share"/>
+		<div class="description">
+			<h4>Organic Sunflower Oil<br><i>Helianthus annuus</i></h4>
+			<p>Sunflower oil is now a well-known cooking ingredient and provider of essential fats and minerals, whilst being important for lowering <a onclick="window.open('https://www.ncbi.nlm.nih.gov/pubmed/1955619')" target="_blank">low-density-lipoprotein cholesterol, decreasing the risk of heart disease.</a></p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if ingredient_handle contains 'lactobacillus-acidophilus' %}
+	<div id="lactobacillus-acidophilus" class="probiotic ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'probiotic-lactobacillus-acidophilus.jpg' | asset_url }}" alt="Lactobacillus Acidophilus"/>
+		<div class="description">
+			<h4>Lactobacillus Acidophilus<br><i>L. Acidophilus</i></h4>
+			<p>Lactobacillus Acidophilus is one of the most commonly used probiotic bacteria<span class="clickbank-hide">, due to its studied effects on reducing lung infection and treating of <a href="https://www.nlm.nih.gov/medlineplus/druginfo/natural/790.html">vaginal infections</a>, such as Candida.</span><span class="clickbank-show">, found in everything from yogurt, to kombucha, to kimchi.</span></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'lactobacillus-reuteri' %}
+	<div id="lactobacillus-reuteri" class="probiotic ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'probiotic-lactobacillus-reuteri.jpg' | asset_url }}" alt="Lactobacillus Reuteri"/>
+		<div class="description">
+			<h4>Lactobacillus Reuteri<br><i>L. Reuteri</i></h4>
+			<p>Though less well-known than its acidophilus counterpart, L. Reuteri<span class="clickbank-hide"> has been <a href="https://www.nlm.nih.gov/medlineplus/druginfo/natural/790.html">studied to be effective</a> in reducing colic in babies and potentially reducing eczema in 1-13 year olds.</span><span class="clickbank-show"> is another great colonizer of gut microbiota.</span></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'bifidobacterium-bifidum' %}
+	<div id="bifidobacterium-bifidum" class="probiotic ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'probiotic-bifidobacterium-bifidum.jpg' | asset_url }}" alt="Bifidobacterium Bifidum"/>
+		<div class="description">
+			<h4>Bifidobacterium Bifidum<br><i>B. Bifidum</i></h4>
+			<p>B. Bifidum is one of the key bacteria to colonize an infants intestine shortly after birth, and play an <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4140077/">important role</a> in the development of a healthy immmune system.</p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'bifidobacterium-breve' %}
+	<div id="bifidobacterium-breve" class="probiotic ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'probiotic-bifidobacterium-breve.jpg' | asset_url }}" alt="Bifidobacterium Breve"/>
+		<div class="description">
+			<h4>Bifidobacterium Breve<br><i>B. Breve</i></h4>
+			<p>B. Breve is the dominant species of bacteria to develop in the intestine of new, breast-fed infants, and are considered important to the <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4140077/">establishment balanced intestinal microbiota in newborns.</a></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'bifidobacterium-lactis' %}
+	<div id="bifidobacterium-lactis" class="probiotic ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'probiotic-bifidobacterium-lactis.jpg' | asset_url }}" alt="Bifidobacterium Lactis"/>
+		<div class="description">
+			<h4>Bifidobacterium Lactis<br><i>B. Lactis</i></h4>
+			<p>B. Lactis is a probiotic strain known to be<span class="clickbank-hide"> better performing in <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4153077/">elderly adults</a> due to the increased phagocytic (fighting off harmful foreign bacteria or dying cells) activity it can promote.</span><span class="clickbank-show"> great for adults and older folks alike.</span></p>
+		</div>
+	</div>
+	{% endif %}
+	{% if ingredient_handle contains 'bifidobacterium-longum' %}
+	<div id="bifidobacterium-longum" class="probiotic ingredient {{ ingredient_flavor }}">
+		<img src="{{ 'probiotic-bifidobacterium-longum.jpg' | asset_url }}" alt="Bifidobacterium Longum"/>
+		<div class="description">
+			<h4>Bifidobacterium Longum<br><i>B. Longum</i></h4>
+			<p>B. Longum has been called the <a href='http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4350908/'>'Champion Colonizer of the infant gut'</a> due to its ability to digest and consume Oligosaccharides in infants; essential to the development of the infant's intestinal microbiota.</p>
+		</div>
+	</div>
+	{% endif %}
+
+	<!-- Imported from PROD-CONT - Ingredient Index
+		https://docs.google.com/spreadsheets/d/1q1V9pL9SVdgmhOPtJNhYJFhQk6N05H3AFXXhLPBwmQ4/edit#gid=0 -->
+
+	{% if ingredient_handle contains 'lichen' %}<div id="lichen" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-lichen.png' | asset_url }}" alt="Lichen" rel="share"/><div class="description"><h4>Lichen<br><i>Lichen</i></h4><p>Lichens are a complex life form consisting of a symbiotic relationship between a fungus and an alga. The fungus is the dominant partner, while the alga can be either a green algae or a blue-green alga - many lichens have both types!</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'acerola' %}<div id="acerola" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-acerola.png' | asset_url }}" alt="Organic Acerola" rel="share"/><div class="description"><h4>Organic Acerola<br><i>Malpighia emarginata</i></h4><p>Acerola is a west indian cherry that helps boost immunity and is one of the richest berry sources of Vitamin C, whilst also being high in antioxidants and B vitamins.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'alfalfa' %}<div id="alfalfa" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-alfalfa.png' | asset_url }}" alt="Organic Alfalfa Leaf Powder" rel="share"/><div class="description"><h4>Organic Alfalfa Leaf Powder<br><i>Medicago Sativa</i></h4><p>Alfalfa leaf has an extensive root system that allows it to absorb nutrients deep in the earth. It boasts essential vitamins including the entire spectrum of B-vitamins, A, D, E and K as well as iron, calcium, biotin, folic acid and more.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'ashwagandha' %}<div id="ashwagandha" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-ashwagandha.png' | asset_url }}" alt="Organic Ashwagandha" rel="share"/><div class="description"><h4>Organic Ashwagandha<br><i>Withania Somnifera</i></h4><p>Also known as 'Indian Ginseng' this famous Ayurvedic Herb has been thoroughly studied for its effectiveness<span class="clickbank-hide"> as an anti-inflammatory,<sup><a target="_blank" href="http://www.altmedrev.com/publications/5/4/334.pdf">[1]</a></sup> cardio-protective,<sup><a target="_blank" href="http://idosi.org/wjms/4%282%2909/17.pdf">[2]</a></sup> anti-depressant,<sup><a target="_blank" href="http://www.sciencedirect.com/science/article/pii/S0944711300800306?via%3Dihub">[3]</a></sup> relieving stress<sup><a target="_blank" href="https://link.springer.com/article/10.1007%2FBF02864860">[4]</a></sup> and so much more!</span><span class="clickbank-show"> in supporting normal immune response and function.</span></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'barley-grass' %}<div id="barley-grass" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-barley-grass.png' | asset_url }}" alt="Organic Barley Grass Juice Powder" rel="share"/><div class="description"><h4>Organic Barley Grass Juice Powder<br><i>Hordeum Vulgare</i></h4><p>The young soft green shoots which crop up on the Barley plant are known as Barley Grass. Popular among the ancient Greeks and Romans for its nutrient-dense profile, this green grass is plentiful in antioxidants<sup><a target="_blank" href="https://books.google.co.in/books?id=4DO1WzOPqpcC&printsec=frontcover&dq=barley+grass&hl=en&sa=X&ei=dgosUsWjNMLHrQfvpoGwDw&ved=0CC0Q6AEwAA#v=onepage&q=barley%20grass&f=false">[1]</a></sup> and its alkaline nature helps protect against excess acidity in the body.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'beetroot' %}<div id="beetroot" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-beetroot.png' | asset_url }}" alt="Organic Beetroot Juice" rel="share"/><div class="description"><h4>Organic Beetroot Juice<br><i>Beta Vulgaris</i></h4><p>Beets don't kill our vibe (it's quite the opposite actually). The naturally occurring nitrates in this root are great for increasing blood flow and supporting normal blood pressure levels.<sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/23231777">[1]</a></sup> They're also high in vitamin C, fiber, and essential minerals like potassium.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'black-pepper' %}<div id="black-pepper" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-black-pepper.png' | asset_url }}" alt="Organic Black Pepper" rel="share"/><div class="description"><h4>Organic Black Pepper<br><i>Piper Nigrum</i></h4><p>Black pepper is native to south India and is the fruit of the black pepper plant from the Piperaceae family. It's used as both a spice and a medicine. Piperine is the chemical in black pepper that is responsible for the fruit's spiciness!</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'broccoli' %}<div id="broccoli" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-broccoli.png' | asset_url }}" alt="Organic Broccoli" rel="share"/><div class="description"><h4>Organic Broccoli<br><i>Brassica Oleracea Var. Italica</i></h4><p>Broccoli is an excellent source of vitamin K, vitamin C, chromium, and folate, as well as a great source of dietary fiber.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'cabbage' %}<div id="cabbage" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-cabbage.png' | asset_url }}" alt="Organic Cabbage" rel="share"/><div class="description"><h4>Organic Cabbage<br><i>Brassica Oleracea Var. Capitata</i></h4><p>This leafy veggie is an abundant source of vitamin C, fiber and beta-carotene. As with all cruciferous vegetables, cabbage is also a great source of minerals like calcium, magnesium, and potassium</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'celery' %}<div id="celery" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-celery.png' | asset_url }}" alt="Organic Celery" rel="share"/><div class="description"><h4>Organic Celery<br><i>Apium Graveolens</i></h4><p>Contrary to urban myths - celery is more than just a healthy snack! Full of nutrients and minerals, celery and its extracts are also great for supporting normal joint and muscle health<sup><a target="_blank" href="https://books.google.com/books?hl=en&lr=&id=KTJmgU7QWq0C&oi=fnd&pg=PA363&dq=antiseptic+celery&ots=bAfumj3y1S&sig=dMbf9vNc9UEjoBAeOU30ejpdXHY#v=onepage&q=antiseptic%20celery&f=false">[1]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'cilantro' %}<div id="cilantro" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-cilantro.png' | asset_url }}" alt="Organic Cilantro" rel="share"/><div class="description"><h4>Organic Cilantro<br><i>Coriandrum Sativum</i></h4><p>Known as 'coriander' by our English friends, this delicious herb is rich in calcium and Vitamin C!</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'coconut' %}<div id="coconut" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-coconut.png' | asset_url }}" alt="Organic Coconut" rel="share"/><div class="description"><h4>Organic Coconut<br><i>Cocos Nucifera</i></h4><p>Coconut and coconut oil is all the rage these days, and for good reason: it contains Medium Chain Triglycerides (MCTs), which are fatty acids that assist in the metabolic process<sup><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/8654328">[1]</a></sup>.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'cordycep-mushroom' %}<div id="cordycep-mushroom" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-cordycep-mushroom.png' | asset_url }}" alt="Organic Cordycep Mushroom" rel="share"/><div class="description"><h4>Organic Cordycep Mushroom<br><i>Cordyceps Militaris</i></h4><p>Used in herbal medicine for centuries, this mushroom is best known for its incredible energy boosting abilities<sup><a target="_blank" href="https://www.researchgate.net/publication/14848011_Overtraining_in_endurance_athletes_A_brief_review">[1]</a></sup><span class="clickbank-hide"> while its anti-inflammatory and antispasmodic properties make it great for improving heart health.<sup><a target="_blank" href="http://online.liebertpub.com/doi/abs/10.1089/acm.1998.4.429">[2]</a></sup> Another fun fact? Studies have also shown cordycep to significantly improve kidney health<sup><a target="_blank" href="http://europepmc.org/abstract/med/8293343">[3]</a></sup> making it fantastic for detoxification.</span><span class="clickbank-show"> while its properties make it great for supporting heart health.</span></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'cranberry' %}<div id="cranberry" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-cranberry.png' | asset_url }}" alt="Organic Cranberry" rel="share"/><div class="description"><h4>Organic Cranberry<br><i>Oxycoccus</i></h4><p>Cranberries are rich in flavanoids, vitamin C, phytonutrients and antioxidants.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'dandelion-leaf' %}<div id="dandelion-leaf" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-dandelion-leaf.png' | asset_url }}" alt="Organic Dandelion Leaf" rel="share"/><div class="description"><h4>Organic Dandelion Leaf<br><i>Taraxacum</i></h4><p>Dandelion leaf is a great source of fiber as well as being high in calcium and vitamin C. <span class="clickbank-hide">It's even used in anti-acne products<sup><a target="_blank" href="https://www.google.com/patents/US20050084473?dq=dandelion+acne#v=onepage&q=dandelion%20acne&f=false">[1]</a></sup> due to it being a good detoxifier, diuretic, stimulant and antioxidant.</span></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'eleuthero-root' %}<div id="eleuthero-root" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-eleuthero-root.png' | asset_url }}" alt="Organic Eleuthero Root" rel="share"/><div class="description"><h4>Organic Eleuthero Root<br><i>Eleutherococcus Senticosus</i></h4><p>As one of the most widely researched herbs, Eluthero has been studied for its many benefits that include: boosting the immune system,<sup><a target="_blank" href="http://www.sciencedirect.com/science/article/pii/S0009898102003431">[1]</a></sup> reducing fatigue<sup><a target="_blank" href="https://www.cambridge.org/core/journals/psychological-medicine/article/randomized-controlled-trial-of-siberian-ginseng-for-chronic-fatigue/B9941CDB55F4C53FF5DB1D48B5C350A7">[2]</a></sup> and supporting blood pressure and cholesterol already within normal ranges. <sup><a target="_blank" href="https://link.springer.com/article/10.2165/11594300-000000000-00000">[3]</a></sup> Being an adaptogen, it's also highly effective in relieving stress<sup><a target="_blank" href="http://www.sciencedirect.com/science/article/pii/S0367326X00001702">[4]</a></sup> and has been shown to and has been shown to support joint health.<sup><a target="_blank" href="http://www.sciencedirect.com/science/article/pii/S0168165605004761">[5]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'ginseng' %}<div id="ginseng" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-ginseng.png' | asset_url }}" alt="Organic Ginseng" rel="share"/><div class="description"><h4>Organic Ginseng<br><i>Panax</i></h4><p>This powerful antioxidant (hello youthful skin!)<sup><a target="_blank" href="https://books.google.com/books?hl=en&lr=&id=O1jDyr1EkhEC&oi=fnd&pg=PA329&dq=ginseng+skin+health&ots=53FeV9kBbA&sig=wUX89JWho2OwV_zJWEhoMow0U4M#v=onepage&q&f=false">[1]</a></sup> has been studied for its ability to support normal blood sugar levels, <sup><a target="_blank" href="http://www.sciencedirect.com/science/article/pii/S0939475305000839">[2]</a></sup> cravings,<sup><a target="_blank" href="http://onlinelibrary.wiley.com/doi/10.1002/eat.10159/abstract">[3]</a></sup> stress.<sup><a target="_blank" href="https://www.jstage.jst.go.jp/article/jphs/95/2/95_2_158/_article">[4]</a></sup> This over-achieving super plant has also been studied for its effectiveness in supporting normal sexual health.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'green-bell-pepper' %}<div id="green-bell-pepper" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-green-bell-pepper.png' | asset_url }}" alt="Organic Green Bell Pepper" rel="share"/><div class="description"><h4>Organic Green Bell Pepper<br><i>Capsicum Annuum Group</i></h4><p>Green bell peppers are the unripened version of their colorful red and orange counterparts. 1 cup of these peppers can provide around 10% of your daily fiber intake and 125% of your daily recommended vitamin C intake - but don't worry, a little extra doesn't hurt!</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'green-coffee-bean' %}<div id="green-coffee-bean" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-green-coffee-bean.png' | asset_url }}" alt="Organic Green Coffee Bean" rel="share"/><div class="description"><h4>Organic Green Coffee Bean<br><i>Coffea Arabica</i></h4><p>Most of us know coffee to be a great source of energy due to being high in caffeine, however, these unroasted beans also contain chlorogenic acid which has been studied for its ability to aid in weight loss. [1] </p></div></div>{% endif %}
+	{% if ingredient_handle contains 'leek' %}<div id="leek" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-leek.png' | asset_url }}" alt="Organic Leek" rel="share"/><div class="description"><h4>Organic Leek<br><i>Allium Ampeloprasum</i></h4><p>A 100 gram serving of leeks contains around 2 grams of dietary fiber and a gram of protein. These lovely greens are also a great source of vitamins A and K, folic acid, niacin, riboflavin, magnesium, and thiamin.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'maca-root' %}<div id="maca-root" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-maca-root.png' | asset_url }}" alt="Organic Maca Root" rel="share"/><div class="description"><h4>Organic Maca Root<br><i>Lepidium Meyenii</i></h4><p>There's a reason why people often say consuming maca makes them feel more “alive”! This Peruvian root has been shown to support endurance and even used to support learning abilities and cognitive function.<sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/21977053/">[1]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'oat-grass' %}<div id="oat-grass" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-oat-grass.png' | asset_url }}" alt="Organic Oat Grass Powder" rel="share"/><div class="description"><h4>Organic Oat Grass Powder<br><i>Arrhenatherum Elatius</i></h4><p>Oat grass joins wheatgrass and barley grass as part of the cereal grass family. Rich in chlorophyll, beta-carotene, vitamins K and C, folic acid, calcium, iron, protein, fiber, and B vitamins, extracts of Oat Grass could even improve cognitive performance, according to a study published in the Journal of Alternative and Complementary Medicine.<sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/21711204">[1]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'pomegranate' %}<div id="pomegranate" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-pomegranate.png' | asset_url }}" alt="Organic Pomegranate" rel="share"/><div class="description"><h4>Organic Pomegranate<br><i>Rubus Idaeus L.</i></h4><p>A great source of Vitamins C and K, pomegranate is a fibrous berry that is also super-high in antioxidants, showing antioxidant activity <a href="https://www.ncbi.nlm.nih.gov/pubmed/11052704" target="_blank" alt="pomegranate antioxidant">three times higher</a> than that of green tea. Yum!</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'rhodiola-root' %}<div id="rhodiola-root" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-rhodiola-root.png' | asset_url }}" alt="Organic Rhodiola Root" rel="share"/><div class="description"><h4>Organic Rhodiola Root<br><i>Rhodiola Rosea</i></h4><p>There's a reason why this versatile adaptogen herb is used by athletes all over the world as a natural energy enhancer.<sup><a target="_blank" href="http://onlinelibrary.wiley.com/doi/10.1111/j.1541-4337.2005.tb00073.x/abstract">[1]</a></sup> Studies have shown Rhodiola to support cognitive function such as concentration and memory.<sup><a target="_blank" href="http://www.sciencedirect.com/science/article/pii/S094471131000036X">[2]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'sea-kelp' %}<div id="sea-kelp" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-sea-kelp.png' | asset_url }}" alt="Organic Sea Kelp" rel="share"/><div class="description"><h4>Organic Sea Kelp<br><i>Macrocystis Pyrifera</i></h4><p>Kelp is a type of large seaweed that are famous for growing from the sea floor to the surface, seeking sunlight and can grow at amazingly fast rates, sometimes more than half a meter a day! This fast-growing superfood has amino acids that make it nearly a complete protein.<sup><a target="_blank" href="http://www.sciencedirect.com/science/article/pii/S0924224499000151">[1]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'stevia' %}<div id="stevia" class="ingredient"><img src="{{ 'ingredients-stevia.png' | asset_url }}" alt="Organic Stevia Leaf" rel="share"/><div class="description"><h4>Organic Stevia Leaf<br><i>Stevia rebaudiana</i></h4><p>Stevia rebaudiana has been used for more than 1,500 years by the Guaraní peoples of South America. <sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3103919">[1]</a></sup> Known as the "sweet herb", it provides sweetness without the caloric intake normally associated with sugar. We only use trace amounts in our products to bring out the sweetness of other ingredients, rather than trying to build flavors around the distinct stevia taste.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'sunflower-lecithin' %}<div id="sunflower-lecithin" class="ingredient"><img src="{{ 'ingredients-sunflower-lecithin.png' | asset_url }}" alt="Organic Sunflower Lecithin" rel="share"/><div class="description"><h4>Organic Sunflower Lecithin<br><i>Helianthus</i></h4><p>Lecithin is a type of phospholipid found in pure sunflower seeds. It's a natural source of phosphatidylcholine, a natural constituent found in your brain and nervous system.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'tapioca' %}<div id="tapioca" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-tapioca.png' | asset_url }}" alt="Organic Tapioca" rel="share"/><div class="description"><h4>Organic Tapioca<br><i>Manihot Esculenta</i></h4><p>Tapioca is a starch extracted from the Cassava root, native to South America. It is used in a wide array of South American and Asian cooking, but it is also a good prebiotic, being naturally high in dietary fiber.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'triphala' %}<div id="triphala" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-triphala.png' | asset_url }}" alt="Organic Triphala" rel="share"/><div class="description"><h4>Organic Triphala<br><i>Myrobalans</i></h4><p>Literally meaning 'three fruits' this Ayurvedic herbal formula consists of equal parts of three myrobalans: Amalaki, Bibhitaki, and Haritaki. Triphala has been shown to have powerful antioxidant effects, protecting cells from the damage of free radicals.<sup><a target="_blank" href="http://onlinelibrary.wiley.com/doi/10.1002/ptr.1515/abstract">[1]</a></sup> Studies also show that this herbal formulation not only supports the GI system,<sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/25756303">[2]</a></sup> but also promotes a healthy immune and cardiovascular system.<sup><a target="_blank" href="http://www.bioline.org.br/pdf?pt06008">[3]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'turmeric' %}<div id="turmeric" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-turmeric.png' | asset_url }}" alt="Organic Turmeric" rel="share"/><div class="description"><h4>Organic Turmeric<br><i>Curcuma Longa</i></h4><p>Turmeric has long been used in Ayurvedic medicine in South Asia and is plentiful in antioxidants. <span class="clickbank-hide">Preliminary studies on curcuminoids found in turmeric have been found to potentially reduce the number of heart attacks bypass patients had after surgery<a href="https://www.ncbi.nlm.nih.gov/pubmed/22481014" target="_blank">[1]</a>, support control of knee pain from osteoarthritis as well as ibuprofen did <a href="https://www.ncbi.nlm.nih.gov/pubmed/19678780" target="_blank">[2]</a> and reduce skin irritation <a href="https://www.ncbi.nlm.nih.gov/pubmed/23745991" target="_blank">[3]</a>.</span></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'wheat-grass' %}<div id="wheat-grass" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-wheat-grass.png' | asset_url }}" alt="Organic Wheat Grass Juice Powder" rel="share"/><div class="description"><h4>Organic Wheat Grass Juice Powder<br><i>Triticum Aestivum</i></h4><p>Wheat Grass is often synonymous with the term 'superfood'! This green beauty has been known to increase red blood cell count to help boost immune system function<sup><a target="_blank" href="http://www.chemijournal.com/vol2issue4/dec2014/2-3-9.1.pdf">[1]</a></sup> and it's b-complex vitamins are great for aiding digestion.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'yerba-mate' %}<div id="yerba-mate" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-yerba-mate.png' | asset_url }}" alt="Organic Yerba Mate" rel="share"/><div class="description"><h4>Organic Yerba Mate<br><i>Ilex Paraguariensis</i></h4><p>The herb Yerba Mate contains the stimulating compounds theobromine and caffeine, known to increase energy levels as well as improve focus<sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/1356551">[1]</a></sup> without the jittery side effects. Caffeine has also been shown to improve muscle contractions, reduce fatigue and improve sports performance by up to 5%.<sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/20492310">[2]</a></sup> One study showed men and women given one 1-gram capsule of yerba mate right before moderate-intensity exercise burned 24% more fat than those who weren't given Yerba Mate.<sup><a target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4190939/">[3]</a></sup></p></div></div>{% endif %}
+
+	{% if ingredient_handle contains 'lactobacillus-rhamnosus-gg' %}<div id="lactobacillus-rhamnosus-gg" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'probiotic-lactobacillus-rhamnosus-gg.jpg' | asset_url }}" alt="Lactobacillus Rhamnosus GG" rel="share"/><div class="description"><h4>Lactobacillus Rhamnosus GG<br><i>Probiotic Strain</i></h4><p>Lactobacillus Rhamnosus GG is the most widely studied probiotic strain with proven benefits on supporting the immune system. In one study children who were given the strain vs those who were given a placebo had a significantly reduced risk of upper respiratory tract infections, a reduced risk of respiratory tract infections lasting longer than 3 days, and a significantly lower number of days with respiratory symptoms.<sup><a href="https://www.ncbi.nlm.nih.gov/pubmed/19896252" target="_blank">[1]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'lactobacillus-paracasei' %}<div id="lactobacillus-paracasei" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'probiotic-lactobacillus-paracasei.jpg' | asset_url }}" alt="Lactobacillus Paracasei" rel="share"/><div class="description"><h4>Lactobacillus Paracasei<br><i>Probiotic Strain</i></h4><p>Lactobacillus Paracasei is a great probiotic for adults and children alike, helping to support a healthy immune system and digestion. A study of 379 children published in 2014 found that children provided with this probiotic strain were less susceptible to digestive issues or fever.<sup><a href="http://www.journalrepository.org/media/journals/EJNFS_30/2014/May/Hemalatha442013EJNFS8280_1.pdf" target="_blank">[1]</a></sup></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'rice-concentrate' %}<div id="rice-concentrate" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-rice-concentrate.png' | asset_url }}" alt="Organic Rice Concentrate" rel="share"/><div class="description"><h4>Organic Rice Concentrate<br><i>Rice Hulls</i></h4><p>Organic Rice Concentrate is a powder made from the finely milled and ground hulls of rice. This stops powder products from caking, keeping them smooth and easy to mix, without having to use synthetic alternatives like silicon dioxide.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'gum-acacia' %}<div id="gum-acacia" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-gum-acacia.png' | asset_url }}" alt="Organic Gum Acacia" rel="share"/><div class="description"><h4>Organic Gum Acacia<br><i>Acacia Nilotica</i></h4><p>This is a natural gum consisting of the hardened sap of various species of the acacia tree. Not only does this gum act as a carrier for organic flavors, but it's also a good source of fiber. It's also been used for centuries in traditional arabic medicine to heal wounds, hence its alternative name, arabic gum.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'mango-pineapple-natural-flavors' %}<div id="mango-flavor" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-mango-flavor.png' | asset_url }}" alt="Mango Flavor" rel="share"/><div class="description"><h4>Mango Flavor<br><i>Mangifera Indica</i></h4><p>This product contains the delicious organic-compliant flavor of mango! Organic compliant means that this flavor was created using organic certified methods. Learn more about the different types of nautral flavors <a href="https://www.ora.organic/blogs/news/what-are-natural-flavors" target="_blank">here</a>.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'organic-echninacea' %}<div id="organic-echninacea" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-organic-echninacea.png' | asset_url }}" alt="Organic Echinacea" rel="share"/><div class="description"><h4>Organic Echinacea<br><i>Echinacea Purpurea</i></h4><p>Echinacea (A.K.A. purple coneflower) is a North American species of flower in the sunflower family that is used in traditional Native American medicine as well as pharmaceuticals. One study showed echinacea had a beneficial effect on adults with cold symptoms in clinical trials, especially in comparison to placebo, if treatment is begun early.<sup><a href="https://www.ncbi.nlm.nih.gov/pubmed/10228604" target="_blank" alt="echinacea study">[1]</sup></a></p></div></div>{% endif %}
+	{% if ingredient_handle contains 'guar' %}<div id="guar" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-guar.png' | asset_url }}" alt="Organic Guar Gum" rel="share"/><div class="description"><h4>Organic Guar Gum<br><i>Cyamopsis tetragonoloba</i></h4><p>Guar gum is a dietary fiber derived from the pods of the Indian cluster bean Guar. Guar is native to the tropical Asian climate, but has been grown int he souther US since the beginning of the 20th century.<sup><a href="https://www.drugs.com/npp/guar-gum.html#ref1" target="blank">[1]</sup></a> It is most often used as a thickening agent in food and nutritional products, helping to stop chalkiness in plant-based powders and improve the texture of your smoothies.</p></div></div>{% endif %}
+	{% if ingredient_handle contains 'mango-pineapple-natural-flavors' %}<div id="pineapple-flavor" class="ingredient {{ ingredient_flavor }}"><img src="{{ 'ingredients-pineapple-flavor.png' | asset_url }}" alt="Pineapple Flavor" rel="share"/><div class="description"><h4>Pineapple Flavor<br><i>Ananas comosus</i></h4><p>This product contains the delicious organic-compliant flavor of pineapple! Organic compliant means that this flavor was created using organic certified methods. Learn more about the different types of nautral flavors <a href="https://www.ora.organic/blogs/news/what-are-natural-flavors" target="_blank">here</a>.</p></div></div>{% endif %}
+
+{% endfor %}
+</div>
+
+<!-- Show ingredient details -->
+<div id="ingredient-detail" class="ingredient-detail">
+	<img src="{{ 'probiotic-lactobacillus-reuteri.jpg' | asset_url }}" alt="Lactobacillus Reuteri"/>
+	<div class="description">
+		<h4>Lactobacillus Reuteri<br><i>L. Reuteri</i></h4>
+		<p>Though less well-known than its acidophilus counterpart, L. Reuteri has been <a href="https://www.nlm.nih.gov/medlineplus/druginfo/natural/790.html">studied to be effective</a> in reducing colic in babies and potentially reducing eczema in 1-13 year olds.</p>
+	</div>
+	<a data-toggle="modal" data-target=".fact-contents-{{product.handle}}" class="facts-trigger link"><i class="linear facts-icon"></i>View Supplement Facts</a>
+</div>
+
+
+<!-- Ingredient Detail Script -->
+<script>
+	$(document).ready(function() {
+
+		/* Set Active Ingredient on page load */
+		$('.ingredient.{{current_flavor}}').first().addClass('selected');
+		$('.ingredient-detail img').attr('src',$('.ingredient').first().find('img').attr('src'));
+		$('.ingredient-detail .description').html($('.ingredient').first().find('.description').html());
+
+		/* Handle Ingredient Click */
+		$('.ingredient h4').click(function() {
+
+			// console.log("clicked");
+
+			$('.ingredient').removeClass('selected');
+			$(this).parents('.ingredient').addClass('selected');
+
+			var parent   = $(this).parents('.ingredient'),
+			    img_src  = parent.find('img').attr('src'),
+			    img_alt  = parent.find('img').attr('alt'),
+			    desc     = parent.find('.description').html(); 
+
+			$('.ingredient-detail img').attr('src', img_src).attr('alt', img_alt);
+			$('.ingredient-detail .description').html(desc);
+
+			/* Scroll to Answer */
+      if ($(window).width() > 767) {
+        $('html, body').animate({
+          scrollTop: ($("#ingredient-detail").offset().top-150)
+        }, 300);
+      }
+
+		})
+	})
+</script>

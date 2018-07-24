@@ -1,0 +1,63 @@
+<div id="affiliate__signup">
+	<div class="page__header" style="background-image: url('https://cdn.shopify.com/s/files/1/0767/1029/files/team-photo-jumping.png?232229653337104926');">
+	</div>
+	{{ page.content }}
+</div>
+<style>
+  #main {
+  	margin-top: 0;
+  	background-color: {{ settings.background_color_alternate }};
+  }
+</style>
+<script>
+	$(document).ready(function() {
+		// if ($(window).offset().top < 150) {
+		// 	$('header').addClass('top');
+		// }
+		$(window).scroll(function() {
+			if ($(this).scrollTop() < 150) {
+				$('header').addClass('top');
+			} else {
+				$('header').removeClass('top');
+			}
+		});
+
+		/* How does it work? */
+		var img_rows = $(''+
+			'table:nth-of-type(2) tr:nth-of-type(1) td, '+
+			'table:nth-of-type(4) tr:nth-of-type(1) td');
+
+		img_rows.each(function() {
+			var img_link = $(this).find('a').attr('href');
+			$(this).find('p:nth-of-type(1)').prepend('<img class="icon" src="'+img_link+'"/>');
+		})
+		
+    var background_rows = $(''+
+    	'table:nth-of-type(5) tr:nth-of-type(1) td:nth-of-type(1), '+
+			'table:nth-of-type(5) tr:nth-of-type(2) td:nth-of-type(2), '+
+			'table:nth-of-type(6) tr:nth-of-type(1) td:nth-of-type(1) ');
+
+    background_rows.each(function() {
+    	var background_link = $(this).find('a').attr('href');
+    	$(this).find('p:nth-of-type(1)').before('<div class="background_row" style="background-image: url('+background_link+')"></div>');
+    })
+
+    /* Make all links open in a new window */
+    $('a').attr('target', '_blank');
+
+    /* Make all buttons into Typeform popup links */
+    $('h6').each(function() {
+    	var btn_text = $(this).html();
+    	$(this).html("");
+    	$(this).prepend('<a class="typeform-share button" href="https://oraorganic.typeform.com/to/axFaOY" data-mode="popup" target="_blank" style="color: white;">'+btn_text+'</a>')
+    })
+
+	})
+
+
+</script>
+{% comment %}
+<a class="typeform-share button" href="https://oraorganic.typeform.com/to/axFaOY" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#267DDD;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:25px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" target="_blank">Launch me </a> {% endcomment %}
+
+<!-- Typeform Popup Script -->
+<script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>

@@ -1,0 +1,114 @@
+#form__customer-short {
+	#form__customer-wrapper {
+		display: block;
+
+		
+	}
+	#form__customer-login {
+		display: none;
+
+		#recover,
+		.form_errors,
+		.reset-success {
+			display: none;
+		}
+
+		.forgot-password {
+			text-align: center;
+		}
+		.form_errors {
+			.errors {
+				color: red;
+				font-weight: bold;
+			}
+		}
+	}
+
+	/* Generic Form Styles */
+	form {
+		/* Form: Inputs */
+		.input-group {
+			text-align: center;
+			width: 100%;
+
+			label {
+				font-size: 12px;
+				font-weight: 700;
+				margin: 7.5px 7.5px 0;
+				display: block;
+				text-align: left;
+			}
+			input{
+				border-radius: 8px;
+				font-size: 16px;
+				margin: 0 0;
+				width: 100%;
+			}
+		}
+		/* Form: Submit Button */
+		input[type="submit"] {
+			width: 100%;
+			margin-top: 22.5px;
+			font-size: 12px;
+		}
+		/* Form: Separator */
+		hr {
+			margin: 22.5px;
+		}
+		/* Form: Typography */
+		p {
+			margin: 0;
+		}
+		/* Form: Actions */
+		.actions {
+			text-align: center;
+		}
+	}
+	/* Form: Customer has account */
+	.customer_has_account {
+		text-align: center;
+		margin: 22.5px 7.5px 0;
+
+		br {
+			display: none;
+		}
+		.form_switcher {
+			margin-top: 7.5px;
+		}
+	}
+}
+
+/* Responsiveness: Mobile */
+@media (max-width: 468px) {
+	#form__customer-short {
+		form {
+			/* Form: Inputs */
+			.input-group {
+				label {
+					font-size: 11px;
+				}
+				input {
+					font-size: 13px;
+				}
+			}
+			/* Form: Submit Button */
+			input[type="submit"] {
+				margin-top: 15px;
+				font-size: 11px;
+			}
+		}
+		/* Form: Customer Has Account */
+		.customer_has_account,
+		.login.actions p {
+			margin: 15px 7.5px 0;
+			font-size: 11px;
+
+			a {
+				font-size: 11px;
+			}
+			br {
+				display: none;
+			}
+		}
+	}
+}

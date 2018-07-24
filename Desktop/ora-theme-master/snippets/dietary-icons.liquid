@@ -1,0 +1,91 @@
+{% assign dietary_text__organic     = "Certified USDA Organic or Made with Organic" %}
+{% assign dietary_text__vegan       = "Plant-based and Vegan friendly" %}
+{% assign dietary_text__gluten_free = "No gluten, completely gluten free" %}
+{% assign dietary_text__dairy_free  = "Dairy and lactose free" %}
+{% assign dietary_text__soy_free    = "Soy and soy bean free" %}
+{% assign dietary_text__non_gmo     = "Non-GMO and free from artificial ingredients" %}
+
+
+{% if product %}
+	<ul class="dietary-icons">
+	  <li>
+	  {% for tag in product.tags %}
+	    {% if tag contains "dietary" %}
+	      {% if tag contains 'organic' %}
+	      	<div class="dietary">
+	          <img src="{{ 'icon-USDA-organic.png' | asset_url }}" alt="USDA Organic" class="popup_trigger" data-popup="dietary-popup__organic"/>
+	          <p id="dietary-popup__organic" class="popup"><i class="triangle down">▼</i>{{ dietary_text__organic }}</p>
+	        </div>
+	      {% endif %}
+	      {% if tag contains 'vegan' %}
+	      	<div class="dietary">
+	          <img src="{{ 'icon-vegan.svg' | asset_url }}" alt="Vegan" class="popup_trigger" data-popup="dietary-popup__vegan"/>
+	          <p id="dietary-popup__vegan" class="popup"><i class="triangle down">▼</i>{{ dietary_text__vegan }}</p>
+	        </div>
+	      {% endif %}
+	      {% if tag contains 'gluten-free' %}
+	      	<div class="dietary">
+	          <img src="{{ 'icon-gluten-free.svg' | asset_url }}" alt="Gluten Free" class="popup_trigger" data-popup="dietary-popup__gluten-free"/>
+	          <p id="dietary-popup__gluten-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__gluten_free }}</p>
+	        </div>
+	      {% endif %}
+	      {% if tag contains 'dairy-free' %}
+	      <div class="dietary">
+          <img src="{{ 'icon-dairy-free.svg' | asset_url }}" alt="Dairy Free" class="popup_trigger" data-popup="dietary-popup__dairy-free"/>
+          <p id="dietary-popup__dairy-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__dairy_free }}</p>
+        </div>
+	      {% endif %}
+	      {% if tag contains 'soy-free' %}
+	      <div class="dietary">
+          <img src="{{ 'icon-soy-free.svg' | asset_url }}" alt="Soy Free" class="popup_trigger" data-popup="dietary-popup__soy-free"/>
+          <p id="dietary-popup__soy-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__soy_free }}</p>
+        </div>
+	      {% endif %}
+	      {% if tag contains 'non-gmo' %}
+	      <div class="dietary">
+          <img src="{{ 'icon-GMO-free.svg' | asset_url }}" alt="non-GMO" class="popup_trigger" data-popup="dietary-popup__gmo-free"/>
+          <p id="dietary-popup__gmo-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__non_gmo }}</p>
+        </div>
+	      {% endif %}
+	    {% endif %}
+	  {% endfor %}
+	  </li>
+	  <li>
+	  {% for tag in product.tags %}
+	    {% if tag contains "dietary" %}
+	      {% assign item = tag | split: 'dietary-' %}
+	      <p>{{ item }}  <span class="separator">//  </span></p>
+	    {% endif %}
+	  {% endfor %}
+	  </li>
+	</ul>
+{% else %}
+	<ul class="dietary-icons">
+    <li>
+        <div class="dietary">
+          <img src="{{ 'icon-USDA-organic.png' | asset_url }}" alt="USDA Organic" class="popup_trigger" data-popup="dietary-popup__organic"/>
+          <p id="dietary-popup__organic" class="popup"><i class="triangle down">▼</i>{{ dietary_text__organic }}</p>
+        </div>
+        <div class="dietary">
+          <img src="{{ 'icon-vegan.svg' | asset_url }}" alt="Vegan" class="popup_trigger" data-popup="dietary-popup__vegan"/>
+          <p id="dietary-popup__vegan" class="popup"><i class="triangle down">▼</i>{{ dietary_text__vegan }}</p>
+        </div>
+        <div class="dietary">
+          <img src="{{ 'icon-gluten-free.svg' | asset_url }}" alt="Gluten Free" class="popup_trigger" data-popup="dietary-popup__gluten-free"/>
+          <p id="dietary-popup__gluten-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__gluten_free }}</p>
+        </div>
+        <div class="dietary">
+          <img src="{{ 'icon-dairy-free.svg' | asset_url }}" alt="Dairy Free" class="popup_trigger" data-popup="dietary-popup__dairy-free"/>
+          <p id="dietary-popup__dairy-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__dairy_free }}</p>
+        </div>
+        <div class="dietary">
+          <img src="{{ 'icon-soy-free.svg' | asset_url }}" alt="Soy Free" class="popup_trigger" data-popup="dietary-popup__soy-free"/>
+          <p id="dietary-popup__soy-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__soy_free }}</p>
+        </div>
+        <div class="dietary">
+          <img src="{{ 'icon-GMO-free.svg' | asset_url }}" alt="non-GMO" class="popup_trigger" data-popup="dietary-popup__gmo-free"/>
+          <p id="dietary-popup__gmo-free" class="popup"><i class="triangle down">▼</i>{{ dietary_text__non_gmo }}</p>
+        </div>
+    </li>
+  </ul>
+{% endif %}

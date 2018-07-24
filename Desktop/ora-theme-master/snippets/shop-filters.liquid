@@ -1,0 +1,59 @@
+<!-- Filters: Product Types -->
+{% assign product_types_list = "" %}
+{% for product in collections["shop"].products %}
+  {% for tag in product.tags %}
+    {% if tag contains "product_type=" %} 
+      {% assign product_type = tag | split: "=" | last | append: "," %}
+      {% unless product_types_list contains product_type %}
+	      {% assign product_types_list = product_types_list | append: product_type %}
+	    {% endunless %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+<!-- Create array of Product Types -->
+{% assign product_types = product_types_list | split: "," %}
+
+<!-- Filters: Delivery Methods -->
+{% assign delivery_methods_list = "" %}
+{% for product in collections["shop"].products %}
+  {% for tag in product.tags %}
+    {% if tag contains "delivery_method=" %} 
+      {% assign delivery_method = tag | split: "=" | last | append: "," %}
+      {% unless delivery_methods_list contains delivery_method %}
+	      {% assign delivery_methods_list = delivery_methods_list | append: delivery_method %}
+	    {% endunless %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+<!-- Create array of Delivery Methods -->
+{% assign delivery_methods = delivery_methods_list | split: "," %}
+
+
+<!-- Filters: Flavors -->
+{% assign flavors_list = "" %}
+{% for product in collections["shop"].products %}
+  {% for tag in product.tags %}
+    {% if tag contains "flavor=" %} 
+      {% assign flavor = tag | split: "=" | last | append: "," %}
+      {% unless flavors_list contains flavor %}
+	      {% assign flavors_list = flavors_list | append: flavor %}
+	    {% endunless %}
+    {% endif %}
+  {% endfor %}
+  {% for option in product.options_with_values %}
+    {% if option.name == "Flavor" %}
+      {% for variant in product.variants %}
+        {% for value in option.values %}
+          {% assign flavor = value | downcase | append: "," %}
+          {% unless flavors_list contains flavor %}
+            {% assign flavors_list = flavors_list | append: flavor %}
+          {% endunless %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+<!-- Create array of Flavors -->
+{% assign flavors = flavors_list | split: "," %}
+

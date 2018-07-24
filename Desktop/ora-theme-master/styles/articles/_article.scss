@@ -1,0 +1,236 @@
+#article {
+	/* Article: Header */
+	.article__header {
+
+		/* Article Header: Header Image */
+		#article__header-image {
+			height: 70vh;
+			background-size: cover;
+			background-position: center;
+
+			.article__title {
+				@include vertical-align;
+				text-align: center;
+				padding: 45px 60px;
+				background-color: rgba(11,10,30,0.5);
+
+				h1 {
+					color: white;
+					margin: 15px;
+				}
+			}
+		}
+
+		/* Article Header: Pinterest Image */
+		.article__pinterest-image {
+			position: absolute;
+			z-index: -10;
+			opacity: 0;
+			pointer-events: none;
+		}
+	}
+	/* Article: Metadata */
+	.article__meta {
+		text-align: center;
+		margin: 45px 30px 0;
+
+		/* Article Metadata: Author Details */
+		.author__link {
+			span {
+				color: $color__text-link;
+			}
+			&:hover {
+				span {
+					color: $color__text-link-hover;
+				}
+			}
+		}
+		/* Article Metadata: Publish Date */
+		.article__publish-date {
+			margin: 7.5px;
+			span {
+				color: $color__text-headings-alt;
+				font-weight: 500;
+			}
+		}
+	}
+	/* Article: Content */
+	.article__content {
+    max-width: 720px;
+    padding: 15px;
+    margin: 0 auto 60px;
+    font-size: 18px;
+
+    /* Article Content: Headings */
+		h2 {
+	    font-family: $font__body;
+	    font-size: 30px;
+	    font-style: normal;
+	    margin-bottom: 0;
+
+	    span {
+	    	font-weight: 500 !important;
+	    }
+		}
+		/* Article Content: Paragraph */
+		p, li, em, span {
+			font-size: 18px;
+	    font-weight: 300;
+	    line-height: 1.62em;
+	    margin-bottom: 0;
+	    color: inherit;
+
+	    &:hover {
+	    	color: inherit;
+	    }
+		}
+		blockquote {
+			font-size: 36px;
+	    margin: 15px;
+		}
+		/* Article Content: Images */
+		img {
+			border-radius: 8px;
+			display: block;
+			margin: 30px auto;
+			max-width: 100%;
+		}
+		/* Article Content: Tables */
+		table {
+			margin: 30px 0;
+			border: 1px solid $color__input-border;
+			border-radius: 8px 8px 8px 8px;
+	    -moz-border-radius: 8px 8px 8px 8px;
+	    -webkit-border-radius: 8px;
+	    border-spacing: 0;
+	    border-collapse: separate;
+	    padding: 22.5px;
+
+			th, td, p {
+				font-family: $font__body;
+				font-size: 16px;
+				font-weight: normal;
+				padding: 15px;
+			}
+			td:nth-of-type(1) {
+				font-weight: 500;
+			}
+		}
+	}
+	/* Article: Addthis Toolbox */
+	.addthis_toolbox {
+		padding-bottom: 30px;
+	}
+	/* Article: Actions */
+	.actions {
+		text-align: center;
+		margin: 30px;
+
+		#back__button {
+			font-size: 18px;
+
+			&:before {
+				font-family: $linear-icons;
+				font-size: 18px;
+				content: "\e943";
+				margin-right: 15px;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
+@media (max-width: 991px) {
+	#article {
+		.article__content {
+			margin: 15px auto;
+			padding: 7.5px 22.5px;
+
+			blockquote {
+				margin: 0;
+				font-size: 22px;
+			}
+			img {
+				width: 100%;
+			}
+			h2 {
+				font-size: 22px;
+
+				&:nth-of-type(1) {
+					margin-top: 22.5px;
+				}
+			}
+			p,span {
+				font-size: inherit;
+			}
+			p, li {
+				font-size: 16px;
+			}
+			a {
+				font-size: inherit;
+			}
+			ol, ul {
+				margin-bottom: 15px;
+				padding: 0 22.5px;
+			}
+
+			table {
+				td {
+					width: 100% !important;
+					display: block;
+					padding: 0;
+					font-size: 16px;
+
+					p {
+						font-size: 16px;
+						padding: 15px 0 0;
+						margin: 0;
+					}
+				}
+				td:nth-last-of-type(1) {
+					padding-bottom: 15px;
+				}
+			}
+		}
+	}
+}
+
+/* ==== RESPONSIVENESS ==== */
+@media (max-width: 767px) {
+	#article {
+		/* Article: Header */
+		.article__header {
+			/* Article Header: Title */
+			#article__header-image {
+				.article__title {
+					padding: 30px;
+				}
+			}
+		}
+		/* Article: Content */
+		.article__content {
+			margin: 0;
+			padding: 7.5px 22.5px;
+
+			/* Article Content: Headings */
+			h2 {
+				font-size: 20px;
+			}
+			/* Article Content: Paragraph */
+			p, li, em, span {
+				font-size: 16px;
+			}
+			span {
+				font-size: inherit;
+			}
+			blockquote {
+				font-size: 22px;
+				margin: 0;
+			}
+			/* Article Content: Images */
+			img {
+				width: 100%;
+			}
+		}
+	}
+}

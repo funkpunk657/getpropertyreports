@@ -1,0 +1,63 @@
+/* Site-wide Variables */
+$site__background-color           : #{'{{ settings.background_color }}'};
+$site__background-color-alternate : #{'{{ settings.background_color_alternate }}'};
+
+/* Layout */
+$size__site-navbar    : 105px;
+$size__site-nav-text  : $size__site-navbar/2;
+$size__site-logo      : 42px;
+$size__site-side-cart : 450px;
+$size__site-side-cart-mobile : 100%;
+$size__site-navbar-mobile    : 45px;
+$size__site-sidebar   : 270px;
+
+/* Fonts */
+$font__nav-text        : $avenir;
+$font__headings        : #{'{{ settings.header_font }}'};
+$font__subheadings     : $avenir;
+$font__body            : $avenir;
+
+/* Font Sizing */
+$size__nav-text        : 14px;
+$size__nav-text-mobile : 18px;
+$size__text-copy       : 16px;
+$size__text-list       : 16px;
+
+/* Inputs */
+$select__color-background : #fff;
+$select__line-height      : 3em;
+$input__width             : 180px;
+$input__height            : 3em;
+
+/* Offsets */
+$offset__product-sidebar  : 135px;
+
+/* Colors */
+$color__background           : #{'{{ settings.background_color }}'};
+$color__background-alternate : #{'{{ settings.background_color_alternate }}'};
+$color__background-dark      : whitesmoke;
+$color__background-cart      : #{'{{ settings.background_color }}'};
+$color__background-table     : #F4F4F4;
+$color__text-headings        : #{'{{ settings.heading_color }}'};
+$color__text-headings-alt    : #{'lighten({{ settings.heading_color }}, 50)'};
+$color__text-copy            : #{'{{ settings.copy_color }}'};
+$color__text-link            : #{'{{ settings.link_color }}'};
+$color__text-link-hover      : #{'{{ settings.link_color_hover }}'};
+$color__accent-1             : #{'{{ settings.accent_color_1 }}'};
+$color__accent-1-hover       : #{'lighten({{ settings.accent_color_1 }}, 10)'};
+$color__accent-2             : #{'{{ settings.accent_color_2 }}'};
+$color__accent-2-hover       : #{'lighten({{ settings.accent_color_2 }}, 10)'};
+$color__accent-3             : #{'{{ settings.accent_color_3 }}'};
+$color__accent-3-hover       : #{'lighten({{ settings.accent_color_3 }}, 10)'};
+$color__accent-4             : #{'{{ settings.accent_color_4 }}'};
+$color__accent-4-hover       : #{'lighten({{ settings.accent_color_4 }}, 10)'};
+$color__inactive             : #{'{{ settings.lighter_color }}'};
+$color__input-border         : #{'{{ settings.lighter_color }}'};
+$color__table-border         : #{'{{ settings.accent_color_1 }}'};
+$color__button-background-1  : #{'{{ settings.accent_color_1 }}'};
+
+/* Sidebar */
+$default__sidebar-panel-height : 240px;
+/* Bars */
+$default__bar-background-color: black;
+$default__bar-height: 50px;

@@ -1,0 +1,99 @@
+#register {
+	min-height: 70vh;
+	margin-top: 0;
+	padding-bottom: 90px;
+	position: relative;
+	@include display-flex;
+	justify-content: center;
+	align-items: center;
+
+	#sign-up-form {
+
+		h1 {
+			padding-bottom: 30px;
+			text-align: center;
+			font-family: $baskerville;
+			font-style: italic;
+			font-size: 48px;
+			text-transform: lowercase;
+		}
+
+		input,
+		span.ui-widget {
+			display: block;
+			border-radius: 8px;
+			font-weight: normal;
+			font-size: 16px;
+			height: 52px;
+		}
+		.actions {
+			text-align: center;
+
+			input {
+				margin: 15px auto;
+			}
+		}
+		hr {
+			width: $input__width;
+		}
+
+		.social-login {
+			width: 300px;
+			display: block;
+			margin: 0 auto;
+			text-align: center;
+			display: none;
+
+			iframe {
+				margin-left: 30px;
+			}
+		}
+
+		#thanks-msg {
+			display: none;
+			width: 300px;
+			text-align: center;
+			margin: 0 auto;
+
+			h4 {
+				font-size: 36px;
+			}
+			p {
+				font-size: 18px;
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			button {
+				margin-top: 30px;
+				width: 300px;
+			}
+
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	#register {
+		margin-top: -$size__site-navbar;
+	}
+}
+@media (max-width: 320px) {
+	#register {
+		margin-top: -$size__site-navbar/2;
+		margin-bottom: $size__site-navbar/2;
+
+		#sign-up-form {
+			.social-login {
+				width: 100%;
+				margin-left: 0;
+
+				iframe {
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+}

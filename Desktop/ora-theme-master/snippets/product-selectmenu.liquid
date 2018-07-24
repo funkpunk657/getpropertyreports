@@ -1,0 +1,125 @@
+<!-- PRODUCT SAVINGS AND SELECTMENU -->
+<!-- Get the amount a customer would save by buying a 3 Month Subscription
+     Instead of just a standard order. We loop through all products to find those
+     under the same product collection, then select the product with the 3 Month term, and
+     subtract its price from the price of a standard product purchase. -->
+{% assign savings = 0 %}
+{% for collection in product.collections %}
+  {% if collection.metafields["global"].category %}
+    {% for subscription_product in collection.products %}
+      {% if subscription_product.metafields["subscriptions"].term == "3" %}
+      <!-- OK! Now get the discounted price of the product. Note that we use the ORIGINAL product,
+           NOT the subscription product as it gets overwritten by ReCharge every time it syncs. -->
+        {% assign discount_percentage   = subscription_product.metafields["subscriptions"].discount_percentage %}
+        {% assign subscription_discount = 100 | minus: discount_percentage %}
+        {% assign subscription_price    = subscription_product.price | divided_by: 100 | times: subscription_discount %}
+        {% assign savings               = subscription_product.price | minus: subscription_price | money_without_currency %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+<!-- SETUP COUNT SUFFIX -->
+{% if count %}
+  {% assign count_suffix = "-" | append: count  %}
+{% endif %}
+
+<!-- ==================================================== -->
+<!-- ==== SCRIPT & STYLES for Select Menu (jQueryUI) ==== -->
+<!-- ==================================================== -->
+<script>
+  $(document).ready(function() { 
+      // Put the subscription popup inside a timeout function, as we need to wait for 
+      // the subscription select handler to process the change from Standard to Monthly Subscription
+      setTimeout(function() {
+
+      // Setup variables for the sidebar and subscription popup
+      var subscription_selector;
+      var sidebar_menu;
+      var sub_popup;
+
+      // Check to see if we're on the shop page - if we are, then there will be a count
+      // variable defined page.products.liquid.
+      subscription_selector = '#subscription-selector{{count_suffix}}';
+      sidebar_menu = '#sidebar-menu{{count_suffix}}';
+      sub_popup    = 'subscription-popup{{count_suffix}}';
+
+      // Now setup the Select Menu using the variables above
+      $(subscription_selector).selectmenu({ 
+        create: function(event, ui) {
+          // Get discount percentage from ReCharge product metafields
+          var discount_percentage = Number('{{ product.metafields["subscriptions"].discount_percentage }}').toFixed(0);
+
+          var sub_popout = ''+
+            '<div id="'+sub_popup+'" class="subscription-popup">'+
+              '<p>'+
+                'You could get '+
+                '<span class="savings text-accent-1">'+
+                  '<b>'+discount_percentage+'% off</b>'+
+                '</span> '+
+                'by getting a<br>Monthly Subscription!'+
+              '</p>'
+            '</div>';
+
+          function showPopup() {
+            $(sidebar_menu).find('.purchase-section').mouseover(function() {
+              $(sidebar_menu).css('overflow', 'visible');
+              $('#'+sub_popup).fadeIn();
+            });
+            $(sidebar_menu).find('.purchase-section').mouseleave(function() {
+              $(sidebar_menu).css('overflow', 'hidden');
+              $('#'+sub_popup).fadeOut();
+            });
+          }
+          // Queue the adding of the popup, followed by the function to show the popup on mouseover
+          if (discount_percentage > 0) {
+            $(subscription_selector+'-button')
+              .queue(function() {
+                $(this).after(sub_popout).dequeue();
+              })
+              .queue(function() {
+                // Only show if product is not preorder
+                {% unless product.tags contains 'pre-order' %}
+                  showPopup();
+                {% endunless %}
+                $(this).dequeue();
+              });
+          }
+
+        },
+        change: function(event) { 
+          var value = event.target.value;
+
+          if (value == "subscribe") {
+            $('.subscription-details input[value="autodeliver"]').each(function() { $(this).click() });
+          } 
+          // FIXED TERM SUBSCRIPTIONS (RETIRED)
+          // else if (value == "more") {
+          //   $('.ui-selectmenu-button span.ui-selectmenu-text').css('color', '#ef3a6b');
+          //   window.location.assign("https://www.ora.organic/pages/subscriptions");
+          // } 
+          else {
+            $('.subscription-details input[value="onetime"]').each(function() { $(this).click() });
+          }
+
+        }
+      }); 
+    }, 600)
+  })
+</script>
+<style>
+  .ui-selectmenu-open { z-index: 1100; } 
+  .ui-menu-item { width: 170px; }
+</style>
+<!-- SELECT MENU -->
+<label>Type:</label>
+<select name="subscription-selector{{count_suffix}}" id="subscription-selector{{count_suffix}}">
+  <option id="one-time" name="one-time-subscribe" value="one-time-purchase">Standard</option>
+  {% if product.metafields.subscriptions.subscription_id  %}
+    {% unless product.tags contains 'pre-order' %}
+    <option id="subscribe" name="one-time-subscribe" value="subscribe">Monthly Subscription</option>
+    {% endunless %} 
+  {% endif %}
+  <!-- FIXED TERM SUBSCRIPTIONS (RETIRED) -->
+  <!-- <option id="more" name="one-time-subscribe" value="more">More options...</option> -->
+</select>

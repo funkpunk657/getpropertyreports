@@ -1,0 +1,84 @@
+<div id="sidebar-deals" class="sidebar {{ settings.deal_sidebar_theme }}">
+	<div class="deal-wrapper">
+		<!-- Deal: Percentage -->
+		<div class="deal-percentage">
+			<h4>{{ settings.deal_sidebar_discount_percentage_2 }} OFF</h4>
+		</div>
+		<!-- Deal: Code -->
+		<div class="deal-header">
+			<h2>{{ settings.deal_sidebar_header_text }}</h2>
+		</div>
+		<!-- Deal: Content -->
+		<div class="deal-content">
+			{{ settings.deal_sidebar_content }}
+		</div>
+		<hr>
+		<!-- Deal: Shipping -->
+		{% if settings.deal_sidebar_shipping %}
+			<div class="deal-shipping">
+				<h6>+ FREE SHIPPING<br><span>(on everything)</span></h6>
+			</div>
+		{% endif %}
+		<!-- Deal: Actions -->
+		<div class="deal-actions">
+			<a href="{{ settings.deal_sidebar_link }}" class="button"><button class="flat aqua">Shop Sale</button></a>
+		</div>
+		<!-- Deal: End Date -->
+		<div class="deal-end_date">
+			<p>This deal only lasts until <span>{{ settings.deal_sidebar_end_date }}</span>, so get in quick!</p>
+		</div>
+	</div>
+	<!-- Deal: Close Sidebar -->
+	<div class="sidebar-close">
+		<a href="#close_sidebar">Close this message</a>
+	</div>
+</div>
+
+<!-- Deal: Script -->
+<script>
+	$(document).ready(function() {
+
+
+		if (getCookie("sidebarDealClosed") == "") {
+
+      setCookie("sidebarDealClosed", true, 0.5);
+
+      showSidebar();
+
+    }
+
+		$('#sidebar-deals .sidebar-close a').on('click', function() { hideSidebar()});
+
+		var trigger = $('#sidebar-deals');
+
+		$(document).on('mouseup touchend', function(e) {  
+      if (!trigger.is(e.target) // if the target of the hover isn't the trigger
+            && trigger.has(e.target).length === 0) // ... nor a descendant of the container
+      {
+        hideSidebar();
+      }
+    });
+
+    function showSidebar() {
+
+			var animateSidebar = anime.timeline();
+
+			animateSidebar.add({
+				targets: '#sidebar-deals',
+				right: "0",
+				duration: 200
+			})
+		};
+
+		function hideSidebar() {
+
+			var animateSidebar = anime.timeline();
+
+			animateSidebar.add({
+				targets: '#sidebar-deals',
+				right: "-200%",
+				duration: 200
+			})
+		};
+	})
+</script>

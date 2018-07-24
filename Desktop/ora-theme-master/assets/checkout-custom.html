@@ -1,0 +1,70 @@
+<!-- Change the width and height values to suit you best -->
+<!--<div class="typeform-widget" data-url="https://sebastianbryers.typeform.com/to/LwICMP" data-text="Ora Journey" style="width:100%;height:100%;position:fixed;top:0;left:0;z-index:100000;display:none"></div>
+<a href=""><img id="close-survey" src="{{ 'icon-cancel-filled.png' | asset_url }}" style="max-width: 20px; padding-top: 15px;position:absolute;top:10px;right:30px;z-index:150000;"></a>
+<script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'widget.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}})()</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#close-survey').click(function() {
+      $('.typeform-widget').css('display','none'); 
+      $(this).css('display','none');
+       return false;
+    });
+  });
+</script>
+-->
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1788476484708961');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1788476484708961&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<!-- BING CONVERSION TRACKING -->
+  <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5202411"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript><img src="//bat.bing.com/action/0?ti=5202411&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>
+<!-- YAHOO CONVERSION TRACKING -->
+  <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'10001863'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+<script>
+// Purchase
+// Track purchases or checkout flow completions (ex. landing on "Thank You" or confirmation page)
+fbq('track', 'Purchase', {value: '1.00', currency: 'USD'});
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.1.0/velocity.min.js"></script>
+<script type="text/javascript">
+    var conversion_value = '{{ total_price }}';
+    conversion_value = conversion_value / 100;
+    adroll_conversion_value = conversion_value;
+    adroll_currency = "USD"
+    adroll_custom_data = {
+        "ORDER_ID": "{{ id }}",
+        "USER_ID": "{{customer.name}}"
+    };
+</script>
+<!-- Google Code for Ora Purchases Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 940808742;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "rJ-JCPCy82EQprTOwAM";
+if ({{ subtotal_price }}) { var google_conversion_value = {{ subtotal_price | money_without_currency }}; }
+var google_conversion_currency = "USD";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/940808742/?value={{ subtotal_price | money_without_currency }}&amp;currency_code=USD&amp;label=rJ-JCPCy82EQprTOwAM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>

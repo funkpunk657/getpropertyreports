@@ -1,0 +1,316 @@
+<!-- Survey: Checkout -->
+<div id="survey_checkout">
+	<i class="close-btn"></i>
+	<!-- Form Questions -->
+	<div class="form__questions">
+		<p class="question">Thanks for your order! How did you find out about Ora?</p>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" value="Google" />
+			<label>Google</label>
+		</div>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" value="Facebook" />
+			<label>Facebook</label>
+		</div>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" value="Instagram" />
+			<label>Instagram</label>
+		</div>
+		<div class="radio-group">
+			<input type="radio" class="text_input" name="referred_by" value="Podcast" />
+			<label>Podcast</label>
+			<input id="referred_by_podcast" type="text" name="referred_by" placeholder="Which Podcast?" />
+		</div>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" value="Pinterest" />
+			<label>Pinterest</label>
+		</div>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" value="Friend / Family" />
+			<label>A Friend</label>
+		</div>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" value="Health Practitioner" />
+			<label>Doctor / Nutritionist</label>
+		</div>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" class="text_input" value="Print (magazines etc.)" />
+			<label>Print (magazines etc.)</label>
+			<input id="referred_by_print" type="text" name="referred_by" placeholder="What Print Media?" />
+		</div>
+		<div class="radio-group">
+			<input type="radio" name="referred_by" value="Shark Tank!" />
+			<label>Shark Tank!</label>
+		</div>
+		<div class="radio-group">
+			<input type="radio" class="text_input" name="referred_by" value="Other" />
+			<label>Other</label>
+			<input id="referred_by_other" type="text" name="referred_by" placeholder="Write your answer here" />
+		</div>
+	</div>
+	<!-- Step 2: Form Actions -->
+	<div class="form__actions">
+		<a id="referred_by_submit" class="change_screen button submit" href="#subscriptions__step_3">
+			<button class="flat aqua">Submit</button>
+		</a>
+	</div>
+	<!-- Thanks Message -->
+	<div class="form__thanks">
+		<h5>Thanks for letting us know!</h5>
+		<p>Now - why not share the love and join our <br><a href="http://oraorganic.refr.cc" target="_blank"><b>Refer-a-friend Program</b></a>?</p>
+		<a id="join_referral_program" href="http://oraorganic.refr.cc" class="change_screen button submit" target="_blank">
+			<button class="flat aqua">JOIN</button>
+		</a>
+	</div>
+</div>
+
+<style>
+  #survey_checkout {
+		position: fixed;
+		z-index: 10;
+		bottom: 30px;
+		right: 30px;
+		width: 330px;
+		padding: 30px;
+		box-shadow: 0px 1px 30px 2px rgba(0,0,0,0.15);
+		border-radius: 1em;
+		background-color: white;
+	}
+	.question {
+		font-size: 20px;
+		margin: 0 0 15px;
+	}
+	.radio-group {
+		position: relative;
+	}
+	/* Screen: Radio Inputs */
+	.radio-group input, 
+	.radio-group label {
+		line-height: 2.5em;
+		font-weight: normal;
+		font-size: 16px;
+		margin: 3.75px;
+	}
+	.radio-group input {
+		display: inline-block;
+		margin-bottom: 7.5px;
+		width: 18px;
+    height: 18px;
+    border: 1px solid #e8e8e8;
+    border-radius: 50%;
+    vertical-align: middle;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.1s ease-out;
+	}
+	.radio-group input[type="radio"]:checked {
+		outline: none;
+    color: white;
+    background-color: #52d6aa;
+    border: 1px solid #52d6aa;
+	}
+	.radio-group input[type="radio"]:checked:before {
+    content: " ";
+    width: 5px;
+    height: 5px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    left: 1%;
+    right: 1%;
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    box-shadow: 0px 1px 2px 0px rgba(135,135,135,0.5);
+    position: absolute;
+    text-align: center;
+	}
+	.radio-group input[type="text"] {
+		width: 90%;
+		display: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    height: 3em;
+    padding: 10px 7.5px 7.5px 15px;
+    font-family: Avenir, "Avenir Web", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    text-align: left;
+    outline: none;
+    border: 1px solid #e8e8e8;
+    border-radius: 1em;
+    background: #fff;
+	}
+
+	/* Screen: Actions */
+	.form__actions button,
+	.form__thanks button {
+		width: 100%;
+    display: block;
+    font-family: 'Avenir', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 10px 15px;
+    text-shadow: none;
+    box-shadow: none;
+    border: none;
+    border-radius: 0.5em;
+    height: 3.5em;
+    margin: 15px auto 0;
+    background-color: transparent;
+    transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    background-color: #52d6aa;
+    color: #fff;
+	}
+	.close-btn {
+		position: absolute;
+		top: -7px;
+		left: -12px;
+		cursor: pointer;
+	}
+	/* Close Button */
+	.close-btn:before {
+		background-color: #484444;
+		border-radius: 50%;
+		height: 40px;
+		width: 40px;
+		font-family: 'LinearIcons';
+		font-weight: 700;
+		font-style: normal;
+		font-size: 12px;
+		content: "\e935";
+		color: white;
+		padding: 7.5px;
+	}
+
+	/* Form Thanks */
+	.form__thanks {
+		display: none;
+	}
+	.form__thanks h5 {
+		font-weight: 300;
+		font-family: Avenir, "Avenir Web", Helvetica, Arial, sans-serif;
+		margin-bottom: 15px;
+		font-size: 20px;
+	}
+
+	@media (max-width: 767px) {
+		#survey_checkout {
+			position: relative;
+			box-shadow: none;
+			margin: 30px 0 30px;
+			width: 100%;
+			margin-left: -2em;
+			bottom: initial;
+			right: initial;
+			border-radius: 0;
+			border-top: 1px solid {{ settings.lighter_color }};
+			border-bottom: 1px solid {{ settings.lighter_color }};
+		}
+		.close-btn {
+			display: none;
+		}
+		.form__questions,
+		.form__actions button,
+		.form__thanks button {
+			max-width: 300px;
+		}
+		.form__questions,
+		.form__actions,
+		.form__thanks {
+			margin: 0 auto;
+		}
+		.form__thanks {
+			max-width: 300px;
+		}
+		.form__questions {
+			margin-bottom: 22.5px;
+		}
+		.form__thanks {
+			padding: 0 22.5px;
+		}
+	}
+
+</style>
+
+<script>
+	$(document).ready(function() {
+
+		/* Show the other text input when ooption selected */
+		$('input[name="referred_by"]').on('change', function() {
+			if ($('input.text_input').is(':checked')) {
+				$('.radio-group').children('input[type="text"]').slideUp();
+				$(this).parent().children('input[type="text"]').slideDown();
+			} else {
+				$('.radio-group').children('input[type="text"]').slideUp();
+			}
+		})
+
+
+		$('#referred_by_submit').click(function() {
+
+			/* Get the referred by value */
+			if ($('#referred_by_other').val() !== "" && $('input[value="Other"]').is(':checked')) {
+				console.log("otherrrrr");
+				console.log($('#referred_by_other').val());
+				var referred_by = "Other: "+$('#referred_by_other').val();
+			} else  if ($('#referred_by_podcast').val() !== "" && $('input[value="Podcast"]').is(':checked')) {
+				var referred_by = "Podcast: "+$('#referred_by_podcast').val();
+			} else if ($('#referred_by_print').val() !== "" && $('input[value="Print (magazines etc.)"]').is(':checked')) {
+				var referred_by = "Print: "+$('#referred_by_print').val();
+			} else {
+				var referred_by = $('input[name="referred_by"]:checked').val();
+			}
+
+			/* Get the cart contents */
+			var products_added = [];
+			$('.product__description__name').each(function() {
+				var product = $(this).text(),
+				    variant = $(this).parent().find('.product__description__variant').text();
+				products_added.push(product+" - "+variant);
+			})
+
+			/* Get Survey & Customer Data */
+			var survey_contents = {
+					"first_name"            : "{{ checkout.customer.first_name }}",
+					"last_name"             : "{{ checkout.customer.last_name }}",
+					"email"                 : "{{ checkout.customer.email }}",
+					"referred_by"           : referred_by,
+					"products_added"        : products_added,
+					"value"                 : "{{ checkout.total_price | money_without_currency }}",
+					"order_number"          : "{{ checkout.order_name }}",
+					"order_id"              : "https://oraorganic.myshopify.com/admin/orders/{{ checkout.order_id }}"
+				}
+
+			/* Send the data to Zapier webhook (Google Sheets) */
+			$.ajax({
+			  type: "POST",
+			  url: "https://hooks.zapier.com/hooks/catch/914765/ftyt5k/",
+			  data: survey_contents,
+			  success: (function() {
+			  	console.log("submission success");
+			  	/* Retrieve the results of the survey and run the spinner until they've come back */
+			  	$('.form__questions, .form__actions').slideUp();
+			  	$('.form__thanks').slideDown();
+
+			  })(),
+			  dataType: JSON
+			});
+		})
+
+		$('.close-btn').click(function() {
+			$('#survey_checkout').hide();
+		})
+			
+
+	})
+</script>

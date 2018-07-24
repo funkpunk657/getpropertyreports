@@ -1,0 +1,672 @@
+<!-- BOLD APPS - Product Discount -->
+{% include 'bold-product' with product, hide_action: 'break' %}{% if bold_hidden_product %}{% break %}{%endif %}
+
+<!-- CHECK IF ITEM IS FOR SALE, IF NOT, REDIRECT TO SHOP PAGE -->
+{% assign for_sale = false %}
+{% for collection in product.collections %}
+  {% if collection.title contains "Shop" %}
+    {% assign for_sale = true %}
+  {% endif %}
+{% endfor %}
+
+<!-- Amazon Products -->
+{% for tag in product.tags %}
+  {% if tag contains "link_to_amazon" %}
+    {% assign amazon_link = tag | split: "=" | last %}
+  {% endif %}
+{% endfor %}
+
+{% assign add_to_cart = 'Add to Bag' %}
+{% assign sold_out = 'Sold Out' %}
+{% assign unavailable = 'Unavailable' %}
+
+<!-- SETUP PRODUCT PAGE IMAGES -->
+<!-- Featured Image -->
+{% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+{% for image in product.images %}
+  {% if image.src contains "hero" %}
+    {% assign hero_image = image %}
+  {% endif %}
+  {% if image.src contains "supplement-facts" or image.alt contains "supplement-facts" %}
+    {% assign supplement_facts = image %}
+  {% endif %}
+  {% if image.src contains 'mobile-background' %}
+    {% assign mobile_background = image %}
+  {% endif %}
+  {% if image.src contains 'desktop-background' %}
+    {% assign desktop_background = image %}
+  {% endif %}
+  {% if image.src contains "additional-info" %}
+    {% assign additional_info = image %}
+  {% endif %}
+  {% if image.src contains "buyable-pin" %}
+    {% assign buyable_pin = image %}
+  {% endif %}
+{% endfor %}
+
+<!-- Get Product Type, Flavors, Delivery Method -->
+{% for option in product.options_with_values %}
+  {% if option.name == "Flavor" %}
+    {% assign option_name = "Flavor" %}
+
+    {% if option.values.size > 1 %}
+      {% capture flavor %}{% for value in option.values %}{{ value }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+      {% assign flavor_count = option.values.size %}
+    {% else %}
+      {% assign flavor = value %}
+    {% endif %}
+
+  {% else %}
+
+    {% for tag in product.tags %}
+      {% if tag contains "flavor=" %}
+        {% assign flavor = tag | split: "=" | last %} 
+      {% endif %}
+    {% endfor %}
+
+  {% endif %}
+
+  {% for tag in product.tags %}
+    {% if tag contains "product_type=" %}    {% assign product_type    = tag | split: "=" | last %} {% endif %}
+    {% if tag contains "delivery_method=" %} {% assign delivery_method = tag | split: "=" | last %} {% endif %}
+  {% endfor %}
+{% endfor %}
+
+<!-- Check if product is setup for pre-orders -->
+{% if product.tags contains 'pre-order' %}
+  {% assign pre_order = true %}
+{% endif %}
+
+<!-- Hide preview bar on staging -->
+<style>
+  #preview-bar-iframe {
+    display: none !important;
+  }
+</style>
+
+  <!-- Product: Buyable Pin -->
+  {% if buyable_pin %}
+    <img src="{{ buyable_pin | img_url: 'master' }}" style="opacity: 0; position: absolute; z-index: -100;" alt="{{ product.title }} - Organic, Vegan, Gluten-free, Dairy-free, Soy-free, Non-GMO, Eco-friendly"/>
+  {% endif %}
+
+  <div id="product-staging" itemscope itemtype="http://schema.org/Product">
+    
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+    <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+    
+    <!-- Product: Form -->
+    <form id="product-form-{{product.id}}" class="quickAdd product__form shapp_qb_prod" data-productid="{{product.id}}" action="/cart/add" method="post" enctype="multipart/form-data">
+      <!-- PRODUCT PHOTOS -->
+      <div class="shopping-cart-overlay"></div>
+      <div class="product__photos">
+        {% if product.images.size == 0 %}
+        {% else %}
+          <div class="product__photos-wrapper">
+            <div class="product__photos-grid">
+
+            <!-- Get all product flavors -->
+            {% capture flavors %}{% for variant in product.variants %}'{{ variant.option1 | downcase | replace: " ", "-" }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+
+            <!-- Assign the current flavor and offset -->
+            {% assign current_flavor  = product.selected_or_first_available_variant.option1 | downcase | replace: " ", "-" %}
+            {% assign number_photos   = 4 %}
+            {% assign number_variants = product.variants.size %}
+            {% assign total_photos    = number_photos | times: number_variants %}
+            {% assign offset          = 0 %}
+
+            {% for variant in product.variants %}
+              
+              <!-- Get the variant flavor -->
+              {% assign flavor = variant.option1 | downcase | replace: " ", "-" %}
+              
+              <!-- Get the product images, per variant -->
+              {% for image in product.images | offset: offset %}
+                <div class="image_wrapper {{ flavor }}">
+                  <img id="image_{{ forloop.index }}" 
+                       class="grid-item large {% if forloop.index == 1 %}active{% endif %}{% if image.src contains 'creative' %} creative{% endif %} {{ flavor }}" 
+                       src="{{ image | img_url: '512x512' }}" 
+                       alt="{{ product.title | escape }} - {{ image.alt }}"/>
+                </div>
+
+                <!-- Get the current photo index -->
+                {% assign photo_count = forloop.index | modulo: number_photos %}
+
+                <!-- Add to the offset if more than one variant -->
+                {% if forloop.index < total_photos %}
+                  {% if photo_count == 0 %}
+                    {% assign offset = offset | plus: number_photos %}
+                    {% break %}
+                  {% endif %}
+                {% else %}
+                  {% break %}
+                {% endif %}
+
+              {% endfor %}
+
+
+            {% endfor %}
+
+            </div>
+          </div>
+          
+        {% endif %}
+        <!-- == DESCRIPTION: PRODUCT DIETARY == -->
+        <div class="product__dietary-icons-wrapper dsk">
+          <div class="padding">
+          </div>
+          {% include 'dietary-icons' %}
+        </div>
+      </div>
+
+      <!-- Product Details -->
+      <!-- Product Details: Variant Details (if more than 1 variant) -->
+      {% for variant in product.variants %}
+        {% if variant.metafields["c_f"].size > 0 %}{% assign variant_details = true %}{% else %}{% assign variant_details = false %}{% endif %}
+      {% endfor %}
+      <div class="product-details">
+        <!-- Product Details: Header -->
+        <div class="product-details-header">
+          <!-- Product Header: Title -->
+          <h1 class="product__title">{{ product.title }}</h1>
+          <!-- Product Header: Aggregate Reviews -->
+          <div class="product__reviews-aggregate">
+            <div class="yotpo bottomLine"
+                data-appkey="SmtoQBJliJwFrBjSYjmEtOz31o6nMoLZfgcp3J4j"
+                data-domain="{{shop.permanent_domain | escape }}"
+                data-product-id="{{ product.id }}"
+                data-product-models="{{ product.id }}"
+                data-name="{{ product.title | escape }}"
+                data-url="{{ shop.url }}{{ product.url }}">
+            </div>
+          </div>
+          <!-- Product Header: Supplement Facts -->
+          <a data-toggle="modal" data-target=".fact-contents-{{product.handle}}" class="facts-trigger link"><i class="linear facts-icon"></i>View Label / Supplement Facts</a>
+          <!-- Product Header: Key Features -->
+          <p class="product__header-features">21g Protein | 7g net carbs | No added sugar</p>
+        </div>
+        <!-- Product: Mobile Summary -->
+        <div class="product__mobile-summary mob">
+          {% assign product_mobile_summary = product.metafields["homepage"].featured_description %}
+          {{ product_mobile_summary }}
+        </div>
+        <!-- Product Buy Bar -->
+        <div id="product__buy-bar" class="wrapper">
+          <!-- Product Buy Box: Price -->
+          <div class="product__price">
+            <h4 class="price">
+              <span class="hidden product-price">{{ product.price | money_with_currency }}</span>
+              <span class="product__standard-price">{{ product.price | money_with_currency }}</span>
+            {% if product.metafields.subscriptions.subscription_id %}
+              {% assign discount = 100 | minus: product.metafields.subscriptions.discount_percentage %}
+              {% assign subscription_price = product.price | times: discount | divided_by: 100 %}
+            {% endif %}
+            {% if subscription_price %}
+            <span class="product__subscription-price">{{ subscription_price | money_without_currency }} for subscribers</span>
+            {% endif %}
+            </h4>
+            <p class="subscription_message">(Subscriptions for U.S. customers only)</p>
+          </div>
+          <!-- Check if product is available for pre-order or is sold out -->
+          {% assign pre_order = false %}
+          {% if product.tags contains 'pre-order' %}
+            {% assign pre_order = true %}
+            {% for tag in product.tags %}
+              {% if tag contains 'pre-order-date=' %} {% assign pre_order_date = tag | split: "=" | last %} {% endif %}
+            {% endfor %}
+          {% else %}
+            {% assign pre_order = false %}
+          {% endif %}
+          {% unless product.available %}{% if pre_order %}{% assign is_sold_out = false %}{% else %}{% assign is_sold_out = true %}{% endif %}{% endunless %}
+
+          <!-- Product: Dynamic Product Buy Box -->
+          {% include 'product-buy-bar', current_flavor: current_flavor %}
+
+          <!-- Product: Include the Product Callback function to allow the customer to select a variant -->
+          {% include 'product-select' %}
+
+          <!-- Product: Include the Discount Landing popup -->
+          {% include 'popup__discount-landing' %}
+
+        </div>
+        <!-- == Product: Dietary Icons (Mobile) == -->
+        <div class="product__dietary-icons-wrapper mob">
+          <div class="padding">
+          </div>
+          {% include 'dietary-icons' %}
+        </div>
+        <!-- Product Details: Content Fader -->
+        <div class="content__wrapper fader">
+          <!-- ====================================== -->
+          <!-- ==== FORM: 4. PRODUCT DESCRIPTION ==== -->
+          <!-- ====================================== -->
+          <!-- The Product description uses classes in the product text written 
+               in the Shopify Product front end. These classes are set by switching the
+               view to "View HTML" and applied to the relevant sections. See below:
+
+                1. Product Features    = <ul class="features" > 
+                2. Product Subtitle    = <h2 class="product-subtitle">
+                3. Product Description = <p class="product-description">
+                4. Product FAQs        = <div class="faq">
+
+              Use the above text and Shopify string filters to get the correct info. 
+          -->
+          <!-- PRODUCT DETAILS NAVIGATION -->
+          <div class="product-details-nav header-nav">
+            <a class="active link" href="#" data-target=".product__overview">Overview</a>
+            <a class="link"        href="#" data-target=".product__features">What does it do?</a>
+            <a class="link"        href="#" data-target=".product__directions">Directions</a>
+          </div>
+          <!-- Product Details: Variant Details (if more than 1 variant) -->
+          {% if variant_details == true %}
+            {% for variant in product.variants %}
+              {% include 'bold-variant' with variant, hide_action: 'skip' %}
+              <!-- Product Variants: Setup the metafield descriptions -->
+              {% assign count           = forloop.index %}
+              {% assign flavor          = variant.option1 | downcase | replace: " ", "-" %}
+              {% assign overview        = variant.metafields["c_f"]["What is it?"] %}
+              {% assign what_does_it_do = variant.metafields["c_f"]["What Does it Do?"] %}
+              {% assign directions      = variant.metafields["c_f"]["Directions"] %}
+              <!-- Product details: Main Description -->
+              <ul id="product-overview" class="product__overview content {% if flavor == current_flavor %}active{% endif %} variant {{ flavor }}">
+                <li class="title mobile-title show">Overview</li>
+                {% if overview contains "<li" %}{{ overview }}{% else %}<li>{{ overview }}</li>{% endif %}
+              </ul>
+              <!-- Product details: Key Features -->
+              <ul id="product-features" class="product__features content variant {{ flavor }}">
+                <li class="title mobile-title">What does it do?</li>
+                {% if what_does_it_do contains "<li" %}{{ what_does_it_do }}{% else %}<li>{{ what_does_it_do }}</li>{% endif %}
+              </ul>
+              <!-- Product details: Directions -->
+              <ul id="product-directions" class="product__directions content variant {{ flavor }}">
+                <li class="title mobile-title">Directions</li>
+                {% if directions contains "<li" %}{{ directions }}{% else %}<li>{{ directions }}</li>{% endif %}
+              </ul>
+            {% endfor %}
+          {% else %}
+            <!-- == Product Details: Main Description == -->
+            {% if product.description contains '<ul class="product-description">' %}
+              {% assign description = product.description | split: '<ul class="product-description">' | last | split: '</ul>' %}
+                <ul id="product-description" class="product__description content active">
+                  {{ description[0] }}
+                </ul>
+            {% endif %}
+            <!-- == Product Details: Key Features == -->
+            {% if product.description contains '<ul class="key-features">' %}
+              {% assign description = product.description | split: '<ul class="key-features">' | last | split: '</ul>' %}
+                <ul id="key-features" class="product__features content">
+                  {{ description[0] }}
+                </ul>
+            {% endif %}
+            <!-- == Product Details: Dietary Info & Directions == -->
+            {% if product.description contains '<ul class="dietary-information">' %}
+              {% assign description = product.description | split: '<ul class="dietary-information">' | last | split: '</ul>' %}
+              <ul id="dietary-information" class="product__dietary-information content">
+                {{ description[0] }}
+              </ul>
+            {% endif %}
+            <!-- Product Details: Ingredients -->
+            <ul id="ingredients" class="product__ingredients content">
+              <li class="title mobile-title">Ingredients</li>
+              <!-- Product Ingredients: Ingredients -->
+              <li class="product__ingredients-ingredients">
+                {% for ingredient in product.metafields["ingredients"] %}
+
+                  {% assign ingredient_flavor = ingredient | first | replace: "-", " " %}
+
+                  <p class="product__ingredient {{ ingredient | first }}">
+                    {% if ingredient_flavor == "unflavored" %}
+                      <span><strong>Unflavored: </strong></span>
+                    {% else %}
+                      <span><strong>{{ ingredient_flavor }} Flavor: </strong></span>
+                    {% endif %}
+                    <span>{{ ingredient | last }}</span></p>
+                {% endfor %}
+              </li>
+              {% for enzyme in product.metafields["enzymes"] %}
+                <!-- Product Ingredients: Digestive Enzymes -->
+                <li class="product__ingredients-digestive-enzymes">
+                  <span><strong>Digestive Enzymes: </strong></span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if product.variants.size == 1 %}
+        <!-- Supplement Facts: Modal Popup (Single Variant) -->
+        {% if supplement_facts %}
+          <div class="supplement-facts">
+            <div class="modal fade fact-contents-{{product.handle}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <h2>{{ product.title }}</h2>
+                  <img src="{{ supplement_facts | img_url: 'master' }}" class="{{ product.selected_or_first_available_variant.option1 }}"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% else %}
+        <!-- Supplement Facts: Modal Popup (Multiple Variants) -->
+        <div class="supplement-facts">
+          <div class="modal fade fact-contents-{{product.handle}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <h2>{{ product.title }}</h2>
+                {% for image_url in product.metafields["supplement_facts"] %}
+                  <p class="{{ image_url | first }}">({{ image_url | first | replace: "-", " " }})</p>
+                  <img src="{{ image_url | last }}" class="{{ image_url | first }}" style="display: none;"/>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+    </form>
+
+      <!-- Product: Creative Image -->
+      <div id="product__creative_image">
+        <!-- Append image from the products -->
+        {% for variant in product.variants %}
+          {% assign flavor = variant.option1 | downcase | replace: ' ', '-' %}
+          {% for image in product.images %}
+            {% if image.alt contains 'featured_creative' and image.alt contains flavor %}
+              <img src="{{ image | img_url: '1200x1200' }}" class="{{ flavor }}{% if flavor == current_flavor %} active{% endif %}"/>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        <!-- <script>
+          $(document).ready(function() {
+            $('.image_wrapper .creative').each(function() {
+              
+              var image = $(this);
+
+              $('#product__creative_image').append( '<img class="'+image.attr('class')+'" src="'+image.attr('src')+'"/>' );
+              $('#product__creative_image .{{ current_flavor }}').addClass('active');
+            })
+          })
+        </script> -->
+      </div>
+
+    <!-- Product: Ingredients & FAQs -->
+    <div id="product__ingredients_faqs">
+        {% if product.description contains "faq" %}
+        <!-- Product Details: Ingredients -->
+        <div class="product__ingredients content">
+          <h2>Ingredients</h2>
+          {% include 'ingredient-search' %}
+          <div class="navigation__arrows">
+            <i class="linear arrow__left"></i>
+            <i class="linear search"></i>
+            <i class="linear arrow__right"></i>
+          </div>
+        </div>
+        <!-- Product Details: FAQs -->
+        <div class="product__faqs content">
+          <h2>Frequently Asked Questions</h2>
+          {% include 'faq-search' %}
+          <div class="navigation__arrows">
+            <i class="linear arrow__left"></i>
+            <i class="linear search"></i>
+            <i class="linear arrow__right"></i>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product: Related Posts -->
+    <div id="product__related-posts">
+      <h2 class="product__related-posts-title">Recipes &amp; Insights</h2>
+        <div class="articles">
+          <div class="icon-left"></div>
+          <div id="slider" class="article-slider" style="opacity: 0;">
+          {% for tag in product.tags %}
+
+            {% if tag contains 'search_term' %}
+              {% assign search_term = tag | split: "=" %}
+            {% endif %}
+
+            {% if tag contains 'recommended_article' %}
+              <!-- We have a recommended article, so let's put it into the slider first -->
+              {% assign recommended_article_handle = tag | split: "=" | last | prepend: '/' | prepend: 'news' %}
+              {% assign recommended_article = articles[recommended_article_handle] %}
+              <!-- Get the article excerpt image and content-->
+              {% if recommended_article.excerpt contains "excerpt-img" %}
+                {% assign src = recommended_article.excerpt | split: '"excerpt-img" src="' %}
+                {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' %}
+                {% assign articleContent = recommended_article.excerpt | split: '<br>' | last %}
+              {% endif %}
+
+              <!-- Recommended Article -->
+              <a href="{{ recommended_article.url }}" onclick="window.location.href = '{{ recommended_article.url }}'" class="article-preview recommended_article">
+                <div class="article">
+                  <div class="image lazy" data-original="{{ src }}" style="background-image: url('{{ src }}')"></div>
+                  <h5>{{ recommended_article.title }}</h5>
+                  <div class="excerpt">{{ articleContent }}</div>
+                  <button class="flat aqua outline" onclick="window.location.href = '{{ recommended_article.url }}'">View Article</button>
+                </div>
+              </a>
+
+            {% endif %}
+
+          {% endfor %}
+
+          {% if search_term %}
+            <!-- If we have a search term, then loop through all articles with that search term and add to recommended -->
+            {% for article in blogs["news"].articles %}
+                {% if article.content contains search_term[1] %}
+                  {% if article.excerpt contains "excerpt-img" %}
+                    {% assign src = article.excerpt | split: '"excerpt-img" src="' %}
+                    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' %}
+                  {% endif %}
+                  <a href="{{ article.url }}" onclick="window.location.href = '{{ article.url }}'" class="article-preview">
+                    <div class="article">
+                      <div class="image lazy" data-original="{{ src }}" style="background-image: url('{{ src }}')"></div>
+                      <h5>{{ article.title }}</h5>
+                      <!-- START ARTICLE CONTENT -->
+                      {% if article.excerpt contains "excerpt-img" %}
+                      {% assign articleContent = article.excerpt | split: '<br>' %}
+                      {% assign articleContent = articleContent[1] %}
+                      <div class="excerpt">{{ articleContent }}</div>
+                      {% endif %}
+                      <button class="flat aqua outline" onclick="window.location.href = '{{ article.url }}'">View Article</button>
+                    </div>
+                  </a>
+                {% endif %}
+            {% endfor %}
+          {% endif %}
+          </div>
+          <div class="icon-right"></div>
+        </div>
+      <!-- == INIT ARTICLE PREVIEW SLIDER == -->
+      <script>
+        $(document).ready(function() {
+          // $('.trigger').click(function() {
+            var slider = $("#slider");
+            $(slider).slick({
+              centerMode: true,
+              centerPadding: '90px',
+              slidesToShow: 3,
+              speed: 500,
+              touchToSlide: true,
+              swipeToSlide: true,
+              infinite: true,
+              prevArrow: $('.icon-left'),
+              nextArrow: $('.icon-right'),
+              responsive: [
+                {
+                  breakpoint: 1200,
+                  settings: {
+                    slidesToShow: 2,
+                    centerPadding: "45px"
+                  }
+                },
+                {
+                  breakpoint: 767,
+                  settings: {
+                    slidesToShow: 1,
+                    centerPadding: "30px"
+                  }
+                }
+              ]
+            })
+            setTimeout(function() {
+              slider.animate({opacity: 1}, 500);
+            }, 2000)
+          })
+        // })
+      </script>
+    </div>
+
+    <!-- Product: Testimonials -->
+    {% if settings.show_product_reviews == true %}
+      <!-- Script for hiding if there are no reviews yet -->
+      <script>
+        $(document).ready(function() {
+          var checkReviewCount = setInterval(function() {
+            // console.log("checking review count");
+            if ($('.product__reviews-aggregate .yotpo .text-m').html() == undefined) {
+              // console.log("still waiting for Yotpo");
+            } else if ($('.product__reviews-aggregate .yotpo .text-m').html() == 'Write a review') {
+              $('#product__testimonials, .product__reviews-aggregate').hide();
+              clearInterval(checkReviewCount);
+            } else {
+              clearInterval(checkReviewCount);
+            }
+          },200);
+        });
+      </script>
+
+      <div id="product__testimonials">
+        <h2 class="product__testimonials-title">Product Testimonials</h2>
+        <!-- YOTPO Reviews Widget -->
+        <div class="reviews">
+          <div class="yotpo yotpo-main-widget"
+              data-product-id="{{ product.id }}"
+              data-name="{{ product.title | escape }}"
+              data-url="{{ shop.url }}{{ product.url }}"
+              data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}">
+          </div>
+        </div>
+        <!-- GET YOURS button -->
+        <a class="button" href="#product"><button class="flat aqua outline large">Get Yours</button></a>
+      </div>
+
+    {% endif %}
+
+  </div>
+<!-- TEMPLATE SPECIFIC STYLING -->
+<style>
+  #main {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  @media (min-width: 768px) {
+    .site-logo .social {
+      display: none;
+    }
+  }
+  @media (max-width: 768px) {
+    .ui-menu .ui-menu-item {
+      width: 100% !important;
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 767px) {
+    footer {
+      padding-bottom: 105px;
+    }
+    header.top,
+    header {
+      background-color: {{ settings.background_color_alternate }};
+      border-bottom: none;
+    }
+  }
+</style>
+
+{% comment %}
+  Adding support for product options. See here for details:  
+  http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
+{% endcomment %}
+
+<!-- LAZY LOAD IMAGES -->
+<script>
+  $(".lazy").lazyload({
+    effect : "fadeIn"
+  });
+</script>
+
+<!-- Manual Scripts for Product Pages -->
+<script>
+  $(document).ready(function() {
+
+    $('header').addClass('top dark');
+
+    $(window).scroll(function() {
+      if ($(this).scrollTop() < 90) {
+        $('header').addClass('top dark');
+      } else {
+        $('header').removeClass('top dark');
+      }
+    })
+
+    // Object Variables
+    var main            = $('#main');
+    var product         = $('#product');
+    var ingredients     = $('#product__ingredients');
+    var testimonials    = $('#product__testimonials');
+    var additional_info = $('#product__related-posts');
+    var article_slider  = $('.article-slider');
+
+    // Position Variables
+    if (additional_info[0] != undefined) { var additional_info_top = additional_info.offset().top; }
+    if (product[0] != undefined)         { var product_top         = product.offset().top; }
+    if (ingredients[0] != undefined)     { var ingredients_top     = ingredients.offset().top; }
+    
+    /* ============================= 
+       ==== A/B Test - PDCT-101 ====
+       ============================= 
+       Change the header to remove the 'top' class when it 
+       reaches the top of the screen */
+
+    if ($(document).scrollTop() < 90) {
+      {% if settings.show_product_header_image and hero_image %}
+        $('header').addClass('top');
+      {% else %}
+        $('header').removeClass('top');
+      {% endif %}
+    } else if ($(window).scrollTop() >= additional_info-60) {
+      setTimeout(function() { article_slider.animate({opacity: 1}, 500); }, 2000);
+    }
+
+   
+
+    $('.slick-slide').click(function() { return false; });
+    
+    //==== SMOOTH SCROLL ====//
+    $('a[href*="#"]:not([href="#"])').click(function() {
+      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+          $('html, body, #main').animate({
+            scrollTop: target.offset().top
+          }, 1000);
+          return false;
+        }
+      }
+    });
+  })
+</script>
+
+<!-- Product Form: Load Product specific scripts -->
+<script>{% include 'product.js' %}</script>
+<!-- Initialize Flavors -->
+<script> $(document).ready(function() { initFlavors("{{ current_flavor }}", [{{ flavors}}] ); }); </script>
+<!-- Change Flavors -->
+<script> changeFlavors(); </script>
+
+
+

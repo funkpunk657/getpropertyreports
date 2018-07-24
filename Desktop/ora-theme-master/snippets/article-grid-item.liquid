@@ -1,0 +1,59 @@
+
+<div id="article_{{ article.id }}" class="article blog-container {% cycle 'small', 'small', 'small', 'large', 'medium', 'medium' %}" {% if forloop.index > 20 %}style="display: none;"{% endif %}>
+  <article class="post blog-preview {% if forloop.first %}first{% endif %} {% if forloop.last %}last{% endif %} clearfix" style="border: 0px;">
+    {% assign article_link = article.url %}
+      <div class="article-img">
+        {% if article.excerpt contains "excerpt-img" %}
+        {% assign src = article.excerpt | split: '"excerpt-img" src="' %}
+        {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'https://cdn' | replace: 'http:http://', 'https://' %}
+        <a href="{{ article.url }}">
+          {% if template contains 'index' %}
+            <img src="{{ src | replace: '.jpg', '_300x300.jpg' }}" class="grey-overlay"/>
+          {% else %}
+            <img src="{{ src }}" class="grey-overlay"/>
+          {% endif %}
+        </a>
+        {% endif %}
+      </div>
+      <div class="publish-date">
+        <p>{{ article.published_at | date: "%D" }}</p>
+      </div>
+      <div class="article-link">
+        <div class="wrapper">
+          <div class="article-header">
+            <h5><a class="link-text" href="{{ article.url }}">{{ article.title | escape }}</a></h5>
+          </div>
+          <!-- START ARTICLE CONTENT -->
+          {% if article.excerpt contains "excerpt-img" %}
+          {% assign articleContent = article.excerpt | split: '<br>' %}
+          {% assign articleContent = articleContent[1] | replace: "<p>", "" | replace: "</p>", "" %}
+          <div id="article">
+            {{ articleContent | escape }}
+          </div>
+          {% endif %}
+          {% capture tags %}{% if article.tags.size > 0 %}{% for tag in article.tags %}<a href="{{ blog.url }}/tagged/{{tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}{% endfor %}{% endif %}{% endcapture %}
+          {% if article.tags.size > 0 %}
+          {% for tag in article.tags %}
+          {% endfor %}
+          {% endif %}
+          {% if article.tags.size > 0 %}
+          {% for tag in article.tags %}
+          {% if tag contains "author=" %}
+          {% assign author = tag | split: 'author=' %}
+          {% endif %}
+          {% if tag contains "author_link=" %}
+          {% assign authorLink = tag | split: 'author_link=' %}
+          {% endif %}
+          {% endfor %}
+          <h6 class="author">by {{ author[1] | escape }}</h6>
+          {% else %}
+          <h6 class="author">{{ 'blogs.article.author_meta_html' | t: count: article.tags.size, author: article.author, tags: tags  }}</h6>
+          {% endif %}
+          <!-- END ARTICLE CONTENT -->
+        </div>
+      </div>
+      <div class="hidden-content hidden">
+        {% raw %}{{ article.content }}{% endraw %}
+      </div>
+  </article>
+</div>

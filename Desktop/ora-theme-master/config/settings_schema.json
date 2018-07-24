@@ -1,0 +1,955 @@
+[
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Background Colors"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "background_color_alternate",
+        "label": "Alternate Background color",
+        "default": "#fbfaf6"
+      },
+      {
+        "type": "header",
+        "content": "Text Colors"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Headings color",
+        "default": "#999999",
+        "info": "Used for text headings"
+      },
+      {
+        "type": "color",
+        "id": "copy_color",
+        "label": "Copy color",
+        "default": "#484444",
+        "info": "Text color"
+      },
+      {
+        "type": "color",
+        "id": "link_color",
+        "label": "Link color",
+        "default": "#999999",
+        "info": "Used for links"
+      },
+      {
+        "type": "color",
+        "id": "link_color_hover",
+        "label": "Link Hover color",
+        "default": "#999999",
+        "info": "Used for links hover states and light text"
+      },
+      {
+        "type": "header",
+        "content": "Element Colors"
+      },
+      {
+        "type": "color",
+        "id": "lighter_color",
+        "label": "Lighter border color",
+        "default": "#F4F4F4",
+        "info": "Used for light borders, inputs and inactive buttons"
+      },
+      {
+        "type": "color",
+        "id": "accent_color_1",
+        "label": "Primary Accent",
+        "default": "#52d6aa",
+        "info": "Used for buttons, icons, dark borders"
+      },
+      {
+        "type": "color",
+        "id": "accent_color_2",
+        "label": "Secondary Accent",
+        "default": "#ff0000",
+        "info": "Used for alternate button actions, e.g. Cancel, Go Back, Clear, Update, Edit"
+      },
+      {
+        "type": "color",
+        "id": "accent_color_3",
+        "label": "Accent Color 3",
+        "default": "#ff0000"
+      },
+      {
+        "type": "color",
+        "id": "accent_color_4",
+        "label": "Accent Color 4",
+        "default": "#ff0000"
+      },
+      {
+        "type": "header",
+        "content": "Social Media"
+      },
+      {
+        "type": "checkbox",
+        "id": "light_social_icons",
+        "label": "Use black social icons"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts"
+      },
+      {
+        "type": "select",
+        "id": "header_font",
+        "label": "Headers",
+        "options": [
+          {
+            "value": "Times, TimesNewRoman, 'Times New Roman', Baskerville, Georgia, serif",
+            "label": "Times"
+          },
+          {
+            "value": "'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif",
+            "label": "Helvetica\/Arial"
+          },
+          {
+            "value": "'Sorts Mill Goudy', serif",
+            "label": "Sorts Mill Goudy"
+          },
+          {
+            "value": "Baskerville, Georgia, serif",
+            "label": "Baskerville"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro"
+          },
+          {
+            "value": "'Open Sans Condensed', sans-serif",
+            "label": "Open Sans Condensed"
+          }
+        ],
+        "default": "Baskerville, Georgia, serif"
+      },
+      {
+        "type": "select",
+        "id": "body_font",
+        "label": "Body Font",
+        "options": [
+          {
+            "value": "'Avenir', Helvetica, Arial, Geneva, sans-serif",
+            "label": "Avenir"
+          },
+          {
+            "value": "'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif",
+            "label": "Helvetica\/Arial"
+          },
+          {
+            "value": "'Sorts Mill Goudy', serif",
+            "label": "Sorts Mill Goudy"
+          },
+          {
+            "value": "'Josefin Sans', sans-serif",
+            "label": "Josefin Sans"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro"
+          },
+          {
+            "value": "'Open Sans Condensed', sans-serif",
+            "label": "Open Sans Condensed"
+          }
+        ],
+        "default": "'Avenir', Helvetica, Arial, Geneva, sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "nav_font",
+        "label": "Navigation Font",
+        "options": [
+          {
+            "value": "'Avenir', Helvetica, Arial, Geneva, sans-serif",
+            "label": "Avenir"
+          },
+          {
+            "value": "'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif",
+            "label": "Helvetica\/Arial"
+          },
+          {
+            "value": "'Sorts Mill Goudy', serif",
+            "label": "Sorts Mill Goudy"
+          },
+          {
+            "value": "'Josefin Sans', sans-serif",
+            "label": "Josefin Sans"
+          },
+          {
+            "value": "'Source Sans Pro', sans-serif",
+            "label": "Source Sans Pro"
+          },
+          {
+            "value": "'Open Sans Condensed', sans-serif",
+            "label": "Open Sans Condensed"
+          }
+        ],
+        "default": "'Avenir', Helvetica, Arial, Geneva, sans-serif"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Site Title\/Logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_site_title",
+        "label": "Show Site Title?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_logo",
+        "label": "Use custom logo?",
+        "info": "Recommended 400px by 172px PNG"
+      },
+      {
+        "type": "image",
+        "id": "logo.png",
+        "label": "Upload custom logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_checkout_logo",
+        "label": "Use custom logo on checkout?",
+        "info": "Recommended 128px by 128px PNG"
+      },
+      {
+        "type": "image",
+        "id": "logo_checkout.png",
+        "label": "Upload custom logo on checkout"
+      },
+      {
+        "type": "header",
+        "content": "Header Images"
+      },
+      {
+        "type": "image",
+        "id": "header-img-1.png",
+        "label": "Image 1:",
+        "info": "Recommended 1920px by 500px PNG"
+      },
+      {
+        "type": "image",
+        "id": "header-img-2.png",
+        "label": "Image 2:",
+        "info": "Recommended 1920px by 500px PNG"
+      },
+      {
+        "type": "image",
+        "id": "header-img-3.png",
+        "label": "Image 3:",
+        "info": "Recommended 1920px by 500px PNG"
+      },
+      {
+        "type": "header",
+        "content": "Tagline"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tagline",
+        "label": "Display a tagline in the header of your shop?"
+      },
+      {
+        "type": "text",
+        "id": "tagline",
+        "label": "Store tagline",
+        "info": "The tagline is displayed to the right of the logo in the header."
+      },
+      {
+        "type": "header",
+        "content": "Links"
+      },
+      {
+        "type": "link_list",
+        "id": "secondary_menu",
+        "label": "Header Links list"
+      },
+      {
+        "type": "header",
+        "content": "Search"
+      },
+      {
+        "type": "checkbox",
+        "id": "light_search_icon",
+        "label": "Use white search icon instead"
+      },
+      {
+        "type": "checkbox",
+        "id": "light_cart_icon",
+        "label": "Use white cart icon instead"
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Mailing list signup form"
+      },
+      {
+        "type": "paragraph",
+        "content": "You can use Mailchimp or Shopify to handle Email Alerts sign ups. By default, the theme uses Shopify (whenever a user signs up a tagged customer account is created). If you want to use Mailchimp instead, enter your Mailchimp Form Action URL below:"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_signup_form",
+        "label": "Show signup form?"
+      },
+      {
+        "type": "text",
+        "id": "mailchimp_form_action",
+        "label": "MailChimp form action URL [( ? )](http:\/\/support.shopify.com\/customer\/portal\/articles\/640278)"
+      },
+      {
+        "type": "header",
+        "content": "Footer Content"
+      },
+      {
+        "type": "paragraph",
+        "content": "What page content do you want to show in the footer? By default the theme uses the About page."
+      },
+      {
+        "type": "page",
+        "id": "footer_page",
+        "label": "Select page"
+      },
+      {
+        "type": "header",
+        "content": "Payment methods:"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_types",
+        "label": "Show Credit Card Icons?",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Facebook Live Chat"
+      },
+      {
+        "type": "text",
+        "id": "store_open_time",
+        "label": "Store Open Time",
+        "default": "09:00",
+        "info": "Input the time in HH:MM (09:00) format."
+      },
+      {
+        "type": "text",
+        "id": "store_close_time",
+        "label": "Store Close Time",
+        "default": "17:00",
+        "info": "Input the time in HH:MM (09:00) format.."
+      }
+    ]
+  },
+  {
+    "name": "Social Sharing",
+    "settings": [
+      {
+        "type": "text",
+        "id": "twittercard_handle",
+        "label": "Twitter Handle",
+        "default": "@"
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing_products",
+        "label": "Enable sharing for products"
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing_blog",
+        "label": "Enable sharing for blog articles"
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing_count",
+        "label": "Show shared count",
+        "info": "Only available for Facebook, Twitter, and Pinterest"
+      },
+      {
+        "type": "select",
+        "id": "social_sharing_style",
+        "label": "Button Style",
+        "options": [
+          {
+            "value": "",
+            "label": "Normal"
+          },
+          {
+            "value": "is-large",
+            "label": "Large"
+          },
+          {
+            "value": "is-clean",
+            "label": "Clean"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Tweet on Twitter"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Pin on Pinterest"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_fancy",
+        "label": "Add to Fancy"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_google",
+        "label": "+1 on Google Plus"
+      }
+    ]
+  },
+  {
+    "name": "Homepage",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner Image"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_frontpage_hero",
+        "label": "Show a banner image on the frontpage?"
+      },
+      {
+        "type": "image",
+        "id": "hero.jpg",
+        "label": "Upload banner image",
+        "info": "Should be at least 950px wide"
+      },
+      {
+        "type": "text",
+        "id": "banner_url",
+        "label": "Banner url",
+        "info": "Where does the banner image link"
+      },
+      {
+        "type": "text",
+        "id": "frontpage_hero_alt",
+        "label": "Banner ALT text"
+      },
+      {
+        "type": "header",
+        "content": "Featured Products"
+      },
+      {
+        "type": "collection",
+        "id": "frontpage_collection",
+        "label": "Frontpage collection",
+        "info": "Select which product collection will appear on the frontpage of your store."
+      }
+    ]
+  },
+  {
+    "name": "Product Pages",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Page Layout"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_desc_right",
+        "label": "Show product description to the right of the main image?"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_product_header_image",
+        "label": "Show product header image?"
+      },
+      {
+        "type": "header",
+        "content": "Show an extra tab of info on the product page"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_shipping_tab",
+        "label": "Show an extra info tab on the product pages?",
+        "info": "Great for showing shipping rates"
+      },
+      {
+        "type": "page",
+        "id": "shipping_tab_content",
+        "label": "Extra tab content",
+        "info": "Select which page will appear in the shipping tab on the product page."
+      },
+      {
+        "type": "header",
+        "content": "Product image enlarge"
+      },
+      {
+        "type": "select",
+        "id": "image_enlarge",
+        "label": "Behaviour for main product image",
+        "options": [
+          {
+            "value": "lightbox",
+            "label": "Lightbox"
+          },
+          {
+            "value": "zoom",
+            "label": "Zoom-in"
+          },
+          {
+            "value": "",
+            "label": "None"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Show Product Reviews"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_product_reviews",
+        "label": "Show Product Reviews?",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Collection Pages",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Sort"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sort_by",
+        "label": "Show sort by?"
+      }
+    ]
+  },
+  {
+    "name": "Deal Bar",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Deal Bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_deal_bar",
+        "label": "Show deal bar?"
+      },
+      {
+        "type": "color",
+        "id": "deal_bar_color",
+        "label": "Deal Bar Color",
+        "default": "#E6AD4C"
+      },
+      {
+        "type": "color",
+        "id": "deal_bar_text_color",
+        "label": "Deal Bar Text Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "url",
+        "id": "deal_bar_link",
+        "label": "Deal Bar Link"
+      },
+      {
+        "type": "header",
+        "content": "Deal Override"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_deal_override",
+        "label": "Enable deal override?",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "deal_override",
+        "label": "Deal override details",
+        "placeholder": "No override in place"
+      },
+      {
+        "type": "header",
+        "content": "Deal Details"
+      },
+      {
+        "type": "text",
+        "id": "deal_code",
+        "label": "What is the discount code that will be used for the deal?",
+        "placeholder": "e.g. CYBERMONDAY"
+      },
+      {
+        "type": "select",
+        "id": "deal_type",
+        "label": "What type of deal is it?",
+        "options": [
+          {
+            "value": "percent_off",
+            "label": "Percent Off"
+          },
+          {
+            "value": "fixed_amount_off",
+            "label": "Fixed Amount Off"
+          }
+        ]
+      },
+      {
+        "type": "number",
+        "id": "deal_amount",
+        "label": "How much is the deal worth?",
+        "info": "If you chose fixed amount off, the figure below will be an amount in local currency"
+      },
+      {
+        "type": "header",
+        "content": "Deal Conditions"
+      },
+      {
+        "type": "number",
+        "id": "deal_minimum_spend",
+        "label": "What is the minimum required spend to be eligible for the deal?",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "Popups",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Competitions"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_competition",
+        "label": "Show Competition Popup link?",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Coming Soon - Products"
+      },
+      {
+        "type": "text",
+        "id": "coming_soon_1",
+        "label": "Name of Coming Soon Product 1"
+      },
+      {
+        "type": "text",
+        "id": "coming_soon_2",
+        "label": "Name of Coming Soon Product 2"
+      },
+      {
+        "type": "text",
+        "id": "coming_soon_3",
+        "label": "Name of Coming Soon Product 3"
+      },
+      {
+        "type": "header",
+        "content": "Other Popups"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_referral_popup",
+        "label": "Show Referral Popup?",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "nav_popup_theme",
+        "label": "Nav Popup Theme",
+        "default": "light",
+        "options": [
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "referral_popup_text",
+        "label": "Text for referral popup trigger",
+        "default": "Referral Program"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_nav_popup",
+        "label": "Show Nav Popup?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "nav_popup_link_text",
+        "label": "Link Text for Nav Popup",
+        "default": "Heads Up!"
+      },
+      {
+        "type": "text",
+        "id": "nav_popup_heading",
+        "label": "Heading for Nav Popup",
+        "default": "Shipping Delay"
+      },
+      {
+        "type": "html",
+        "id": "nav_popup_text",
+        "label": "Text for Nav Popup",
+        "default": "<p>Due to <b>extremely high demand<\/b> in the last few days all new orders will take <b>5-7 business days<\/b> to reach you (as opposed to the normal 3-5).<\/p>\n<p>We’ll keep you posted as we work hard\/diligently\/overtime to get through the backlog, but normal service should resume no later than Monday, November 13.<\/p> \n<p><b>Thank you<\/b> for your patience and loyalty!<\/p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "nav_popup_mobile",
+        "label": "Nav Popup on Mobile?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "nav_popup_mobile_text",
+        "label": "Nav Popup Link Text",
+        "default": "Black Friday Deals"
+      }
+    ]
+  },
+  {
+    "name": "Sidebars",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Free Shipping"
+      },
+      {
+        "id": "free_shipping_deal",
+        "type": "checkbox",
+        "default": false,
+        "label": "Are we currently offering Free Shipping?"
+      },
+      {
+        "type": "header",
+        "content": "Deal Sidebar"
+      },
+      {
+        "id": "show_deal_sidebar",
+        "type": "checkbox",
+        "label": "Show Deal Sidebar?",
+        "default": false
+      },
+      {
+        "id": "deal_sidebar_theme",
+        "type": "select",
+        "label": "Deal Sidebar Theme",
+        "options": [
+          {
+            "value": "dark",
+            "label": "Dark"
+          },
+          {
+            "value": "light",
+            "label": "Light"
+          }
+        ]
+      },
+      {
+        "id": "deal_sidebar_code_1",
+        "type": "text",
+        "label": "Deal code (Tier 1)",
+        "info": "(Make sure this is correct!)",
+        "default": "BFRI2017x1"
+      },
+      {
+        "id": "deal_sidebar_code_2",
+        "type": "text",
+        "label": "Deal code (Tier 2)",
+        "info": "(Make sure this is correct!)",
+        "default": "BFRI2017x2"
+      },
+      {
+        "id": "deal_sidebar_code_subscriptions",
+        "type": "text",
+        "label": "Deal code (Subscriptions)",
+        "info": "(This will apply to all subscriptions)",
+        "default": "BLACKFRIDAY"
+      },
+      {
+        "id": "deal_sidebar_code_viewable",
+        "type": "text",
+        "label": "Deal code - Visible to Customers",
+        "info": "A deal code that's visible to customers",
+        "default": "BLACK FRIDAY!"
+      },
+      {
+        "id": "deal_sidebar_discount_percentage_1",
+        "type": "text",
+        "label": "Deal discount percentage (Tier 1)",
+        "default": "15%"
+      },
+      {
+        "id": "deal_sidebar_discount_percentage_2",
+        "type": "text",
+        "label": "Deal discount percentage (Tier 2)",
+        "default": "25%"
+      },
+      {
+        "id": "deal_sidebar_header_text",
+        "type": "text",
+        "label": "Deal Header Text",
+        "default": "Black Friday Sale!"
+      },
+      {
+        "id": "deal_sidebar_content",
+        "type": "html",
+        "label": "Deal Header Content",
+        "default": "<p><b>15%<\/b> off when you buy 1 product<\/p><p><b>25%<\/b> off when you buy 2 or more<\/p><p><b>25%<\/b> off on any subscription<\/p>"
+      },
+      {
+        "id": "deal_sidebar_shipping",
+        "type": "checkbox",
+        "label": "Offer Free Shipping?",
+        "default": true
+      },
+      {
+        "id": "deal_sidebar_end_date",
+        "type": "text",
+        "label": "Deal End Date",
+        "default": "11:59pm on <b>Sunday, November 26<\/b>"
+      },
+      {
+        "id": "deal_sidebar_link",
+        "type": "text",
+        "label": "Deal Sidebar Link",
+        "default": "\/pages\/products"
+      },
+      {
+        "id": "deal_sidebar_auto",
+        "type": "checkbox",
+        "label": "Auto-apply discount at checkout?",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Wholesale",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Wholesale Order Form"
+      },
+      {
+        "id": "apply_wholesale_discount",
+        "type": "checkbox",
+        "label": "Apply special wholesale discount?",
+        "default": true
+      },
+      {
+        "id": "wholesale_discount_code",
+        "type": "text",
+        "label": "What is the special wholesale discount code? (Don't forget to add it in Shopify --> Discounts!)",
+        "placeholder": "e.g. EXPOWEST"
+      },
+      {
+        "id": "wholesale_discount_percent",
+        "type": "number",
+        "label": "What percent off is the special wholesale discount?"
+      },
+      {
+        "type": "header",
+        "content": "Wholesale Terms"
+      },
+      {
+        "id": "wholesale_delivery_time",
+        "type": "text",
+        "label": "Delivery Time"
+      },
+      {
+        "id": "wholesale_minimum_purchase",
+        "type": "text",
+        "label": "Minimum Purchase"
+      },
+      {
+        "id": "wholesale_current_offers",
+        "type": "text",
+        "label": "Current Offers"
+      }
+    ]
+  },
+  {
+    "name": "Checkout Customization",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Checkout Customization"
+      },
+      {
+        "id": "show_delayed_shipping",
+        "type": "checkbox",
+        "label": "Is shipping delayed?",
+        "default": false
+      },
+      {
+        "id": "delayed_shipping_message_header",
+        "type": "text",
+        "label": "Delayed shipping message header",
+        "default": "<b>NOTE ON SHIPPING<\/b>"
+      },
+      {
+        "id": "delayed_shipping_message_text",
+        "type": "text",
+        "label": "Delayed shipping message text",
+        "default": "Any orders made after <b>12pm Thursday, March 29th 2018<\/b> will not be shipped until <b>Monday, April 1st 2018<\/b> due to GOOD FRIDAY."
+      },
+      {
+        "type": "header",
+        "content": "Secret Discount"
+      },
+      {
+        "id": "show_secret_discount",
+        "type": "checkbox",
+        "label": "Show Secret Discount?",
+        "default": false
+      },
+      {
+        "id": "secret_discount_code",
+        "type": "text",
+        "label": "Secret Discount Code! (Make sure you set it up in Shopify + ReCharge!)",
+        "default": "EASTEREGG"
+      }
+    ]
+  }
+]

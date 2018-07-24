@@ -1,0 +1,20 @@
+#survey_checkout {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	width: 330px;
+	padding: 30px;
+	@include box-shadow-wide;
+	border-radius: 1em;
+	background-color: $color__background;
+
+	.form__questions {
+		.question {
+			text-transform: uppercase;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 1px;
+			margin: 15px 0;
+		}
+	}
+}

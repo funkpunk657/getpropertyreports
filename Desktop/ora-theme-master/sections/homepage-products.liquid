@@ -1,0 +1,84 @@
+<!-- Home: Our Products -->
+{% if template == "index" %}
+  <div id="products" class="card">
+    <h2>Our Products</h2>
+    <div class="products">
+      {% for block in section.blocks %}
+        {% if block.settings.product %}
+
+          <div id="product__{{ block.settings.product }}" class="product">
+            <div class="product__image" style="background-image: url({{ block.settings.product-image | img_url: '600x600' }})"></div>
+            <div class="product__content">
+              <h4 class="product__title">{{ block.settings.product-title}}</h4>
+              <div class="product__description"><p>{{ block.settings.product-caption }}</p></div>
+              <a class="product__link button" href="{{ block.settings.link }}"><button class="flat aqua">{{ block.settings.linktext }}</button></a>
+            </div>
+          </div>
+
+        {% endif %}
+      {% endfor %}
+    </div>
+    <a href="/pages/products"><i class="linear arrow__right"></i>See more products</a>
+  </div>
+{% endif %}
+{% schema %}
+  {
+    "name": "Products",
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "id": "product",
+            "type": "product",
+            "label": "Product"
+          },
+          {
+            "id": "product-title",
+            "type": "text",
+            "label": "Product Title"
+          },
+          {
+            "id": "product-image",
+            "type": "image_picker",
+            "label": "Product Image"
+          },
+          {
+            "id": "product-caption",
+            "type": "textarea",
+            "label": "Product Caption"
+          },
+          {
+            "id": "link",
+            "type": "url",
+            "label": "Button link"
+          },
+          {
+            "id": "linktext",
+            "type": "text",
+            "label": "Button text",
+            "default": "Click here"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Products",
+        "category": "Product Blocks",
+        "blocks": [
+          {
+            "type": "product"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

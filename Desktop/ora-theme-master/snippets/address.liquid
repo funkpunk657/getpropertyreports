@@ -1,0 +1,47 @@
+{% if address.name != "" %}
+<label>Name:</label>
+<p>{{ address.name }}</p>
+<br>
+{% endif %}
+{% if address.company != "" %}
+<label>Company:</label>
+<p>{{ address.company }}</p>
+<br>
+{% endif %}
+{% if address.address1 != "" %}
+<label>Address1:</label>
+<p>{{ address.address1 }}</p>
+<br>
+{% endif %}
+{% if address.address2 != "" %}
+<label>Address2:</label>
+<p>{{ address.address2 }}</p>
+<br>
+{% endif %}
+{% if address.city != "" %}
+<label>City:</label>
+<p>{{ address.city }}</p>
+<br>
+{% endif %}
+{% if address.country != "" %}
+<label>Country:</label>
+<p>{{ address.country }}</p>
+<br>
+{% endif %}
+{% if address.province != "" %}
+<div>
+<label>State:</label>
+<p>{{ address.province }}</p>
+<br>
+</div>
+{% endif %}
+{% if address.zip != "" %}
+<label>Post/Zipcode:</label>
+<p>{{ address.zip }}</p>
+<br>
+{% endif %}
+{% if address.phone != "" %}
+<label>Phone:</label>
+<p>{{ address.phone }}</p>
+<br>
+{% endif %}

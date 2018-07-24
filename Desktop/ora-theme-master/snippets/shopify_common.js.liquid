@@ -1,0 +1,80 @@
+/* =======================================================================
+  Reading query parameters and storing them in a Shopify.queryParams object.
+  Necessary for collection sorting and advanced collection filtering.
+======================================================================= */
+
+Shopify.queryParams = {};
+if (location.search.length) {
+  for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+    aKeyValue = aCouples[i].split('=');
+    if (aKeyValue.length > 1) {
+      Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+    }
+  }
+}
+
+"undefined" == typeof window.Shopify && (window.Shopify = {}), Shopify.bind = function(e, t) {
+    return function() {
+        return e.apply(t, arguments)
+    }
+}, Shopify.setSelectorByValue = function(e, t) {
+    for (var n = 0, r = e.options.length; r > n; n++) {
+        var i = e.options[n];
+        if (t == i.value || t == i.innerHTML) return e.selectedIndex = n, n
+    }
+}, Shopify.addListener = function(e, t, n) {
+    e.addEventListener ? e.addEventListener(t, n, !1) : e.attachEvent("on" + t, n)
+}, Shopify.postLink = function(e, t) {
+    t = t || {};
+    var n = t.method || "post",
+        r = t.parameters || {},
+        i = document.createElement("form");
+    i.setAttribute("method", n), i.setAttribute("action", e);
+    for (var o in r) {
+        var a = document.createElement("input");
+        a.setAttribute("type", "hidden"), a.setAttribute("name", o), a.setAttribute("value", r[o]), i.appendChild(a)
+    }
+    document.body.appendChild(i), i.submit(), document.body.removeChild(i)
+}, Shopify.CountryProvinceSelector = function(e, t, n) {
+  
+    this.countryEl = document.getElementById(e), 
+    this.provinceEl = document.getElementById(t), 
+    this.provinceContainer = document.getElementById(n.hideElement || t), 
+    
+    Shopify.addListener(this.countryEl, "change", Shopify.bind(this.countryHandler, this)),
+    this.initCountry(), 
+    this.initProvince()
+    
+}, Shopify.CountryProvinceSelector.prototype = {
+    initCountry: function() {
+        var e = this.countryEl.getAttribute("data-default");
+        Shopify.setSelectorByValue(this.countryEl, e), this.countryHandler()
+    },
+    initProvince: function() {
+        var e = this.provinceEl.getAttribute("data-default");
+        e && this.provinceEl.options.length > 0 && Shopify.setSelectorByValue(this.provinceEl, e)
+    },
+    countryHandler: function(e) {
+        var t = this.countryEl.options[this.countryEl.selectedIndex],
+            n = t.getAttribute("data-provinces"),
+            r = JSON.parse(n);
+        if (this.clearOptions(this.provinceEl), r && 0 == r.length) this.provinceContainer.style.display = "none";
+        else {
+            for (var i = 0; i < r.length; i++) {
+                var t = document.createElement("option");
+                t.value = r[i][0], t.innerHTML = r[i][1], this.provinceEl.appendChild(t)
+            }
+            this.provinceContainer.style.display = ""
+        }
+    },
+    clearOptions: function(e) {
+        for (; e.firstChild;) e.removeChild(e.firstChild)
+    },
+    setOptions: function(e, t) {
+        var n = 0;
+        for (t.length; n < t.length; n++) {
+            var r = document.createElement("option");
+            r.value = t[n], r.innerHTML = t[n], e.appendChild(r)
+        }
+    }
+};

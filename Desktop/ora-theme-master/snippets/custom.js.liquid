@@ -1,0 +1,619 @@
+// ==== HIDE FOOTER ON RECURRING SUBSCRIPTION PAGES ==== //
+$(document).ready(function() {
+  if (window.location.href.indexOf('recurring') > -1) {
+    $('footer').hide();
+  }
+})
+
+/* ==== PRIVY POPUP ==== 
+   Here we use a custom notify() function to check through all the
+   privy popups that are hidden on the page and click the correct
+   one based on the input of the anchor link */
+function notify(popup_name) {
+  
+  // Run interval because it takes a little while to load up the privy popups
+  var interval = setInterval(getPopup, 300);
+
+  function getPopup() {
+    var triggers = document.getElementsByClassName("privy-tab");
+
+    if (triggers.length > 0) {
+      for (i = 0; i < triggers.length; i++) {
+        var name = triggers[i].firstChild.innerHTML;
+        if (name == popup_name) {
+          triggers[i].click();
+          clearInterval(interval)
+        }
+      }
+    }
+  }
+}
+
+/* Zapier Webhooks Function */
+function zapierWebhook(webhook_url, action, data, callback) {
+
+  console.log(data);
+  console.log(action);
+  /* Send the data to Zapier webhook (Mailchimp and Google Sheets) */
+  $.ajax({
+    type: action,
+    url: webhook_url,
+    data: data,
+    success: (function() {
+
+      console.log("submission success");
+
+      if (callback) {
+        console.log("calling callback");
+        callback();
+      }
+
+    })(),
+    dataType: JSON
+  });
+}
+
+/**
+* Show subscription popup when trigger is hovered over
+*/
+$('.popup_trigger').on('mouseover click', function(e) {
+  e.preventDefault();
+  var trigger = $(this),
+      popup   = $("#"+$(this).attr('data-popup'));
+
+  /* Show the popup */    
+  popup.fadeIn();
+
+  /* Hide the popup if hovered off */
+  if (!popup.hasClass('click')) {
+    $(this).parent().on('touchend mouseleave', function() {
+      popup.fadeOut();
+    })
+  }
+  
+
+  /* Hide the popup if clicked off */
+  if ($(window).width() < 768) {
+    $(document).on('mouseup touchend', function(e) {  
+      if (!trigger.is(e.target) // if the target of the hover isn't the trigger
+            && trigger.has(e.target).length === 0) // ... nor a descendant of the container
+      {
+        popup.fadeOut();
+      }
+    });
+  } else {
+    $(document).on('mouseup', function(e) {  
+      if (!trigger.is(e.target) // if the target of the hover isn't the trigger
+            && trigger.has(e.target).length === 0) // ... nor a descendant of the container
+      {
+        popup.fadeOut();
+      }
+    });
+  }
+  
+  
+})
+
+/* Replace All function */
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+/* Check Scroll Position: Function to be used on pages where 
+*  we want the header to be transparent when the window scroll position is equal to zero */
+function checkScrollPosition() {
+  /* Check if the navbar dropdown is open, if it is, then make sure the header is not transparent */
+  if ($('.nav .dropdown').hasClass('open')) {
+    $('header, header .sub-nav').addClass("scrolled").removeClass("top"); 
+  } else {
+    /* If not, we check the scrollTop to see if it has hit the top */
+    if ($(window).scrollTop() == 0) {
+      $('header, header .sub-nav').removeClass("scrolled").addClass("top");
+    } else {
+      $('header, header .sub-nav').addClass("scrolled").removeClass("top");
+    }
+  }
+}
+
+/* Hide the navigation bar on mobile scrolldown (unless product dropdown is open) */
+var lastScrollTop = 0;
+$(window).scroll(function(event){
+   var st = $(this).scrollTop();
+   if (st > lastScrollTop && st > 90 && $('#link-products').hasClass('open') !== true){
+       // downscroll code
+       // console.log("downscrolled");
+       hideHeaderAnimation();
+   } else {
+      // upscroll code
+      showHeaderAnimation();
+   }
+   lastScrollTop = st;
+});
+
+/* Shop: Stop bounce scrolling on iOS */
+
+
+// ==== UPDATE CART QUANTITY REAL-TIME ==== //
+/* This is a self-contained function used to update the quantity
+   of the side cart as the input amount changes. It is called in
+   two places:
+
+     1. Inside the $(document).ready wrapper called on page load
+     2. Inside jquery.theme.js.liquid when the cart is updated
+
+   Note that this function uses the Jquery 'focusout' event to detect
+   programmatic changes to the input quantity value, and also runs forf
+   all inputs on the page. */
+
+function updateQuantity() {
+    // Unbind all existing methods
+    $('.quantity-wrapper .btn-plus').unbind('click');
+    $('.quantity-wrapper .btn-minus').unbind('click');
+
+    var minimum_value = 0;
+
+    // Check all minus buttons and their relative quantity values. If 1, then
+    // make the button inactive.
+    $('.quantity-wrapper .quantity').each(function() {
+
+      // Check if this is the shopping cart
+      minimum_value = 1;
+
+      if ($(this).val() == minimum_value) {
+        $(this).parents('.quantity-wrapper').find('.btn-minus').addClass('min');
+      } else {
+        $(this).parents('.quantity-wrapper').find('.btn-minus').removeClass('min');
+      }
+      
+    })
+
+  /* Show Loading Icon on Quantity change */
+  $('.shopping-cart .quantity-wrapper .quantity').on('change.qty paste.qty keyup.qty', function(event) {
+    event.preventDefault();
+
+    // Get image information
+    var item_photo = $(this).parents('.cart-row').find('.item-photo img'),
+        photo_src  = $(this).parents('.cart-row').find('.item-photo img').attr('src'),
+        loader_src     = "{{ 'page-loader.gif' | asset_url }}";
+
+    item_photo.attr({'src': loader_src, 'data-photo-src': photo_src }); // Show loading
+
+  })
+
+  /* Listen for btn-plus click and add 1 to the quantity count */
+  $('.quantity-wrapper .btn-plus').on('click.change', function(event) {
+    event.preventDefault();
+
+    console.log("plus clicked");
+
+    
+    // Check if this is the shopping cart
+    minimum_value = 1;
+
+    var buttonMinus   = $(this).parents('.quantity-wrapper').find('.btn-minus');
+    var quantityInput = $(this).parents('.quantity-wrapper').find('.quantity');
+
+    console.log("Quantity = "+quantityInput.val());
+
+    // Get old Value
+    var oldValue = quantityInput.val();
+    // Add one to the old value
+    var newValue = parseFloat(oldValue) + 1;
+    // Focus on input element - triggers focus event on quantity
+    quantityInput.focusout();
+    // Change the quantity input value
+    quantityInput.val(newValue).attr('value',newValue);
+
+    quantityInput.trigger('change');
+
+    console.log("load loader");
+
+    if (buttonMinus.hasClass('min')) {
+      buttonMinus.removeClass('min');
+    }
+
+    // Setup the photo variables for removing loading
+    var item_photo = $(this).parents('.cart-row').find('.item-photo img'),
+        photo_src  = $(this).parents('.cart-row').find('.item-photo img').attr('data-photo-src');
+
+    setTimeout(function() {
+      quantityInput.trigger('change');
+      item_photo.attr({'src': photo_src, 'data-photo-src': photo_src }) // End loading
+    },500);
+  })
+  $('.quantity-wrapper .btn-minus').click(function(event) {
+    event.preventDefault();
+
+    // Check if this is the shopping cart
+    minimum_value = 1;
+    
+    var buttonMinus   = $(this).parents('.quantity-wrapper').find('.btn-minus');
+    var quantityInput = $(this).parents('.quantity-wrapper').find('.quantity');
+
+    console.log(quantityInput.val());
+    // Get old Value
+    var oldValue = quantityInput.val();
+    // Add one to the old value
+    var newValue = parseFloat(oldValue) - 1;
+    // Focus on input element - triggers focus event on quantity
+    quantityInput.focusout();
+    // Change the quantity input value
+    if (newValue == minimum_value) {
+      quantityInput.val(minimum_value).attr('value',minimum_value);
+      buttonMinus.addClass('min');
+    } else {
+      quantityInput.val(newValue).attr('value',newValue);
+
+    }
+    quantityInput.trigger('change');
+  })
+}
+// LOAD ALL SCRIPTS ON DOCUMENT READY
+$(document).ready(function(){
+
+  // SCRIPT FOR SIDEBAR MENU 
+  $(".title").each(function() {
+    $(this).click(function() {
+      if ($(this).hasClass("show")) {
+        $(this).parent().children('li, div').not('.title').slideUp(200);
+        $(this).removeClass("show");
+      } else {
+        $(this).parents('div').first().find('.title').removeClass("show");
+        $(this).parents('div').first().find('.title').parent().children().not(".title").slideUp();
+        $(this).addClass("show");
+        // console.log($(this).parent().find('li, div'));
+        $(this).parent().find('li, div').slideDown(200);
+      }
+    });
+  })
+
+  //==== NAVBAR SETUP ====//
+  $(window).scroll(function() {
+    if ($(this).scrollTop() == 0) {
+      $('header, header .sub-nav').removeClass("scrolled");
+    } else {
+      $('header, header .sub-nav').addClass("scrolled");
+    }
+  });
+
+  // Handle navbar button click on mobile
+  function closeNav() {
+    console.log("close nav");
+    $('.nav').removeClass('show-nav');
+    $('header .close').removeClass('show-btn');
+    $('.shopping-cart-overlay').removeClass('show').css('z-index', -1);
+    $('header').css("z-index", 1003);
+    $('#customer_tab_nav').css("z-index", 1000);
+    $('#account #sidebar').css("z-index", 1000);
+  }
+  $('nav .mob').click(function() {
+    $('.nav').addClass('show-nav');
+    $('header .close').addClass('show-btn');
+    $('.shopping-cart-overlay').addClass('show').css('z-index', 1);
+    $('header').css("z-index", 1069);
+    $('#customer_tab_nav').css("z-index", 999);
+    $('#account #sidebar').css("z-index", 999);
+
+    $('nav .close-btn, .shopping-cart-overlay').click(function() {
+      closeNav();
+    })
+
+    $(document).mouseup(function (e) {
+        var container = $(".nav");
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            // Clear all box styling
+            closeNav();
+
+        }
+    });
+  })
+
+  //==== SELECT MENU FOR PRODUCT VARIANTS ====//
+  /* This function uses jQueryUI's selectmenu to create a new,
+     more customisable menu for the product variants. The menu
+     automatically updates Shopify's standard variant dropdown
+     to ensure that the callback function to the product variant
+     is still made correctly. A timeout is set because Shopify's 
+     variant select create function is called onload, and so we need
+     to wait a little bit before we can create a new menu from it. */
+
+
+  //===== SELECT ICONS FOR SUBSCRIBE & SAVE ====//
+  /* Note: this must be updated to carry all changes made to the
+           select menu over to the ReCharge subscribe & save select.
+           This behaviour is similar to the product variants above. */
+  function inputChanged(target) {
+    
+    // console.log(target);
+    var buy_box       = $(target).parents('.product__buy-bar');
+    var input_value   = buy_box.find('.quantity').val();
+    var current_value = buy_box.find('.subscription-details input:checked').val();
+
+    console.log(current_value);
+    if (current_value && input_value > 0) {
+      buy_box.find('.add-to-cart').removeClass('inactive');
+
+      if (current_value == "subscribe") {
+        buy_box.find('.callout-text').hide();
+      } else {
+        buy_box.find('.callout-text').show();
+      }
+    } else {
+      buy_box.find('.add-to-cart').addClass('inactive');
+    }
+    
+  }
+
+  // inputChanged('.one-time-subscribe input, .subscription-details input');
+
+  $('.subscription-details input').change(function(e) {
+    // inputChanged(e.target);
+  });
+  $('.btn-plus, .btn-minus').mousedown(function(e) { 
+    setTimeout(function() {
+      var buy_box       = $(e.target).parents('.product__buy-bar');
+      var input_value   = buy_box.find('.quantity').val();
+      // var current_value = buy_box.find('.purchase-section input').val();
+      
+      if (input_value > 0) {
+        // console.log('active')
+        buy_box.find('.add-to-cart').removeClass('inactive');
+      } else {
+        // console.log('inactive') 
+        buy_box.find('.add-to-cart').addClass('inactive');
+      }
+    }, 300);
+
+  });
+
+
+  //===== QUANTITY BUTTONS FOR PRODUCT PAGE & CART ====//
+  /* Check all quantity buttons on the page and addClass 'min' if 
+     current value is equal to 1. Otherwise removeClass 'min'. */
+  updateQuantity();
+
+  //==== SPINNER BUTTON FOR PRODUCT PHOTOS ====//
+  //== 1. Clockwise Spin
+  var interval;
+  $('.btn-play').on('mousedown', function(e) {
+      interval = setInterval(function() {
+         spinner();
+      },200);
+  });
+  $('.btn-play').on('mouseup', function(e) {
+      clearInterval(interval);
+  });
+  // Thank you, Timo002, for your contribution!
+  // This code will stop the interval if you move your mouse away from the button while still holding it.
+  $('.btn-play').on('mouseout', function(e) {
+      clearInterval(interval);
+  });
+  $('.btn-play').on('click', function(e) { 
+    e.preventDefault(); 
+    spinner(); 
+  });
+  
+  //== 2. Anti-clockwise Spin
+  $('.btn-reverse').on('mousedown', function(e) {
+      interval = setInterval(function() {
+         spinner("reverse");
+      },200);
+  });
+  $('.btn-reverse').on('mouseup', function(e) {
+      clearInterval(interval);
+  });
+  // Thank you, Timo002, for your contribution!
+  // This code will stop the interval if you move your mouse away from the button while still holding it.
+  $('.btn-reverse').on('mouseout', function(e) {
+      clearInterval(interval);
+  });
+  $('.btn-reverse').on('click', function(e) { 
+    e.preventDefault(); 
+    spinner("reverse"); 
+  });
+  // Handle mobile swipes (right for anti-clockwise) on the image!
+
+  
+  // SLICKJS: Change behaviour of slick slides to use 'click' event to move to the next slide
+  // and only go to the product page for the selected product.
+  // Credit: https://github.com/kenwheeler/slick/issues/371
+  setTimeout(function() {
+    $('.slick-slider').on('click', '.slick-slide', function (e) {
+
+      var target = $(e.target).parents('a').attr('href');
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      var index = $(this).data("slick-index");
+      if ($('.slick-slider').slick('slickCurrentSlide') !== index) {
+        $('.slick-slider').slick('slickGoTo', index);
+      } else {
+        window.location.href = target;
+      }
+    });
+  },300);
+
+  /**
+  * FADER
+  * This function takes a button (.next or .prev) as an input to move a div with the class of 'fader'
+  * to the next piece of content. There must be a <div class="fader"></div> with a
+  * child tag class="content" for this to work.
+  */
+  function fader(button) {
+
+    var fader          = button.parents('.fader'),
+        active_content = fader.find('.content.active'),
+        dot_nav        = fader.find('.dot-nav'),
+        header_nav     = fader.find('.header-nav'),
+        next,
+        dot_nav_next,
+        header_nav_next,
+        start;
+
+    if (button.hasClass('next')) { // if next, then forward!
+      next  = active_content.next('.content');
+      start = fader.find('.content').first();
+    } else { // otherwise it feels like we only go backwards
+      next  = active_content.prev('.content');
+      start = fader.find('.content').last();
+    }
+
+    if (next.length == 0) { next = start }; // if there is no next or prev, then we go back to the start
+
+    // Set up the dot nav
+    if (dot_nav.length > 0) {
+      var dot_nav_active = dot_nav.find('.dot.active');
+
+      if (button.hasClass('next')) { 
+        dot_nav_next  = dot_nav_active.next('.dot');
+        dot_nav_start = dot_nav.children('.dot').first();
+      } else {
+        dot_nav_next  = dot_nav_active.prev('.dot');
+        dot_nav_start = dot_nav.children('.dot').last();
+      }
+
+      if (dot_nav_next.length == 0) { dot_nav_next = dot_nav_start };
+
+      dot_nav_active.removeClass('active');
+      dot_nav_next.addClass('active');
+    }
+    // Set up the header nav
+    if (header_nav.length > 0) {
+      var header_nav_active = header_nav.find('.link.active');
+
+      if (button.hasClass('next')) { 
+        header_nav_next  = header_nav_active.next('.link');
+        header_nav_start = header_nav.children('.link').first();
+      } else {
+        header_nav_next  = header_nav_active.prev('.link');
+        header_nav_start = header_nav.children('.link').last();
+      }
+
+      if (header_nav_next.length == 0) { header_nav_next = header_nav_start };
+
+      header_nav_active.removeClass('active');
+      header_nav_next.addClass('active');
+    }
+
+
+    // Queue up the fade out / fade in
+    active_content.removeClass('active')
+      .queue(function() { $(this).fadeOut(400).delay(800) })
+      .dequeue()
+      .queue(function() { next.addClass('active').fadeIn(); })
+      .dequeue();
+  }
+  $('.fader .next, .fader .prev').click(function() {
+    fader($(this));
+  })
+
+
+  /* Helper: Translate time to specific timezone */
+  function toTimeZone(time, zone) {
+    var format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    return moment(time, format).tz(zone);
+  }
+
+
+})
+
+/* ==== Email sign up Script ==== */
+$(document).ready(function() {
+
+  var email_signup = $('.email-signup'),
+      page_loader  = "{{ 'page-loader-white.gif' | asset_url }}";
+
+  if (email_signup.length !== 0) {
+
+    email_signup.append(
+      '<form method="post" accept-charset="UTF-8" class="contact-form">'+
+        '<input type="hidden" name="form_type" value="customer"><input type="hidden" name="utf8" value="✓">'+
+        '<input type="hidden" id="contact_tags" name="contact[tags]" value="newsletter">'+
+        '<h4>Want more great information?</h4>'+
+        '<h6>Sign up to our newsletter to get helpful, well-researched straight to your inbox*</h6>'+
+        '<div class="input-group">'+
+          '<input class="email" type="email" id="contact_email" name="contact[email]" placeholder="Enter your e-mail address">'+
+          '<input class="submit flat aqua" type="submit" id="contact_submit" value="Sign up">'+
+          '<img class="page-loader" src="'+page_loader+'" />'+
+        '</div>'+
+        '<p class="disclaimer">*By completing this form you are signing up to receive our emails and can unsubscribe at any time.</p>'+
+      '</form>'
+    );
+
+    $('.email-signup form').submit(function(e) {
+      e.preventDefault();
+
+      var submit_button = $(this).find('input[type="submit"]'),
+          loader        = $(this).find('.page-loader');
+
+      submit_button.val(""); // Set value to none
+      loader.addClass('loading'); // show loader
+
+
+      var email = $(this).find('input.email').val(),
+          url   = window.location.href,
+          title = "{% if template == 'article' %}{{ article.title }}{% elsif template == 'page' %}{{ page.title }}{% elsif template == 'product' %}product{% else %}{{ template.name }}{% endif %}";
+
+      var data = {
+        email: email,
+        referrer: url,
+        template: "{{ template.name }}",
+        page: title
+      }
+
+      console.log(data);
+
+      /* Zapier webhook that baby! */
+      zapierWebhook("https://hooks.zapier.com/hooks/catch/914765/w9cv0m/", "POST", data, function() {
+        setTimeout(function() {
+          submit_button.val("Thanks!");
+          loader.removeClass('loading');
+        },1500)
+      });
+
+    })
+
+  }
+})
+
+//==== OVERLAY HANDLING ====//
+function showOverlay(object, object_class) { 
+  $(object).append('<div class="overlay ' + object_class + '"></div>');
+  $('.overlay').addClass('active'); 
+  $('.overlay').click(function() { clearOverlay() });
+}
+function clearOverlay() { 
+  $('.overlay').removeClass('active'); 
+  $('.overlay').remove();
+}
+
+/* ==== Cookies ==== */
+// Cookies: Create a cookie
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+// Cookies: Get a cookie
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
+}

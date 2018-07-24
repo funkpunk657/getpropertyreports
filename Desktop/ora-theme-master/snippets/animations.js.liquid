@@ -1,0 +1,42 @@
+/* ======================= */
+/* Site-wide Animations */
+/* ======================= */
+
+/* Hide Header */
+function hideHeaderAnimation() {
+
+  var hideHeaderOnScroll = anime({
+    targets: "header, .bar",
+    top: "-155px",
+    duration: 0,
+    offset: 0
+  })
+}
+
+/* Show Header */
+function showHeaderAnimation() {
+
+  var showHeaderOnScroll = anime({
+    targets: "header, .bar",
+    top: "0",
+    duration: 0,
+    offset: 0
+  })
+}
+
+/* Show Cart */
+function showCartAnimation() {
+
+  var targets  = "",
+      width    = 0;
+
+  $('#product-cart-bar').fadeIn();
+  
+}
+
+/* Hide Cart */
+function hideCartAnimation() {
+
+  $('#product-cart-bar').fadeOut();
+
+}

@@ -1,0 +1,133 @@
+.product__ingredients-wrapper {
+	@include display-flex;
+	flex-flow: row wrap;
+	margin: 0 auto;
+	padding: 30px;
+	max-width: 1200px;
+
+	.clickbank-show {
+		display: none;
+	}
+
+	/* Ingredients: Supplement Facts Trigger */
+	> .facts-trigger {
+		display: none;
+	}
+
+	.facts-trigger {
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-weight: 700;
+		font-size: 13px !important;
+		color: $color__text-link;
+		@include transition(color, 0.2s);
+
+		&:hover {
+			color: $color__text-link-hover;
+		}
+	}
+
+	/* Product Ingredients: List */
+	.ingredients-list {
+		flex: 1;
+		text-align: right;
+		@include display-flex;
+		flex-flow: column wrap;
+		justify-content: flex-start;
+		align-items: flex-end;
+		max-height: 600px;
+
+		.ingredient {
+			cursor: pointer;
+			display: none;
+			margin-right: 15px;
+
+			img, p, i {
+				display: none;
+			}
+			h4 {
+				font-size: 16px;
+
+				&:hover {
+					color: $color__accent-1-hover;
+					border-bottom: none;
+				}
+			}
+			&.selected {
+				h4 {
+					color: $color__accent-1;
+				}
+			}
+		}
+	}
+
+	/* Product Ingredients: Detail View */
+	.ingredient-detail {
+		flex: 1;
+		margin-left: 75px;
+		padding-left: 60px;
+		border-left: 1px solid $color__input-border;
+		text-align: left;
+
+		i {
+			display: none;
+		}
+
+		h4 {
+			font-weight: 500;
+		}
+
+		img {
+			width: 150px;
+			height: 150px;
+			margin-bottom: 22.5px;
+			border-radius: 1em;
+		}
+		.description {
+			max-width: 360px;
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	.product__ingredients-wrapper {
+		.ingredients-list {
+			max-height: initial;
+			align-items: center;
+
+			.ingredient {
+				text-align: center;
+				margin: 7.5px 22.5px;
+
+				&.selected {
+					padding: 30px 30px 45px;
+					background-color: $color__background;
+					margin: 30px 22.5px;
+
+					h4 {
+						color: $color__text-copy;
+						font-weight: 500;
+						font-size: 18px;
+					}
+					img, p {
+						display: initial;
+					}
+					img {
+						width: 150px;
+						height: 150px;
+					}
+					p {
+						font-size: 16px;
+					}
+					a {
+						font-size: inherit;
+					}
+				}
+			}
+		}
+
+		.ingredient-detail {
+			display: none;
+		}
+	}
+}

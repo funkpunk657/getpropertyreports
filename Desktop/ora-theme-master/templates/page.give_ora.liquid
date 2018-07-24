@@ -1,0 +1,120 @@
+<style>
+  /*== FORM STYLING ==*/
+  .main-content { background: #fbfaf6 !important; }
+  .header-image { height: 450px; }
+  form #header { background: #fff; }
+  .info { text-align: center; }
+  .info h1 { text-align: center; font-size: 60px; padding: 60px 0px 0px; }
+  .info h2 { padding: 0px 0px 60px; }
+  .input-fields { text-align: center; }
+  .input-fields input { display: block; margin: 0 auto !important; }
+  .input-fields input[type="email"],
+  .input-fields input[type="text"],
+  .input-fields textarea { 
+    border: 0px !important; 
+    border-bottom: 2px solid #484446 !important; 
+    border-radius: 0px; background: none; 
+    margin: 15px auto !important; 
+    font-size: 18px; 
+    font-family: 'Goudy Old Style', 'Sorts Mill Goudy', serif; 
+    padding: 15px; 
+    width: 75%;
+    box-shadow: none;
+   }
+  .input-fields input[type="text"]:focus,
+  .input-fields input[type="email"]:focus,
+  .input-fields textarea:focus {
+    background: #fff;
+  }
+  @media (min-width: 992px) {
+    .input-fields ul:nth-of-type(1),
+    .input-fields ul:nth-of-type(2) { padding-top: 45px; }
+  }
+  @media (max-width: 991px) {
+  	.input-fields ul { margin: 45px; }
+  }
+</style>
+<div class="header-image fill pineapple-header" style="background-image: url({{ 'pineapple_sliced.jpg' | asset_url }})">
+</div>
+<form id="form2" name="form2" class="wufoo leftLabel page" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" novalidate action="https://oraorganic.wufoo.com/forms/msf9to51gxyaj7/#public">
+  <header id="header" class="info col-md-12 give-title">
+    <h1 class="col-md-8 col-md-offset-2">Look after your <span style="color: #52d6aa;">friends</span>!</h1>
+    <h2 class="col-md-8 col-md-offset-2 give-description">Send someone a free product - it's on us. Just fill out the form below and we'll send them the details!</h2>
+  </header>
+  <div class="input-fields">
+    <ul class="col-md-4 col-md-offset-2">
+      <h3>Your Name:</h3>
+      <li id="foli1" class="notranslate">
+          <div>
+              <input id="Field1" name="Field1" placeholder="Your Name" type="text" class="field text medium" value="" maxlength="255" tabindex="1" onkeyup=""       required />
+          </div>
+      </li>
+      <li id="foli11" class="notranslate      ">
+          <div>
+              <input id="Field11" name="Field11" placeholder="Your E-mail" type="email" spellcheck="false" class="field text medium" value="" maxlength="255" tabindex="2"       required />
+          </div>
+      </li>
+    </ul>
+    <ul class="col-md-4">
+      <h3>Your Friend's Details:</h3>
+      <li id="foli9" class="notranslate      ">
+          <span>
+              <input id="Field9" name="Field9" placeholder="First Name" type="text" class="field text fn" value="" size="8" tabindex="3"       required />
+          </span>
+          <span>
+              <input id="Field10" name="Field10" placeholder="Last Name" type="text" class="field text ln" value="" size="14" tabindex="4" required />
+          </span>
+      </li>
+      <li id="foli6" class="notranslate      ">
+          <div>
+              <input id="Field6" name="Field6" placeholder="Email Address" type="email" spellcheck="false" class="field text medium" value="" maxlength="255" tabindex="5"       required />
+          </div>
+      </li>
+    </ul>
+    <ul class="col-md-12">
+      <li id="foli13" class="notranslate    private  " style="display: none;">
+        <div>
+          <input id="Field13" name="Field13" type="text" class="field text medium" value="" maxlength="255" tabindex="7" onkeyup=""       />
+        </div>
+      </li>
+      <li class="buttons col-md-12 ">
+        <div>
+            <input id="saveForm" name="saveForm" class="btn-aqua btTxt submit giveora-submit"
+            type="submit" value="Send" style="margin: 30px auto !important; font-size: 20px;"/>
+        </div>
+      </li>
+      <li class="hide">
+          <label for="comment">Do Not Fill This Out</label>
+          <textarea name="comment" id="comment" rows="1" cols="1"></textarea>
+          <input type="hidden" id="idstamp" name="idstamp" value="k2lREvuoveGjeoz0pfBY08HPijlY0gxeCl2mnSYKhmg=" />
+      </li>
+    </ul>
+  </div>
+</form>
+<div class="col-md-12" style="background: #fff; text-align: center; padding: 45px;">
+  <h1>Enjoy being in the good books!</h1>
+</div>
+<script>
+  $(document).ready(function() {
+    window.location.replace("http://www.ora.organic/pages/ora-organic-supplements");
+//     function getParameterByName(name) {
+//       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+//       var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+//           results = regex.exec(location.search);
+//       return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+//     }
+    
+//     var name     = getParameterByName("name");
+//     var email    = getParameterByName("email");
+//     var discount = getParameterByName("discount");
+    
+//     if (name == "" || email == "" || discount == "") {
+//       window.location.replace("http://www.ora.organic");
+//     } else {
+//       $("#Field1").attr("value", name);
+//       $("#Field11").attr("value", email);
+//       $("#Field13").attr("value", discount);
+//     }
+    
+  })
+</script>

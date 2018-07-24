@@ -1,0 +1,40 @@
+.hero {
+	height: 100vh;
+	overflow: hidden;
+	position: relative;
+	background-position: center;
+
+	.wrapper {
+		@include vertical-align(absolute);
+		height: auto;
+		width: auto;
+		left: 1%;
+		right: 1%;
+		margin: 0 auto;
+
+		&.card {
+			background-color: $color__background;
+			padding: 60px;
+			text-align: center;
+			@include box-shadow;
+			display: inline-block;
+			margin: 0 10%;
+
+			.header {
+				margin-bottom: 30px;
+			}
+		}
+	}
+}
+@media (max-width: 468px) {
+	.hero {
+		.wrapper {
+			&.card {
+				padding: 45px 30px;
+				margin: 0 auto;
+				left: 0;
+				right: 0;
+			}
+		}
+	}
+}

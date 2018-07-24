@@ -1,0 +1,92 @@
+<!-- This is the snippet for the Deals Bar used at the top of the website, 
+		 when turned on in Theme settings. Always administrate any changes to the
+		 deal bar content from the Theme Customize screen, NOT this template! -->
+
+<!-- DEAL BAR -->
+<div id="deal-bar" class="bar" style="{% if settings.deal_bar_color %}background-color: {{ settings.deal_bar_color }};{% endif %}">
+  <div class="wrapper">
+    {% if settings.enable_deal_override %}
+      <p>{{ settings.deal_override }}</p>
+    {% else %}
+      <p style="{% if settings.deal_bar_text_color %}background-color: {{ settings.deal_bar_text_color }};{% endif %}">Save <b>{% if settings.deal_type == "fixed_amount_off" %}${% endif %}<span class="deal_percentage">{{ settings.deal_amount }}</span>{% if settings.deal_type == "percent_off" %}%{% endif %}</b> {% if settings.deal_minimum_spend > 0 %} (when you spend <b>more than ${{ settings.deal_minimum_spend }}</b>){% endif %} with the code <b id="deal-code">{{ settings.deal_code }}</b></p>
+    {% endif %}
+    <a href="{% if settings.deal_bar_link %}{{ settings.deal_bar_link }}{% else %}/pages/ora-organic-supplements{% endif %}"><button class="flat aqua">SHOP NOW</button></a>
+  </div>
+  {% include 'icon-close' %}
+</div>
+
+<style>
+  header .nav .open > .dropdown-menu.show-bar {
+    top: 155px;
+  }
+</style>
+
+<!-- SCRIPT TO ACTIVATE DEAL BAR -->
+<script>
+  $(document).ready(function() {
+
+      function showBar() {
+
+        $('.deal_percentage').html(10);
+
+        var fixed_elements = $('*').filter(function() {
+            return $(this).css("position") === 'fixed';
+        });
+        // Move the main site and header elements down
+        $('.site, header').addClass('show-bar');
+        // Here we add the show-bar class to all fixed elements, so if we need to 
+        // move them down the page, we can do so with CSS
+        $(fixed_elements).addClass('show-bar');
+        // Now show the deal bar
+        $('#deal-bar').addClass('show-bar');
+
+        // If we're on mobile, also add the show-bar class to the relative position #products div
+        if ($(window).width() < 468) {
+          $('#products').addClass('show-bar');
+        }
+
+        // Handle clicking of the 'close' button
+        $('.bar .close-btn').click(function() {
+
+          setCookie('hide_deal_bar',true,1);
+
+          // Remove the show-bar class from all elements
+          $('.site, header').removeClass('show-bar');
+          $(fixed_elements).removeClass('show-bar');
+          $('#deal-bar').removeClass('show-bar').css('z-index','-1');
+
+          // Fix parallax background images (they base their top offset on their container's offset, hence, 
+          // they start at 50px from the top, but don't reset unless the screen is resized, or Parallax JS updates them) 
+          setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 250);
+          $(window).unbind('scroll.bar');
+
+          if ($(window).width() < 468) {
+            $('#products').removeClass('show-bar');
+          }
+        });
+      }
+
+      // Display Deals Bar to user if enabled in Theme --> Customize --> Deal Bar
+      {% if settings.show_deal_bar %}
+        setTimeout(function() {
+          // Don't show on the subscriptions account management page
+          if (window.location.href.indexOf('tools/recurring') < 0) {
+            if (getCookie('hide_deal_bar') ==  false) {
+              showBar();
+            }
+          }
+        }, 300);
+      {% endif %}
+
+      if (window.location.href.indexOf('show_discount=true') > -1) {
+        $('.deal-bar-wrapper').show();
+        $('#deal-code').html('KEEPITREAL');
+        $('.deal_percentage').html('10');
+        // Don't show on the subscriptions account management page
+        if (window.location.href.indexOf('tools/recurring') < 0) {
+          showBar();
+        }
+      }
+
+  });
+</script>

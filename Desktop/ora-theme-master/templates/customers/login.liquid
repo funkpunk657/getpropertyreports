@@ -1,0 +1,117 @@
+{% layout settings.customer_layout %}
+{% unless customer %}
+<div id="login">
+  
+  <div class="form">
+    <div class="login-wrapper">
+      <div id="recover" class="login-box">
+      <!-- START RECOVER PASSWORD -->
+      {% form 'recover_customer_password' %}
+          {% if form.errors != null %}
+            <div class="container-fluid errors">
+              <p >Sorry, no account found with that e-mail address!</p>
+            </div>
+          {% endif %}
+          <div class="template_header">
+            <h1 class="accounts-title">Don't worry!</h1>
+          </div>
+          <div id="recover_email" class="clearfix">
+            <input type="email" value="" size="30" name="email" id="recover-email" placeholder="Enter your e-mail address" />
+          </div>
+          <p class="recover-message">We'll send you an e-mail with a link to reset your password.</p>
+          <div class="actions">
+            <input type="submit" class="flat aqua" value="{{ 'customer.login.forgot_password_submit_button' | t }}" />
+            <a id="cancel-forgot-pwd">Cancel</a>
+          </div>
+          {% if form.posted_successfully? %}
+            {% assign reset_success = true %}
+          {% endif %}
+      {% endform %}
+      <!-- END RECOVER PASSWORD -->
+      </div>
+      <div id="login-form" class="login-box">
+      <!-- START LOGIN FORM -->
+      {% form 'customer_login' %}
+        <input type="hidden" id="return_url" name="return_to" value="" />
+        <div class="text-center">{{ form.errors | default_errors }}</div>
+        <p class="reset-success success"><span class="text-accent-2">Thanks!</span> Instructions for resetting your password have been sent.</p>
+        <div>
+          <h1>Hey there!</h1>
+          <div class="social-login">
+            <script src='//open-signin.okasconcepts.com/customer/script?shop=oraorganic.myshopify.com'></script>
+          </div>
+          <div id="login_email" class="clearfix large_form">
+            <input type="email" value="" name="customer[email]" id="customer_email" class="long login-input" placeholder="E-mail address" />
+          </div>
+          {% comment %}
+            Customer Account Login
+          {% endcomment %}
+          <div id="login_password" class="clearfix large_form">
+            <input type="password" value="" name="customer[password]" id="customer_password" class="long password login-input" placeholder="Password"/>
+          </div>
+          <!-- START FORGOT PASSWORD -->
+          <div class="forgot-password container-fluid">
+            <a href="#recover"><p id="forgot-pwd">{{ 'customer.login.forgot_password' | t }}</p></a>
+          </div>
+          <!-- END FORGOT PASSWORD -->
+          <div class="login actions">
+            <input type="submit" class="flat aqua" value="sign in" />		
+            <hr />     
+            <p>Don't have an account? Sign up <a href="../account/register">here.</a></p>
+          </div>
+        </div>
+      {% endform %}
+      </div>
+    </div>
+  </div>
+  <!-- END LOGIN FORM -->
+  
+  <!-- Script: Set Return URL to the document referrer -->
+  <script>
+    var return_url = document.referrer.split('ora.organic')[1];
+    $('#return_url').attr('value', return_url);
+  </script>
+
+  <!-- Script: Show Recover Password Form -->
+  <script>
+    $(document).ready(function showRecoverPasswordForm() {
+      $('#forgot-pwd').click(function(){
+          $(this).slideToggle(300);
+          $('#login-form').slideToggle(300);
+          $('#recover').slideToggle(300);
+        return false;
+      });
+      
+      $('#cancel-forgot-pwd').click(function(){
+          $('#forgot-pwd').slideToggle(300);
+          $('#login-form').slideToggle(300);
+          $('#recover').slideToggle(300);
+        return false;
+      });
+
+      {% if reset_success %} 
+        $(".reset-success").show();
+      {% endif %}
+      
+    });
+    
+    $(document).ready(function() {
+      if (window.location.href.indexOf('#recover') > -1){
+        $('#forgot-pwd').slideUp();
+        $('#login-form').slideUp();
+        $('#recover').slideDown();
+        return false;
+      }
+    });
+    
+    
+  </script>
+</div>
+{% else %}
+<script>
+  $(document).ready(function() {
+    $('footer').hide();
+    window.location = "{{ shop.url }}/account";
+  })
+</script>
+{% endunless %}

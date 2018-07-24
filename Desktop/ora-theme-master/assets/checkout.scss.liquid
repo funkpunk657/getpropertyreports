@@ -1,0 +1,194 @@
+/* AVENIR */
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Book.otf');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Light.otf');
+  font-weight: 100;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Oblique.otf');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Medium.otf');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-MediumOblique.otf');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Heavy.otf');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-HeavyOblique.otf');
+  font-weight: 700;
+  font-style: italic;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, div, span, label, li, a, blockquote, td {
+	font-family: 'Avenir Web', Helvetica, Arial, sans-serif !important;
+	color: {{ settings.copy_color }};
+}
+
+a, a span {
+	color: {{ settings.link_color }};
+
+	&:hover, &:active {
+		color: {{ settings.link_color_hover }};
+	}
+}
+
+/* Title */
+.section__title {
+	color: {{ settings.copy_color }} !important;
+	font-weight: 500;
+	font-size: 20px;
+}
+
+/* Additional Information */
+.section--additional-information {
+	.field--required {
+		position: relative;
+
+		.required {
+			color: #ff6d6d;
+			position: relative;
+			font-size: 0.85714em;
+			line-height: 1.3em;
+	    margin: 0.75em 0 0.25em;
+	    max-height: 5em;
+			display: none;
+		}
+		&.invalid {
+			.field__input {
+				box-shadow: 0 0 0 2px #ff6d6d;
+			}
+			.required {
+				display: block;
+			}
+		}
+	}
+	.other {
+		display: none;
+		margin-top: 15px;
+	}
+}
+
+/* Checkout Button */
+button.btn {
+	font-weight: 500;
+	font-size: 14px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: white;
+
+	&:active {
+		box-shadow: 0 0 0 2px #26c38f inset;
+	}
+	span {
+		color: white;
+	}
+	&.invalid {
+		background-color: {{ settings.lighter_color }} !important;
+		cursor: default;
+		// pointer-events: none;
+	}
+}
+
+.sidebar {
+
+	.delayed__shipping-wrapper {
+		padding: 30px;
+		margin: 0px 0 30px;
+		border: 1px solid {{ settings.lighter_color }};
+		border-radius: 1em;
+		background-color: {{ settings.background_color }};
+		text-align: center;
+		position: relative;
+
+		h4 {
+			margin-bottom: 15px;
+			letter-spacing: 1px;
+			color: {{ settings.accent_color_1 }};
+			font-weight: 700;
+		}
+	}
+
+	
+
+}
+
+/* Shipping Methods */
+.display-table {
+	span[data-shipping-method-label-title="Standard"] {
+		&:after {
+			content: " (3-5 Business Days)";
+		}
+	}
+	span[data-shipping-method-label-title="Expedited"] {
+		position: relative;
+		padding-bottom: 20px;
+
+		&:after {
+			content: ' (2 Business Days guaranteed*)';
+		}
+		&:before {
+			content: '*If order placed before 12pm PDT';
+			position: absolute;
+			bottom: -5px;
+	    font-style: italic;
+		}
+	}
+}
+
+
+/* Clickbank */
+.clickbank-footer {
+	padding: 30px;
+	background-color: #fafafa;
+	border-radius: 8px;
+
+	h5,h6 {
+		font-size: 22px;
+		line-height: 1.62em;
+		margin-bottom: 15px;
+	}
+	h6 {
+		margin-top: 30px;
+	}
+	p {
+		margin: 0 0 10px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.sidebar {
+		order: 1;
+	}
+}
+
+@media (max-width: 991px) {
+
+	.order-summary-toggle { display: none; }
+
+	.sidebar {
+		
+		.delayed__shipping-wrapper {
+			margin-top: 30px;
+		}
+		/* Make sure order summary is always visible on mobile */
+		.order-summary--is-collapsed { height: auto; }
+	}
+}

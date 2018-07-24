@@ -1,0 +1,219 @@
+<form id="product__form-{{count}}" class="quickAdd product-form" data-productid="{{product.id}}" action="/cart/add" method="post" enctype="multipart/form-data">
+  <div class="product__form-wrapper">
+    <!-- Product: Product Content -->
+    <div class="product__content">
+      <div class="shopping-cart-overlay"></div>
+      <!-- Product: Back to Shop -->
+      <div class="product__back-to-shop dsk">
+        <a class="back-to-shop" href="#"><i class="linear arrow__left"></i>Back to Shop</a>
+      </div>
+      <!-- Product: Photos -->
+      <div id="product__photos-{{count}}" class="product__photos popup_container">
+        {% if product.images.size > 0 %}
+          <div class="product-photo show" id="featured-image-{{count}}">
+            <img src="{{ product.featured_image | img_url: '512x512' }}" alt="{{ product.title | escape }}"/>
+          </div>
+        {% endif %}
+        <!-- Product: Price -->
+        <div class="product__price dsk">
+          <h4 class="price">{{ product.price_max | money }}</h4>
+          {% if product.metafields.subscriptions.subscription_id %}
+            {% assign discount = 100 | minus: product.metafields.subscriptions.discount_percentage %}
+            {% assign subscription_price = product.price_max | times: discount | divided_by: 100 %}
+            {% if subscription_price %}
+              <p class="subscription-price">({{ subscription_price | money }} with Subscription)</p>
+            {% endif %}
+          {% endif %}
+        </div>
+        <!-- Product: Mobile Title -->
+        <div class="mobile-title mob">
+          <h6>{{ product.title }}</h6>
+        </div>
+        <!-- Product: Supplement Facts -->
+        <p class="supplement-facts-trigger-mobile"><a data-toggle="modal" data-target=".fact-contents-{{count}}" class="facts-trigger">View Supplement Facts</a></p>
+        <!-- Product: Product Description Excerpt -->
+        {% if product.description contains '<div class="product-excerpt">' %}
+          {% assign full_description = product.description | split: '<div class="product-excerpt">' %}
+          {% assign product_description = full_description[1] | split: '</div>' %}
+        {% endif %}
+        <div class="product__reviews-aggregate">
+          <div id="product__reviews-popup-{{count}}" class="popup product__reviews-popup click">
+            <i class="triangle down">▼</i>
+            <!-- Product: Reviews Widget Popup -->
+            <div class="reviews">
+              <h6>Product Reviews</h6>
+              <div class="yotpo yotpo-main-widget"
+                  data-product-id="{{ product.id }}"
+                  data-name="{{ product.title | escape }}"
+                  data-url="{{ shop.url }}{{ product.url }}"
+                  data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}"
+                  data-description="{{ product_description | escape }}">
+              </div>
+            </div>
+          </div>
+          <!-- Product: Aggregated Reviews -->
+          <div class="yotpo bottomLine popup_trigger"
+              data-popup="product__reviews-popup-{{count}}"
+              data-appkey="SmtoQBJliJwFrBjSYjmEtOz31o6nMoLZfgcp3J4j"
+              data-domain="{{shop.permanent_domain | escape }}"
+              data-product-id="{{ product.id }}"
+              data-product-models="{{ product.id }}"
+              data-name="{{ product.title | escape }}"
+              data-url="{{ shop.url }}{{ product.url }}"
+              data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+              data-description="{{ product_description | escape }}"
+              data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
+          </div>
+        </div>
+      </div>
+      <!-- Product: Product details -->
+      <div class="product__details">
+        <!-- Product Content: Subtitle -->
+        {% if product.description contains '<h2 class="product-subtitle">' %}
+          {% assign full_description = product.description | split: '<h2 class="product-subtitle">' %}
+          {% assign description = full_description[1] | split: '</h2>' %}
+          <h2 class="product__subtitle">
+            {{ description[0] }}
+          </h2>
+        {% endif %}
+        <!-- Product Content: Excerpt & Features -->
+        {% if product.description contains '<div class="product-excerpt">' %}
+          {% assign full_description = product.description | split: '<div class="product-excerpt">' %}
+          {% assign description = full_description[1] | split: '</div>' %}
+            <div id="product-description" class="product__description content active">
+              {{ description[0] }}
+            </div>
+        {% endif %}
+        <!-- Product Content: Dietary Information -->
+        <ul class="product__dietary dietary-icons">
+          <li>
+          {% for tag in product.tags %}
+            {% if tag contains "dietary" %}
+              {% if tag contains 'organic' %}<div class="dietary"><img src="{{ 'icon-USDA-organic.png' | asset_url }}" alt="USDA Organic"/></div>{% endif %}
+              {% if tag contains 'vegan' %}<div class="dietary"><img src="{{ 'icon-vegan.svg' | asset_url }}" alt="Vegan"/></div>{% endif %}
+              {% if tag contains 'gluten-free' %}<div class="dietary"><img src="{{ 'icon-gluten-free.svg' | asset_url }}" alt="Gluten Free"/></div>{% endif %}
+              {% if tag contains 'dairy-free' %}<div class="dietary"><img src="{{ 'icon-dairy-free.svg' | asset_url }}" alt="Dairy Free"/></div>{% endif %}
+              {% if tag contains 'soy-free' %}<div class="dietary"><img src="{{ 'icon-soy-free.svg' | asset_url }}" alt="Soy Free"/></div>{% endif %}
+              {% if tag contains 'non-gmo' %}<div class="dietary"><img src="{{ 'icon-GMO-free.svg' | asset_url }}" alt="non-GMO"/></div>{% endif %}
+            {% endif %}
+          {% endfor %}
+          </li>
+          <li>
+          {% for tag in product.tags %}
+            {% if tag contains "dietary" %}
+              {% assign item = tag | split: 'dietary-' %}
+              <p>{{ item }}  <span class="separator">//  </span></p>
+            {% endif %}
+          {% endfor %}
+          </li>
+        </ul>
+        <!-- Product Content Mobile: Button Link to Product Detail Page -->
+        <div class="mob product__mobile-product-link">
+          <h6>Looking for more information?</h6>
+          <p>Click any of links below to view the <b>full product detail page</b> (or e-mail us at <a href="mailto:info@ora.organic?subject=Question%20-%20{{ product.title | replace: ' ', '%20' }}">info@ora.organic</a> if you've got a question!).</p>
+          <div class="product__mobile-product-links">
+            <a class="button" href="{{ product.url }}#product__ingredients_faqs"><button class="flat aqua outline">Ingredients</button></a>
+            <a class="button" href="{{ product.url }}#product__ingredients_faqs"><button class="flat aqua outline">FAQs</button></a>
+            <a class="button" href="{{ product.url }}#product__testimonials"><button class="flat aqua outline">Reviews</button></a>
+            <a class="button" href="{{ product.url }}#product__related-posts"><button class="flat aqua outline">Articles</button></a>
+          </div>
+        </div>
+        <!-- Product Content: Buy Button -->
+        <div id="product__button{{count}}" class="product__buy-button">
+          {% assign pre_order = false %}
+          {% if product.tags contains 'pre-order' %}
+            {% assign pre_order = true %}
+            {% for tag in product.tags %}
+              {% if tag contains 'pre-order-date=' %} {% assign pre_order_date = tag | split: "=" | last %} {% endif %}
+            {% endfor %}
+          {% else %}
+            {% assign pre_order = false %}
+          {% endif %}
+          {% unless product.available %}{% if pre_order %}{% assign is_sold_out = false %}{% else %}{% assign is_sold_out = true %}{% endif %}{% endunless %}
+          <!-- Amazon Products -->
+          {% for tag in product.tags %}
+            {% if tag contains "link_to_amazon" %}
+              {% assign amazon_link = tag | split: "=" | last %}
+            {% endif %}
+          {% endfor %}
+          <!-- Product: Dynamic Product Buy Box -->
+          {% include 'product-buy-box' %}
+          <!-- Product: Include the Product Callback function to allow the customer to select a variant -->
+          {% include 'product-select' %}
+          {% unless amazon_link %}
+            <a href="#buy-now" class="trigger-buy-box button">
+              {% if pre_order == true %}
+                Pre-Order
+              {% else %}
+                Add to Bag
+              {% endif %}
+            </a>
+          {% else %}
+            <a href="{{ amazon_link }}" class="amazon_link">
+              Buy on Amazon
+            </a>
+          {% endunless %}
+        </div>
+        <!-- Product Content: External Product Page Link -->
+        <a class="product__page-link" href="{{ product.url }}" target="_blank">
+          <i class="linear arrow__right"></i>
+          <span class="dsk">Learn More</span>
+          <span class="mob">View Product</span>
+        </a>
+        <!-- Product Content: Supplement Facts Modal -->
+        {% for image in product.images %}
+          {% if image.src contains "supplement-facts" or image.alt contains "supplement-facts" %}
+            {% assign supplement_facts = image %}
+          {% endif %}
+        {% endfor %}
+        {% if product.variants.size == 1 %}
+          <!-- Supplement Facts: Modal Popup (Single Variant) -->
+          {% if supplement_facts %}
+            <div class="supplement-facts">
+              <div class="modal fade fact-contents-{{count}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <h2>{{ product.title }}</h2>
+                    <img src="{{ supplement_facts | img_url: 'master' }}" class="{{ product.selected_or_first_available_variant.option1 }}"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% else %}
+          <!-- Supplement Facts: Modal Popup (Multiple Variants) -->
+          <div class="supplement-facts">
+            <div class="modal fade fact-contents-{{count}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <h2>{{ product.title }}</h2>
+                  {% for image_url in product.metafields["supplement_facts"] %}
+                    <img src="{{ image_url | last }}" class="{{ image_url | first }}" style="display: none;"/>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- Product Mobile: Price -->
+  <div class="mobile-product__price mob">
+    <h6>
+    <span class="price">{{ product.price_max | money }}</span>
+    {% if product.metafields.subscriptions.subscription_id %}
+      {% assign discount = 100 | minus: product.metafields.subscriptions.discount_percentage %}
+      {% assign subscription_price = product.price_max | times: discount | divided_by: 100 %}
+      {% if subscription_price %}
+      <span class="subscription-price">({{ subscription_price | money }} with Subscription)</span>
+      {% endif %}
+    {% endif %}
+    </h6>
+  </div>
+</form>
+<style>
+  form > select {
+    display: none;
+  }
+</style>

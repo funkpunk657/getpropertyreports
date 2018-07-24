@@ -1,0 +1,277 @@
+{% paginate blog.articles by 50 %}
+
+<div id="blog">
+  <!--  START HEADER  -->
+  <div class="wrapper">
+    <div class="header">
+      <!-- START SEARCH -->
+      <a href="{{ blog.url }}"><h1>The Daily Thymes</h1></a>
+      <p>a health and wellness blog by <span class="text-accent-1">Ora Organic</span></p>
+      <div class="search">
+        <form action="#" method="get" class="search-form" role="search">
+          <div class="search-wrapper"><input name="q" type="search" id="search-field" class="search-box" placeholder="Search articles..." value="{{ search.terms | escape }}" /></div>
+          <input class="hidden" name="view" value="articles"/>
+          <input class="hidden" name="blog" value="{{ blog.handle }}"/>
+          <!-- <input type="submit" id="search-submit" value=""/> -->
+        </form>
+      </div>
+      <!-- END SEARCH -->
+    </div>
+    <!-- START CATEGORIES -->
+    <div class="categories">
+      <ul>
+        {% for tag in blog.all_tags %}
+          {% if tag contains 'category=' %}
+              {% assign category = tag | split: '=' %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}"><li id="{{ category[1] }}">{{ category[1] }}</li></a>
+              <a><li class="separator">//</li></a>
+          {% endif %}
+        {% endfor %}
+        <a href="/pages/products"><li>Shop</li></a>
+      </ul>
+    </div>
+    <!--  END CATEGORIES  -->
+    <!-- Articles: Loading Gif -->
+    <img id="loading" src="{{ 'page-loader.gif' | asset_url }}"/>
+    <div class="articles">
+      <!--  Articles: Start Content  -->
+      {% for article in blog.articles limit: 20 %}
+        {% include 'article-grid-item' %}
+      {% endfor %}
+      <!--  Articles: End Content  -->
+    </div>
+    <div class="paging">
+      <!-- {% include 'paging' %} -->
+      {% if paginate.next.is_link %}
+        <div id="paging"><a class="next button" href="{{ paginate.next.url }}"><button class="flat aqua">More Articles</button></a></div>
+      {% else %}
+        <div id="paging"><a class="button" href="{{ blog.url }}"><button class="flat aqua">More Articles</button></a></div>
+      {% endif %}
+    </div>
+    <!-- START VIBE -->
+    <div id="vibe" class="categories">
+      <h4>What's Your Vibe?</h4>
+      <ul>
+        {% for tag in blog.all_tags %}
+          {% if tag contains 'category=' %}
+              {% assign category = tag | split: '=' %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}"><li>{{ category[1] }}</li></a>
+              <a><li class="separator">//</li></a>
+          {% endif %}
+        {% endfor %}
+        <a href="/pages/products"><li>Shop</li></a>
+      </ul>
+    </div>
+    <!-- END VIBE -->
+  </div>
+  <!-- START HERO ARTICLE -->
+  <div id="hero-article">
+    <div class="wrapper">
+      <h2>Start from the beginning</h2>
+      <p>We're on a mission for better nutrition and a more sustainable society. Read more about the team behind Ora Organic and why we do what we do.</p>
+      {% for article in blog.articles %}{% if article.handle contains 'the-trouble-with-supplements' %}{% assign hero_article = article %}{% endif %}{% endfor %}
+      <a href="{{ hero_article.url }}" class="button"><button class="flat aqua">Our 'A-ha' Moment</button></a>
+    </p>
+  </div>
+  <!-- END HERO ARTICLE -->
+</div>
+<!-- Special Styles for Blog -->
+<style>
+  #main {
+    margin-top: 0;
+  }
+</style>
+
+<script>
+  //==== SEARCH FUNCTIONALITY ====//
+  $(document).ready(function () {
+
+    // Handle URL Parameter search terms (from product pages)
+    if (window.location.href.indexOf('search_term') > -1) {
+      var search_term = window.location.href.split('search_term=')[1];
+      // console.log("search_term =" + search_term);
+      $('#search-field').val(search_term);
+      setTimeout(function() {
+        $('.search-box').trigger('paste keyup');
+      }, 500);
+    }
+    if (window.location.href.indexOf('category') > -1) {
+      $('.article').slideDown();
+      var category = window.location.href.split('category-')[1];
+      $('#'+category).addClass('active');
+    }
+    // Handle search submit clicked, sort articles and hide those that don't match
+    // the terms input.
+    var articles           = $('.article'),
+        search_box_wrapper = '.search-form'
+        result_wrapper     = '.article',
+        method             = 'slide';
+
+    var list = [];
+
+    /* Capture all of the blog articles */
+    {% capture blog_articles %}
+      [
+      {% for article in blog.articles %}
+        '{% include "article-grid-item" %}'{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      ]
+    {% endcapture %}
+
+    /* Capture Articles */
+    var blog_articles = {{ blog_articles | strip_newlines | replace: "blog-container small", "blog-container medium" | replace: "blog-container large", "blog-container medium" }};
+    /* End Capture Articles */
+
+    /* When the next paginate button is clicked, retrieve the articles using AJAX, then format
+    *  them so they can be added to the DOM */
+    $('.next').click(function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: 'GET',
+        url: $(this).attr('href'),
+        beforeSend: function() {
+          $('.articles').hide();
+          $('#loading').fadeIn();
+        },
+        success: function(data) {
+
+          var articles = 
+            data.split('var blog_articles = ')[1].split('/*')[0]
+              .replaceAll("',              '","")
+              .replace("      [              '","")
+              .replace("'            ]    ;","");
+
+          // $('.next').hide();
+          $('.articles').append(articles);
+
+          list = [];
+
+          $('.article').each(function(index) {
+
+            list.push({ 'name' : $(this).prop('outerHTML'), 'object' : $(this), 'id' : $(this).attr('id')});  
+            
+          });
+
+          console.log(list);
+          /* Run the search articles function again with the new list */
+          searchArticles();
+
+        }
+      })
+    })
+
+    // console.log({{ blog_articles | strip_newlines }});
+
+    for (i=0; i < blog_articles.length; i++) {
+
+      list.push({ 'name' : $(blog_articles[i]).prop('outerHTML'), 'object' : $(blog_articles[i]), 'id' : $(blog_articles[i]).attr('id') });
+
+    }
+
+    /* Create a delay function to handle user text input 
+    *  Credit: https://stackoverflow.com/questions/1909441/how-to-delay-the-keyup-handler-until-the-user-stops-typing?rq=1
+    */
+    var delay = (function(){
+      var timer = 0;
+      return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+      };
+    })();
+    /* Make the search box functional! */
+    /* @TODO - set threshold for amount of time between ending change paste to running search query */
+    $(search_box_wrapper).find('.search-box').on('paste keyup', function() {
+      
+      searchArticles();
+      
+    })
+
+    function searchArticles() {
+        /* Set a timeout / delay so that we give some time for the user input to finish */
+      delay(function() {
+
+        var search_term = $(search_box_wrapper).find('.search-box').val().toLowerCase();
+        console.log("current search term = "+search_term);
+        
+        var options = {
+          shouldSort: false,
+          threshold: 0.6,
+          location: 0,
+          distance: 5000,
+          maxPatternLength: 6,
+          minMatchCharLength: 4,
+          keys: [
+            "name",
+          ]
+        };
+        
+        // console.log(list);
+
+        var fuse = new Fuse(list, options); // "list" is the item array
+
+        if (search_term !== "") {
+          var result = fuse.search(search_term);
+        } else {
+          var result = list;
+        }
+
+
+        // console.log(result);
+
+        /* Hide all results */
+        if (method == 'slide') {
+          $(result_wrapper).remove();
+        } else {
+          $(result_wrapper).fadeOut(300);
+        }
+
+        $('.articles').hide();
+
+        $('#loading').fadeIn();
+        
+
+        /* Show matching results */
+        for (i=0; i < result.length; i++) {
+          for (j=0; j < list.length; j++) {
+            if (result[i] == list[j]) {
+              /* Search: Check that the result matches */
+              if ($('.articles').html().indexOf(result[i].id) > -1) {
+                // console.log("duplicate");
+              } else  {
+                $('.articles').append(result[i].name);
+              }
+            }
+          }
+        }
+
+        /* Show all matching articles */
+        setTimeout(function() {
+          $('.articles').slideDown();
+          $('.articles').children().slideDown();
+          /* Hide the loading gif */
+          $('#loading').fadeOut()
+        }, 1500);
+
+
+      }, 600)
+    }
+  })
+</script>
+<script>
+  $(document).ready(function() {
+    var header = $('header');
+    if ($(document).scrollTop() == 0) {
+      header.removeClass("scrolled").addClass("top dark");
+    }
+    $(window).scroll(function() {
+      if ($(document).scrollTop() == 0) {
+        header.removeClass("scrolled").addClass("top dark");
+      } else {
+        header.removeClass("top dark").addClass("scrolled");
+      }
+    })
+  })
+</script>
+
+{% endpaginate %}
+

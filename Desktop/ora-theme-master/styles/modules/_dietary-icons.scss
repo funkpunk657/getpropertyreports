@@ -1,0 +1,62 @@
+#dietary-icons, 
+.dietary-icons {
+	margin: 30px 0 30px;
+  text-align: center;
+	&.dietary-mobile {
+		display: none;
+	}
+
+	.dietary {
+		position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    margin: 10px;
+
+    img {
+      width: 100%;
+    }
+
+    .popup {
+      display: none;
+      width: auto;
+      font-size: 12px;
+      z-index: 2;
+      top: initial;
+      bottom: 100%;
+      right: initial;
+      left: -200%;
+
+      .triangle.down {
+        bottom: -16px;
+      }
+    }
+  }
+  p {
+    display: inline-block;
+    font-size: 18px;
+  }
+  p:nth-last-of-type(1) .separator {
+    display: none;
+  }
+  li:nth-of-type(1) {
+    border-bottom: none !important;
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 468px) {
+  #dietary-icons,
+  .dietary-icons {
+    .dietary {
+      text-align: left;
+      margin: 5px;
+    }
+    p {
+      font-size: 16px;
+    }
+    .no {
+      left: 12.5px !important;
+    }
+  }
+}

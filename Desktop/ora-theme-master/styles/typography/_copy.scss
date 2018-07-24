@@ -1,0 +1,57 @@
+body {
+	font-family: $font__body;
+	color: $color__text-copy;
+	text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+div, p, a, li, span, label {
+	font-family: $font__body;
+	color: $color__text-copy;
+	text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, div {
+	font-size: $size__text-copy;
+	line-height: 1.62em;
+}
+
+span {
+	line-height: 1.62em;
+}
+
+a {
+	font-size: inherit;
+}
+
+li {
+	font-size: $size__text-list;
+	line-height: 1.62em;
+}
+blockquote {
+	font-size: 36px;
+	font-family: $baskerville;
+	font-style: italic;
+	line-height: 1.24em;
+	text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@media (max-width: 768px) {
+	blockquote {
+		font-size: 30px;
+		font-family: $baskerville-mobile;
+	}
+}
+
+@media (max-width: 468px) {
+	p, a, li, span, label {
+		font-size: 14px;
+	}
+	blockquote {
+		font-size: 15px;
+	}
+}

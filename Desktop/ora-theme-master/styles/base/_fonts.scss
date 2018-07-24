@@ -1,0 +1,93 @@
+/*== LOCAL FONTS ==*/
+/* AVENIR */
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Book.otf');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Light.otf');
+  font-weight: 100;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Oblique.otf');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Medium.otf');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-MediumOblique.otf');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-Heavy.otf');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Avenir Web';
+  src: url('font-AvenirLTStd-HeavyOblique.otf');
+  font-weight: 700;
+  font-style: italic;
+}
+/* GOUDY */
+@font-face {
+  font-family: 'Goudy Old Style';
+  src: url('font-goudyo.ttf'); /* IE9 Compat Modes */
+}
+@font-face {
+  font-family: 'Goudy Old Style';
+  src: url('font-goudyo-bold.ttf'); /* IE9 Compat Modes */
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'Goudy Old Style';
+  src: url('font-goudyo-italic.ttf'); /* IE9 Compat Modes */
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('font-LibreBaskerville-Regular.otf');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('font-LibreBaskerville-Bold.otf');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'Baskerville';
+  src: url('font-baskerville.ttf');
+}
+@font-face {
+  font-family: 'Baskerville';
+  font-weight: 100;
+  src: url('font-oldbaskerville-light.ttf');
+}
+@font-face {
+  font-family: 'Baskerville';
+  src: url('font-baskerville-italic.ttf');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'LinearIcons';
+  src: url('Linearicons.eot');
+  src: local('LinearIcons'), 
+         url('Linearicons.ttf') format('truetype');
+}
+/*== GOOGLE FONTS ==*/
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+$josefin-sans: 'Josefin Sans', sans-serif;
+$goudy: 'Goudy Old Style', 'Sorts Mill Goudy', Georgia, serif;
+$linear-icons: 'LinearIcons';
+$font-awesome: 'FontAwesome';
+$baskerville: Baskerville, 'Libre Baskerville', serif;
+$baskerville-mobile: Baskerville, 'Libre Baskerville', serif;
+$avenir: Avenir, 'Avenir Web', Helvetica, Arial, sans-serif;

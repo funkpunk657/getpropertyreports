@@ -1,0 +1,342 @@
+<!-- Count for multi product pages -->
+{% if count %}
+  {% assign count_suffix = "_" | append: count  %}
+{% endif %}
+
+<!-- Product Options: Purchase Variant -->
+{% if product.variants.size > 1 %}
+  {% assign variant_class = "" %}
+{% else %}
+  {% assign variant_class = "hidden" %}
+{% endif %}
+
+<!-- Setup Variant Arrays -->
+<!-- Setting these up as arrays allows us to the check the length of the unique values, and test them against the product being displayed. If a product has more than one flavor, then we need to show the flavor dropup, same with size etc. -->
+{% assign flavors = flavors | strip | strip_newlines | replace: " ","" | replace: "'", "" | split: "," | uniq %}
+{% assign sizes   = sizes | strip | strip_newlines | replace: " ","" | replace: "'", "" | split: "," | uniq  %}
+
+<!-- Product: Buy Bar -->
+<div class="product__buy-bar {% if variant_class != 'hidden' %}multiflavor{% endif %}">
+  <div class="product__wrapper">
+    <!-- Product: Variant Options & Subscription -->
+    <div class="product__options options {% if current_size %}multisize{% endif %}">
+      <!-- Product Options: Purchase Section -->
+      <div class="product__purchase-section purchase-section">
+        <!-- Product: Price -->
+        <div id="product__price{{ count_suffix }}" class="product__price purchase-price">
+          <h5>Your Price:</h5>
+          <!-- See if product is on sale -->
+          {% assign on_sale = false %}
+          {% for tag in product.tags %}{% if tag contains 'on_sale=true' %}{% assign on_sale = true %}{% endif %}{% endfor %}
+          <!-- @TODO: Make this apply for collections specified in the deal -->
+          {% if settings.show_deal_sidebar and on_sale == true %}
+            {% assign old_price_class = "old_price" %}
+            {% if cart.item_count == 1 %}
+              {% assign saving_percent = 100 | minus: settings.deal_sidebar_discount_percentage_1 %}
+            {% else %}
+              {% assign saving_percent = 100 | minus: settings.deal_sidebar_discount_percentage_2 %}
+            {% endif %}
+            <!-- Assign Savings -->
+            {% assign discounted_price = product.price | times: saving_percent | divided_by: 100 %}
+          {% else %}
+            {% assign savings = 0 %}
+          {% endif %}
+          <h5 id="product-price_{{product.id}}" itemscope itemtype="http://schema.org/Offer" class="price old_price">{{ product.price | money }}</h5>
+          <h5 id="discounted_price_{{product.id}}" style="{% unless settings.show_deal_sidebar and on_sale == true %}display: none;{% endunless %}">{{ discounted_price | money }}</h5>
+          {% if settings.show_deal_sidebar and on_sale == true %}
+          <!-- Listen for changes to the autodeliver -->
+          <script>
+            $(document).ready(function() {
+              $('input[name="autodeliver_{{product.id}}"]').on('click', function() {
+                var old_price = Number($('#product-price_{{product.id}}.old_price').html().split("$")[1]),
+                    discount  = Number("{{ saving_percent }}".split("%")[0])/100,
+                    new_price = (old_price*discount);
+
+                // console.log(old_price);
+                // console.log(discount);
+
+                $('#discounted_price_{{product.id}}').html("$"+new_price.toFixed(2));
+              })
+            })
+          </script>
+          <!-- Style for deal strike out -->
+          <style>
+            #product-price_{{product.id}} {
+              font-size: 16px;
+              font-weight: bold;
+              color: red;
+              text-decoration: line-through;
+              margin: 15px 0;
+            }
+            #discounted_price_{{product.id}} {
+              text-align: right;
+              font-size: 20px;
+              font-weight: 700;
+              margin: 15px 0;
+              flex: 0;
+              padding-left: 15px;
+            }
+            @media (max-width: 767px) {
+              #product-price_{{product.id}} {
+                font-size: 20px !important;
+                font-weight: bold !important;
+              }
+            }
+          </style>
+          {% endif %}
+        </div>
+
+        <!-- Product Variant Title (Hidden - for cart message only) -->
+        <div class="product__variant-title hidden">
+          <h6>{{ product.title }}<span class="flavor">{{ product.selected_or_first_available_variant.title }}</span></h6>
+        </div>
+
+        <!-- Product Options: Subscription -->
+        <div class="product__subscription {% if variant_class != 'hidden' %}multiflavor{% endif %}{% if current_size == '1' %} shrink{% endif %} {% if current_size %}multisize{% endif %}">
+          <ul class="product__subscription-selector">
+            <li class="option active" data-value="onetime" style="{% if product.metafields['subscriptions'].has_subscription != 'True' %}pointer-events: none; cursor: default;{% endif %}"><span>Standard Order</span></li>
+            {% if product.metafields["subscriptions"].has_subscription == "True" %}
+              <li class="option" data-value="autodeliver"><span>Monthly Subscription</span></li>
+              <i class="arrow linear chevron-up"> </i>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div id="product__variants{{ count_suffix }}" class="product__variants {{ variant_class }} {% if flavors.size > 1 %}multiflavor{% endif %} {% if sizes.size > 1 %}multisize{% endif %}">
+           <!-- Mobile Title -->
+           <p class="product__variants-title mob">Flavor</p>
+           <!-- Selector -->
+           <select id="product-select{{ count_suffix }}" name="id" data-productid="{{product.id}}">
+           {% for variant in product.variants %}
+            <option value="{{ variant.id }}">{{ variant.title }} - {{ min_price | money }}</option>
+           {% endfor %}
+           </select>
+
+           <!-- Variant: Flavor Selector -->
+           <div class="product__variants-selector {% if current_size == '1' %} shrink{% endif %} {% if flavors.size < 2 %}hidden{% endif %} {% if current_size %}multisize{% endif %}">
+             {% for variant in product.variants %}
+              {% assign variant_flavor = variant.option1 | downcase | replace: ' ', '-' %}
+              <div class="product__variant-option {{ variant_flavor }} {% if current_flavor == variant_flavor %}active{% else %}{% unless current_flavor %}{% if forloop.first %}active{% endif %}{% endunless %}{% endif %}{% if forloop.index > flavors.size %} hidden{% endif %}" 
+                   data-flavor="{{ variant_flavor }}" 
+                   data-option="{{ variant.option1 }}"
+                   data-variant-id="{{ variant.id }}" 
+                   data-product-id="{{ product.id }}">
+                <img class="product__variant-option-image" src="{{ variant.metafields['c_f']['Flavor Image'] }}"/>
+                <p class="product__variant-option-name">{{ variant.option1 }}</p>
+              </div>
+             {% endfor %}
+           </div>
+
+           <!-- Variant: Size Selector -->
+           <ul class="product__size-selector {% if sizes.size < 2 %}hidden{% endif %}">
+             <li class="product__size-title mob">Size</li>
+             {% for variant in product.variants %}
+               {% assign variant_flavor = variant.option1 | downcase | replace: " ", "-" %}
+               {% assign variant_size = variant.option2 %}
+               <li class="option {% if current_size == variant_size %}active{% endif %} size_{{variant_size}} {{ variant_flavor }}" 
+                   data-value="{{ variant_size }}"
+                   data-flavor="{{ variant_flavor }}"
+                   data-size="{{ variant.option2 }}"
+                   data-price="{{ variant.price | money_with_currency }}"
+                   data-subscription-price="{{ variant.price | times: discount | divided_by: 100 | money_without_currency }}" 
+                   data-variant-id="{{ variant.id }}" 
+                   data-product-id="{{ product.id }}">
+                 {{ variant_size }} Serving{% unless variant_size == "1" %}s{% endunless %}
+               </li>
+             {% endfor %}
+             <i class="arrow linear chevron-up"> </i>
+           </ul>
+
+        </div>
+
+        <script>
+          
+        </script>
+
+        <!-- Product Options: Purchase Quantity -->
+        <div class="product__quantity-wrapper quantity-wrapper {% if variant_class != 'hidden' %}multiflavor{% endif %} {% if current_size %}multisize{% endif %}">
+          <!-- Mobile Title -->
+         <p class="quantity-title mob">Quantity</p>
+          <input id="quantity{{ count_suffix }}" class="quantity" name="quantity" value="1" max="99"/>
+          <label for="quantity">Qty</label>
+          <!-- Quantity Change Buttons -->
+          <div class="quantity__buttons">
+            <a href="#" class="btn-plus"><i class="linear plus"></i></a>
+            <a href="#" class="btn-minus"><i class="linear minus"></i></a>
+          </div>
+        </div>
+
+        {% if product.metafields.subscriptions.subscription_id %}
+        <!-- Product Options: Subscription Details Selector -->
+        <div class="product__subscription-details popup_container">
+          <h6 class="message"><b>Save 20%</b> with a subscription? <a href="#" class="popup_trigger" data-popup="subscription_popup{{ count_suffix }}"> See details</a></h6>
+          <!-- Subscription: Details -->
+          <div id="subscription_popup{{ count_suffix }}" class="popup subscription_popup">
+            <i class="triangle">◀</i>
+            <div class="subscription_popup-content">
+              <p>Get 20% off your order, no hidden fees, cancel anytime. (US only)</p>
+              <hr>
+              <p><b>Delivered &amp; charged monthly</b></p>
+            </div>
+          </div>
+          <div class="subscription-details">
+            <!-- Subscription: Product Selector -->
+            {% include 'subscription-product' %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <!-- OPTIONS: Pre-order/Sold-out -->
+      <div id="pre-order{{ count_suffix }}" class="hidden">
+      {% if product.selected_or_first_available_variant.inventory_quantity < 1 and product.tags contains 'pre-order' %}
+          <input id="sold_out{{count}}" class="hidden" name="sold_out" value="pre-order"/>
+      {% elsif product.selected_or_first_available_variant.inventory_quantity < 1 %}
+        {% unless product.tags contains 'pre-order' %}
+        <div class="" href="">
+          <input id="sold_out{{count}}" class="hidden" name="sold_out" value="Sold Out"/>
+          <p><span class="text-accent-2">Sorry</span>, we're sold out!</p>
+        </div>
+        {% else %}
+        <div class="" href="">
+          <input id="sold_out{{count}}" class="hidden" name="sold_out" value="Pre-Order"/>
+          <p><span class="text-accent-2">Sorry</span>, we're sold out!</p>
+        </div>
+        {% endunless %}
+      {% endif %}
+      </div>
+    </div>
+    <!-- Product Actions: Add to Cart-->
+    <div id="product-buttons{{count}}" class="product__actions product-buttons {% if flavors.size > 1 %}multiflavor{% endif %} {% if current_size %}multisize{% endif %}">
+      {% for variant in product.variants %}
+        {% assign variant_flavor = variant.option1 | downcase | replace: ' ', '-' %}
+        {% assign variant_size   = variant.option2 %}
+      {% if variant.inventory_quantity <= 0 %}
+        {% assign is_sold_out = true %}
+      {% else %}
+        {% assign is_sold_out = false %}
+      {% endif %}
+      <input id="add{{ count_suffix }}_{{ variant_flavor }}_{{ variant_size }}"
+             class="flat aqua medium add-to-cart {{ variant_flavor }} {{ variant_flavor }}_{{ variant_size }} {% if current_flavor == variant_flavor and current_size == variant_size %}active{% else %}{% unless current_flavor %}{% if forloop.first%}active{% endif %}{% endunless %}{% endif %} {% if is_sold_out %}sold-out{% endif %}"
+             type="submit" 
+             value="{% if is_sold_out %}Sold Out{% else %}Add to Bag{% endif %}" />
+      {% endfor %}
+    </div>
+    <!-- Pre Orders: Shipping Date -->
+    {% if pre_order and pre_order_date %}<p class="pre-order-date">Pre-orders ship on <b>{{ pre_order_date }}</b>!</p>{% endif %}
+  </div>
+</div> 
+<script>
+  $(document).ready(function() {
+    /* Script for Clickbank */
+    if (window.location.href.indexOf('clickb') > -1) {
+
+      var sku = "{{ product.selected_or_first_available_variant.sku }}";
+
+      $('body').before('<script src="//cbtb.clickbank.net/?vendor=oraorganic"><'+'/script>');
+      $('.product__actions').before('<a class="clickbank_button" href="http://'+sku+'.oraorganic.pay.clickbank.net" target="cb">Purchase Now</a>');
+      $('.product__actions, .price .or, .price .subscription-price, .subscription_message, .product__subscription-details').hide();
+      $('.price').prepend('<span><b>Price: </b></span>');
+      /* Purchase Parameters */
+      $('.product__quantity-wrapper input').change(function() {
+        var quantity = $(this).val();
+        $('.clickbank_button').attr('href', 'http://'+sku+'.oraorganic.pay.clickbank.net/?quantity='+quantity);
+      })
+    }
+
+    /* Product: Show Buy Box on buy button click */
+    $('.product__buy-button .button').click(function() {
+
+      {% if template == 'page.products' %}
+        // Send the header back on shop page
+        $('header').css('z-index', 1);
+      {% endif %}
+
+      var button = $(this);
+
+      var showBuyBox = anime.timeline();
+
+      if ($(window).width() < 469) {
+
+        $('#landing__discount').addClass('behind');
+        $('.product-form .shopping-cart-overlay').css('z-index', 10).show();
+        $('header').css('z-index', 1);
+
+        showBuyBox.add({
+          targets: '.buy-box-trigger{% if template == "page.products" %}, .product__buy-button{% endif %}',
+          bottom: '-300px',
+          easing: 'easeInOutQuart',
+          offset: 0
+        })
+        showBuyBox.add({
+          targets: '#product__button{{count}} .product__buy-box',
+          bottom: '300px',
+          easing: 'easeInOutQuart',
+          offset: 0
+        })
+      } else {
+        $('#product__button{{count}} .product__buy-box').addClass('show-desktop').fadeIn(200);
+      }
+
+      button.addClass('inactive');
+      
+
+      $(document).on("mousedown mouseup.hideBuyBox touchend.hideBuyBox", function(e) { 
+
+        var container = $('.product__buy-box, .ui-selectmenu-menu');
+
+        if (!container.is(e.target) // if the target of the click isn't the container or the selectmenu...
+              && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+
+          // console.log("click target = "+e.target);
+          // console.log($('#product__button{{count}} .product__buy-box').css('bottom'));
+
+          if ($('.shopping-cart-overlay').is(e.target) || $('.success_actions #close_all button').is(e.target)) {
+            $('.shopping-cart-overlay').fadeOut();
+            $('.add_to_cart-success').remove();
+          }
+
+          if ($('#product__button{{count}} .product__buy-box').css('bottom') == '300px' || // for chrome
+              $('#product__button{{count}} .product__buy-box').css('bottom') == '0%' ||  // for safari
+              $('#product__button{{count}} .product__buy-box').hasClass('show-desktop')) {
+            
+            var hideBuyBox = anime.timeline();
+
+            if ($(window).width() < 469) {
+              $('.product-form .shopping-cart-overlay').click(function() { 
+                $(this).fadeOut(); 
+                $('header').css('z-index', 1003); 
+              });
+              
+              $('.product-form .shopping-cart-overlay').fadeOut();
+
+              hideBuyBox.add({
+                targets: '.product__buy-box',
+                bottom: '-1000%',
+                easing: 'easeInOutQuart',
+                offset: 0
+              })
+              hideBuyBox.add({
+                targets: '.buy-box-trigger{% if template == "page.products" %}, .product__buy-button{% endif %}',
+                bottom: '0',
+                easing: 'easeInOutQuart',
+                offset: 0
+              })
+            } else {
+              $('.product__buy-box').removeClass('show-desktop').fadeOut(200);
+            }
+
+            button.removeClass('inactive');
+
+            $('header').css('z-index', 1003);
+            $('#landing__discount').removeClass('behind');
+
+            // Remove the click handler on the document so that it hides correctly
+            $(document).unbind('mouseup.hideBuyBox touchend.hideBuyBox');
+          }
+          
+        }
+      });
+    })
+  })
+</script>

@@ -1,0 +1,57 @@
+<!-- Set up tags -->
+{% for tag in article.tags %}
+	{% if tag contains "time=" %}{% assign time = tag | split: "=" | last %}{% endif %}
+	{% if tag contains "state=" %}{% assign state = tag | split: "=" | last %}{% endif %}
+	{% if tag contains "city=" %}{% assign city = tag | split: "=" | last %}{% endif %}
+	{% if tag contains "salary=" %}{% assign salary = tag | split: "=" | last %}{% endif %}
+{% endfor %}
+
+<!-- Start Article Content -->
+<div id="article">
+	<article class="article__wrapper">
+		<div class="{% unless blog.comments_enabled? %}no-comments{% endunless %}">
+      <div class="wysiwyg">
+        <!-- Article Content: Careers -->
+        <div class="job_listing">
+        	<!-- Job: Header -->
+          <div class="careers__header">
+          	<div class="wrapper">
+	          	<p class="careers_title">Ora Organic Careers</p>
+	          	<h1 class="job_title">{{ article.title }}</h1>
+	            <h5 class="job_time_salary">
+	            	<span class="job_time">{{ time }}</span>{% if salary %}, {% endif %}
+	            	<span class="job_salary">{{ salary }}</span>
+	            </h5>
+	            <h5 class="job_location">{{ city }}, {{ state }}</h5>
+	          </div>
+          </div>
+          <!-- Job: Description -->
+          <div class="article__content job_description">
+            {{ article.content }}
+          </div>
+          <!-- Separator -->
+          <hr class="separator">
+          <!-- Job Listing: Apply -->
+          <div class="job_listing-apply">
+          	<h2>Sound like you?</h2>
+          	<p>{{ article.excerpt }}</p>
+            <a href="mailto:careers@ora.organic?subject={{ article.title }} - Job Application&body=[ Please make sure to leave your full name and phone number so that we can get back to you as soon as possible. Good luck! ]" class="button">
+              <button class="flat aqua apply">Apply Now</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+	</article>
+</div>
+
+<!-- Job Listing Styling -->
+<style>
+	header {
+		background: transparent;
+		border-bottom: none;
+	}
+	#main {
+		margin-top: 0;
+	}
+</style>

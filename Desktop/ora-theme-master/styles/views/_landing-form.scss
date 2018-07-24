@@ -1,0 +1,178 @@
+#landing-form {
+	background-size: cover;
+	background-position: center;
+	@include display-flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+
+	.landing__wrapper {
+		background-color: $color__background;
+		text-align: center;
+		width: 540px;
+		padding: 30px;
+		border-radius: 8px;
+		position: relative;
+		max-height: min-content;
+		@include box-shadow-wide;
+		transition: max-height 0.3s ease-in-out;
+
+		h1 {
+			overflow: hidden;
+			margin-top: 0;
+			transition: max-height 0.3s ease-in-out;
+		}
+
+		.landing_form_loading,
+		.landing_form_thanks {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.3s ease-in-out;
+
+			h2 {
+				margin-top: 0;
+			}
+		}
+
+		.landing_form_thanks {
+			.thank_you-message {
+				font-size: 16px;
+				margin: 30px 60px;
+			}
+			button {
+				border-radius: 8px;
+			}
+		}
+
+		.rte {
+			max-height: 600px;
+			overflow: hidden;
+			transition: max-height 0.3s ease-in-out;
+
+			table {
+				display: none;
+			}
+
+			.content {
+				padding: 15px 15px 0;
+
+				p {
+					font-size: 16px;
+				}
+				h5 {
+					padding-top: 15px;
+					padding-bottom: 5px;
+					margin: 22.5px 30px 0;
+					background-color: $color__background-alternate;
+					border: 1px solid $color__input-border;
+					border-bottom: none;
+					border-radius: 8px 8px 0 0;
+					font-size: 16px;
+				}
+				h6 {
+					padding-bottom: 15px;
+					margin: 0 30px;
+					background-color: $color__background-alternate;
+					border: 1px solid $color__input-border;
+					border-top: none;
+					border-radius: 0 0 8px 8px;
+				}
+			}
+
+			#promotions {
+				.fields {
+					.field_group {
+						width: 360px;
+						margin: 15px auto;
+						@include display-flex;
+						flex-flow: row nowrap;
+						align-items: center;
+						justify-content: center;
+
+						label {
+							font-size: 16px;
+							margin: 0;
+						}
+
+						/* Text Field */
+						.field {
+							margin: 0 0 0 15px;
+							border-radius: 8px;
+							flex: 1;
+							font-size: 16px;
+						}
+
+						/* Select Field */
+						#select-field-button {
+							flex: 1;
+							margin: 0 0 0 15px;
+							border-radius: 8px;
+						}
+					}
+				}
+				.actions {
+					margin-top: 22.5px;
+
+					button {
+						border-radius: 8px;
+						width: 360px;
+					}
+				}
+			}
+		}		
+	}
+}
+
+@media (max-width: 468px) {
+	#landing-form {
+		.landing__wrapper {
+			padding: 22.5px 15px;
+			margin: 45px 22.5px 22.5px;
+
+			.rte {
+				.content {
+					p, h6 {
+						font-size: 13px;
+					}
+					h5 {
+						font-size: 14px;
+						padding: 15px 15px 0;
+						margin: 22.5px 0 0;
+					}
+					h6 {
+						margin: 0;
+					}
+				}
+
+				#promotions {
+					.fields {
+						.field_group {
+							width: 270px;
+
+							label {
+								font-size: 13px;
+							}
+							.ui-selectmenu-text {
+								font-size: 12px;
+							}
+							#select-field-button {
+								margin-left: 7.5px;
+							}
+						}
+					}
+					.actions {
+						button {
+							width: 270px;
+						}
+					}
+				}
+			}
+			/* Landing Thanks */
+			.landing_form_thanks {
+				.thank_you-message {
+					margin: 22.5px;
+				}
+			}
+		}
+	}
+}

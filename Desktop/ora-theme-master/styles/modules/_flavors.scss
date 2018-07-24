@@ -1,0 +1,42 @@
+/* Flavor Circles */
+input[type="checkbox"].flavor,
+.flavor {
+	border-radius: 50%;
+	width: 18px;
+	height: 18px;
+
+	&:checked {
+		outline: none;
+		color: $color__accent-1;
+		border: 2px solid $color__accent-1;
+
+		&:before {
+			content: "";
+		}
+	}
+}
+/* Product: Flavor Popup */
+.popup.flavor__popup {
+  min-width: auto;
+  top: -50%;
+  left: 200%;
+  padding: 10px;
+  right: initial;
+  width: auto;
+  z-index: 1080;
+
+  .triangle {
+  	font-size: 16px;
+  	left: -12px;
+    right: auto;
+    top: 25%;
+    bottom: initial;
+    transform: none;
+  }
+
+  p {
+  	margin-bottom: 0;
+  	white-space: nowrap;
+  	text-transform: capitalize;
+  }
+}

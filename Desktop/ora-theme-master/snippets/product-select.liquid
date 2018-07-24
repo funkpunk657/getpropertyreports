@@ -1,0 +1,50 @@
+{% if count %}
+  {% assign count_suffix = "_" | append: count  %}
+{% endif %}
+<script id="callback-{{ product }}{{ count_suffix }}">
+  setTimeout(function() {
+    var selectCallback = function(variant, selector) {
+      // console.log('callback started')
+
+      if (variant) {
+        // Swap image.
+       if (variant.featured_image) {
+          var newImage = variant.featured_image;
+          var mainImageEl = jQuery('#feature-image')[0]; 
+        }
+        if (variant.available) {
+          // console.log("{{ product.title }} = {{ product.tags }}");
+          // Selected a valid variant that is available.
+          {% if product.tags contains 'pre-order' %}
+          // console.log(jQuery('#modal{{ count_suffix }} #add'));
+          jQuery('#add{{ count_suffix }}').removeClass('disabled').removeAttr('disabled').val('Pre-order').fadeTo(200,1);
+          {% else %}
+          jQuery('#add{{ count_suffix }}').removeClass('disabled').removeAttr('disabled').val('Add to Cart').fadeTo(200,1);
+          {% endif %}
+        } else {
+          // Variant is sold out.
+          jQuery('#add{{ count_suffix }}').val('Sold Out').addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);        
+        }
+        // Whether the variant is in stock or not, we can update the price and compare at price.
+        if ( variant.compare_at_price > variant.price ) {
+          jQuery('.modal{{ count_suffix }} #product-price').html('<span class="product-price on-sale">'+ Shopify.formatMoney(variant.price, "{{ shop.money_format }}") +'</span>'+'&nbsp;<del class="product-compare-price">'+Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}")+ '</del>');
+        } else {
+          jQuery('.modal{{ count_suffix }} #product-price').html('<span class="product-price">'+ Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + '</span>' );
+        }        
+      } else {
+        // variant doesn't exist.
+        jQuery('#modal{{ count_suffix }} #add').val({{ 'products.product.unavailable' | t | json }}).addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);
+      }
+    };
+    jQuery(function($) {
+      new Shopify.OptionSelectors('product-select{{ count_suffix }}', { product: {{ product | json }}, onVariantSelected: selectCallback, enableHistoryState: true });
+
+      // Add label if only one product option and it isn't 'Title'.
+      {% if product.options.size == 1 and product.options.first != 'Title' %}
+        $('#product__variants{{ count_suffix }} .selector-wrapper:eq(0)').prepend('<label>Flavor:</label>');
+      {% endif %}
+
+    });
+  }, 500);
+
+</script>

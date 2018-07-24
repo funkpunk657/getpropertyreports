@@ -1,0 +1,19 @@
+form {
+	.errors {
+		text-align: center;
+
+		ul {
+			list-style: none;
+			padding: 0;
+
+			li {
+				font-size: 16px;
+				font-weight: 700;
+				color: red;
+				border-bottom: 2px solid red;
+				display: inline-block;
+				margin: 0 auto;
+			}
+		}
+	}
+}

@@ -1,0 +1,116 @@
+/* Product Testimonials: Reviews */
+#product__reviews {
+	.reviews {
+		.yotpo {
+			div, span, p, i, a, strong, sup, ul, li, form, label {
+				font-family: $font__body;
+				color: $color__text-copy;
+				font-size: 16px;
+				line-height: 1.62em;
+			}
+			/* Reviews: Buttons */
+			.yotpo-form-buttons-wrapper {
+		    @include display-flex;
+		    justify-content: center;
+		    margin: 30px 0;
+			}
+			/* Star Distribution */
+			.yotpo-star-distribution {
+				span {
+					font-size: 12px;
+				}
+			}
+			.yotpo-stars-and-sum-reviews {
+				.yotpo-stars {
+					padding-bottom: 12px;
+
+					.yotpo-icon {
+				    margin: 0 2px !important;
+				    background-image: none !important;
+				    font-size: 28px !important;
+					}
+				}
+				.yotpo-sum-reviews span {
+					font-weight: 700;
+					color: $color__accent-1;
+					font-size: 18px;
+				}
+			}
+			/* Summary Box */
+			.yotpo-display-wrapper > .yotpo-regular-box {
+				@include display-flex;
+				flex-flow: row wrap;
+				justify-content: center;
+				padding: 0 22.5px;
+
+				.yotpo-bottomline-box-2 {
+					flex: none;
+				}
+				.yotpo-stars {
+					.yotpo-icon {
+						font-size: 36px !important;
+						margin: 0 6px !important;
+					}
+				}
+				.yotpo-sum-reviews {
+					text-align: center;
+
+					span {
+						font-size: 24px;
+						padding-top: 22.5px;
+					}
+				}
+			}
+			/* Review / Question Buttons */
+			.yotpo-default-button {
+				min-width: 180px;
+				background-color: transparent;
+				border-radius: 0.5em;
+				border: 1px solid $color__accent-1;
+				position: relative;
+				top: initial;
+				margin: 15px;
+				height: 39px;
+				color: $color__accent-1;
+				font-family: $font__body;
+				font-weight: 700 !important;
+
+				span {
+					color: $color__accent-1;
+					&.yotpo-icon-button-text { font-size: 12px; font-weight: 700; }
+				}
+			}
+			input.yotpo-submit,
+			input.write-question-button {
+				padding: 1px 0 0;
+			}
+			/* Submit Question / Review */
+			.yotpo-header-title {
+				font-weight: 700;
+			}
+			/* Hide unused components */
+			.promoted-products-box,
+			.yotpo-label,
+			// .yotpo-bottomline,
+			.yotpo-nav {
+				display: none !important;
+			}
+			/* Review Box */
+			.yotpo-regular-box {
+				padding: 45px 22.5px;
+			}
+			/* Pagination */
+			.yotpo-pager {
+				span {
+					color: $color__text-headings-alt;
+					font-weight: 700;
+					font-size: 18px;
+
+					&.yotpo-active {
+						color: $color__accent-1;
+					}
+				}
+			}
+		}
+	}
+}

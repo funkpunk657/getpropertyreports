@@ -1,0 +1,38 @@
+<!-- Footer: Sitemap -->
+<div id="sitemap">
+  {% if linklists.footer.links.size > 0 %}
+    {% for link in linklists.footer.links %}
+      <a href="{{ link.url }}" title="{{ link.title }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+    {% endfor %}
+  {% endif %}
+</div>
+<!-- Footer: Disclaimer -->
+<div id="disclaimer">
+  <h6>Disclaimer</h6>
+  <p class="disclaimer__text">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+  <p class="copyright">Copyright Ora {{ "now" | date: "%Y" }} &copy;</p>
+</div>
+<!-- Footer: Mailing List signup -->
+<div id="mailing-list">
+  <div class="mailing-list__form">
+  {% form 'customer' %}
+    <input type="hidden" id="contact_tags" name="contact[tags]" value="newsletter"/>
+    <h6>Subscribe to our Newsletter</h6>
+    <div class="input-group">
+      <input class="email" type="email" id="contact_email" name="contact[email]" placeholder="Enter e-mail address"/>
+      <span class="input-group-btn">
+        <input class="submit flat aqua" type="submit" id="contact_submit" value="Join"/>
+      </span>
+    </div>
+  {% endform %}
+  </div>
+  <div class="mailing-list__social">
+    <h6>Find us On</h6>
+    <a id="social__instagram" href="https://www.instagram.com/ora.organic" target="_blank"><img src="{{ 'footer-instagram.png' | asset_url }}"/></a>
+    <a id="social__facebook" href="https://www.facebook.com/ora.organic" target="_blank"><img src="{{ 'footer-facebook.png' | asset_url }}"/></a>
+    <a id="social__twitter" href="https://www.twitter.com/ora_organic" target="_blank"><img src="{{ 'footer-twitter.png' | asset_url }}"/></a>
+  </div>
+  <style>
+    .mailing-list__social img { height: 60px; padding: 15px; }
+  </style>
+</div>

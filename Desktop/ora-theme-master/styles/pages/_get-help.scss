@@ -1,0 +1,9 @@
+#get-help:not(body) {
+	height: 90vh;
+	margin-top: $size__site-navbar;
+}
+@media (max-width: 468px) {
+	#get-help {
+		height: auto;
+	}
+}

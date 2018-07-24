@@ -1,0 +1,214 @@
+/* Styles for BOLD Apps Upsell */
+#bold-modal {
+	.bold-upsell {
+		text-align: center;
+		padding: 0;
+
+		/* Upsell: Introduction */
+		.bold-upsell__intro {
+			padding: 30px 30px 30px;
+
+			.bold-upsell__intro-heading {
+				font-size: 36px;
+				font-family: $font__body;
+				font-style: normal;
+			}
+		}
+
+		/* Upsell: Product Slider */
+		.bold-modal__slider {
+			background-color: $color__background-alternate;
+
+			.bold-upsell__products-list {
+				margin: 0;
+
+				.bold-grid__column {
+					padding: 0;
+				}
+
+				.bold-product {
+					background-color: transparent;
+					border: none;
+
+					/* Product: Image */
+					.bold-product__image-container {
+						max-width: initial;
+						max-height: initial;
+						width: 100%;
+						background-color: $color__background-alternate;
+
+						img {
+							padding: 45px;
+						}
+					}
+
+					/* Product: Details */
+					.bold-product__details {
+						background-color: $color__background-alternate;
+
+						/* Product: Info */
+						.bold-product__info {
+							margin-top: 0;
+
+							.bold-product__title {
+								font-size: 18px;
+								margin-bottom: 15px;
+							}
+							.bold-product-review {
+								.yotpo .yotpo-stars .yotpo-icon {
+									background-image: none !important;
+									font-size: 28px !important;
+							    margin: 0 5px !important;
+								}
+							}
+							.bold-product__description {
+								margin-bottom: 30px;
+							}
+						}
+
+						/* Variant: Info */
+						.variant_info_container {
+							margin-bottom: 22.5px;
+							padding: 0 45px;
+
+							.bold-product__variants {
+								/* Variant: Selector */
+								.bold-product__variant-selector {
+									background-color: $color__background;
+									border-radius: 8px;
+							    border: 1px solid $color__input-border;
+							    height: 52px;
+								}
+							}
+						}
+						/* Product: Quantity */
+						.qty_container {
+							padding: 0 45px;
+							margin-bottom: -22.5px;
+
+							.bold-product__quantity {
+								@include display-flex;
+								align-items: center;
+
+								label {
+									flex: 1;
+								}
+								.bold-product__quantity-field {
+									flex: 3;
+									background-color: $color__background;
+									border-radius: 8px;
+							    border: 1px solid $color__input-border;
+							    height: 52px;
+							    text-align: center;
+							    font-weight: medium;
+							    font-size: 18px;
+								}
+							}
+						}
+
+						/* Product: Pricing */
+						.bold-product__pricing {
+					    margin: 22.5px 0 -15px;
+					    padding: 22.5px 0;
+
+					    .bold-product__price.current_price::before {
+					    	content: "Your Price: ";
+					    	font-weight: normal;
+					    	font-size: 22px;
+					    	margin-right: 8px;
+					    }
+						}
+					}
+
+					/* Product: Actions */
+					.bold-product__actions {
+						padding: 0 45px 30px;
+
+						.add-to-cart {
+					    background-color: $color__accent-1;
+					    border-radius: 8px;
+					    border: none;
+					    font-size: 16px;
+					    font-weight: bold;
+					    color: white !important;
+					    text-transform: uppercase;
+					    letter-spacing: 1px;
+					    padding: 20px;
+						}
+					}
+				}
+			}
+		}
+
+	}
+	/* Bold: Footer */
+	.bold-modal__footer {
+		border: none;
+		background-color: $color__background;
+
+		.bold-upsell__button--secondary {
+	    text-transform: uppercase;
+	    letter-spacing: 1px;
+	    font-weight: 700;
+		}
+
+		.bold-upsell__button--primary {
+			background-color: $color__accent-1;
+	    border-radius: 8px;
+	    border: none;
+	    font-size: 16px;
+	    font-weight: bold;
+	    color: white !important;
+	    text-transform: uppercase;
+	    letter-spacing: 1px;
+	    padding: 15px 30px;
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	#bold-modal {
+		.bold-upsell {
+			.bold-upsell__intro {
+				.bold-upsell__intro-heading {
+					font-size: 24px;
+				}
+				p {
+					font-size: 16px;
+				}
+			}
+
+			/* Upsell: Product Slider */
+			.bold-modal__slider {
+				.bold-upsell__products-list {
+
+					.bold-product {
+						/* Product: Details */
+						.bold-product__details {
+							/* Variant: Info */
+							.variant_info_container,
+							.qty_container {
+								padding: 0 30px;
+							}
+						}
+					}
+
+					/* Product: Actions */
+					.bold-product__actions {
+						padding: 0 30px 30px;
+					}
+				}
+			}
+
+			/* Bold: Footer */
+			.bold-modal__footer {
+				.bold-upsell__button--secondary {
+					font-size: 13px;
+				}
+				.bold-upsell__button--primary {
+					font-size: 15px;
+				}
+			}
+		}
+	}
+}

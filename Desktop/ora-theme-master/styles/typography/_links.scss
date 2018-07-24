@@ -1,0 +1,20 @@
+a {
+	color: $color__text-link;
+	@include color-transition;
+
+	&:hover {
+		color: $color__text-link-hover;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	&:focus, &:active {
+		text-decoration: none;
+	}
+}
+a.alternate {
+	color: $color__accent-1;
+
+	&:hover {
+		color: $color__accent-1-hover;
+	}
+}

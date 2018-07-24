@@ -1,0 +1,240 @@
+{% if count %}
+  {% assign count = "-" | append: count %}
+{% endif %}
+<!-- GET THE SUBSCRIPTION PRICE (IF APPLICABLE) -->
+{% if product.metafields.subscriptions.subscription_id %}
+  {% assign discount = 100 | minus: product.metafields.subscriptions.discount_percentage %}
+  {% assign subscription_price = product.price | times: discount | divided_by: 100 %}
+{% endif %}
+<!-- Check if product is setup for pre-orders
+     NOTE: We have to explicitly set this to false if not a pre-order, otherwise
+           the pre_order variable will still be set to true for the next loop -->
+{% if product.tags contains 'pre-order' %}
+  {% assign pre_order = true %}
+{% else %}
+  {% assign pre_order = false %} 
+{% endif %}
+<!-- START GRID ITEMS -->
+<div class="product-grid-item">
+  <div id="buy-box{{count}}" class="product-box buy-box-trigger">
+    <a href="#purchase-wrapper{{count}}"></a>
+    <img src="{{ product.featured_image | img_url: '1024x1024' }}" alt="{{ product.title | escape }}"/>
+    <h6>{{ product.title }}</h6>
+    <h5 class="price">{{ product.price | money }}</h5>
+  </div>
+  <!-- ====================== -->
+  <!-- ==== PRODUCT FORM ==== -->
+  <!-- ====================== -->
+  <form id="product-form-{{product.id}}" class="quickAdd product-form" data-productid="{{product.id}}" action="/cart/add" method="post" enctype="multipart/form-data">
+    <div class="product-wrapper">
+      <!-- ================================== -->
+      <!-- ==== FORM: 2. PRODUCT SIDEBAR ==== -->
+      <!-- ================================== -->
+      <div id="purchase-wrapper{{count}}" class="purchase-wrapper">
+        <!-- ================================== -->
+        <!-- ==== FORM: 3. PRODUCT BUY BOX ==== -->
+        <!-- ================================== -->
+        <div class="product-buy-box">
+          <i id="close-button{{count}}" class="close-button"></i>
+          <div class="wrapper">
+            <!-- PURCHASE PRICE -->
+            <div class="product-description">
+              <div class="product-photo">
+                <img src="{{ product.featured_image | img_url: '1024x1024' }}" alt="{{ product.title | escape }}"/>
+              </div>
+              <div class="purchase-price">
+                <!-- SUPPLEMENT FACTS TRIGGER-->
+                <a data-toggle="modal" data-target=".fact-contents-{{product.handle}}" class="facts-trigger"><b>Click here</b> to see the label</a>
+                <p class="price">{{ product.price | money }}</p>
+                <!-- If it's up for pre-order, then show the pre-order message -->
+                {% if pre_order %}
+                  {% for tag in product.tags %}
+                    {% if tag contains 'pre-order-date' %}
+                       {% assign date_tag = tag | split: '=' %}
+                       {% assign pre_order_date = date_tag[1] %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if pre_order_date %}<p class="pre-order-date">The first 1,000 pre-orders will ship by <b>{{ pre_order_date }}</b>, and all come with a <b>free recipe e-book!</b></p>{% endif %}
+                  <p class="subscription-price">(Don't worry, subscriptions will start again soon!)</p>
+                {% else %}
+                  <!-- If it's a subscription, get the subscription price -->
+                  {% if subscription_price %}
+                    <p class="message">This product is <strong>{{ subscription_price | money }}</strong> with a subscription (delivered monthly, free to cancel anytime). <a href="/pages/subscriptions">Learn more</a></p>
+                    <hr> 
+                  {% endif %}
+                {% endif %} 
+              </div>
+              <!-- OPTIONS -->
+              <div class="options">
+                <!-- OPTIONS: Variant Type -->
+                {% if product.variants.size > 1 %}
+                  {% assign variant_class = "" %}
+                {% else %}
+                  {% assign variant_class = "hidden" %}
+                {% endif %}
+                <div id="product-variants{{count}}" class="{{ variant_class }} hidden">
+                   <select id="product-select{{count}}" name="id" data-productid="{{product.id}}" class="hidden">
+                   {% for variant in product.variants %}
+                     <option {% if forloop.index == 1 %}selected{% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ min_price | money }}</option>
+                   {% endfor %}
+                   </select>
+                </div>
+                <!-- @TODO: REMOVE INLINE STYLING FOR PUBLISHED THEME -->
+                <div class="purchase-section">
+                  <div class="subscription-details {% if pre_order %}hidden{% endif %}">
+                    {% if product.variants.first.inventory_quantity > 0 or product.tags contains 'pre-order' %}
+                      <h6 class="message">Save 20% with a subscription?</h6>
+                      {% include 'subscription-product' %}
+                    {% endif %} 
+                  </div>
+                  <!-- OPTIONS: Quantity -->
+                  <div class="quantity-wrapper">
+                    <label for="quantity">Quantity:</label>
+                    <input id="quantity{{count}}" class="quantity" name="quantity" value="1" max="99"/>
+                    <div class="buttons">
+                      <a href="#" class="btn-plus"></a>
+                      <a href="#" class="btn-minus"></a>
+                    </div>
+                  </div>
+                </div>
+                <!-- OPTIONS: Pre-order/Sold-out -->
+                <div id="pre-order{{count}}" class="hidden">
+                {% if product.selected_or_first_available_variant.inventory_quantity < 1 and product.tags contains 'pre-order' %}
+                    <input id="sold_out{{count}}" class="hidden" name="sold_out" value="pre-order"/>
+                {% elsif product.selected_or_first_available_variant.inventory_quantity < 1 %}
+                  {% unless product.tags contains 'pre-order' %}
+                  {% assign is_sold_out = true %}
+                  <div class="callout" href="">
+                    <input id="sold_out{{count}}" class="hidden" name="sold_out" value="Sold Out"/>
+                    <p><span class="text-accent-2">Sorry</span>, we're sold out!</p>
+                  </div>
+                  {% else %}
+                  <div class="callout" href="">
+                    <input id="sold_out{{count}}" class="hidden" name="sold_out" value="Pre-Order"/>
+                    <p><span class="text-accent-2">Sorry</span>, we're sold out!</p>
+                  </div>
+                  {% endunless %}
+                {% endif %}
+                </div>
+              </div>
+              <!-- TOGGLE OVERLAY -->
+              <div id="product-buttons{{count}}" class="product-buttons callout">
+                <input type="submit" value="{% if is_sold_out %}Sold Out{% elsif pre_order %}Pre-order{% else %}Add to Bag{% endif %}" id="add" class="flat aqua medium add-to-cart {% if is_sold_out %}inactive{% endif%}"/>
+              </div>
+            </div>
+            <div class="product-details">
+              <!-- ====================================== -->
+              <!-- ==== FORM: 4. PRODUCT DESCRIPTION ==== -->
+              <!-- ====================================== -->
+              <!-- The Product description uses classes in the product text written 
+                   in the Shopify Product front end. These classes are set by switching the
+                   view to "View HTML" and applied to the relevant sections. See below:
+
+                    1. Product Features    = <ul class="features" > 
+                    2. Product Subtitle    = <h2 class="product-subtitle">
+                    3. Product Description = <p class="product-description">
+                    4. Product FAQs        = <div class="faq">
+
+                  Use the above text and Shopify string filters to get the correct info. 
+              -->
+              <!-- == DESCRIPTION: PRODUCT SUBTITLE == -->
+              {% if product.description contains '<h2 class="product-subtitle">' %}
+                {% assign full_description = product.description | split: '<h2 class="product-subtitle">' %}
+                {% assign description = full_description[1] | split: '</h2>' %}
+                <h5 class="product-subtitle" itemprop="name">
+                  {{ description[0] }}
+                </h5>
+                {% if pre_order %}
+                  <p class="notify"><a id="notify{{count}}" onclick="notify('pre-order'); return false;" data-product-handle="{{ product.handle }}">Notify me</a> when this product is available.</p>
+                {% endif %}
+              {% endif %}
+              <!-- == DESCRIPTION: PRODUCT DESCRIPTION == -->
+              {% if product.description contains '<div class="product-description">' %}
+                {% assign full_description = product.description | split: '<div class="product-description">' %}
+                {% assign description = full_description[1] | split: '</div>' %}
+                  <ul class="product-description">
+                    <li class="title show">What is it?</li>
+                    <li style="display: block;">{{ description[0] }}</li>
+                  </ul>
+              {% endif %}
+              <!-- == DESCRIPTION: PRODUCT KEY FEATURES == -->
+              {% if product.description contains '<li class="key-features">' %}
+                {% assign full_description = product.description | split: '<li class="key-features">' %}
+                {% assign description = full_description[1] | split: '</li>' %}
+                  <ul class="features">
+                    <li class="title">What does it do?</li>
+                    <li>{{ description[0] }}</li>
+                  </ul>
+              {% endif %}
+              <!-- == DESCRIPTION: DIETARY INFORMATION == -->
+              {% if product.description contains '<li class="dietary-information">' %}
+                {% assign full_description = product.description | split: '<li class="dietary-information">' %}
+                {% assign description = full_description[1] | split: '</li>' %}
+                  <ul class="dietary-information">
+                    <li class="title">Dietary Information</li>
+                    <li>
+                      <h6><b>Contains No:</b></h6>
+                      {{ description[0] }}
+                      <!-- == DESCRIPTION: SUPPLEMENT FACTS == -->
+                      {% if supplement_facts %}
+                      <div class="supplement-facts">
+                      {% if product.description contains '<li class="supplement-facts">' %}
+                        {% assign full_description = product.description | split: '<li class="supplement-facts">' %}
+                        {% assign description = full_description[1] | split: '</li>' %}
+                          {{ description[0] }}
+                      {% endif %}
+                      </div>
+                      {% endif %}
+                    </li>
+                  </ul>
+                  <!-- == DESCRIPTION: PRODUCT DIETARY == -->
+                  <ul class="dietary-icons">
+                    <li>
+                    {% for tag in product.tags %}
+                      {% if tag contains "dietary" %}
+                        {% if tag contains 'organic' %}<div class="dietary"><img src="{{ 'icon-USDA-organic.png' | asset_url }}" alt="USDA Organic"/></div>{% endif %}
+                        {% if tag contains 'vegan' %}<div class="dietary"><img src="{{ 'icon-vegan.svg' | asset_url }}" alt="Vegan"/></div>{% endif %}
+                        {% if tag contains 'gluten-free' %}<div class="dietary"><img src="{{ 'icon-gluten-free.svg' | asset_url }}" alt="Gluten Free"/></div>{% endif %}
+                        {% if tag contains 'dairy-free' %}<div class="dietary"><img src="{{ 'icon-dairy-free.svg' | asset_url }}" alt="Dairy Free"/></div>{% endif %}
+                        {% if tag contains 'soy-free' %}<div class="dietary"><img src="{{ 'icon-soy-free.svg' | asset_url }}" alt="Soy Free"/></div>{% endif %}
+                        {% if tag contains 'non-gmo' %}<div class="dietary"><img src="{{ 'icon-GMO-free.svg' | asset_url }}" alt="non-GMO"/></div>{% endif %}
+                      {% endif %}
+                    {% endfor %}
+                    </li>
+                    <li>
+                    {% for tag in product.tags %}
+                      {% if tag contains "dietary" %}
+                        {% assign item = tag | split: 'dietary-' %}
+                        <p>{{ item }}  <span class="separator">//  </span></p>
+                      {% endif %}
+                    {% endfor %}
+                    </li>
+                  </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div> 
+      </div>
+
+      {% for image in product.images %}
+        {% if image.src contains "supplement-facts" %}
+          {% assign supplement_facts = image %}
+        {% endif %}
+      {% endfor %}
+      <!-- SUPPLEMENT FACTS MODAL -->
+      {% if supplement_facts %}
+        <div class="supplement-facts">
+          <div class="modal fade fact-contents-{{product.handle}}" tabindex="-1" role="dialog" aria-labelledby="large-modal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <h2>{{ product.title }}</h2>
+                <img src="{{ supplement_facts | img_url: 'master' }}"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </form>
+</div>

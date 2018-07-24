@@ -1,0 +1,391 @@
+<div id="subscription">
+	<div id="sidebar">
+		<div class="header">
+	        <a href="/"><img src="{{ 'logo.png' | asset_url }}"/></a>
+        </div>
+		<div class="wrapper">
+			<div class="greeting">
+				<h3>Great choice!</h3>
+			</div>
+			<div class="term">
+				<p>{{ collection.metafields['subscription'].term }}</p>
+			</div>
+			<div class="subscription-title">
+				<h4>You've selected the<br><b>{{ collection.title }}</b></h4>
+			</div>
+			<ul class="title-wrapper description-mobile">
+				<li class="title">Details</li>
+				<li>{{ collection.description }}</li>
+			</ul>
+			<div class="description">
+				{{ collection.description }}
+			</div>
+			<div class="back-link">
+				<p><i>Not what you were<br> looking for?</i></p>
+				<a class="text-accent-2" href="/pages/subscriptions">Go Back</a>
+			</div>
+		</div>
+	</div>
+	<div id="products">
+		<h4 class="products-mobile title show">Products</h4>
+		<div class="welcome">
+			<p class="instruction">Which products would you like in your <strong>Subscription Box?</strong>
+			<p class="shipping-message"><strong>Free Shipping</strong> for orders over $50!</p>
+		</div>
+		{% for product in collection.products %}
+			<!-- Hide Discounted BOLD App Product Discount items -->
+			{% include 'bold-product' with product, hide_action: 'skip' %}
+			{% assign product_count = forloop.index %}
+			{% for variant in product.variants %}
+	      <!-- SET THE COUNTER -->
+	      {% if product.variants.size > 1 %}
+	        {% assign count = forloop.index %}
+	      {% else %}
+	        {% assign count = product_count %}
+	      {% endif %}
+				<div class="product-wrapper">
+					<form id="product-form-{{count}}" class="quickAdd product-form" data-productid="{{product.id}}" action="/cart/add" method="post" enctype="multipart/form-data">
+		        <div class="wrapper">
+	        	  <div class="product-title">
+	        	  	{% if product.title contains " - " %}
+		        	  	{% assign d = product.title | split: " - " %}
+		        	  	{% assign product_title = d[1] %}
+	        	  	{% else %}
+		        	    {% assign product_title = product.title %}
+		          	{% endif %}
+		          	{% if variant.title != "Default Title" %}
+		          		<h4>{{ product_title }} | <span class="variant">{{ variant.title }}</span></h4>
+	          		{% else %}
+		          		<h4>{{ product_title }}</h4>
+	          		{% endif %}
+	        	  </div>
+		          <!-- ================================= -->
+		          <!-- ==== FORM: 1. PRODUCT PHOTOS ==== -->
+		          <!-- ================================= -->
+		          <div id="product-photos-{{count}}" class="product-photos no-zoom">
+		          {% if product.images.size == 0 %}
+		            <div class="product-photo-container">
+		              <img id="product-photo-{{count}}" src="{{ '' | img_url: 'grande' }}" alt="" />
+		            </div>
+		          {% else %}
+		            <div class="product-photo-container">
+		                <div class="product-photo show" id="featured-image-{{count}}">
+		                  <img src="{{ product.featured_image | img_url: '1024x1024' }}" alt="{{ product.title | escape }}"/>
+		                </div>
+		            </div>
+		          {% endif %}
+		          </div>
+		          <!-- ================================== -->
+		          <!-- ==== FORM: 3. PRODUCT BUY BOX ==== -->
+		          <!-- ================================== -->
+		          <div class="product-buy-box">
+		            {% if mobile_background %}
+		              <div class="mobile-background" style="background-image: url({{ mobile_background | img_url: 'master' }})"></div>
+		            {% endif %}
+		            <div class="wrapper">
+		              <!-- PURCHASE PRICE -->
+		              <div class="purchase-price">
+		              	<p class="saving">Save <span class="saving-amount">{{ variant.price | times: product.metafields['subscriptions'].discount_percentage | divided_by: 100 | money }}</span></p>
+		              	<p class="original-saving" style="display: none;">{{ variant.price | times: product.metafields['subscriptions'].discount_percentage | divided_by: 100 | money }}</p>
+		                <h2 id="product-price_{{product.id}}" itemscope itemtype="http://schema.org/Offer">{{ variant.price | money }}</h2>
+		              </div>
+		              <!-- QUANTITY -->
+		              <div class="quantity-wrapper">
+	                  <input id="quantity-{{count}}" data-target="add-{{count}}" class="quantity" name="quantity" value="0" max="99"/>
+	                  <div class="buttons">
+	                    {% include 'icon-plus' %}
+	                    {% include 'icon-minus' %}
+	                  </div>
+	                </div>
+		              <!-- OPTIONS (this is hidden for subscription collection pages) -->
+		              <div class="options">
+		                <!-- OPTIONS: Variant Type -->
+		                {% if product.variants.size > 1 %}
+		                  {% assign variant_class = "" %}
+		                {% else %}
+		                  {% assign variant_class = "hidden" %}
+		                {% endif %}
+		                <div id="product-variants-{{count}}" class="{{ variant_class }} hidden">
+		                   <select id="product-select-{{count}}" name="id" data-productid="{{product.id}}" class="hidden" data-productid="{{product.id}}">
+		                   {% for variant in product.variants %}
+		                     <option id="{{ variant.id }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+		                   {% endfor %}
+		                   </select>
+		                </div>
+		                <!-- @TODO: REMOVE INLINE STYLING FOR PUBLISHED THEME -->
+		                <div class="purchase-section">
+		                  <div class="one-time-subscribe" action="">
+		                  </div>
+		                  <div class="subscription-details hidden">
+		                    {% if variant.inventory_quantity > 0 or product.tags contains 'pre-order' %}
+		                      {% include 'subscription-product' %}
+		                    {% endif %} 
+		                  </div>
+		                  <!-- SCRIPT & STYLES for Select Menu (jQueryUI) -->
+	                    <script>
+	                      $(document).ready(function() { 
+	                      	// Set a timeout of 500ms to wait for the subscription script to update the discount_variant_id variable
+	                      	setTimeout(function() {
+	                      		$('.subscription-details input[value="autodeliver"]').click();
+	                      	}, 500);
+	                      })
+	                    </script>
+		                  <!-- OPTIONS: Quantity -->
+		                  <div class="subscription-info">
+		                    <p>Grab a subscription and get <span class="text-accent-2">20% off!</span></p>
+		                  </div>
+		                </div>
+		                <!-- OPTIONS: Pre-order/Sold-out -->
+		                <div id="pre-order-{{count}}" class="hidden">
+		                {% if variant.inventory_quantity < 1 and product.tags contains 'pre-order' %}
+		                    <input id="sold_out-{{count}}" class="hidden" name="sold_out" value="pre-order"/>
+		                    {% for tag in product.tags %}
+		                      {% if tag contains 'pre-order-date' %}
+		                         {% assign date_tag = tag | split: '=' %}
+		                         {% assign pre_order_date = date_tag[1] %}
+		                      {% endif %}
+		                    {% endfor %}
+		                {% elsif variant.inventory_quantity < 1 %}
+		                  {% unless product.tags contains 'pre-order' %}
+		                  <div class="callout" href="">
+		                    <input id="sold_out-{{count}}" class="hidden" name="sold_out" value="Sold Out"/>
+		                    <p><span class="text-accent-2">Sorry</span>, we're sold out!</p>
+		                  </div>
+		                  {% else %}
+		                  <div class="callout" href="">
+		                    <input id="sold_out-{{count}}" class="hidden" name="sold_out" value="Pre-Order"/>
+		                    <p><span class="text-accent-2">Sorry</span>, we're sold out!</p>
+		                  </div>
+		                  {% endunless %}
+		                {% endif %}
+		                </div>
+		              </div>
+		              <!-- TOGGLE OVERLAY -->
+		              <div id="product-buttons-{{count}}" class="product-buttons callout">
+		                <input type="submit" value="{% if variant.inventory_quantity < 1 %}{% unless product.tags contains 'pre-order' %}Sold Out{% endunless %}{% else %}Add to Bag{% endif %}" id="add-{{count}}" class="inactive flat aqua medium add-to-cart"/>
+		                {% if pre_order_date %}<span class="callout-text right">Pre-orders ship on <b>{{ pre_order_date }}</b></span>{% endif %}
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      </form>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+	<div class="back-mobile">
+		<a href="/pages/subscriptions">Back to Subscriptions</a>
+	</div>
+	<div id="footer-cart">
+		<div class="subtotal">
+			<p>Subtotal:</p>
+			<p>$<span class="value">0.00</span></p>
+		</div>
+		<div class="savings">
+			<p>Savings:</p>
+			<p>$<span class="saved">0.00</span></p>
+		</div>
+		<div class="confirm">
+			<label for="confirm-button">Good to go?</label>
+			<a href="#"><button id="confirm-button" class="flat aqua">Update Cart</button></a>
+		</div>
+	</div>
+</div>
+<style>
+	footer, #loyaltylion-loyalty-widget-container {
+		display: none;
+	}
+	@media (min-width: 768px) and (max-width: 991px) {
+	    header {
+	      z-index: 1061;
+	    }
+	    header .navigation {
+	      margin-left: 270px;
+	    }
+	  }
+</style>
+<!-- DEAL BAR -->
+<!-- <script>
+  $(document).ready(function() {
+
+      $('#main, header, #sidebar').css('margin-top', '50px');
+      $('#deal-bar').addClass('show-bar');
+
+      $('.bar .close-btn').click(function() {
+        $('#deal-bar').removeClass('show-bar');
+        $('#main, header, #sidebar').css('margin-top', 0);
+        $(window).unbind('scroll.bar');
+      });
+
+  });
+</script> -->
+<script>
+
+// UDPATE CART QUANTITY
+// We use a special function here to overwrite the standard cart quantity update in custom.js
+// because we don't use the 'Add to Cart' to button on the subscription page. Each time a new
+// item is added to or removed from the cart, we automatically update it. Note that this is 
+// almost a carbon copy of the updateQuantity() function in custom.js, hence we have to unbind
+// all methods from the .quantity-wrapper at the start of the function.
+function updateSubscriptionQuantity() {
+	// Unbind all existing methods
+    $('.quantity-wrapper .btn-plus').unbind('click');
+    $('.quantity-wrapper .btn-minus').unbind('click');
+
+    // Check all minus buttons and their relative quantity values. If 1, then
+    // make the button inactive.
+    $('.quantity-wrapper .quantity').each(function() {
+    if ($(this).val() == 0) {
+      $(this).parents('.quantity-wrapper').find('.btn-minus').addClass('min');
+    } else {
+      $(this).parents('.quantity-wrapper').find('.btn-minus').removeClass('min');
+    }
+  })
+
+  /* Listen for btn-plus click and add 1 to the quantity count */
+  $('.quantity-wrapper .btn-plus').click(function(event) {
+    event.preventDefault();
+
+    var buttonMinus   = $(this).parents('.quantity-wrapper').find('.btn-minus');
+    var quantityInput = $(this).parents('.quantity-wrapper').find('.quantity');
+    // Get old Value
+    var oldValue = quantityInput.val();
+    // Add one to the old value
+    var newValue = parseFloat(oldValue) + 1;
+    // Focus on input element - triggers focus event on quantity
+    quantityInput.focusout();
+    // Change the quantity input value
+    quantityInput.val(newValue).attr('value',newValue);
+    quantityInput.trigger('change');
+
+    if (buttonMinus.hasClass('min')) {
+      buttonMinus.removeClass('min');
+    }
+  })
+  $('.quantity-wrapper .btn-minus').click(function(event) {
+    event.preventDefault();
+    
+    var buttonMinus   = $(this).parents('.quantity-wrapper').find('.btn-minus');
+    var quantityInput = $(this).parents('.quantity-wrapper').find('.quantity');
+    // Get old Value
+    var oldValue = quantityInput.val();
+    // Add one to the old value
+    var newValue = parseFloat(oldValue) - 1;
+    // Focus on input element - triggers focus event on quantity
+    quantityInput.focusout();
+    // Change the quantity input value
+    if (newValue == 0) {
+      quantityInput.val(0).attr('value',0);
+      buttonMinus.addClass('min');
+    } else {
+      quantityInput.val(newValue).attr('value',newValue);
+    }
+    quantityInput.trigger('change');
+  })
+}
+// Set item to selected if cart quantity is more than 1, or cart quantity is changed
+function setSelectedProducts() {
+	$('.product-form').each(function() {
+		if ($(this).find('.quantity').val() > 0) {
+			$(this).addClass('selected');
+		} else {
+			$(this).removeClass('selected');
+		}
+	})
+}
+// Update the Footer Cart subtotal to get the latest count from the page
+function updateFooterCartSubtotal() {
+	var subtotal 	   = $('#footer-cart .subtotal .value');
+	var saved          = $('#footer-cart .saved');
+	var current_value  = 0;
+	var current_saving = 0;
+
+	$('.quantity-wrapper .quantity').each(function() {
+		var quantity        = $(this).val();
+		var price           = $(this).parents('.wrapper').find('.purchase-price h2').html();
+		var saving          = $(this).parents('.wrapper').find('.purchase-price .saving-amount');
+		var original_saving = $(this).parents('.wrapper').find('.purchase-price .original-saving').html();
+
+		if (price) {
+			current_value += (parseFloat(price.replace('$','')) * quantity)
+		}
+		if (original_saving && quantity > 0) {
+			current_saving += (parseFloat(original_saving.replace('$','')) * quantity)
+			saving.html("$"+(parseFloat(original_saving.replace('$','')) * quantity).toFixed(2));
+		}
+
+	})
+	
+	subtotal.html(current_value.toFixed(2));
+	saved.html(current_saving.toFixed(2));
+
+}
+// When the page loads, get all the subscription items in the cart applicable
+// to the subscription collection and set the values on the screen.
+function setSubscriptionQuantity() {
+
+	// Run the cart update first - this gets all currently added subscription products
+	// and updates the page to reflect that they've already been added to the cart
+	setTimeout(function() {
+		$('.product-form').each(function() {
+			var select_item = $(this).children('select').children().html();
+			var quantity    = $(this).find('.quantity');
+			
+			$('.cart-row').each(function() {
+				if ($(this).html().indexOf(select_item) > -1) {
+						var cart_quantity = $(this).find('.quantity').val();
+						quantity.val(cart_quantity);
+				} 
+			})
+
+		})
+
+	}, 100);
+	// Run the function that handles subscription items added/removed from the cart
+	setTimeout(function() { updateSubscriptionQuantity(); }, 300);
+	// Once all cart functions have run, update the subtotal on page load
+	setTimeout(function() { updateFooterCartSubtotal(); }, 500);
+	// Set Selected products
+	setTimeout(function() { setSelectedProducts(); }, 700);
+}
+$(document).ready(function() {
+	setSubscriptionQuantity();
+
+	// Update subtotal in footer cart
+	$('.quantity-wrapper .quantity').change(function() {
+
+		updateFooterCartSubtotal();
+		setSelectedProducts();
+
+	})
+
+	// Update cart with new subscription items
+	$('#confirm-button').click(function(e) {
+
+		e.preventDefault();
+		
+		var term = $('#sidebar .term p').html() + ' Month';
+
+		if ($('.cart-row')) {
+			$('.cart-row').each(function() {
+				if ($(this).find('.description').html().indexOf(term) > -1) {
+						var item = $(this).find('.cart-remove a').attr("rel");
+						Shopify.removeItem(item);
+				} 
+			})	
+		}
+		
+		// Loop through all objects on the page and add the items to the cart
+		setTimeout(function() {
+			$('.add-to-cart').click();
+			document.getElementsByClassName('toggle-cart')[0].click();
+			$('.shopping-cart-overlay').addClass('show');
+			setSubscriptionQuantity();
+		}, 300)
+			
+		
+	})
+
+
+})
+</script>

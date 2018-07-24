@@ -1,0 +1,333 @@
+{% layout settings.customer_layout %}
+<!--START OVERVIEW-->
+<div id="account" class="account">
+  {% include 'account-sidebar' %}
+  {% if customer.tags contains 'Wholesale' %}
+    <div id="wholesale-link-mobile">
+      <a class="button" href="/collections/order-form"><button class="flat aqua">Place a Wholesale Order</button></a>
+    </div>
+  {% endif %}
+  <div id="details">
+      <!-- ACCOUNT: PERSONAL INFO  -->
+      <div id="dashboard" class="section">
+        <div id="dashboard_account-details" class="content-wrapper" style="width: 44%;">
+          <h6 id="customer_details-header" class="header">Account Details</h6>
+          <div id="customer_details" class="content">
+            <label>Name:</label>
+            <p>{{ customer.name }}</p>
+            <br>
+            <label>E-mail/Username:</label>
+            <p>{{ customer.email }}</p>
+            <br>
+            <label>Password:</label>
+            <p>*******</p>
+            <br>
+            <hr>
+            <p id="reset"><a href="">Reset Password</a></p>
+          </div>
+          <script>
+            /* Script to show/hide the reset password field */
+            $(document).ready(function() { 
+              $('#reset a').click(function(e) { 
+                e.preventDefault();
+                $('#customer_details, #customer_details-header').slideUp();
+                $('#recover, #recover-header').slideDown();  
+
+                $('#cancel-forgot-pwd').click(function() {
+                  $('#customer_details, #customer_details-header').slideDown();
+                  $('#recover, #recover-header').slideUp(); 
+                })
+              });
+            })
+          </script>
+          <h6 id="recover-header" class="header" style="display: none;">Reset Password</h6>
+          <div id="recover" class="content" style="display: none;">
+          <!-- START RECOVER PASSWORD -->
+          {% form 'recover_customer_password' %}
+              {% if form.errors != null %}
+                <div class="container-fluid errors">
+                  <p >Sorry, no account found with that e-mail address!</p>
+                </div>
+              {% endif %}
+              <div id="recover_email">
+                <input type="email" value="" size="30" name="email" id="recover-email" placeholder="Enter your e-mail address" />
+              </div>
+              <p class="recover-message">We'll send you an e-mail with a link to reset your password.</p>
+              <div class="actions">
+                <a id="cancel-forgot-pwd" class="text-accent-2">Cancel</a>
+                <input type="submit" value="{{ 'customer.login.forgot_password_submit_button' | t }}" />
+              </div>
+              {% if form.posted_successfully? %}
+                {% assign reset_success = true %}
+              {% endif %}
+          {% endform %}
+          <!-- END RECOVER PASSWORD -->
+          </div>
+        </div>
+        {% unless customer.tags contains 'Wholesale' %}
+        <div id="dashboard_subscriptions" class="content-wrapper">
+          <h6 class="header">Subscriptions</h6>
+          <div class="content">
+            <label>Status:</label>
+            {% if customer.tags contains "Active Subscriber" %}
+              <p class="text-accent-1">Active</p>
+            {% else %}
+              <p class="text-accent-3">Inactive</p>
+            {% endif %}
+            <br>
+            {% if customer.orders.size != 0 %}
+              {% for order in customer.orders %}
+                <!-- Assign Subscription Order -->
+                {% if order.tags contains 'Subscription' %}
+                  {% assign subscription_order = order %}
+                  {% for tag in subscription_order.tags %}
+                    {% if tag contains 'Order' %}
+                      {% assign subscription_order_type = tag %}
+                    {% endif %}
+                  {% endfor %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+              <label>Last Order:</label>
+            {% if subscription_order %}
+              <p>{{ subscription_order.created_at | date: "%B %d, %Y" }}</p>
+              <br>
+              <label>Type:</label>
+              <p>{{ subscription_order_type }}</p>
+              <br>
+              <hr>
+              <a class="action" href="/tools/recurring/customer/{{customer.metafields.subscriptions.customer_string}}/subscriptions/">Manage your Subscriptions</a>
+            {% else %}
+              <p>No subscriptions setup!</p>
+              <br>
+              <label>Type:</label>
+              <p>N/A</p>
+              <br>
+              <hr>
+              <a class="action" href="/pages/subscriptions">Claim your 20% off today</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endunless %}
+        <div id="dashboard_addresses" class="content-wrapper" style="width: 44%;">
+          <h6 class="header">Default Address</h6>
+          <div class="content">
+            {% assign address = customer.default_address %}
+            {% include 'address' %}
+            <hr>
+            <p class="action"><a href="#addresses">Edit Addresses</a></p>
+          </div>
+        </div>
+        <div id="dashboard_recent-orders" class="content-wrapper">
+          <h6 class="header">Recent Orders</h6>
+          <div class="content">
+            {% if customer.orders.size != 0 %}
+              {% for order in customer.orders | limit: 1 %}
+                {% for item in order.line_items %}
+                  {% assign product = item.product %}
+                  <img src="{{ product | img_url: 'medium' }}" />
+                  <div class="item">
+                    <p class="item-title">{{ product.title }}</p>
+                    <p class="item-price">{{ item.quantity }} x {{ item.price | money }}</p>
+                  </div>
+                  <br>
+                  <label class="shipment">Shipped To:</label>
+                  <p class="shipping_address">{{ order.shipping_address.address1 }}, {{ order.shipping_address.city }}, {{ order.shipping_address.province }} {{ order.shipping_address.zip }}, {{ order.shipping_address.country }}</p>
+                  <br>
+                  <a id="reorder" class="action text-accent-1" href="#reorder">Re-order</a>
+                  <br>
+                  <hr>
+                  <p class="action"><a href="#order_history">See your full Order History</a></p>
+                {% endfor %}
+              {% endfor %}
+            {% else %}
+              <p>You don't have any recent orders!</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- ACCOUNT: SUBSCRIPTIONS -->
+      <!-- Placeholder div for subscriptions as this is managed on a 
+           separate page by ReCharge. Styling is applied in _subscriptions.scss -->
+      <div id="subscriptions" class="section">
+        {% if customer.metafields.subscriptions.customer_string %}
+        {% else %}
+          <div class="no-subscriptions">
+            <h3>Whoops!</h3>
+            <h4>Looks like you don't have any subscriptions set up. <br><br>Why not <a href="#" class="text-accent-2">get started</a> now?</h4>
+          </div>
+        {% endif %}
+      </div>
+      <!-- ACCOUNT: ADDRESSES -->
+      <!-- All layout contained in a snippet for clarity. A lot of information
+           is contained in the 'customer-addresses' snippet. Styling is handled
+           by _account.scss. -->
+      <div id="addresses" class="section">
+        {% include 'customer-addresses' %}
+      </div>
+      <!-- ACCOUNT: ORDER HISTORY -->
+      <div id="order_history" class="section">
+        <div class="content-wrapper">
+          <h6 class="header">Previous Orders</h6>
+          <div class="content">
+            {% if customer.orders.size != 0 %}
+              {% for order in customer.orders %}
+              {% assign order_url = order.customer_url %}
+              <div id="order-{{forloop.index}}" class="order">
+                <div class="order-details">
+                  <h6 class="order-number">Order Number: <span class="text-accent-1">{{ order.order_number | link_to: order_url }}</span></h6>
+                  <h6 class="order-date">{{ order.created_at | date: "%B %-d, %Y" }}</h6>
+                  <hr>
+                </div>
+                <div class="order-items">
+                  {% for item in order.line_items %}
+                    <div class="order-item">
+                      {% assign product = item.product %}
+                      <img src="{{ product | img_url: 'medium' }}">
+                      <div class="item">
+                        <a class="item-title" href="{{order.customer_url}}">{{ product.title }}</a>
+                        <p class="item-price">{{ item.quantity }} x {{ item.price | money }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <br>
+                <div class="shipping-details">
+                  <label class="shipment">Shipped To:</label>
+                  <p class="shipping_address">{{ order.shipping_address.address1 }}, {{ order.shipping_address.city }}, {{ order.shipping_address.province }} {{ order.shipping_address.zip }}, {{ order.shipping_address.country }}</p>
+                  <br>
+                  <a id="reorder" class="action text-accent-1" href="#reorder">Re-order</a>
+                </div>
+                <div class="order-totals">
+                  <label>Subtotal</label>
+                  <p>{{ order.subtotal_price | money }}</p>
+                  <br>
+                  <label>Shipping</label>
+                  <p>{{ order.shipping_price | money }}</p>
+                  <br>
+                  <label>Total</label>
+                  <p>{{ order.total_price | money }}</p>
+                </div>
+                <hr>
+              </div>
+              {% endfor %}
+            {% else %}
+              <p>{{ 'customer.orders.none' | t }}</p>
+            {% endif %}
+          </div>
+      </div>
+  </div>
+</div>
+<style>
+
+  @media (min-width: 769px) {
+    header {
+      height: 75px;
+      z-index: 1085;
+    }
+    header .nav .sub-nav,
+    header .nav .sub-nav.scrolled {
+      border-top: none;
+      top: 75px;
+    }
+    header .site-logo a#logo img,
+    header.scrolled .site-logo a#logo img {
+      width: 45px;
+      height: 45px;
+    }
+  }
+  /* Bring live chat up on mobile */
+  @media (max-width: 468px) {
+    #fb-livechat-content {
+      bottom: 60px;
+    }
+    #messageus_button, .fb_dialog {
+      display: none !important;
+    }
+  }
+</style>
+<!-- END OVERVIEW -->
+<script>
+  $(document).ready(function () { 
+    // Redirect to wholesale page if customer is a wholesaler! @TODO Implement 'Place an Order' bar in the account page
+    {% if customer.tags contains 'Wholesale' %}
+      console.log(document.referrer);
+      if (document.referrer.indexOf('wholesale-order-form#signup') > -1 || document.referrer.indexOf('wholesale-order-form#login') > -1) {
+        window.location = '/collections/order-form';
+      }
+    {% endif %}
+    if (window.location.href.indexOf("#") < 0) { window.location.href += "#dashboard" };
+    function toggleSection(e) {
+      var page;
+      if (e) { page = e.children('a').attr("href") } else { page = "#"+window.location.href.split("#")[1] };
+      $(".section").fadeOut(300);
+      $(page).fadeIn(300);
+      // Remove active class from all links and add active to selected link
+      $('.link').removeClass('active');
+      $(page+"_link").addClass('active');
+      // Change mobile title to the active page
+      $('#mobile-title, #current')
+        .html(page.slice(1)
+        .replace("_"," ")
+        .replace(/\b\w/g, l => l.toUpperCase()));
+      // Set Scroll Position to zero
+      $('html, body').animate({scrollTop: 0});
+    }
+    if (window.location.href.indexOf("#") > -1) {
+      toggleSection();
+    }
+    $('#sidebar .link, .content .action').click(function() {
+      toggleSection($(this));
+    });
+  })
+</script>
+<script>
+  $(document).ready(function toggleAddressForm() {
+    // EDIT ADDRESS
+    var id = "{{formID}}";
+    var form = '#edit_address_' + id;
+    var default_address = '#address_default_address_' + id;
+    $('#form-edit').click(function(){
+      $(form).slideToggle(300);
+      return false;
+    })
+    $('.cancel-edit').click(function(){
+      $(form).slideToggle(300);
+      $('#default_address').slideDown(300);
+      return false;
+    })
+    $('.edit-default-address').click(function() {
+      $(form).slideToggle(300);
+      $('#default_address').slideUp(300);
+    })
+    // NEW ADDRESS
+    $('.add-new').click(function(){
+      // $(form).slideUp(300);
+      $('#billing-address, #shipping-address').slideUp(300);
+      return false;
+    })
+    $('.cancel-new').click(function(){
+      $('#add_address').slideToggle(300);
+      $('#billing-address, #shipping-address').slideDown(300);
+      return false;
+    })
+    // MAKE EDIT ADDRESS DEFAULT
+    $(default_address).prop('checked', true);
+    
+  });
+</script>
+<script>
+
+// Initiate provinces for the New Address form
+  new Shopify.CountryProvinceSelector('address_country_new', 'address_province_new', {hideElement: 'address_province_container_new'});
+
+// Initiate provinces for all existing addresses
+  {% for address in customer.addresses %}
+    // console.log("Address Province = {{ address.province }}");
+    // console.log(document.getElementById('address_country_{{address.id}}'));
+    if (document.getElementById('address_country_{{address.id}}') != null) {
+      new Shopify.CountryProvinceSelector('address_country_{{address.id}}', 'address_province_{{address.id}}', {hideElement: 'address_province_container_{{address.id}}'});
+    }
+  {% endfor %}
+</script>

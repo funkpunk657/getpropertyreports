@@ -1,0 +1,26 @@
+/* Variables */
+$flavor__orange              : #FFB740;
+$flavor__chocolate           : #542A0C;
+$flavor__vanilla_chai        : #EFD4BD;
+$flavor__pineapple           : #FBF061;
+$flavor__apple_and_raspberry : #FF84A5;
+$flavor__pomegranate         : #D4305C;
+$flavor__unflavored          : #FFFBF4;
+$flavor__acai                : #A60B35;
+$flavor__citrus              : #63B306;
+$flavor__vanilla             : #FFFFFF;
+
+/* Styles */
+
+.flavor.orange              { background-color: $flavor__orange; }
+.flavor.chocolate           { background-color: $flavor__chocolate; }
+.flavor.vanilla-chai        { background-color: $flavor__vanilla_chai; }
+.flavor.pineapple           { background-color: $flavor__pineapple; }
+.flavor.apple-and-raspberry { background-color: $flavor__apple_and_raspberry; }
+.flavor.pomegranate         { background-color: $flavor__pomegranate; }
+.flavor.unflavored          { background-color: $flavor__unflavored; }
+.flavor.acai                { background-color: $flavor__acai; }
+.flavor.citrus              { background-color: $flavor__citrus; }
+.flavor.vanilla             { background-color: $flavor__vanilla; }
+
+

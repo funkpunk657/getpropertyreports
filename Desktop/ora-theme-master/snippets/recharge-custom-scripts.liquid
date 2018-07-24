@@ -1,0 +1,89 @@
+<!-- HEADER HTML/CSS -->
+<div>
+<style>
+  header {
+    background-color: white;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  body {
+    background-color: #fafafa;
+  }
+  .site-logo {
+    left: 1px;
+    width: 270px;
+    text-align: center;
+    height: 75px;
+    border-right: 1px solid #e8e8e8;
+  }
+  #customer_tab_content {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    -moz-transition: opacity .3s ease-in-out;
+    -webkit-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+  }
+  .social, footer {
+    display: none !important;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    header {
+      background-color: white !important;
+    }
+    header .site-logo {
+      display: block;
+    }
+    header .navigation {
+      margin-left: 270px;
+    }
+  }
+  @media (max-width: 767px) {
+    header {
+      box-shadow: none;
+      border-bottom: 1px solid #e8e8e8 !important;
+      background-color: #fff !important;
+      z-index: 1003;
+    }
+    #ReCharge-Mobile-Nav {
+      display: none !important;
+    }
+  }
+</style>
+</div>
+<div id="account-subscription">
+  <p id="mobile-title">Subscriptions</p>
+  <div id="sidebar" class="sidebar"><ul></ul></div>
+
+<!-- FOOTER HTML/CSS/JS -->
+</div>
+<script>
+window.onload = function() {
+ // Create mobile navigation
+ $('#ReCharge-Mobile-Nav option').each(function(index) {
+   var nav_item_id = ($(this).html().replace(" ","_").replace(/\r?\n|\r/g,"")).trim();
+   var nav_item = '<li id="'+nav_item_id+'" class="title link"><a href="'+$(this).attr("value")+'">'+$(this).html()+'</a></li>';
+   $('.sidebar ul').append(nav_item);
+ });
+ 
+ 
+ // get the page element that we need to wrap
+ var element = (typeof document.getElementById('customer_tab_content') === 'undefined') ? def_val:  document.getElementsByClassName('rc_layout__content')[0];
+ // `element` is the element you want to wrap
+ var parent = element.parentNode;
+ var wrapper = document.createElement('div');
+
+ // set the wrapper as child (instead of the element)
+ parent.replaceChild(wrapper, element);
+
+ // set element as child of wrapper
+ wrapper.appendChild(element);
+
+ // Add classes for CSS
+ element.classList.add('content-wrapper');
+ wrapper.classList.add('section');
+
+ // Fade everything in
+ setInterval( function() { element.style.opacity += 1; }, 300);
+ 
+};
+
+</script>

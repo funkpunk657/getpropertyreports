@@ -1,0 +1,21 @@
+{% comment %}
+<!-- == PRODUCT ICONS == -->
+<!-- Make sure you double check which icons are being included. By default,
+     all icons will be shown. If you want to hide some of them, then check 
+     the class names in the icons.liquid snippet, and use some inline CSS
+     on the product page to hide the relevant classes. -->
+<div class="product-icons">
+  {% include 'icons' %}
+</div>
+{% endcomment %}
+
+<ul class="icons">
+	<li class="organic callout"><img src="{{ 'icon-organic.png' | asset_url }}"/><span class="callout-text bottom">USDA Organic Certified</span></li>
+	<li class="vegan callout"><img src="{{ 'icon-vegan.png' | asset_url }}"/><span class="callout-text bottom">Vegan &amp; vegetarian friendly</span></li>
+	<li class="chef callout"><img src="{{ 'icon-chef.png' | asset_url }}"/><span class="callout-text bottom">Chef designed gourmet flavour</span></li>
+	<li class="dairy-free callout"><img src="{{ 'icon-dairy-free.png' | asset_url }}"/><span class="callout-text bottom">No lactose, no dairy</span></li>
+	<li class="non-gmo callout"><img src="{{ 'icon-non-gmo.png' | asset_url }}"/><span class="callout-text bottom">Non-GMO. No funny stuff here</span></li>
+	<li class="soy-free callout"><img src="{{ 'icon-soy.png' | asset_url }}"/><span class="callout-text bottom">Not even a little bit of soy</span></li>
+	<li class="gluten-free callout"><img src="{{ 'icon-wheat.png' | asset_url }}"/><span class="callout-text bottom">No wheat, no gluten, no germ</span></li>
+	<li class="sustainable callout"><img src="{{ 'icon-sustainable.png' | asset_url }}"/><span class="callout-text bottom">Recyclable packaging and sustainable ingredients</span></li>
+</ul>

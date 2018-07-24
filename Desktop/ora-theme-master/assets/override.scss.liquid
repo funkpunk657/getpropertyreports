@@ -1,0 +1,40 @@
+/*==== LOYALTY LION ====*/
+/* Don't show loyalty lion on mobile, it looks terrible. */
+@media (max-width: 767px) {
+  #loyaltylion-loyalty-widget-container {
+    display: none !important;
+  }
+}
+
+/*==== SUMOME ====*/
+.sumome-image-sharer {
+  box-shadow: none !important;
+
+  a {
+    height: 30px !important;
+    width: 30px !important;
+    
+    div {
+      background-size: contain !important;
+      -webkit-background-size: contain !important;
+      -moz-background-size: contain !important;
+      -o-background-size: contain !important;
+    }
+  }
+}
+
+/*==== PRODUCT PAGE SLIDER ====*/
+.slick-slider {
+  overflow: hidden !important;
+}
+
+
+/*==== FIXES FOR BOOTSTRAP - OVERRIDDEN BY LESS ====*/
+.modal-backdrop {
+  z-index: initial;
+}
+
+/* Variables */
+$color__accent-1: #52d6aa;
+$color__input-border: #F4F4F4;
+$input__height: 3em;

@@ -1,0 +1,728 @@
+/* Local Variables */
+$size__subscription-sidebar: 270px;
+
+#subscription {
+	#sidebar {
+		position: fixed;
+		z-index: 1060;
+		background-color: white;
+		top: 0;
+		left: 0;
+		@include box-shadow;
+		height: 100%;
+		width: $size__subscription-sidebar;
+
+		.header {
+			padding: 15px 0;
+			margin-top: -1px;
+			border-bottom: 1px solid $color__input-border;
+			background-color: white;
+			position: relative;
+			z-index: 2;
+
+			a:hover {
+				img {
+					opacity: 0.7;
+					transition: opacity 0.2s ease-in-out;
+				}
+			}
+			img {
+				display: block;
+				margin: 0 auto;
+				width: 45px;
+				height: 45px;
+			}
+		}
+
+		.wrapper {
+			text-align: center;
+			@include vertical-align;
+			margin-top: -$size__site-navbar;
+			z-index: 1;
+
+			.greeting {
+				h3 {
+					font-style: italic;
+					font-size: 36px;
+				}
+			}
+			> .term {
+				display: block;
+				position: relative;
+				height: 90px;
+				margin: 0;
+
+				p {
+					@include vertical-align;
+					position: absolute;
+					left: 1%;
+					right: 1%;
+					margin: 15px auto 0;
+					font-family: $font__body;
+					font-size: 24px;
+					font-weight: 700;
+					color: $color__accent-1;
+				}
+				&:before {
+					font-family: $linear-icons;
+					font-size: 70px;
+					content: "\e785";
+					color: $color__accent-1;
+				}
+			}
+			.subscription-title {
+				h4 {
+					font-size: 14px;
+					font-family: $font__body;
+					padding: 15px;
+					line-height: 1.3em;
+				}
+			}
+			.description-mobile {
+				display: none;
+			}
+			.description,
+			.description-mobile {
+				padding: 0 15px;
+				margin-bottom: 0;
+
+				p {
+					font-family: $font__body;
+					font-size: 14px;
+				}
+				.discount {
+					font-family: $font__body;
+					font-weight: 700;
+				}
+				.perks {
+					text-align: left;
+					padding: 15px 30px;
+
+					li {
+						font-family: $font__body;
+						font-size: 14px;
+					}
+				}
+			}
+			.back-link {
+				p, a {
+					font-family: $font__body;
+					font-size: 14px;
+				}
+				p {
+					margin-bottom: 20px;
+				}
+				a {
+					text-transform: uppercase;
+					vertical-align: top;
+					@include color-transition;
+
+					&:before {
+						font-family: $linear-icons;
+						content: "\e943";
+						font-size: 16px;
+						line-height: 18px;
+						color: $color__accent-2;
+						margin-right: 5px;
+						@include color-transition;
+					}
+					&:hover, &:focus {
+						text-decoration: none;
+						color: $color__accent-2-hover;
+
+						&:before {
+							color: $color__accent-2-hover;
+						}
+					}
+				}
+			}
+		}
+	}
+	.products-mobile,
+	.back-mobile {
+		display: none !important;
+	}
+	#products {
+		position: relative;
+		padding-left: $size__subscription-sidebar;
+		margin: 30px 15px;
+		padding-bottom: 105px;
+
+		.welcome {
+			position: relative;
+			display: block;
+
+			p {
+				font-family: $font__body;
+				font-size: 14px;
+				padding: 15px 15px 0;
+			}
+
+			.instruction {
+				text-align: left;
+				&:before {
+					content: "\e944";
+					margin-right: 7.5px;
+					color: $color__text-copy;
+					vertical-align: top;
+					line-height: 20px;
+					font-size: 14px;
+					font-family: $linear-icons;
+				}
+			}
+			.shipping-message {
+				text-align: right;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+		}
+
+		.product-wrapper {
+			padding: 0;
+			display: inline-block;
+			width: 270px;
+			position: relative;
+			vertical-align: top;
+			height: 300px;
+			margin: 15px;
+
+			.product-form {
+				@include box-shadow;
+				padding-top: 7.5px;
+				@include all-transition;
+
+				&.selected {
+					border: 1px solid $color__accent-1;
+
+					.purchase-price {
+						border: 1px solid $color__accent-1;
+
+						h2 {
+							color: $color__accent-1;
+							@include color-transition;
+						}
+						.saving {
+							background-color: $color__accent-1;
+							@include all-transition;
+						}
+					}
+				}
+
+				.product-title {
+					text-align: center;
+					top: initial;
+					transform: none;
+					padding: 0;
+
+					h4 {
+						font-family: $font__body;
+						font-size: 14px;
+						font-weight: 500;
+						padding: 7.5px 7.5px 0;
+
+						.variant {
+							font-family: $font__body;
+							font-size: 14px;
+							font-weight: normal;
+						}
+					}
+				}
+				.product-buy-box {
+					.wrapper {
+						position: absolute;
+						bottom: 15px;
+						left: 0;
+					}
+				}
+				.product-photos {
+				    position: absolute;
+				    top: 0;
+				    left: 0;
+				    width: 100%;
+				    height: 100%;
+					.product-photo-container {
+						padding: 7.5px 0 22.5px;
+						margin-top: -15px;
+					}
+					.product-photo {
+						text-align: center;
+						img {
+							width: 135px;
+							margin-left: 0;
+							cursor: default;
+						}
+					}
+				}
+				.purchase-price {
+					width: 105px;
+					margin-left: 22.5px;
+					display: inline-block;
+					vertical-align: top;
+					text-align: center;
+					border: 1px solid $color__input-border;
+					height: 52px;
+					position: relative;
+					@include all-transition;
+
+					.saving {
+					    position: absolute;
+					    top: -30px;
+					    font-size: 12px;
+					    font-family: $font__body;
+					    font-weight: bold;
+					    text-align: center;
+				        width: 105px;
+					    left: -1px;
+				        margin: 0;
+					    padding: 7.5px;
+					    color: white;
+					    background-color: $color__input-border;
+					    text-transform: uppercase;
+					    @include all-transition;
+
+					    span {
+					    	font-size: 12px;
+						    font-family: $font__body;
+						    font-weight: bold;
+						    color: white;
+					    }
+					}
+
+					h2 {
+						@include vertical-align;
+						margin: 0;
+						font-size: 12px;
+						font-family: $font__body;
+						font-weight: 700;
+					}
+				}
+				.quantity-wrapper {
+					display: inline-block;
+					width: 105px;
+					margin-left: 12.5px;
+					position: relative;
+
+					input {
+						display: inline-block;
+						width: 75px;
+						height: 52px;
+						vertical-align: top;
+					}
+					.buttons {
+						display: inline-block;
+						width: 45px;
+						@include vertical-align;
+						position: absolute;
+
+						a {
+							padding: 2.5px 7.5px;
+						    display: block;
+						    line-height: 0;
+							&.min {
+								pointer-events: none;
+								cursor: default;
+
+								g {
+									stroke: $color__inactive;
+								}
+							}
+							&:hover, 
+							&:focus {
+								text-decoration: none;
+								outline: none;
+							}
+						}
+						svg {
+							width: 18px;
+
+							g {
+								stroke: $color__accent-1;
+							}
+						}
+					}
+				}
+				.product-buttons, .subscription-info {
+					display: none;
+				}
+			}
+		}
+	}
+	#footer-cart {
+		height: 56px;
+		text-align: center;
+		position: fixed;
+		border-top: 1px solid $color__input-border;
+		left: 0;
+		bottom: 0;
+		z-index: 1000;
+		width: 100%;
+		background-color: white;
+		padding-left: $size__subscription-sidebar;
+
+		.subtotal {
+			@include vertical-align;
+			position: absolute;
+			left: 15px;
+			padding-left: $size__subscription-sidebar;
+
+			p,span {
+				font-family: $font__body;
+				font-size: 14px;
+			}
+			p {
+				padding: 10px 5px 10px;
+				margin: 0;
+				display: inline-block;
+			}
+		}
+
+		.savings {
+			@include vertical-align;
+			position: absolute;
+			left: 1%;
+			right: 1%;
+			margin: 0 auto;
+			text-align: center;
+
+			p,span {
+				font-family: $font__body;
+				font-size: 14px;
+				font-weight: 700;
+			}
+			p {
+				padding: 10px 5px 10px;
+				margin: 0;
+				display: inline-block;
+			}
+		}
+
+		.confirm {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+
+			label {
+				color: $color__accent-1;
+				font-family: $font__body;
+				font-size: 14px;
+				margin-right: 45px;
+				margin-left: -45px;
+			}
+			a {
+				display: inline-block;
+				text-decoration: none;
+
+				&:hover, &:focus, &:active {
+					text-decoration: none;
+				}
+
+				button {
+					width: 270px;
+					margin-top: 0;
+					position: relative;
+
+					&:before {
+						position: absolute;
+						left: -40px;
+						font-family: $linear-icons;
+						font-size: 24px;
+						color: $color__accent-1;
+						content: "\e944";
+						top: 12px;
+					}
+				}
+
+			}
+		}
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	#subscription {
+		#products {
+			.welcome {
+				margin-bottom: 30px;
+				.instruction {
+					text-align: center;
+				}
+				.shipping-message {
+					display: none;
+				}
+			}
+			.product-wrapper {
+				display: block;
+				margin: 0 auto;
+			}
+		}
+		#footer-cart {
+			z-index: 1060;
+			padding-left: 0;
+
+			.subtotal {
+				position: absolute;
+				display: inline-block;
+				padding-left: 22.5px;
+			}
+			.savings {
+				position: relative;
+				display: inline-block;
+				left: -112.5px;
+			}
+		}
+	}
+}
+@media (max-width: 767px) {
+	#subscription {
+		#sidebar {
+			position: relative;
+			z-index: initial;
+			width: 100%;
+			box-shadow: none;
+
+			.header {
+				display: none;
+			}
+			.wrapper {
+				top: initial;
+				transform: none;
+				margin-top: 0;
+
+				.description,
+				.back-link {
+					display: none;
+				}
+
+				.description-mobile {
+					display: block;
+					padding: 0;
+
+					.term {
+						display: none;
+					}
+					.perks {
+						padding: 0 15px;
+
+						li {
+							line-height: 2em;
+						}
+					}
+				}
+			}
+		}
+
+		#products {
+			padding: 0;
+			margin: 0;
+
+			.products-mobile {
+				font-family: $font__body;
+				font-size: 14px;
+				font-weight: 100;
+				padding: 15px 30px;
+				text-align: left;
+				cursor: pointer;
+
+				&.title {
+					width: 100%;
+					cursor: pointer;
+					font-size: 16px;
+					padding: 15px 20px;
+					background-color: white;
+					border-top: 1px solid $color__input-border;
+					border-bottom: 1px solid $color__input-border;
+					margin: 0 0 -1px;
+					display: block !important;
+					position: relative;
+					text-align: left;
+					line-height: 1.6em;
+
+					&:before {
+						content: "\e93a";
+						font-family: $linear-icons;
+						font-size: 14px;
+						color: $color__text-copy;
+						position: absolute;
+				    top: 16px;
+				    right: 20px;
+					}
+
+					&.show {
+						&:before {
+							content: "\e939";
+						}
+					}
+				}
+
+			}
+
+			.welcome,
+			.product-wrapper {
+				display: block;
+			}
+
+			.product-wrapper {
+				margin: 15px auto;
+			}
+
+			.welcome {
+				p {
+					padding: 30px 30px 15px;
+				}
+				.instruction {
+					text-align: center;
+					&:before {
+						content: none;
+					}
+				}
+				.shipping-message {
+					display: none;
+				}
+			}
+		}
+		ul.title-wrapper {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+
+			> li {
+				font-family: $font__body;
+				font-size: 14px;
+				font-weight: 100;
+				padding: 15px 30px;
+				text-align: left;
+				display: none;
+				cursor: pointer;
+				list-style-type: disc;
+
+				&.title {
+					font-size: 16px;
+					font-weight: 500;
+					padding: 15px 20px;
+					background-color: white;
+					border-top: 1px solid $color__input-border;
+					border-bottom: 1px solid $color__input-border;
+					margin: 0 0 -1px;
+					display: block;
+					position: relative;
+					text-align: left;
+
+					&:before {
+						content: "\f0d7";
+						font-family: $font-awesome;
+						font-size: 18px;
+						color: $color__text-copy;
+						position: absolute;
+						top: 15px;
+						right: 15px;
+					}
+
+					&.show {
+						&:before {
+							content: "\f0d8";
+						}
+					}
+				}
+
+				&.clear {
+					color: $color__accent-2;
+					border-bottom: 2px solid $color__accent-2;
+					&:before {
+						content: none;
+					}
+					&.show {
+						&:before {
+							content: none;
+						}
+					}
+				}
+
+			}
+		}
+		.back-mobile {
+			display: block !important;
+			padding-bottom: 105px;
+
+			a {
+				font-size: 16px;
+				font-weight: normal;
+				font-family: $font__body;
+				line-height: 1.6em;
+				padding: 15px 20px;
+				background-color: white;
+				border-top: 1px solid $color__input-border;
+				border-bottom: 2px solid $color__accent-2;
+				@include box-shadow;
+				@include color-transition;
+				margin: 0;
+				display: block;
+				position: relative;
+				text-align: left;
+				color: $color__accent-2;
+
+				&:before {
+					font-family: $linear-icons;
+					font-size: 16px;
+					color: $color__accent-2;
+					content: "\e943";
+				    vertical-align: top;
+				    margin-right: 7.5px;
+				    @include color-transition;
+				}
+
+				&:hover {
+					text-decoration: none;
+					color: $color__accent-2-hover;
+
+					&:before {
+						text-decoration: none;
+						color: $color__accent-2-hover;
+					}
+				}
+			}
+		}
+		#footer-cart {
+			.subtotal,
+			.savings {
+				position: absolute;
+				bottom: 56px;
+				top: initial;
+				transform: none;
+				background-color: white;
+				border-top: 1px solid $color__input-border;
+
+				p {
+					font-size: 12px;
+				}
+			}
+			.subtotal {
+				left: 0;
+				padding-left: 7.5px;
+				text-align: left;
+				z-index: 1;
+			}
+			.savings {
+				right: 0;
+				padding-right: 7.5px;
+				text-align: right;
+			}
+			.confirm {
+				width: 100%;
+
+				label {
+					display: none;
+				}
+				a {
+					display: block;
+
+					button {
+						width: 100%;
+
+						&:before {
+							content: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,855 @@
+{% comment %}
+Re-use the 'rte' class wherever you output content that was added by a merchant using
+the Rich Text Editor ( 'rte' stands for rich text editor ).
+Style all HTML elements in that content the same way across the board.
+Use the 'rte' class in your CSS to help maintain that consistency.
+Example: the h2 element should have the same size and color in:
+- product descriptions
+- collection descriptions
+- 'page' pages' content
+- blog post
+{% endcomment %}
+
+<div id="subscriptions">
+
+	<!-- Subscriptions: Introduction -->
+	<div id="subscriptions__intro" class="screen">
+		<!-- Subscriptions Intro: Header -->
+		<div class="subscriptions__intro-header">
+			<h1 class="subscriptions__intro-title">Ora Subscriptions</h1>
+			<h5 class="subscriptions__intro-content">The most convenient and economic way to get access to whole food, plant-based nutrition. Get your Ora delivered to your doorstep every month and <b>save 20%</b> on your purchase in the process.</h5>
+		</div>
+		<!-- Subscriptions Intro: Summary + Example Link -->
+		<div class="subscriptions__intro-summary">
+			<div class="subscriptions__intro-summary_content">
+				<h6>The Lowdown</h6>
+				<ul class="list checks">
+					<li>Cancel or pause anytime</li>
+					<li>100% satisfaction guarantee</li>
+					<li>Delivered once monthly</li>
+					<li>Exclusive discounts and #swag</li>
+				</ul>
+			</div>
+			<div class="subscriptions__intro-actions">
+				<a href="#subscriptions__step_{% if customer %}2{% else %}1{% endif %}" class="change_screen button">
+				<button class="flat aqua">Build your subscription</button>
+			</a>
+			</div>
+			<!-- Link to Example Flow -->
+			<!-- @TODO - Implement Example Flow! -->
+			<!-- <div class="subscriptions__intro-summary_example">
+				<a class="change_screen" href="#subscriptions__example"><i class="linear arrow__right"> </i>See an example</a>
+			</div> -->
+		</div>
+
+	</div>
+
+	<!-- Subscriptions: Step 1 -->
+	<div id="subscriptions__step_1" class="screen">
+		<div class="button_back">
+			<a class="change_screen" href="#subscriptions__intro">
+				<i class="linear arrow__left"></i>Go Back
+			</a>
+		</div>
+		<div class="screen-header">
+			<h5><strong>Let's build a subscription!</strong></h5>
+			<h5>Enter your details below to get started:</h5>
+		</div>
+		<div class="screen-form">
+			{% unless customer %}
+				<!-- Step 1: Customer Form -->
+				{% include 'form__customer-short' %}
+				<!-- Script: If the customer is not signed in send them back to the start -->
+				<script>
+					window.location.hash = 'subscriptions__intro';
+				</script>
+			{% else %}
+				<!-- Script: If the customer is signed in, send them straight to the product selection -->
+				<script>
+					if (window.location.href.indexOf('subscriptions__step_1') > -1 || document.referrer.indexOf('account') > -1) {
+						window.location.hash = 'subscriptions__step_2';
+					}
+				</script>
+			{% endunless %}
+		</div>
+	</div>
+
+	<!-- Subscriptions: Step 2 -->
+	<div id="subscriptions__step_2" class="screen">
+		<div class="button_back">
+			<a class="change_screen" href="#subscriptions__{% if customer %}intro{% else %}step_1{% endif %}">
+				<i class="linear arrow__left"></i>Go Back
+			</a>
+		</div>
+		<div class="screen-header">
+			<h5><strong>Thanks {{ customer.first_name }}!</strong></h5>
+			<h5>How did you first hear about Ora Subscriptions?</h5>
+		</div>
+		<div class="screen-form">
+			<!-- Step 2: Form Questions -->
+			<div class="form__questions">
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="Google" />
+					<label>Google</label>
+				</div>
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="Facebook" />
+					<label>Facebook</label>
+				</div>
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="Instagram" />
+					<label>Instagram</label>
+				</div>
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="A Friend" />
+					<label>A Friend</label>
+				</div>
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="Doctor / Nutritionist" />
+					<label>Doctor / Nutritionist</label>
+				</div>
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="Print (magazines etc.)" />
+					<label>Print (magazines etc.)</label>
+				</div>
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="Shark Tank!" />
+					<label>Shark Tank!</label>
+				</div>
+				<div class="radio-group">
+					<input type="radio" name="referred_by" value="Other" />
+					<label>Other</label>
+					<input id="referred_by_other" type="text" name="referred_by" placeholder="Write your answer here" />
+				</div>
+			</div>
+			<!-- Step 2: Form Actions -->
+			<div class="form__actions">
+				<a id="referred_by_submit" class="change_screen button submit" href="#subscriptions__step_3">
+					<button class="flat aqua">Next</button>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Subscriptions: Step 3 -->
+	<div id="subscriptions__step_3" class="screen">
+		<!-- Overlay -->
+		<div class="overlay">
+		</div>
+		<!-- Back Button -->
+		<div class="button_back">
+			<a class="change_screen" href="#subscriptions__step_2">
+				<i class="linear arrow__left"></i>Go Back
+			</a>
+		</div>
+		<div class="screen-header">
+			<h5><strong>Now for the juicy part:</strong></h5>
+			<h5>Which Ora products would you like in your monthly subscription?</h5>
+		</div>
+		<!-- Step 3: Subscription Summary -->
+		<div id="subscription_summary" class="screen-column">
+			<div id="form__subscription_summary" class="screen-form">
+				<div class="summary_header">
+					<h6 class="dsk">Your Ora Subscription</h6>
+					{% assign total_price = cart.total_price | divided_by: 0.80 | minus: cart.total_price %}
+					<h6 class="mob">You're saving <span id="summary_savings_mob">${{ total_price | money_without_currency }}</span>!</h6>
+				</div>
+				<div class="summary_loading" style="display: none;">
+					<div class="summary_loading-message">
+						<img src="{{ 'page-loader.gif' | asset_url }}"/>
+						<h4><b>Thanks!</b></h4>
+						<p>We're loading up your subscription and sending you to checkout now. Get your card ready!</p>
+					</div>
+				</div>
+				<!-- Summary: Cart -->
+				<!-- @TODO - Pre fill cart with subscription items if applicable -->
+				<div class="summary_cart">
+					<!-- Check if there are subscription items in the cart -->
+					{% assign subscriptions = false %}
+					{% for item in cart.items %}
+						{% if item.title contains 'Subscription' %}
+							{% assign subscriptions = true %}
+							{% break %}
+						{% endif %}
+					{% endfor %}
+					{% unless subscriptions %}
+						<div class="empty">
+							<p><strong>Nothing here yet!</strong><br>Start adding items to your subscription in the box <span class="mob">above</span><span class="dsk">to the right</span>.</p>
+						</div>
+					{% else %}
+						{% for item in cart.items %}
+							{% if item.title contains 'Subscription' %}
+								<div class="summary_cart-item">
+									<p class="summary_cart-item_title"><b>{{ item.product.title | replace: " - Monthly Subscription", "" }}</b><br>{{ item.variant.title }}</p>
+									<p class="summary_cart-item_quantity">x<span>{{ item.quantity }}</span></p>
+									<p class="summary_cart-item_price">$<span>{{ item.line_price | money_without_currency }}</span></p>
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endunless %}
+				</div>
+				<!-- Summary: Totals -->
+				<div class="summary_totals">
+					<!-- Set up shipping cost -->
+					{% if cart.item_count < 1 %}
+						{% assign shipping = "N/A" %}
+					{% else %}
+						{% if cart.total_price > 1000 %}
+							{% assign shipping = "Free" %}
+						{% else %}
+						  {% assign shipping = "2.95" %}
+						{% endif %}
+					{% endif %}
+					<p><strong>Shipping:</strong> <span id="summary_shipping">{{ shipping }}</span></p>
+					<p><strong>Total: $<span id="summary_total">{{ cart.total_price | money_without_currency }}</span></strong></p>
+				</div>
+				<!-- Summary: Actions -->
+				<div class="summary_actions">
+					<!-- Mobile: View Cart Button -->
+					<a data-target="summary_cart" class="summary_actions-view_cart button mob">
+						<button id="view_cart" class="flat aqua outline">View Cart</button>
+					</a>
+					<!-- Checkout Button -->
+					<a data-target="subscription_form_submit" class="summary_actions-check_out button">
+						<button id="add_all_to_cart" class="flat aqua">Check Out</button>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Step 3: Product Selection -->
+		<div id="product_selection" class="screen-column">
+			<!-- Step 3: Product Selection -->
+			<div class="screen-form">
+				<div class="form__product_selection">
+					<!-- Step 3: Mobile Screen Header -->
+					<div class="screen-header-mobile mob">
+						<h5><strong>Now for the juicy part:</strong></h5>
+						<h5>Which Ora products would you like in your monthly subscription? <strong>Swipe</strong> through the full list below!</h5>
+					</div>
+					{% for product in collections['shop'].products %}
+
+						<!-- Assign the product level count -->
+						{% assign product_count = forloop.index %}
+
+						{% for variant in product.variants %}
+
+							<!-- Append the variant level count and create suffix -->
+							{% assign count = product_count | append: forloop.index %}
+						  {% assign count_suffix = "_" | append: count %}
+
+							{% if product.tags contains 'subscription_product' and variant.inventory_quantity > 0 and variant.option2 <> "1" %}
+									<div class="wrapper">
+										<form id="{{ product.handle }}{{count_suffix}}" class="product-form quickAdd" data-productid="{{product.id}}{% if product.variants.size > 1 %}{{count_suffix}}{% endif %}" action="/cart/add" method="post" enctype="multipart/form-data">
+											<!-- Product: Image -->
+											<img class="product__image" style="display: block" src="{{ variant.featured_image | img_url: '128x128' }}"/>
+											<!-- Product: Title -->
+										  <div class="product__title">
+												<h6>
+													<b>{{ product.title }}</b><br>
+													<span class="product__variant_title">{{ variant.title }}</span>
+												</h6>
+												<!-- Product: Price -->
+										    <div id="product__price{{ count_suffix }}" class="product__price purchase-price">
+										      <h5 id="product-price_{{product.id}}{% if product.variants.size > 1 %}{{count_suffix}}{% endif %}" itemscope itemtype="http://schema.org/Offer" class="price">{{ product.price | money }}</h5>
+										    </div>
+											</div>
+											<!-- Product: Purchase -->
+											<div class="product__wrapper">
+										    <!-- Product: Variant Options & Subscription -->
+										    <div class="product__options options">
+										      <!-- Product Options: Purchase Section -->
+										      <div class="product__purchase-section purchase-section">
+										        <!-- Product Options: Purchase Quantity -->
+										        <div class="product__quantity-wrapper quantity-wrapper">
+										          <input id="quantity{{ count_suffix }}" class="quantity" name="quantity" data-variant-id="{{ variant.id }}" value="0" max="99"/>
+										          <div class="quantity__buttons">
+										            <a class="btn-plus" href="#"><i class="linear plus"></i></a>
+										            <a class="btn-minus" href="#"><i class="linear minus"></i></a>
+										          </div>
+										        </div>
+										        <!-- Product Options: Purchase Variant -->
+										        <div id="product__variants{{ count_suffix }}" class="product__variants hidden">
+										           <select id="product-select{{ count_suffix }}" name="id" data-productid="{{product.id}}">
+										             <option value="{{ variant.id }}">{{ variant.title }} - {{ min_price | money }}</option>
+										           </select>
+										        </div>
+										        {% if product.metafields.subscriptions.subscription_id %}
+										        <!-- Product Options: Subscription Details Selector -->
+										        <div class="product__subscription-details popup_container">
+										          {% if variant.inventory_quantity > 0 or product.tags contains 'pre-order' %}
+										            <div class="subscription-details">
+										              <!-- Subscription: Product Selector -->
+										              {% if product.variants.size > 1 %}
+										              	{% include 'subscription-variant' %}
+										              {% else %}
+										                {% include 'subscription-product' %}
+										                {% include 'product-select' %}
+										              {% endif %}
+										            </div>
+										          {% endif %} 
+										        </div>
+										        {% endif %}
+										      </div>
+										    </div>
+										    <!-- Product Actions: Add to Cart-->
+										    <div id="product-buttons{{count}}" class="product__actions">
+										      <input id="add{{ count_suffix }}"
+										             class="flat aqua medium add-to-cart"
+										             type="submit" 
+										             value="Add to Subscription" />
+										    </div>
+										  </div>
+				              <script>
+				              	/* Set up the DOM for all products */
+				              	$(document).ready(function() {
+				              		
+													setTimeout(function() {
+
+														/* Set all Products to Recurring */
+														$('.autodeliver.{{product.id}}{{count_suffix}}, .autodeliver.{{product.id}}').click();
+
+														/* Match the cart items to the product selection and Set the item quantity */
+														{% assign product_title = product.title | append: " - Monthly Subscription - " | append: variant.title %}
+														
+														{% for item in cart.items %}
+															
+															{% if product_title == item.title %}
+															  $('#quantity{{ count_suffix }}').val({{ item.quantity }});
+															  $('#quantity{{ count_suffix }}').next().children('.btn-minus').removeClass('min');
+															{% endif %}
+														{% endfor %}
+
+													}, 1000)
+													
+				              	})
+				              </script>
+										</form>
+									</div>
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<!-- Step 3: Subscription Lowdown -->
+		<div class="subscription_lowdown screen-column">
+			<div class="info__box">
+				<h6>The Lowdown</h6>
+				<ul class="list checks">
+				  <li>Cancel or pause anytime</li>
+				  <li>100% satisfaction guarantee</li>
+				  <li>Delivered once monthly</li>
+				  <li>Exclusive discounts and #swag</li>
+				  <li>Don't like it? We'll refund you.</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Step 3: Product Selection Footer -->
+		<div class="screen-footer">
+			{% assign total_price = cart.total_price | divided_by: 0.80 | minus: cart.total_price %}
+			<p><strong style="font-size: 18px;">You’ve saved <span id="summary_savings">${{ total_price | money_without_currency }}</span>!</strong><br> Click the button above to get your subscription.</p>
+		</div>
+	</div>
+
+
+</div>
+<style>
+	#main {
+		margin-top: 0;
+		padding-top: 0;
+		background: #fafafa !important;
+	}
+	header {
+		background: #fafafa !important;
+	}
+	header .nav .sub-nav {
+		top: 60px;
+	}
+	header .nav .open>a, header .nav .open a:hover, header .nav .open a:active {
+		background: #fafafa;
+	}
+	/*TEMP*/
+	#smile_popup_trigger {
+		display: none !important;
+	}
+
+	/* For small screen heights */
+	@media (min-width: 769px) and (max-height: 720px) {
+		#main {
+			margin-top: 60px;
+		}
+	}
+
+	/* Hide Footer on mobile */
+	@media (max-width: 468px) {
+		footer {
+			display: none;
+		}
+	}
+
+</style>
+
+<!-- Script: Subscription Flow Controls -->
+<script>
+	function screenChanger(current_screen, target_screen) {
+
+		console.log("Current Screen = "+current_screen);
+		console.log("Target Screen = "+target_screen);
+		// hide the current screen
+		var animateScreens = anime.timeline(); 
+
+		animateScreens.add({
+			targets: current_screen,
+			top: '-150vh',
+			easing: 'easeInBack'
+		})
+		animateScreens.add({
+			targets: target_screen,
+			top: '0',
+			easing: 'easeInOutQuart'
+		});
+
+		if (target_screen.indexOf('step_3') > -1) {
+			animateScreens.add({
+				targets: '#subscription_summary',
+				bottom: '0',
+				easing: 'easeInOutQuart',
+				offset: 0
+			})
+		} else {
+			animateScreens.add({
+				targets: '#subscription_summary',
+				bottom: '-100%',
+				easing: 'easeInOutQuart',
+				offset: 0
+			})
+		}
+
+	}
+
+	$(document).ready(function() {
+		/* Disable all header scroll functions */
+		$(window).off('scroll');
+		$('header').addClass('scrolled');
+
+		/* Change screen on click */
+		$('.change_screen').on('click', function() {
+
+			console.log('Clicked Change Screen');
+
+			var current_screen = '#'+$(this).parents('.screen').attr('id'),
+			    target         = $(this).attr("href");
+
+			screenChanger(current_screen, target);
+		})
+
+		/* Choose current screen based on URL */
+		var location = '#subscriptions__intro';
+		if (window.location.href.indexOf('subscriptions__step') > -1) {
+			var location = '#subscriptions__step' +
+				window.location.href.split('subscriptions__step')[1].split('&')[0];
+			// console.log(location);
+
+		}
+
+		var animateScreens = anime.timeline()
+
+		animateScreens.add({
+			targets: location,
+			top: '0',
+			easing: 'easeInOutQuart'
+		})
+
+		if (location.indexOf('step_3') > -1) {
+			animateScreens.add({
+				targets: '#subscription_summary',
+				bottom: '0',
+				easing: 'easeInOutQuart',
+				offset: 0
+			})
+		} else {
+			animateScreens.add({
+				targets: '#subscription_summary',
+				bottom: '-100%',
+				easing: 'easeInOutQuart',
+				offset: 0
+			})
+		}
+
+		/* Show the other text input when ooption selected */
+		$('input[name="referred_by"]').on('change', function() {
+			console.log("referred by changed");
+			console.log($('input[value="Other"]').is(':checked'));
+			if ($('input[value="Other"]').is(':checked')) {
+				$('#referred_by_other').slideDown();
+			} else {
+				$('#referred_by_other').slideUp();
+			}
+		})
+
+	})
+</script>
+
+<!-- Script: Add all products to cart -->
+<script>
+	$(document).ready(function() {
+			
+			// var product_buttons = document.getElementsByClassName('add-to-cart');
+
+			// for (i=0; i<product_buttons.length; i++) {
+			// 	product_buttons[i].click();
+			// }
+
+		function addItemsToCart(e) {
+
+			queue = [];
+
+			$('#product_selection .quantity').each(function() {
+				// If the quantity is greater than zero, then add the item to the queue
+				if ($(this).val() > 0) {
+					var product_id = $(this).parents('form').attr('data-productid'),
+							variant_id = $(this).parents('form').find('#discount-select-'+product_id).val(),
+							shipping_interval_frequency = $(this).parents('form').find('#shipping_interval_frequency_'+product_id).val(),
+							shipping_interval_unit_type = $(this).parents('form').find('#shipping_interval_unit_type_'+product_id).val(),
+							subscription_id             = $(this).parents('form').find('#subscription_id_'+product_id).val();
+
+					queue.push( {
+				    "id": variant_id,
+				    "quantity": parseInt($(this).val(), 10) || 0,
+				    "properties[shipping_interval_frequency]": shipping_interval_frequency,
+				    "properties[shipping_interval_unit_type]": shipping_interval_unit_type,
+				    "properties[subscription_id]": subscription_id
+				  } );
+
+				  // Clear the item from the cart
+				  Shopify.removeItem(variant_id);
+				} else {
+					product_id = $(this).parents('form').attr('data-productid');
+					variant_id = $(this).parents('form').find('#discount-select-'+product_id).val();
+
+					// Clear the item from the cart
+				  Shopify.removeItem(variant_id);
+				}
+			  
+			});
+
+			for (i=0; i<queue.length; i++) {
+	  		var request = queue[i];
+		    console.log(request);
+		    jQuery.ajax({
+				    type: 'POST',
+				    url: '/cart/add.js',
+				    data: request,
+				    dataType: 'json',
+				    success: function() { 
+				    	console.log("Request Success");
+				    	if (i==queue.length-1) {
+				    		{% include 'subscription-redirect.js' %}
+					  		document.location.href = checkout_url;	
+				    	}
+				    }
+				});
+	  	}
+
+			// moveAlong = function() {
+			// 	// console.log(Shopify.queue);
+			//   // If we still have requests in the queue, let's process the next one.
+			//   if (queue.length) {
+
+
+			    
+			//     // Shopify.addItem(
+			//     // 	request.variantId, 
+			//     // 	request.quantity,
+			//     // 	request."properties[shipping_interval_frequency]",
+			//     // 	request."properties[shipping_interval_unit_type]",
+			//     // 	request."properties[subscription_id]",
+			//     // 	Shopify.moveAlong);
+			//   }
+			//   // If the queue is empty, we will redirect to the Subscription checkout page.
+			//   else {
+			//   	{% include 'subscription-redirect.js' %}
+		 //  		document.location.href = checkout_url;	
+		 //  	}
+			// };
+
+			// Shopify.moveAlong();
+		}
+
+		/* Handle click on the Add All to Cart button */
+		$('#add_all_to_cart').on('click', function() {
+
+			/* Get the referred by value */
+			if ($('#referred_by_other').val() !== "" && $('input[value="Other"]').is(':checked')) {
+				var referred_by = "Other: "+$('#referred_by_other').val();
+			} else  {
+				var referred_by = $('input[name="referred_by"]:checked').val();
+			}
+
+			/* Get the cart contents */
+			var products_added = [];
+			$('.summary_cart-item_title').each(function() {
+				var product = $(this).children('b').text(),
+				    variant = $(this).children('span').text();
+				products_added.push(product+" - "+variant);
+			})
+
+			var cart_contents = {
+				"first_name"            : "{{ customer.first_name }}",
+				"last_name"             : "{{ customer.last_name }}",
+				"email"                 : "{{ customer.email }}",
+				"referred_by"           : referred_by,
+				"products_added"        : products_added,
+				"subscription_completed": true,
+				"funnel_step"           : "Step 3 - Subscription Cart"
+			}
+
+			/* Send the data to Zapier webhook (Google Sheets) */
+			$.ajax({
+			  type: "POST",
+			  url: "https://hooks.zapier.com/hooks/catch/914765/ifaf0m/",
+			  data: cart_contents,
+			  success: (function() {
+			  	console.log("submission success");
+			  	/* Retrieve the results of the survey and run the spinner until they've come back */
+
+			  })(),
+			  dataType: JSON
+			});
+
+			/* Then animate the DOM to show the loader and thank you message */
+			var slideOut = anime.timeline();
+			slideOut.add({
+				targets: "#product_selection, #subscription_summary",
+				translateX: '300%',
+				offset: 0,
+				easing: 'easeInOutQuart'
+			})
+			.add({
+				targets: "#subscription_summary",
+				translateX: "123%",
+				offset: 0,
+				easing: 'easeInOutQuart',
+				begin: function() {
+					$('#subscription_summary').addClass("complete");
+				}
+			})
+			.add({
+				targets: ".summary_cart, .summary_actions",
+				opacity: 0,
+				offset: 0,
+				easing: 'easeInOutQuart',
+				complete: function() {
+					$('.summary_cart, .summary_actions').hide();
+					$('.summary_loading').show();
+				}
+			})
+			.add({
+				targets: ".summary_loading",
+				opacity: 1,
+				offset: 250,
+				easing: 'easeInOutQuart',
+				complete: function() {
+					addItemsToCart();
+				}
+			});
+			// addAllToCart();
+		})
+
+		/* Handle click on the View Cart button */
+		$('#view_cart').on('click', function() {
+
+			/* Send the view cart button to back and show the summary cart info and the check out button */
+			var viewCart = anime.timeline();
+			viewCart.add({
+				targets: '.summary_actions-view_cart, #view_cart',
+				zIndex: -1,
+				opacity: 0,
+				offset: 0,
+				easing: 'easeInOutQuart'
+			})
+			.add({
+				targets: '.overlay',
+				zIndex: 1,
+				opacity: 1,
+				offset: 0,
+				easing: 'easeInOutQuart'
+			})
+			.add({
+				targets: '.summary_actions-check_out, #add_all_to_cart',
+				zIndex: 2,
+				opacity: 1,
+				offset: 0,
+				easing: 'easeInOutQuart'
+			})
+			.add({
+				targets: '.summary_cart',
+				bottom: "85px",
+				offset: 0,
+				easing: 'easeInOutQuart'
+			})
+			.add({
+				targets: '.summary_header',
+				bottom: "305px",
+				offset: 0,
+				easing: 'easeInOutQuart'
+			});
+
+			$('.overlay').on('click', function() {
+				/* Send the view cart button to back and show the summary cart info and the check out button */
+				var viewCartReverse = anime.timeline();
+				viewCartReverse.add({
+					targets: '.summary_actions-view_cart, #view_cart',
+					zIndex: 2,
+					opacity: 1,
+					offset: 0,
+					duration: 0
+				})
+				.add({
+					targets: '.overlay',
+					zIndex: -1,
+					opacity: 0,
+					offset: 0,
+					duration: 0
+				})
+				.add({
+					targets: '.summary_actions-check_out, #add_all_to_cart',
+					zIndex: 1,
+					opacity: 0,
+					offset: 0,
+					duration: 0
+				})
+				.add({
+					targets: '.summary_cart',
+					bottom: "-100vh",
+					offset: 0,
+					duration: 0
+				})
+				.add({
+					targets: '.summary_header',
+					bottom: "-100vh",
+					offset: 0,
+					duration: 0
+				});
+			})
+
+		})
+	})
+</script>
+
+<!-- Script: Handle Product Selection Quantity Changes -->
+<script>
+	$(document).ready(function() {
+
+		/* When the quantity changes, search through the entire product selection and
+		   update the summary cart */
+		function quantityChange() {
+			var summary_cart = '',
+			    total_price  = 0.00;
+
+
+			$('.form__product_selection .wrapper').each(function() {
+
+				var quantity      = parseInt($(this).find('.quantity').val());
+
+				console.log(quantity);
+
+				if (quantity > 0) {
+					var variant_title = $(this).find('.product__title h6').html(),
+					    price         = parseFloat($(this).find('.product__title .price').html().replace('$','')),
+					    line_price    = (quantity*price).toFixed(2);
+
+				  var summary_cart_line_item = 
+					'<div class="summary_cart-item">'+
+						'<p class="summary_cart-item_title">'+variant_title+'</p>'+
+						'<p class="summary_cart-item_quantity">x<span>'+quantity+'</span></p>'+
+						'<p class="summary_cart-item_price">$<span>'+line_price+'</span></p>'+
+					'</div>';
+
+					summary_cart += summary_cart_line_item;
+
+					total_price += +line_price
+				}
+
+			})
+
+			/* Update the summary cart */
+			if (summary_cart != '') {
+				$('.summary_cart').html(summary_cart);
+				$('#summary_total').html(Number(total_price).toFixed(2));
+				$('#summary_savings, #summary_savings_mob').html("$"+Number(total_price/0.8 - total_price).toFixed(2));			
+
+				if (total_price > 10) { $('#summary_shipping').html("Free");
+				} else { $('#summary_shipping').html("$2.95"); }
+
+			} else {
+				/* Empty Subscription Message */
+				$('.summary_cart').html(
+					'<div class="empty">'+
+						'<p><strong>Nothing here yet!</strong><br>Start adding items to your subscription in the box <span class="mob">above</span><span class="dsk">to the right</span>.</p>'+
+					'</div>'
+				);
+				/* Totals */
+				$('#summary_shipping').html("N/A");
+				$('#summary_total').html("0.00");
+				$('#summary_savings, #summary_savings_mob').html("nothing yet");
+			}
+		}
+
+		$('.form__product_selection .quantity').on('change paste keyup', function() {
+			quantityChange();
+		})
+
+		// setTimeout(function() { quantityChange(); }, 1200);
+
+	})
+</script>
+
+
+<!-- Script: Submit form details to Zapier -->
+<script>
+
+	var form__content = {};
+
+	/* Parse form details and create a JSON object that we can send to the server to retrieve results */
+	$('#referred_by_submit').on('click', function() {
+
+		/* Change Screen */
+		var current_screen = '#'+$(this).parents('.screen').attr('id'),
+		    target         = $(this).attr("href"),
+		    referred_by    = $('input[name="referred_by"]:checked').val();
+
+		if ($('#referred_by_other').val() !== "" && $('input[value="Other"]').is(':checked')) {
+			referred_by = "Other: "+$('#referred_by_other').val();
+		}
+
+		screenChanger(current_screen, target);
+
+		var form__content = {
+			"first_name"            : "{{ customer.first_name }}",
+			"last_name"             : "{{ customer.last_name }}",
+			"email"                 : "{{ customer.email }}",
+			"referred_by"           : referred_by,
+			"products_added"        : "",
+			"subscription_completed": false,
+			"funnel_step"           : "Step 2 - Referred By"
+		}
+
+		/* Send the data to Zapier webhook (Google Sheets) */
+		$.ajax({
+		  type: "POST",
+		  url: "https://hooks.zapier.com/hooks/catch/914765/ifaf0m/",
+		  data: form__content,
+		  success: (function() {
+		  	console.log("submission success");
+		  	/* Retrieve the results of the survey and run the spinner until they've come back */
+
+		  })(),
+		  dataType: JSON
+		});
+	})
+	
+</script>

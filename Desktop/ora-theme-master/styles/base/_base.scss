@@ -1,0 +1,64 @@
+.site {
+	margin: 0;
+	margin-bottom: -20px;
+	width: 100%;
+	position: relative;
+	transition: width 0.3s ease-in-out;
+
+	&.show-bar {
+		margin-top: $default__bar-height;
+	}
+}
+@media (max-width: 468px) {
+	.site {
+		height: 100%;
+
+		&.show-bar {
+			margin-top: 0;
+		}
+	}
+}
+body {
+	background-color: $site__background-color;
+	-webkit-overflow-scrolling: touch;
+}
+.five-star:before {
+	content: "\f005\f005\f005\f005\f005";
+	font-size: 16px;
+	letter-spacing: 1.5px;
+	color: gold;
+	font-family: FontAwesome;
+}
+
+/* Styling for Overlay */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+	opacity: 0;
+	background-color: rgba(35,35,35,0.50);
+
+	&.active {
+		z-index: 1050;
+		opacity: 1;
+	}
+}
+
+/* Hide Scrollbars on IE and Edge */
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+@media only screen and (min-width: 480px) {
+	.desktop {display:block !important;}
+	.mobile  {display:none !important;}
+}
+@media only screen and (max-width: 479px) {
+	.desktop {display:none !important;}
+	.mobile  {display:block !important;}
+}

@@ -1,0 +1,36 @@
+{% comment %}
+Twitter Product and Blog Article cards.
+https://dev.twitter.com/docs/cards/types/product-card
+https://dev.twitter.com/docs/cards/types/summary-card
+{% endcomment %}
+ 
+{% if template contains 'product' %}
+  <meta name="twitter:card" content="product" />
+  <meta name="twitter:title" content="{{ product.title | escape }}" /> 
+  <meta name="twitter:description" content="{{ product.description | truncate: 190, '...' | escape }}" />
+  <meta name="twitter:image" content="https:{{ product.featured_image.src | product_img_url: 'large' }}" />
+  <meta name="twitter:label1" content="PRICE" />
+  <meta name="twitter:data1" content="{% if product.price_varies %}From {% endif %}{{ product.price | money_with_currency | strip_html }}" />
+  <meta name="twitter:label2" content="VENDOR" />
+  <meta name="twitter:data2" content="{{ product.vendor | escape }}" />
+{% elsif template contains 'article' %}
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ article.title | escape }}" />
+  <meta name="twitter:description" content="{{ article.excerpt_or_content | strip_html | truncate: 190, '...' | escape }}" />
+  {% assign img_tag = '<' | append: 'img' %}
+  {% if article.content contains img_tag %}
+    {% assign src = article.excerpt | split: 'src="' %}
+    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn';; | replace: 'http:http://';;, 'http://';; %}
+    {% if src %}
+    <meta property="twitter:image" content="{{ src }}" />
+    {% endif %}
+ {% endif %}
+{% else %}
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ora Organic - Award Winning Plant-based Supplements.">
+  <meta name="twitter:site" content="@ora_organic">
+  <meta name="twitter:creator" content="@ora_organic">
+  <meta name="twitter:description" content="We make ridiculously nutritious plant-based products that actually make people and the planet healthier. Probiotics, Protein, Omega-3, Greens and more. ">
+  <meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0767/1029/t/31/assets/about-hero-image.jpg?16574541671712771059">
+{% endif %}

@@ -1,0 +1,141 @@
+.sidebar {
+	height: 100%;
+	width: $size__site-sidebar;
+	left: -$size__site-sidebar;
+	padding: 0;
+	top: 0;
+	position: fixed;
+	z-index: 1005;
+	background-color: white;
+	box-shadow: none;
+	border-right: 1px solid $color__input-border;
+	@include all-transition;
+	overflow: hidden;
+
+	/* For Deal Bar */
+	&.show-bar {
+		margin-top: $default__bar-height;
+	}
+
+	.header {
+		padding: 15px 0;
+		margin-bottom: -1px;
+		box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+		a:hover {
+			img {
+				opacity: 0.7;
+				transition: opacity 0.2s ease-in-out;
+			}
+		}
+		h3 {
+			display: none;
+		}
+		img {
+			display: block;
+			margin: 0 auto;
+			width: 45px;
+			height: 45px;
+		}
+	}
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			font-family: $font__body;
+			font-size: 14px;
+			font-weight: 100;
+			padding: 15px 30px;
+			display: none;
+			cursor: pointer;
+			overflow: scroll;
+	    max-height: $default__sidebar-panel-height;
+
+			&.title {
+				width: 100%;
+				cursor: pointer;
+				padding: 15px 20px;
+				background-color: white;
+				border-top: 1px solid $color__input-border;
+				border-bottom: 1px solid $color__input-border;
+				margin: 0 0 -1px;
+				display: block !important;
+				position: relative;
+				text-align: left;
+				line-height: 1.6em;
+
+				&:before {
+					content: "\e93a";
+					font-family: $linear-icons;
+					font-size: 14px;
+					color: $color__text-copy;
+					position: absolute;
+			    top: 16px;
+			    right: 20px;
+				}
+
+				&.show {
+					&:before {
+						content: "\e939";
+					}
+				}
+				/* All link li elements must contain an anchor tag! */
+				&.link {
+					padding: 0;
+					position: relative; 
+					height: 3.7em;
+
+					a {
+						color: $color__text-copy;
+						height: 100%;
+						width: 100%;
+						position: absolute;
+						line-height: 3.7em;
+						left: 15px;
+
+						&:hover {
+							color: $color__accent-1-hover;
+						}
+					}
+					&:before {
+						content: "";
+					}
+					&.active {
+						a {
+							color: $color__text-headings-alt;
+						}
+					}
+				}
+			}
+			.filter {
+				font-family: $font__body;
+				text-transform: capitalize;
+				color: $color__text-copy;
+				padding: 15px 0;
+				transition: color 0.2s ease-in-out;
+
+				&:hover, &:active, &:focus {
+					color: $color__accent-1;
+					text-decoration: none;
+				}
+			}
+
+			&.clear {
+				color: $color__accent-2;
+				border-bottom: 2px solid $color__accent-2;
+				&:before {
+					content: none;
+				}
+				&.show {
+					&:before {
+						content: none;
+					}
+				}
+			}
+		}
+	}
+}

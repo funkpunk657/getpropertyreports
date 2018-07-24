@@ -1,0 +1,1844 @@
+#product {
+	margin-top: $size__site-navbar;
+
+	/* Generic Styles */
+	h2 {
+		font-family: $font__body;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 36px;
+	}
+
+
+	/* Product: Form */
+	.product__form {
+		@include display-flex;
+		justify-content: center;
+		align-items: flex-start;	
+		max-width: 1200px;
+		margin: 0 auto;	
+		padding-top: 45px;
+		padding-bottom: 60px;
+		flex-flow: row wrap;
+
+		/* Product: Photos */
+		.product__photos {
+			flex: 5;
+			width: 0;
+			overflow: hidden;
+
+			/* Product Photos: Slider */
+			.product__photos-wrapper {
+
+				.product__photos-grid {
+					overflow: visible !important;
+
+					.slick-slide {
+						border-radius: 8px;
+						overflow: hidden;
+						margin: 0 60px;
+						outline: none;
+					}
+					img {
+						margin: 0 auto;
+						max-width: 100%;
+						cursor: zoom;
+						cursor: -webkit-zoom-in;
+					}
+
+					/* Slider buttons */
+					> button {
+						background: none;
+						border: none;
+						box-shadow: none;
+						@include vertical-align(absolute);
+						color: transparent;
+						text-align: center;
+						z-index: 10;
+
+						&:before {
+							font-family: $linear-icons;
+							font-size: 36px;
+							color: $color__text-headings-alt;
+							display: block;
+						}
+
+						&.slick-prev {
+							left: -5px;
+
+							&:before {
+								content: "\e93b";
+							}
+						}
+						&.slick-next {
+							right: 5px;
+
+							&:before {
+								content: "\e93c";
+							}
+						}
+					}
+
+					/* Slider: Thumbnails */
+					.photo__thumbnails {
+						@include display-flex;
+						flex-flow: row nowrap;
+						justify-content: space-around;
+						list-style: none;
+						padding: 0;
+						margin: 30px 30px 0;
+
+						li {
+							flex: 1;
+							text-align: center;
+
+							button {
+								background-image: url("{{ 'page-loader.gif' | asset_url }}");
+								background-size: cover;
+								background-position: center;
+								background-color: transparent;
+								height: 75px;
+								width: 75px;
+								color: transparent;
+								border: none;
+								border-radius: 8px;
+							}
+
+							&:nth-last-of-type(1) {
+								button {
+									border-radius: 0;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			/* Product: Size Changer */
+			.product__size-changer {
+				@include display-flex;
+				justify-content: center;
+
+				p {
+					flex: 1;
+					font-size: 14px;
+					font-weight: 700;
+					text-transform: uppercase;
+					border: 1px solid $color__text-headings-alt;
+					color: $color__text-headings-alt;
+					border-radius: 8px;
+					margin: 30px 15px 0;
+			    max-width: 150px;
+			    text-align: center;
+			    padding: 10px 15px 9px;
+			    cursor: pointer;
+			    display: none;
+
+			    &.active {
+			    	display: block;
+
+			    	&.selected {
+			    		color: $color__accent-1;
+			    		border-color: $color__accent-1;
+			    	}
+			    }
+				}
+
+			}
+
+		}
+
+		/* Product: Details */
+		.product-details {
+			padding: 0 30px;
+			flex: 6;
+
+			/* Product: Header */
+			.product-details-header {
+				margin-left: 7.5px;
+
+				/* Product Header: Title */
+				.product__title {
+					font-size: 36px;
+					font-family: $font__body;
+					font-weight: 500;
+					font-style: normal;
+					margin: 0;
+				}
+				/* Product Header: Reviews Aggregate */
+				.product__reviews-aggregate {
+					margin: 22.5px 30px 15px 0;
+					height: 30px;
+					display: inline-block;
+
+					.yotpo {
+						div {
+							font-size: 30px;
+							@include display-flex;
+							align-items: center;
+						}
+						/* Reviews: Stars */
+						.yotpo-icon-star,
+						.yotpo-icon-half-star {
+							background-image: none !important;
+							height: 100% !important;
+							color: $color__text-copy;
+							font-size: 24px;
+							margin: 0 3px;
+
+							&:before {
+								color: $color__text-copy;
+							}
+							&:nth-of-type(1) {
+								margin-left: 0;
+							}
+						}
+						/* Reviews: Text */
+						.text-m {
+							font-size: 16px;
+							margin-left: 15px;
+							font-family: $font__body;
+							font-weight: 700;
+							color: $color__accent-1;
+						}
+					}
+				}
+				/* Product Header: Supplement Facts */
+				.facts-trigger {
+					display: inline-block;
+					vertical-align: top;
+					margin: 20px 15px 15px 0;
+					font-weight: 700;
+					font-size: 12px;
+					text-transform: uppercase;
+					letter-spacing: 1px;
+
+					.facts-icon { vertical-align: sub; }
+					.facts-icon:before {
+						margin: 0 7.5px 0 0;
+						content: "\e6d9";
+						font-weight: normal;
+						font-size: 24px;
+						vertical-align: sub;
+					}
+				}
+				/* Product Header: Features */
+				.product__header-features {
+					font-size: 14px;
+					font-weight: 700;
+					text-transform: uppercase;
+					letter-spacing: 1px;
+					margin-bottom: 30px;
+				}
+			}
+
+			/* Product: Navigation */
+			.product-details-nav {
+				@include display-flex;
+				flex-flow: row wrap;
+
+				.link {
+					padding: 22.5px;
+					font-weight: 500;
+					border-bottom: 1px solid $color__input-border;
+
+					&.active {
+						color: $color__text-headings-alt;
+						border: 1px solid $color__input-border;
+						border-bottom: 1px solid $color__background;
+						border-radius: 8px 8px 0 0;
+					}
+					&:nth-last-of-type(1) {
+						-webkit-border-image: 
+			      -webkit-gradient(linear, 100% 0, 0 0, from($color__input-border), to(rgba(0, 0, 0, 0))) 1 10%;
+				    -webkit-border-image: 
+				      -webkit-linear-gradient(right, $color__input-border, rgba(0, 0, 0, 0)) 1 10%;
+				    -moz-border-image:
+				      -moz-linear-gradient(right, $color__input-border, rgba(0, 0, 0, 0)) 1 10%;  
+				    -o-border-image:
+				      -o-linear-gradient(right, $color__input-border, rgba(0, 0, 0, 0)) 1 10%;
+				    border-image:
+				      linear-gradient(to right, $color__input-border, rgba(0, 0, 0, 0)) 1 10%; 
+
+				    &.active {
+				    	border-bottom: none;
+				    }
+					}
+				}
+			}
+			/* Product: Content */
+			.content__wrapper {
+				.content {
+					display: none;
+					padding: 30px;
+					border-left: 1px solid $color__input-border;
+					margin-top: -1px;
+					-webkit-border-image: 
+			      -webkit-gradient(linear, 100% 0, 0 0, from($color__input-border), to(rgba(0, 0, 0, 0))) 1 10%;
+				    -webkit-border-image: 
+				      -webkit-linear-gradient(bottom, $color__input-border, rgba(0, 0, 0, 0)) 1 10%;
+				    -moz-border-image:
+				      -moz-linear-gradient(bottom, $color__input-border, rgba(0, 0, 0, 0)) 1 10%;  
+				    -o-border-image:
+				      -o-linear-gradient(bottom, $color__input-border, rgba(0, 0, 0, 0)) 1 10%;
+				    border-image:
+				      linear-gradient(to bottom, $color__input-border, rgba(0, 0, 0, 0)) 1 10%;
+
+					/* Content: Formatting */
+					.title { display: none !important; }
+					li {
+						list-style: none;
+						margin-bottom: 14px;
+					}
+
+					&.active {
+						border-radius: 8px 0 0 0;
+						display: block;
+					}
+					&:nth-of-type(1),
+					&:nth-of-type(4) {
+						border-radius: 0;		
+					}
+				}
+			}
+			/* Variables */
+			$buy__bar-input-height: 60px;
+			$buy__bar-height: 105px;
+
+			/* Product: Buy Bar */
+			#product__buy-bar {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				z-index: 10;
+				background-color: $color__background-alternate;
+				@include display-flex;
+				justify-content: center;
+				align-items: center;
+
+				/* Product Price */
+				.product__price {
+					margin: -20px 15px 0 30px;
+
+					.price {
+						font-size: 16px;
+						margin: 0;
+
+						.product__standard-price {
+							font-size: 20px;
+							font-weight: 700;
+						}
+
+						.product__standard-price {
+							display: block;
+						}
+
+						.product__subscription-price {
+							display: inline-flex;
+							overflow: hidden;
+							@include transition(width, 0.3s);
+
+							&.shrink {
+								width: 0;
+							}
+						}
+					}
+
+					.subscription_message {
+						display: none;
+					}
+				}
+
+				/* Buy Bar */
+				.product__buy-bar {
+					.product__wrapper {
+						@include display-flex;
+
+						/* Product: Options */
+						.product__options {
+							.product__purchase-section {
+								@include display-flex;
+								padding: 22.5px 15px 0px;
+
+								/* Product Options: Price */
+								.product__price {
+									display: none;
+								}
+								/* Product Options: Subscription Details */
+								.product__subscription-details {
+									display: none;
+								}
+								.product__subscription {
+									margin: 0 15px;
+									order: 2;
+
+									&.shrink {
+										margin: 0;
+
+										.product__subscription-selector {
+											width: 0;
+											overflow-x: hidden;
+										}
+									}
+
+									.product__subscription-selector {
+										width: 220px;
+										height: $buy__bar-input-height;
+										background-color: $color__background;
+										list-style: none;
+										position: relative;
+										padding: 0;
+										@include transition(width, 0.3s);
+
+										/* Selector Arrow */
+										.arrow {
+											@include vertical-align(absolute);
+											right: 20px;
+											z-index: 3;
+											pointer-events: none;
+										}
+
+										/* Subscription Options */
+										.option {
+											position: absolute;
+											z-index: -1;
+											height: 100%;
+											width: 100%;
+											top: 0;
+											left: 0;
+											background-color: white;
+											border: 1px solid $color__input-border;
+											border-radius: 0.5em;
+											@include transition(all, 0.2s);
+											cursor: pointer;
+											font-weight: 500;
+											line-height: $buy__bar-input-height/2;
+
+											span {
+												margin-left: 20px;
+												line-height: 60px;
+											}
+
+											&.active {
+												z-index: 2;
+											}
+
+										}
+
+										&.expanded {
+											.option {
+												transform: translateY(-59px);
+												z-index: 3;
+												border-radius: 0.5em 0.5em 0 0;
+
+												&.active {
+													transform: translateY(0);
+													border-radius: 0 0 0.5em 0.5em;
+												}
+											}
+										}
+									}
+								}
+								/* Product Options: Purchase Quantity */
+								.product__quantity-wrapper {
+									@include display-flex;
+									align-items: center;
+									justify-content: flex-start;
+									flex-flow: column wrap;
+									margin: 0 15px 0 15px;
+									height: $buy__bar-height;
+									order: 3;
+
+									.quantity {
+										height: $buy__bar-input-height;
+										width: 75px;
+										text-align: center;
+										margin: 0 0 7px;
+										padding: 0;
+									}
+									label {
+										font-weight: normal;
+										font-size: 14px;
+									}
+
+									/* Product Quantity: Quantity Change Buttons */
+									.quantity__buttons {
+										@include display-flex;
+										flex-flow: column nowrap;
+										align-items: center;
+										justify-content: center;
+										margin: 3px 5px 0;
+
+										a {
+											font-size: 0;
+											.linear:before {
+												font-size: 24px;
+											}
+										}
+									}
+
+								}
+								
+								/* Product Options: Purchase Variant */
+								.product__variants {
+									@include display-flex;
+
+									&.multisize {
+										&:not(.multiflavor) {
+											margin-bottom: 0;
+
+											.product__size-selector {
+												margin-left: 0;
+											}
+											> .product__variants-title {
+												display: none;
+											}
+										}
+									}
+
+									.selector-wrapper {
+										display: none;
+									}
+
+									/* Variant Selectors */
+									.product__variants-selector {
+										@include display-flex;
+										order: 1;
+
+										&.shrink {
+											margin-right: 0px;
+										}
+
+										/* Variant Flavor Images */
+										.product__variant-option {
+											text-align: center;
+											margin: 0 15px;
+
+											.product__variant-option-image {
+												width: $buy__bar-input-height;
+												margin-bottom: 10px;
+												border: 1px solid $color__input-border;
+												background-color: $color__background;
+												cursor: pointer;
+												padding: 5px;
+												border-radius: 0.5em;
+
+											}
+
+											/* Active variant */
+											&.active {
+												.product__variant-option-image {
+													border-color: $color__accent-1;
+												}
+											}
+
+											/* Flavor name */
+											.product__variant-option-name {
+												font-size: 14px;
+											}
+										}
+									}
+									/* Variant Sizes */
+									.product__size-selector {
+										width: 160px;
+										height: $buy__bar-input-height;
+										background-color: $color__background;
+										list-style: none;
+										position: relative;
+										margin: 0 15px;
+
+										/* Selector Arrow */
+										.arrow {
+											@include vertical-align(absolute);
+											right: 20px;
+											z-index: 3;
+											pointer-events: none;
+										}
+
+										/* Subscription Options */
+										.option {
+											position: absolute;
+											z-index: -1;
+											height: 100%;
+											width: 100%;
+											top: 0;
+											left: 0;
+											background-color: white;
+											border: 1px solid $color__input-border;
+											border-radius: 0.5em;
+											@include transition(all, 0.2s);
+											cursor: pointer;
+											font-weight: 500;
+											line-height: $buy__bar-input-height/2;
+											padding: 15px 20px;
+											color: $color__text-copy;
+
+											span {
+												margin-left: 20px;
+												line-height: 60px;
+											}
+
+											&.active {
+												z-index: 2;
+											}
+
+										}
+
+										&.expanded {
+											.option {
+												transform: translateY(-59px);
+												z-index: 2;
+												border-radius: 0.5em 0.5em 0 0;
+
+												&.active {
+													transform: translateY(0);
+													border-radius: 0 0 0.5em 0.5em;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
+						/* Product: Actions */
+						.product__actions {
+							@include display-flex;
+							align-items: flex-start;
+							justify-content: center;
+							padding: 22.5px 0;
+							margin-left: 30px;
+
+							.sold-out {
+								display: none;
+								background-color: $color__input-border;
+								pointer-events: none;
+								cursor: default;
+							}
+							.add-to-cart {
+								height: $buy__bar-input-height;
+								margin-top: 0;
+								display: none;
+
+								&.active {
+									display: block;
+								}
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		/* Product: Image Modal */
+		.modal-dialog {
+			img {
+				width: 100%;
+				padding: 15px;
+			}
+		}
+
+		/* Product: Supplement Facts Modal */
+		.supplement-facts {
+			img {
+				&.active {
+  				display: block !important;
+				}
+			}
+		}
+		
+	}
+
+	/* Product: Creative Image */
+	#product__creative_image {
+		img {
+			display: none;
+			width: 100%;
+		}
+	}
+
+	/* Product: Dietary Icons */
+	> .product__dietary-icons-wrapper {
+
+
+		.dietary-icons {
+			background-color: $color__background-alternate;
+			padding: 45px 30px 30px;
+			margin: 0;
+			list-style: none;
+
+			li {
+				padding: 7.5px 0;
+			}
+			.dietary {
+				width: 60px;
+				height: 60px;
+				margin: 0 5px;
+			}
+			p {
+				font-size: 18px;
+			}
+		}
+	}
+
+	/* Product Ingredients + FAQs */
+	#product__ingredients_faqs {
+		text-align: center;
+		padding-top: 0 !important;
+
+		h2 {
+			margin: 15px 0;
+		}
+
+		.content {
+			position: relative;
+		}
+
+		/* Search Box Wrapper */
+		.search-box-wrapper {
+			z-index: 0;
+			top: 90px;
+
+			.search-trigger {
+				position: relative;
+				z-index: 3;
+			}
+		}
+
+		/* Navigation Arrows */
+		.navigation__arrows {
+			display: block;
+			padding: 36px 0 0;
+
+			.linear {
+				position: relative;
+				z-index: 2;
+				@include transition(all);
+				cursor: pointer;
+
+				&:before {
+					font-size: 30px;
+					color: $color__accent-1;
+				}
+				&.arrow__left { margin-right: 210px; }
+				&.arrow__right { margin-left: 210px; }
+			}
+
+			&.expanded {
+				.linear {
+					&.arrow__left { margin-right: 240px; }
+					&.arrow__right { margin-left: 240px; }
+				}
+			}
+		}
+
+		/* Product: Ingredients */
+		.product__ingredients {
+			background-color: $color__background;
+			padding: 60px 60px 90px;
+
+			h2 {
+				flex: 1 0 100%;
+			}
+			> p {
+				font-size: 18px;
+				margin: 22.5px 15px;
+				flex: 1 0 100%;
+			}
+
+		}
+
+		/* Product: Frequently Asked Questions */
+		.product__faqs {
+			background-color: $color__background-alternate;
+			padding: 60px 60px 90px;
+			
+			.product__faqs-wrapper {
+				@include display-flex;
+				flex-flow: row wrap;
+				max-width: 1080px;
+				margin: 0 auto;
+				padding: 30px;
+			}
+
+			h2 {
+				flex: 1 0 100%;
+			}
+			> p {
+				font-size: 18px;
+				margin: 22.5px 15px;
+				flex: 1 0 100%;
+
+				&:nth-last-of-type(1) {
+					margin-top: 0;
+					margin-bottom: 60px;
+				}
+			}
+
+			.faq-search-box-wrapper {
+				display: none;
+			}
+			.faq-search {
+				max-width: initial;
+				height: auto;
+				flex: 1;
+				padding: 0;
+				text-align: left;
+
+				h4 {
+					display: none;
+				}
+
+				span, p {
+					color: inherit;
+					font-weight: inherit !important;
+					font-size: inherit;
+					margin: 0;
+				}
+
+				/* Hide the heading table row */
+				tr {
+					margin: 11.25px 0;
+					display: block;
+				}
+
+				/* Format the question wrapper / table */
+				.question-wrapper, tr {
+					width: auto;
+
+					.question,
+					td:nth-of-type(1) {
+						margin: 22.5px 0;
+						font-size: 16px;
+						cursor: pointer;
+						display: block;
+					}
+					.answer,
+					td:nth-of-type(2) {
+						display: none;
+					}
+					&.active {
+						.question,
+						td:nth-of-type(1) {
+							color: $color__accent-1;
+						}
+					}
+					&:hover {
+						.question,
+						td:nth-of-type(1) {
+							color: $color__accent-1-hover;
+						}
+					}
+				}
+			}
+			.faq-detail {
+				flex: 1;
+				margin-right: 60px;
+				padding-right: 60px;
+				margin-top: 19px;
+				border-right: 1px solid $color__input-border;
+				text-align: right;
+
+				.question {
+					font-size: 22px;
+					font-weight: 500;
+					margin-bottom: 15px;
+				}
+				.answer {
+					font-size: 16px;
+
+					p {
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+
+	/* Product Related Posts */
+	#product__related-posts {
+		text-align: center;
+		background-color: $color__background-alternate;
+		padding: 60px 30px;
+
+		.product__related-posts-title {
+			margin: 30px 15px;
+		}
+
+		.articles {
+			margin: 0 auto;
+
+			.article-preview {
+				cursor: -webkit-grab;
+				outline: none;
+
+				&:focus {
+					cursor: -webkit-grabbing;
+				}
+
+				.article {
+					margin: 30px 15px;
+					background-color: $color__background;
+					padding: 22.5px 30px 30px;
+
+					.image {
+						height: 240px;
+						padding: 0;
+						margin: -22.5px -30px 22.5px;
+						background-size: cover;
+						background-position: center;
+					}
+					h5 {
+						font-size: 16px;
+						font-weight: 700;
+					}
+					.excerpt {
+						margin: 15px 0 20px;
+					}
+
+					button {
+						width: auto;
+						padding: 10px 45px;
+						border-radius: 0.5em;
+						border: 1px solid $color__accent-1;
+						font-size: 13px;
+						margin: 30px auto 15px;
+					}
+				}
+			}
+				
+		}
+	}
+
+	/* Product: Testimonials */
+	#product__testimonials {
+		max-width: 1200px;
+		margin: 0 auto;
+		text-align: center;
+
+		.product__testimonials-title {
+			margin: 90px 15px 60px;
+		}
+
+		/* Get Yours Button */
+		button {
+			margin: 60px auto;
+			border-radius: 0.5em;
+			border-width: 1px;
+		}
+	}
+
+}
+
+/* Responsiveness: Large Screens */
+@media (min-width: 768px) {
+	#product {
+		.product__form {
+			.modal-dialog {
+				width: 800px;
+			}
+		}
+	}
+}
+
+/* Responsiveness: Mobile + Tablet */
+@media (max-width: 991px) {
+	#product {
+		margin-top: $size__site-navbar-mobile;
+
+		/* Generic Styles */
+		h2 {
+			font-size: 28px;
+		}
+
+		/* Product: Form */
+		.product__form {
+			padding-top: 0;
+			padding-bottom: 0;
+
+
+			/* Product: Photos */
+			.product__photos {
+				width: 100%;
+				margin: 0 auto;
+				padding: 30px 0;
+				flex: none;
+				background-color: $color__background-alternate;
+
+				.product__photos-wrapper {
+					.product__photos-grid {
+						/* Slide spacing */
+						.slick-slide {
+							margin: 0 45px;
+						}
+
+						.photo__thumbnails {
+							justify-content: space-between;
+
+							li {
+								max-width: 60px;
+
+								button {
+									width: 60px;
+									height: 60px;
+
+								}
+							}
+						}
+					}
+					
+				}
+			}
+
+			/* Product: Details */
+			.product-details {
+				padding: 0;
+				text-align: center;
+
+				/* Hide unusued navigation */
+				.product-details-nav {
+					display: none;
+				}
+
+				/* Product Details: Header */
+				.product-details-header {
+					margin-left: 0;
+					padding: 30px 0 7.5px;
+					background-color: $color__background;
+
+					/* Product Header: Title */
+					.product__title {
+						font-size: 24px;
+						padding: 0 22.5px;
+						line-height: 1.44em;
+					}
+
+					/* Reviews Aggregate */
+					.product__reviews-aggregate {
+						display: inline-block;
+						margin: 22.5px 0;
+
+						.yotpo {
+							.yotpo-icon-star,
+							.yotpo-icon-half-star {
+								margin: 0 2.5px;
+							}
+						}
+					}
+
+					/* Product Header: Facts Trigger */
+					.facts-trigger {
+						margin: 7.5px 0 22.5px -30px;
+						font-size: 12px;
+						font-weight: 700;
+						display: block;
+
+						.facts-icon:before {
+							font-size: 24px;
+							font-weight: normal;
+						}
+					}
+
+					/* Product Header: Features */
+					.product__header-features {
+						font-size: 11px;
+						margin-bottom: 15px;
+						padding: 0 30px;
+					}
+				}
+
+				/* Product: Mobile Summary */
+				.product__mobile-summary {
+					padding: 0 22.5px 22.5px;
+					max-width: 540px;
+					margin: 0 auto 30px;
+					display: block;
+
+					p {
+						font-size: 16px;
+					}
+				}
+
+				/* Content */
+				.content__wrapper {
+					.content {
+						border: none;
+						text-align: left;
+						margin: 0;
+						padding: 0;
+
+						&.active {
+							display: block;
+
+							&.product__overview li { display: block; }
+						}
+
+						.title {
+							display: block !important;
+					    width: 100%;
+					    margin: 0;
+					    padding: 30px;
+					    font-size: 18px;
+					    font-weight: 500;
+
+					    &.show {
+					    	background-color: $color__background-alternate;
+					    }
+						}
+
+						p { font-size: 16px; }
+
+						li { display: none; font-size: 16px; padding: 0 22.5px; }
+						li:nth-of-type(2) { padding-top: 22.5px; }
+						li:nth-last-of-type(1) { margin-bottom: 60px; }
+
+						/* Icons */
+						li:nth-of-type(1):before {
+							font-family: $linear-icons;
+							font-size: 28px;
+							color: inherit;
+							margin-right: 22.5px;
+							margin-left: 7.5px;
+							vertical-align: text-bottom;
+						}
+						&#product-overview li:nth-of-type(1):before   { content: "\e6a9"; }
+						&#product-features li:nth-of-type(1):before   { content: "\e92e"; }
+						&#product-directions li:nth-of-type(1):before { content: "\e92d"; }
+					}
+				}
+
+
+				/* Dietary Icons */
+				.product__dietary-icons-wrapper {
+					margin: 30px 22.5px 30px;
+					display: block;
+
+					.dietary-icons {
+						list-style: none;
+						padding: 0;
+					}
+					.dietary {
+						width: 12.5%;
+						height: auto;
+						margin-bottom: 22.5px;
+					}
+					p {
+						font-size: 16px;
+					}
+
+
+				}
+
+				/* Product: Buy Bar */
+				#product__buy-bar {
+					position: relative;
+					flex-flow: row wrap;
+					z-index: 1;
+
+					/* Product: Price */
+					.product__price {
+						margin: 30px 0 0;
+
+						.price {
+							.product__standard-price {
+								display: inline-block;
+							}
+							.product__subscription-price {
+								display: inline-flex;
+
+								&:before { content: "("; }
+								&:after { content: ")"; }
+							}
+						}
+					}
+
+					/* Product: Buy Bar */
+					.product__buy-bar {
+						flex-flow: row wrap;
+						max-width: 390px;
+
+						/* Wrapper */
+						.product__wrapper {
+							flex-flow: row wrap;
+							justify-content: center;
+
+							/* Product: Options */
+							.product__options {
+								width: 100%;
+
+								.product__purchase-section {
+									flex-flow: row wrap;
+									padding: 22.5px 22.5px 0;
+
+									/* Product Options: Subscription */
+									.product__subscription {
+										order: 1;
+										flex: 1 1 60%;
+										text-align: left;
+										margin: 0 15px 15px 0px;
+										width: 100%;
+										height: 75px;
+										@include transition(height, 0.3s);
+
+										&.shrink {
+											.product__subscription-selector {
+												pointer-events: none;
+												width: 100%;
+												overflow: visible;
+
+												/* Hide Subscription & Show Standard */
+												li[data-value="autodeliver"] { z-index: -2; }
+												li[data-value="onetime"] { z-index: 1; }
+
+												/* Hide Arrow */
+												.arrow {
+													opacity: 0;
+													@include opacity-transition;
+												}
+												span {
+													color: $color__text-headings-alt;
+												}
+											}
+										}
+
+										.product__subscription-selector {
+											width: 100%;
+											margin-top: 16px;
+
+											&:before {
+												content: "Order Type";
+												font-weight: 700;
+												font-size: 11px;
+												display: block;
+												margin-bottom: 3px;
+												position: absolute;
+												top: -30px;
+												left: 7.5px;
+											}
+										}
+
+										/* Multiple Variants */
+										&.multiflavor {
+											margin-right: 0;
+											order: 3;
+										}
+										&.multisize {
+											margin-right: 15px;
+
+											.product__subscription-selector {
+												margin-top: 22px;
+
+												&:before {
+													top: -26px;
+												}
+											}
+										}
+									}
+									/* Product Options: Variants */
+									.product__variants {
+										order: 2;
+										margin: 22.5px 15px 22.5px 0;
+										position: relative;
+										flex: 0 1;
+										height: 75px;
+
+										.product__variants-title {
+											content: "Flavor";
+											font-weight: 700;
+											font-size: 11px;
+											display: block;
+											margin-bottom: 3px;
+											position: absolute;
+											top: -22.5px;
+											left: 7.5px;
+										}
+
+										.product__variants-selector {
+											.product__variant-option {
+												margin: 0;
+
+												&:nth-of-type(1) {
+													margin-right: 15px;
+												}
+
+												.product__variant-option-name {
+													font-size: 12px;
+												}
+											}
+											&.shrink {
+												margin-right: 0;
+											}
+										}
+
+										/* Product Sizes */
+										.product__size-selector {
+											text-align: left;
+											margin-right: 0;
+											order: 2;
+
+											.product__size-title {
+												content: "Size";
+												font-weight: 700;
+												font-size: 11px;
+												display: block;
+												margin-bottom: 3px;
+												position: absolute;
+												top: -22.5px;
+												left: 7.5px;
+											}
+										}
+
+										/* Multiple Variants */
+										&.multiflavor.multisize {
+											order: 1;
+										}
+										&.multiflavor {
+											order: 3;
+										}
+										/* Size Variants */
+										&.multisize {
+											margin: 22.5px 0;
+											flex: 1;
+
+											.product__size-selector {
+												margin-left: 15px;
+												margin-right: 2px;
+												flex: 1;
+											}
+										}
+
+									}
+									/* Product Options: Quantity */
+									.product__quantity-wrapper {
+										order: 3;
+										margin: 1px 30px 15px 0;
+										position: relative;
+										flex-flow: row wrap;
+										flex: 1 1 25%;
+										height: 75px;
+										align-items: flex-end;
+
+										.quantity-title {
+											content: "Quantity";
+											font-weight: 700;
+											font-size: 11px;
+											display: block;
+											margin-bottom: 3px;
+											position: absolute;
+											top: -7.5px;
+											left: 7.5px;
+										}
+
+										.quantity {
+											width: 95%;
+											margin: 0;
+										}
+										.quantity__buttons {
+											margin: 0 0;
+											position: absolute;
+											right: -35px;
+											top: 15px;
+										}
+										label {
+											display: none;
+										}
+
+										/* Multiple Variant Formatting */
+										&.multiflavor {
+											margin-top: 17px;
+											order: 5;
+
+											.quantity-title { top: -17px; }
+											.quantity__buttons { top: 5px; right: -30px; }
+											.quantity { margin-bottom: 10px; }
+										}
+									}
+								}
+							}
+
+							/* Product: Actions */
+							.product__actions {
+								width: 100%;
+								margin: 0 22.5px;
+								padding-top: 7.5px;
+
+								.add-to-cart {
+									width: 100%;
+									font-weight: 700;
+									font-size: 16px;
+								}
+							}
+						}
+					}
+				}
+			}
+
+
+		}
+
+		#product__ingredients_faqs {
+			h2 {
+				margin: 0 0 13px;
+			}
+			.subtitle {
+				margin-bottom: 22.5px;
+				display: block;
+			}
+
+			/* Product: Ingredients */
+			.product__ingredients {
+				background-color: $color__background-alternate;
+				padding: 60px 30px;
+				position: relative;
+
+				.product__ingredients-wrapper {
+					padding: 30px;
+				}
+
+				>p:nth-last-of-type(1) {
+					margin-bottom: 15px;
+				}
+
+				.ingredients-list {
+					max-height: initial;
+
+					.ingredient {
+						
+						h4 {
+							font-size: 16px;
+						}
+
+					}
+				}
+
+				.ingredient-detail {
+					margin-left: 45px;
+					padding-left: 45px;
+				}
+
+			}
+
+			/* Product: FAQs */
+			.product__faqs {
+				background-color: $color__background;
+				padding: 60px 30px;
+				position: relative;
+
+				>p:nth-last-of-type(1) {
+					margin-bottom: 15px;
+				}
+
+				.faq-search {
+					.question-wrapper,
+					tr {
+						.question,
+						td:nth-of-type(1) {
+							font-size: 16px;
+						}
+					}
+				}
+
+				.faq-detail {
+					margin-right: 45px;
+					padding-right: 45px;
+
+					.question {
+						font-size: 20px;
+					}
+					.answer {
+						font-size: 16px;
+					}
+				}
+
+			}
+
+			/* Arrows */
+			.navigation__arrows {
+				display: block;
+				text-align: center;
+				padding: 31px 0 0;
+
+				.linear {
+					cursor: pointer;
+					@include transition(all);
+					z-index: 1;
+
+					&:before { font-size: 30px; margin: 0; color: $color__accent-1; }
+
+					/* Arrows + Search */
+					&.arrow__left { opacity: 0; margin-right: 45px; }
+					&.arrow__right { margin-left: 45px; }
+				}
+				
+
+				&.expanded {
+					.linear {
+						&.arrow__left { margin-right: 120px; }
+						&.arrow__right { margin-left: 120px; }
+					}
+				}
+
+			}
+
+		}
+
+		/* Product: Related Posts */
+		#product__related-posts {
+			padding: 60px 0;
+
+			.articles {
+				.article-preview {
+					.article {
+						margin: 30px 10px;
+						padding: 22.5px 20px 30px;
+
+						.image {
+							margin: -22.5px -20px 22.5px; 
+						}
+						p {
+							font-size: 16px;
+						}
+					} 
+				}
+			}
+		}
+
+		/* Product: Testimonials */
+		#product__testimonials {
+			.reviews {
+				.yotpo {
+					.yotpo-display-wrapper > .yotpo-regular-box {
+						height: auto;
+					}
+				}
+			}
+		}
+	}
+}
+
+/* Responsiveness: Tablet Only */
+@media (min-width: 768px) and (max-width: 991px) {
+	#product {
+		.product__form {
+			/* Product Photos */
+			.product__photos {
+				margin: 0;
+
+				.product__photos-wrapper {
+					.product__photos-grid {
+						.photo__thumbnails {
+							li {
+								max-width: 120px;
+
+								button {
+									width: 120px;
+									height: 120px;
+								}
+							}
+						}
+					}
+				}
+			}
+			/* Product Details */
+			.product-details {
+				padding: 30px 0 0;
+
+				#product__buy-bar {
+					padding: 0 0 15px;
+
+					/* Product: Mobile Summary */
+					.product__mobile-summary {
+						padding: 0 22.5px 45px;
+					}
+
+					/* Product: Buy Bar */
+					.product__buy-bar {
+						max-width: 100%;
+						width: 100%;
+
+						.product__wrapper {
+							.product__options {
+								flex: 3;
+
+								/* Size Variants */
+								&.multisize {
+									max-width: 450px;
+									margin: 0 auto;
+									flex: none;
+								}
+
+								/* Purchase Section */
+								.product__purchase-section {
+
+									/* Purchase: Subscription */
+									.product__subscription {
+										width: 195px;
+										margin-right: 15px;
+
+										&.multiflavor {
+											margin-right: 15px;
+											margin-top: 6px;
+											width: auto;
+											flex: 10;
+										}
+										&.multisize {
+											flex: none;
+											width: 240px;
+										}
+									}
+									/* Purchase: Quantity */
+									.product__quantity-wrapper {
+										flex: 1;
+
+										.quantity {
+											width: 90px;
+										}
+										/* Multiple Variants */
+										&.multiflavor {
+											flex: 1;
+
+											.quantity {
+												width: 75px;
+											}
+											.quantity__buttons {
+												right: -45px;
+											}
+										}
+										.quantity__buttons {
+											right: -45px;
+										}
+										/* Size Variants */
+										&.multisize {
+											margin-top: 23px;
+											margin-right: 37.5px;
+
+											.quantity {
+												width: 100%;
+											}
+										}
+									}
+									/* Purchase: Variants */
+									// .product__variants {
+									// 	&.multisize {
+									// 		.product__variants-selector {
+									// 			order: 3;
+									// 			margin-left: 15px;
+									// 		}
+									// 	}
+									// }
+								}
+							}
+
+							/* Product Actions */
+							.product__actions {
+								width: 195px;
+								margin-left: 15px;
+								align-items: center;
+								padding-top: 39px;
+
+								&.multiflavor {
+									padding-top: 33px;
+								}
+								&.multisize {
+									width: 450px;
+									padding: 7.5px 22.5px 30px;
+									margin: 0;
+								}
+							}
+						}
+					}
+
+					/* Buy Bar: Price */
+					.product__price {
+						width: 100%;
+
+						.price {
+							font-size: 20px;
+
+							.product__standard-price {
+								font-size: 28px;
+							}
+						}
+					}
+				}
+
+				/* Dietary Icons */
+				.product__dietary-icons-wrapper {
+					display: block;
+
+					.dietary {
+						width: 45px;
+					}
+				}
+			}
+		}
+		/* Product Testimonials */
+		#product__testimonials {
+			.reviews {
+				.yotpo {
+					.yotpo-default-button {
+						margin: 0 0 15px;
+					}
+					.yotpo-display-wrapper>.yotpo-regular-box {
+						display: block;
+					}
+				}
+			}
+		}
+		/* Product Ingredients */
+		#product__ingredients_faqs {
+			.search-box-wrapper {
+				top: 95px;
+			}
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	#product {
+		h2 {
+			font-size: 24px;
+		}
+
+		#product__ingredients_faqs {
+			/* Product: Ingredients */
+			.product__ingredients {
+				padding: 60px 0 30px;
+				margin: 0;
+
+				> p {
+					flex: 1 0 100%;
+					padding: 0 30px;
+					margin: 0 22.5px 30px;
+					font-size: 16px;
+				}
+
+				> .facts-trigger {
+					display: block;
+					flex: 1 0 100%;
+					padding: 0;
+					margin: 0 0 30px;
+				}
+
+				.product__ingredients-wrapper {
+					padding: 0;
+				}
+
+				.ingredients-list {
+					max-height: initial;
+					align-items: center;
+
+					.ingredient {
+						text-align: center;
+						margin: 7.5px 22.5px;
+
+						&.selected {
+							padding: 30px;
+							background-color: $color__background;
+							margin: 30px 22.5px;
+
+							h4 {
+								color: $color__text-copy;
+								font-weight: 500;
+								font-size: 18px;
+							}
+							img, p {
+								display: initial;
+							}
+							img {
+								width: 150px;
+								height: 150px;
+							}
+							p {
+								font-size: 16px;
+							}
+							a {
+								font-size: inherit;
+							}
+						}
+					}
+				}
+
+				.ingredient-detail {
+					display: none;
+				}
+			}
+
+			/* Product: Frequently Asked Questions */
+			.product__faqs {
+				padding: 60px 0 30px;
+				margin: 0;
+
+				h2 {
+					margin: 0 22.5px;
+					line-height: 1.62em;					
+				}
+				> p {
+					font-size: 16px;
+				}
+
+				.faq__search-box-wrapper, .faq-detail {
+					display: none;
+				}
+				a {
+					font-size: inherit;
+				}
+				>p:nth-last-of-type(1) {
+					margin-bottom: 30px;
+				}
+
+				.product__faqs-wrapper {
+					padding: 0;
+				}
+
+				.faq-search {
+					padding: 0;
+					text-align: center;
+
+					.question-wrapper,
+					tr {
+						padding: 0 30px;
+						margin: 30px 22.5px;
+
+						.question,
+						td:nth-of-type(1) {
+							font-size: 16px;
+						}
+						&.active {
+							background-color: $color__background-alternate;
+							padding: 30px;
+
+							.question,
+							td:nth-of-type(1) {
+								font-size: 18px;
+								font-weight: 500;
+								color: $color__text-copy;
+							}
+							.answer,
+							td:nth-of-type(2) {
+								display: block;
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		.product__dietary-icons-wrapper {
+			.dietary-icons {
+				p {
+					font-size: 14px;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+

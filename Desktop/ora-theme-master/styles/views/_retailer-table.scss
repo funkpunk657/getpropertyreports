@@ -1,0 +1,22 @@
+.retailer-table {
+	margin: 0 auto 90px;
+
+	td {
+		padding: 30px 15px;
+		font-family: $font__body;
+		color: $color__text-copy;
+		min-width: 150px;
+		text-align: center;
+	}
+}
+
+@media (max-width: 767px) {
+	.retailer-table {
+		td {
+			min-width: 135px;
+		}
+		td:nth-last-of-type(1) {
+			display: none;
+		}
+	}
+}

@@ -1,0 +1,50 @@
+<!-- Home: Statement -->
+{% if template == "index" %}
+  <div id="intro" class="card">
+    <div class="intro__content">
+      <div class="intro-image" style="background-image: url({{ section.settings.intro-image | img_url: 'master' }})"></div>
+      <h2>{{ section.settings.intro-heading }}</h2>
+      <p>{{ section.settings.intro-text }}</p>
+      {% include 'dietary-icons' %}
+      <div class="intro__actions">
+        <a href="/pages/products"><button class="flat aqua">See the Products</button></a>
+        <!-- @TODO - Implement ingredients page -->
+        <!-- <a href="/pages/ingredients"><i class="linear arrow__right"></i>Or see the <b>Ingredients</b></a> -->
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% schema %}
+  {
+    "name": "Homepage Intro",
+    "settings": [
+      {
+        "id": "intro-heading",
+        "type": "text",
+        "label": "Intro Heading"
+      },
+      {
+        "id": "intro-text",
+        "type": "textarea",
+        "label": "Intro Text"
+      },
+      {
+        "id": "intro-image",
+        "type": "image_picker",
+        "label": "Intro Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Homepage Intro",
+        "category": "Text Block"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

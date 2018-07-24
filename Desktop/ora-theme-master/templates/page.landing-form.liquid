@@ -1,0 +1,176 @@
+<div id="landing-form" style="background-image: url({{ 'about-hero-image.jpg' | asset_url }});">
+	<div class="landing__wrapper">
+		<div class="rte">
+			<!-- Landing Form: Title -->
+			<h1>{{ page.title }}</h1>
+			<!-- Landing Form: RTE Content -->
+			<div class="content">
+				{{ page.content }}
+			</div>
+			<!-- Landing Form: Form -->
+			<form id="promotions">
+				<div class="fields">
+				</div>
+				<div class="actions">
+					<button id="submit" class="flat aqua medium" value="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+		<!-- Landing Form: Loader -->
+		<div class="landing_form_loading">
+			<div class="landing_form_loading-message">
+				<h2 class="thank_you">Just a moment...</h2>
+				<img src="{{ 'page-loader.gif' | asset_url }}"/>
+				<h5>Your entry is being submitted.</h5>
+			</div>
+		</div>
+		<!-- Landing Form: Thanks -->
+		<div class="landing_form_thanks">
+			<div class="landing_form_thanks-message">
+				<h2 class="thank_you">Thanks!</h2>
+				<p class="thank_you-message">Your entry has been submitted. We'll let you know by e-mail if you were correct later this week. Don't forget, you're also in the draw to win <b>a free month's subscription!</b></p>
+				<a href="/" class="back_to_home button"><button class="flat aqua medium">Back to Ora</button></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Styles -->
+<style>
+	#main {
+		margin-top: 0;
+	}
+</style>
+
+<!-- Construct the form from the RTE table -->
+<script>
+	$(document).ready(function() {
+
+		$('header').addClass('top');
+
+		$(window).scroll(function() { 
+			if ($(this).scrollTop() == 0) {
+				$('header').addClass('top');
+			}
+		})
+
+
+		/* Content Table 1 - Text Fields */
+		var content_table_1 = $('.content table:nth-of-type(1)'),
+		    number_rows_1   = content_table_1.find('tr').length;
+
+		console.log("number of rows = "+number_rows_1);
+
+		for (i=1; i<number_rows_1; i++) {
+
+			var row = content_table_1.find('tr')[i];
+
+			$('#promotions .fields').append(
+				'<div class="field_group">'+
+					'<label>'+$(row).find('td:nth-of-type(1)').html()+'</label>'+
+					'<input id="field-'+i+'" class="field" placeholder="'+$(row).find('td:nth-of-type(2)').html()+'" />'+
+				'</div>'
+			);
+
+		}
+
+		/* Content Table 2 - Select Field */
+		var content_table_2 = $('.content table:nth-of-type(2)'),
+		    number_rows_2   = content_table_2.find('tr').length
+		    options         = "";
+
+		console.log("number of rows = "+number_rows_2);
+
+		for (i=1; i<number_rows_2; i++) {
+
+			var row = content_table_2.find('tr')[i];
+
+			options += '<option id="'+$(row).find('td:nth-of-type(1)').html()+'" value="'+$(row).find('td:nth-of-type(2)').html()+'">'+$(row).find('td:nth-of-type(2)').html()+'</option>'
+
+		}
+
+		/* Append select field to page */
+		$('#promotions .fields').append(
+			'<div class="field_group">'+
+				'<label>Your Guess:</label>'+
+				'<select id="select-field">'+
+				  options+
+				'</select>'+
+			'</div>'
+		);
+
+		/* Now make it look good with jQueryUI */
+		$('#select-field').selectmenu();
+
+	})	
+</script>
+
+<!-- Process the form / send to airtable (AnimeJS) -->
+<script>
+	$(document).ready(function() {
+
+		function animateForm() {
+
+			var animateForm = anime.timeline();
+
+			animateForm.add({
+				targets: '#landing-form .rte',
+				// easing: 'linear',
+				duration: 400,
+				offset: 0,
+				maxHeight: 0
+			})
+			animateForm.add({
+				targets: '#landing-form .landing_form_loading',
+				maxHeight: 600,
+				// easing: 'linear',
+				duration: 250,
+				offset: 500,
+			})
+			animateForm.add({
+				targets: '#landing-form .landing_form_loading',
+				// easing: 'linear',
+				duration: 300,
+				offset: 5000,
+				maxHeight: 0
+			})
+			animateForm.add({
+				targets: '#landing-form .landing_form_thanks',
+				maxHeight: 400,
+				// easing: 'linear',
+				duration: 250,
+				offset: 5500,
+			})
+		}
+
+		function sendFormData() {
+			
+			var url_raw = window.location.href;
+
+			var email      = url_raw.split("email=")[1].split("&")[0],
+			    first_name = url_raw.split("first_name=")[1].split("&")[0],	
+			    last_name  = url_raw.split("last_name=")[1].split("&")[0]
+			    guess      = $('#select-field').val();
+
+			var data =  {
+				email: email,
+				first_name: first_name,
+				last_name: last_name,
+				promotion: "{{ page.title }}",
+				promo_guess: guess
+			}
+
+			console.log(data);
+
+			/* Send the data to Zapier webhook (Mailchimp and Google Sheets) */
+			zapierWebhook("https://hooks.zapier.com/hooks/catch/914765/80zcqg/","POST",data, animateForm())
+
+
+		}
+
+		$('#submit').click(function(e) {
+			e.preventDefault();
+			sendFormData();
+		})
+	})
+</script>

@@ -1,0 +1,53 @@
+<!-- Get all product flavors -->
+{% capture flavors %}
+  {% for variant in product.variants %}
+    '{{ variant.option1 | downcase | replace: " ", "-" }}'
+    {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+{% endcapture %}
+<!-- Get all product sizes -->
+{% capture sizes %}{% for variant in product.variants %}'{{ variant.option2 }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+
+<!-- Assign the current flavor and offset -->
+{% assign current_flavor  = product.selected_or_first_available_variant.option1 | downcase | replace: " ", "-" %}
+{% assign current_size    = product.selected_or_first_available_variant.option2 %}
+{% assign number_photos   = 4 %}
+{% assign number_variants = product.variants.size %}
+{% assign total_photos    = number_photos | times: number_variants %}
+{% assign offset          = 0 %}
+
+{% for variant in product.variants %}
+  
+  <!-- Get the variant flavor -->
+  {% assign flavor = variant.option1 | downcase | replace: " ", "-" %}
+  {% assign size = variant.option2 | downcase | replace: " ", "-" %}
+  
+  <!-- Get the product images, per variant -->
+  {% for image in product.images | offset: offset %}
+    <div class="image_wrapper {{ flavor }}_{{ size }}">
+      <img id="image_{{ forloop.index }}" 
+           class="grid-item large 
+            {% if forloop.index == 1 %}active{% endif %}
+            {% if image.src contains 'creative' %} creative{% endif %} 
+            {{ flavor }}_{{ size }} 
+            show-zoom
+            {% if image.src contains 'supplement-facts' or image.alt contains 'supplement-facts' %}show-facts{% endif %}" 
+           src="{{ image | img_url: '512x512' }}" 
+           alt="{{ product.title | escape }} - {{ image.alt }}"/>
+    </div>
+
+    {% assign photo_count = forloop.index | modulo: number_photos %}
+
+    {% if forloop.index < total_photos %}
+      {% if photo_count == 0 %}
+        {% assign offset = offset | plus: number_photos %}
+        {% break %}
+      {% endif %}
+    {% else %}
+      {% break %}
+    {% endif %}
+
+  {% endfor %}
+
+
+{% endfor %}

@@ -1,0 +1,183 @@
+{% layout none %}
+{% for tag in article.tags %}
+  {% if tag contains "category=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign category = t[1] %}
+  {% endif %}
+  {% if tag contains "author=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link = t[1] %}
+  {% endif %}
+  {% if tag contains "author_link_text=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign author_link_text = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image = t[1] %}
+  {% endif %}
+  {% if tag contains "feature_image_mobile=" %}
+    {% assign t = tag | split: "=" %}
+    {% assign feature_image_mobile = t[1] %}
+  {% endif %}
+  {% if tag contains "recommendation_text" %}
+    {% assign recommended_products = true %}
+    {% assign recommendation_text = tag | split: "=" | last %}
+  {% endif %}
+  {% if tag contains 'clear_header' %}
+  	{% assign clear_header = true %}
+  {% endif %}
+  {% if tag contains 'overlay' %}
+  	{% assign overlay_percentage = tag | split: "=" | last %}
+  {% endif %}
+{% endfor %}
+<!doctype html>
+<html amp lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <title>{{ shop.name }} | {{ article.title }}</title>
+    <link rel="canonical" href="https://www.ora.organic{{ article.url }}">
+    
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <!-- Facebook: Open Graph Tags -->
+    {% include 'facebook-open-graph' %}
+
+    <!-- Scripts: Shopify & Theme -->
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <script async custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js"></script>
+    <script async custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js"></script>
+
+    <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" type="image/png" />
+	  
+	  <!-- Scripts: AMP Loading -->
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "NewsArticle",
+        "headline": "Open-source framework for publishing content",
+        "datePublished": "2015-10-07T12:02:41Z",
+        "image": [
+          "{{ settings.site_logo }}"
+        ]
+      }
+    </script>
+
+    <!-- Styles: AMP Boilerplate -->
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+    <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+    {% include 'styles-amp', overlay_percentage: overlay_percentage %}
+
+  </head>
+  <body id="article">
+  	<!-- Scripts: Analytics -->
+    <amp-analytics type="googleanalytics">
+		<script type="application/json">
+		{
+		  "vars": {
+		    "account": "UA-63620405-1"
+		  },
+		  "triggers": {
+		    "trackPageview": {
+		      "on": "visible",
+		      "request": "pageview"
+		    }
+		  }
+		}
+		</script>
+		</amp-analytics>
+		<amp-pixel src="https://www.facebook.com/tr?id=1788476484708961&ev=PageView&noscript=1" 
+    layout="nodisplay"></amp-pixel>
+  	<!-- Navigation -->
+  	{% include 'site-nav-amp', clear_header: clear_header %}
+
+  	<!-- Article: Header -->
+  	<div class="article__header {% if clear_header %}clear_header{% endif %}">
+  		{% if overlay_percentage %}
+  		<div class="overlay"></div>
+  		{% endif %}
+	    <div class="article__title-wrapper">
+	      <h5 class="article__category">{{ category }}</h5>
+	      <h1 class="article__title">{{ article.title }}</h1>
+	    </div>
+	    <div class="article__author-wrapper">
+	      <p class="article__author">{{ author }} for Ora Organic</p>
+	      <a href="{{ author_link }}" target="_blank" class="article__author-link">{{ author_link_text }}</a>
+	    </div>
+      <!-- Article Header: Pinterest Friendly Image (for repinning) -->
+      <amp-img class="article__pinterest-image" src="{{ article.image | img_url: 'master' }}" layout="flex-item"></amp-img>
+	  </div>
+
+	  <!-- Article: Content -->
+	  <div id="content" class="article__content">
+	  	{{ article.content }}
+	  </div>
+
+	  <!-- Article: Product Recommendations -->
+
+    {% if recommended_products %}
+    <div class="article__recommendations">
+      <h3 class="recommendation__text">{{ recommendation_text }}</h3>
+      {% for tag in article.tags %}
+        {% if tag contains 'recommended_product' %}
+          {% assign product_handle = tag | split: "=" | last %}
+          {% for product in collections["shop"].products %}
+            {% for variant in product.variants %}
+              {% if product.handle == product_handle and variant.option2 != "1"%}
+              <div class="article__recommendation">
+                {% if product.variants.size < 2 %}
+                  <!-- Recommendation: Product Image (single product, no variant) -->
+                  {% assign product_link = product.url %}
+                  {% assign featured_image = product.metafields["c_f"]["Creative Image URL"] %}
+                  <a class="content variant link" href="{{ product_link }}">
+                    <amp-img class="recommendation__image" src="{{ featured_image }}" alt="{{ product.title | escape }}" layout="responsive" width="512" height="512"/>
+                  </a>
+                {% else %}
+                  <!-- Recommendation: Product Image (single product, more than one variant) -->
+                  {% assign product_link = variant.url %}
+                  {% assign featured_image = variant.metafields["c_f"]["Variant Creative Image URL"] %}
+                  {% if featured_image %}
+                    <a class="content variant link" href="{{ product_link }}">
+                      <amp-img class="recommendation__image" src="{{ featured_image }}" alt="{{ product.title | escape }}" layout="responsive" width="512" height="512"/>
+                    </a>
+                  {% endif %}
+                {% endif %}
+                <!-- Recommendation: Product Title -->
+                <p class="recommendation__title">
+                  <a href="{{ product_link }}">{{ product.title }}{% if product.variants.size > 1 %} - {{ variant.option1 }} {% endif %}</a>
+                </p>
+                <!-- Recommendation: Product Excerpt -->
+                {% if product.description contains '<div class="product-excerpt">' %}
+                  {% assign full_description = product.description | split: '<div class="product-excerpt">/n<p>' | last %}
+                  {% assign description = full_description | split: '</p>' %}
+                    <div class="recommendation__description">
+                      {{ description[0] }}</div>
+                    </div>
+                {% endif %}
+                <div class="recommendation__actions">
+                  <a href="{{ product_link }}" class="button"><button class="flat aqua">Learn More</button></a>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!--START ACTIONS-->
+	  <div class="actions">
+	    <a id="back__button" href="{{ blogs['news'].url }}">Back to the Ora Blog</a>
+	  </div>
+	  <!--END ACTIONS-->
+  </body>
+</html>

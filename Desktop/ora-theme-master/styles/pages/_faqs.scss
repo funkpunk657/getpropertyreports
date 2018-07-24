@@ -1,0 +1,45 @@
+#faqs {
+	padding: 90px 0;
+
+	div {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+	.faqs__header {
+		text-align: center;
+	}
+	.faqs__content {
+		text-align: left;
+		padding: 22.5px;
+		max-width: 900px;
+
+		h3 {
+			font-style: normal;
+
+			span {
+				font-weight: 500 !important;
+			}
+		}
+		h4 {
+			margin-top: 30px;
+		}
+	}
+}
+
+@media (max-width: 468px) {
+	#faqs {
+		padding: 15px 0 90px;
+
+		.faqs__header {
+			text-align: left;
+			padding: 0 22.5px;
+
+			h1 {
+				font-size: 30px;
+			}
+		}
+		.faqs__content {
+			padding: 0 22.5px;
+		}
+	}
+}

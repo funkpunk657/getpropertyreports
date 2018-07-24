@@ -1,0 +1,27 @@
+.shopify-challenge__container {
+	@include display-flex;
+	flex-flow: column nowrap;
+	min-height: 70vh;
+	justify-content: center;
+	align-items: center;
+  justify-content: center;
+
+  .shopify-challenge__button.btn {
+  	display: block;
+		font-family: 'Avenir', sans-serif;
+		font-size: 14px;
+		font-weight: 700 !important;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		padding: 10px 15px;
+		text-shadow: none;
+		box-shadow: none;
+		border: none;
+		border-radius: 0.5em;
+		height: 3.5em;
+		margin: 15px auto 0;
+		background-color: $color__accent-1;
+		color: white;
+		@include all-transition;
+  }
+}

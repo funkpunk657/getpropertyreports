@@ -1,0 +1,270 @@
+/* Header */
+header {
+	width: 100%;
+	height: $size__site_navbar;
+	position: fixed; 
+	top: 0;
+	left: 0;
+	z-index: 1003;
+	// border-bottom: 1px solid $color__input-border;
+	background: white;
+	overflow: visible;
+	@include transition(top, 0.3s);
+	@include display-flex;
+	align-items: center;
+	
+	/* Header: Contents */
+	.site-logo,
+	.account-info,
+	.navigation {
+		display: inline-block;
+		text-transform: capitalize;
+		font-weight: normal;
+		// @include transition(all);
+		
+		a {
+			font-family: $font__nav-text;
+			font-size: $size__nav-text;
+			color: $color__text-copy;
+		}
+	}
+
+	/* Header: Site Logo */
+	.site-logo {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		margin-left: 22.5px;
+
+		a {
+			img {
+				width: 60px;
+			}
+		}
+	}
+
+	/* Header: Logo Title */
+	span#logo-title {
+		font-size: 12px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		margin: 7.5px;
+		color: inherit;
+	}
+
+	&.show-bar {
+		margin-top: $default__bar-height;
+	}
+	&.alternate {
+		background: $color__background-alternate;
+		border-bottom: 1px solid $color__input-border;
+	}
+	/* Header: Scrolled */
+	&.scrolled {
+		background: $color__background;
+
+    /* Header Scrolled: Site Logo */
+    .site-logo {
+
+    	a#logo img {
+    		width: 60px;
+    	}
+
+    }
+
+	}
+	/* Scrolled Down */
+	&.downscrolled {
+		top: -$size__site-navbar;
+		@include transition(top, 0.3s);
+	}
+
+	/* Header: Navigation */
+	.navigation {
+		margin: 0 auto;
+		width: auto
+	}
+	/* Header: Account Info */
+	.account-info {
+		margin-right: 15px;
+	}
+	
+}
+
+
+
+/* Generic styles for header elements */
+.account-info a,
+.nav > ul > li > a {
+	color: $color__text-copy;
+	letter-spacing: 1px;
+	padding: 12px 0 12px 30px;
+	cursor: pointer;
+}
+
+.navigation {
+	text-align: left;
+}
+
+@media (min-width: 992px) {
+	header {
+		/* Header: Top */
+		&.top {
+			background: transparent;
+			border: none;
+			height: $size__site_navbar;
+
+			.login-cart > li > a, 
+			.nav > ul > li > a,
+			.site-logo > a {
+				color: #fff;
+			}
+			&.dark {
+				.login-cart > li > a, 
+				.nav > ul > li > a,
+				.site-logo > a {
+					color: $color__text-copy;
+				}
+			}
+		}
+		.mobile-title {
+			display: none !important;
+		}
+	}
+}
+
+/* Responsiveness: Mobile + Tablet */
+@media (max-width: 991px) {
+	header {
+		height: $size__site-navbar-mobile;
+		background-color: $color__background;
+		border-bottom: 1px solid $color__input-border;
+
+		/* Header: Navigation */
+		.navigation { 
+			order: 1; 
+			margin: 15px;
+		}
+
+		/* Header: Site Logo */
+		.site-logo { 
+			order: 2; 
+			flex: 1;
+    	@include display-flex;
+    	align-items: center;
+    	justify-content: center;
+    	text-align: center;
+    	margin: 0;
+		}
+
+		/* Header: Account Info */
+		.account-info { 
+			order: 3; 
+		}
+
+		/* Header Top of page */
+		&.top {
+			background-color: $color__background;
+		}
+		/* Header Deal Bar Visible */
+		&.show-bar {
+			margin-top: 0;
+		}
+		/* Header Scrolled */
+		&.scrolled {
+			height: $size__site-navbar-mobile;
+
+			/* Header Scrolled: Site Logo */
+			.site-logo {
+				a#logo img {
+	    		width: 30px;
+	    	}
+			}
+		}
+
+		/* Header Scrolled Down */
+		&.downscrolled {
+			top: -$size__site-navbar-mobile;
+			@include all-transition;
+		}
+		/* Shop Page: Mobile Title */
+		.mobile-title {
+			position: fixed;
+			z-index: 1050;
+			top: 13px;
+			left: 1%;
+			right: 1%;
+			width: 150px;
+			text-align: center;
+			margin: 0 auto !important;
+			transform: none;
+			font-size: 14px;
+			font-weight: 300;
+		}
+	}
+}
+/* Responsiveness: Screen mid-width */
+@media (min-width: 768px) and (max-width: 991px) {
+	header {
+		height: 60px;
+		
+		&.scrolled {
+			.navigation,
+			.account-info {
+				top: 15px;
+			}
+		}
+		.navigation {
+			nav {
+				> .mob,
+				svg {
+					height: 25px;
+					width: 25px;
+				}
+			}
+		}
+		/* Header Scrolled: Site Logo */
+    .site-logo {
+
+    	a#logo img {
+    		width: 40px;
+    	}
+
+    }
+	}
+}
+/* Responsiveness: Tablet Only */
+@media (width: 768px) {
+	header {
+		height: 60px;
+
+		&.scrolled {
+			height: 60px;
+		}
+		&.downscrolled {
+			top: -60px;
+		}
+
+	}
+}
+
+/* Responsiveness: Mobile Only */
+@media (max-width: 468px) {
+	header {
+		/* Navbar: Navigation */
+		.navigation {
+			
+		}
+		/* Navbar: Site Logo */
+		.site-logo {
+	    height: 100%;;
+
+	    a#logo {
+	    	img {
+	    		width: 30px;
+	    	}
+	    }
+		}
+	}
+}
